@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+  <mvc:annotation-driven/>
+    <context:component-scan base-package="com.pepaproch.massmailmailer.service"/>
+    <context:component-scan base-package="com.pepaproch.massmailmailer.controlers"/>
+    <jpa:repositories base-package="com.pepaproch.massmailmailer.repository" />
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en_Us" />
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <bean id="appMassMailer" class="org.springframework.beans.factory.config.PropertiesFactoryBean" >
+        <property name="locations">
+            <list>
+                <value>classpath:appconfig/massmailerconfig.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="appMassMailer" />
+    </bean>
+    
+
+    
+    <jdbc:embedded-database id="embeddedDataSource" type="DERBY" />
+    
+    <jdbc:initialize-database data-source="embeddedDataSource" ignore-failures="DROPS">
+        <jdbc:script location="classpath:db/schema.sql"/>
+        <jdbc:script location="classpath:db/data.sql"/>
+    </jdbc:initialize-database>
+    
+
+
+    <bean name="persistenceUnitManager"
+          class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="defaultDataSource" ref="embeddedDataSource" />
+    </bean>
+
+
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="com.pepaproch_MassMailMailerPU" />
+        <property name="persistenceUnitManager" ref="persistenceUnitManager"/>
+    </bean>
+ 
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+ 
+
+
+
+
+    <bean id="dataAccessHolder" class="com.pepaproch.massmailmailer.db.DataAccess" />
+    
+</beans>

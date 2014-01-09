@@ -1,0 +1,11 @@
+DROP TABLE USERS;
+
+CREATE TABLE USERS (
+  id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+  username varchar(100) NOT NULL,
+  password varchar(100) NOT NULL,
+  first_name varchar(100) NOT NULL,
+  last_name varchar(100) NOT NULL);
+
+
+
