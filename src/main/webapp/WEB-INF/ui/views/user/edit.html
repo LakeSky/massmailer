@@ -1,36 +1,48 @@
-<form novalidate class="form-horizontal" ng-submit="save()">
-        <div class="control-group">
-                <label class="control-label" for="url">Url</label>
-                <div class="controls">
-                        <input type="url" ng-model="User.id" id="url" required/>
-                </div>
+<form novalidate class="form-horizontal" ng-submit="save()" name="saveUser">
+    <div class="control-group">
+        <label class="control-label" for="url">ID</label>
+        <div class="controls">
+            <input type="url" ng-model="User.id" id="url" required/>
         </div>
-        <div class="control-group">
-                <label class="control-label" for="User.username">Uživatelské jméno</label>
-                <div class="controls">
-                        <input type="text" ng-model="User.username" id="username" required/>
-                </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="username">Uživatelské jméno</label>
+        <div class="controls">
+            <input type="text" ng-model="User.username" id="username" name="username" server-error />
+            <div class="errors" ng-show="form.username.$invalid">
+                <span ng-show="form.username.$error.server">{{ errors.username}}</span>
+            </div>
         </div>
-                <div class="control-group">
-                <label class="control-label" for="User.firstName">Heslo</label>
-                <div class="controls">
-                        <input type="text" ng-model="User.password" id="password" required/>
-                </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="password">Heslo</label>
+        <div class="controls">
+            <input type="text" ng-model="User.password" id="password" required name="password" server-error/>
+            <div class="errors" ng-show="form.password.$invalid">
+                <span ng-show="form.password.$error.server">{{ errors.password}}</span>
+            </div>
         </div>
-            <div class="control-group">
-                <label class="control-label" for="User.firstName">Jméno</label>
-                <div class="controls">
-                        <input type="text" ng-model="User.firstName" id="firstName" required/>
-                </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="firstName">Jméno</label>
+        <div class="controls">
+            <input type="text" ng-model="User.firstName" id="firstName" required name="firstName" server-error />
+            <div class="errors" ng-show="form.firstName.$invalid">
+                <span ng-show="form.password.$error.server">{{ errors.firstName}}</span>
+            </div>
         </div>
-        <div class="control-group">
-                <label class="control-label" for="User.firstName">Jméno</label>
-                <div class="controls">
-                        <input type="text" ng-model="User.lastName" id="lastName" required/>
-                </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="firstName">Jméno</label>
+        <div class="controls">
+            <input type="text" ng-model="User.lastName" id="lastName" required name="lastName" server-error/>
+            <div class="errors" ng-show="form.lastName.$invalid">
+                <span ng-show="form.lastName.$error.server">{{ errors.lastName}}</span>
+            </div>
         </div>
+    </div>
 
-        <div class="control-group">
-                <button id="save" class="btn btn-primary">Uložit</button>
-        </div>
+    <div class="control-group">
+        <button id="save" class="btn btn-primary">Uložit</button>
+    </div>
 </form>

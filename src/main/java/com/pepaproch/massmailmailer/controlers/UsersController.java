@@ -20,6 +20,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -33,33 +34,46 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public List<UsersController> listStories() {
+    public List<Users> listUsers() {
         return (List) userService.listUsers();
     }
 
-    @RequestMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public Users showUsers(@PathVariable("userId") Integer userId) {
+    public Users showUser(@PathVariable("userId") Integer userId) {
         Users user = userService.getUserR().findOne(userId);
         return user;
     }
 
-    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity submitStory(@Valid @RequestBody Users user, BindingResult result) {
-     //   userService.getUserR().save(user);
-        if(result.hasErrors()) {
+    public ResponseEntity saveUsers(@Valid @RequestBody Users user, BindingResult result) {
+
+        return saveUser(user,result);
+
+    }
+
+    @RequestMapping(value = "/{userId}",consumes = MediaType.APPLICATION_JSON_VALUE,method = { RequestMethod.PUT,RequestMethod.POST} )
+    @ResponseBody
+    public ResponseEntity updateeUsers(@Valid @RequestBody Users user, BindingResult result) {
+
+        return saveUser(user,result);
+
+    }
+    
+    private ResponseEntity saveUser(Users user,BindingResult result) {
+        if (result.hasErrors()) {
             List<ObjectError> allErrors = result.getAllErrors();
             List<FieldError> fieldErrors = result.getFieldErrors();
-            result.
-        ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError> >(fieldErrors,HttpStatus.UNPROCESSABLE_ENTITY);
-              
+            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
+        } else {
+            Users savedUser = userService.getUserR().save(user);
+            ResponseEntity<Users> responseEntity = new ResponseEntity(savedUser, HttpStatus.CREATED);
+            return responseEntity;
         }
-        ResponseEntity<Void> responseEntity = new ResponseEntity(HttpStatus.CREATED);
-        return responseEntity;
     }
 
     public UsersController() {
