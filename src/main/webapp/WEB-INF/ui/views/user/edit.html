@@ -1,0 +1,36 @@
+<form novalidate class="form-horizontal" ng-submit="save()">
+        <div class="control-group">
+                <label class="control-label" for="url">Url</label>
+                <div class="controls">
+                        <input type="url" ng-model="User.id" id="url" required/>
+                </div>
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="User.username">Uživatelské jméno</label>
+                <div class="controls">
+                        <input type="text" ng-model="User.username" id="username" required/>
+                </div>
+        </div>
+                <div class="control-group">
+                <label class="control-label" for="User.firstName">Heslo</label>
+                <div class="controls">
+                        <input type="text" ng-model="User.password" id="password" required/>
+                </div>
+        </div>
+            <div class="control-group">
+                <label class="control-label" for="User.firstName">Jméno</label>
+                <div class="controls">
+                        <input type="text" ng-model="User.firstName" id="firstName" required/>
+                </div>
+        </div>
+        <div class="control-group">
+                <label class="control-label" for="User.firstName">Jméno</label>
+                <div class="controls">
+                        <input type="text" ng-model="User.lastName" id="lastName" required/>
+                </div>
+        </div>
+
+        <div class="control-group">
+                <button id="save" class="btn btn-primary">Uložit</button>
+        </div>
+</form>

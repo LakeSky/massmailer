@@ -1,0 +1,20 @@
+[
+    {"codes": ["NotNull.users.firstName", "NotNull.firstName", "NotNull.java.lang.String", "NotNull"],
+        "arguments": [{
+                "codes": ["users.firstName", "firstName"], 
+                "arguments": null, "defaultMessage": "firstName", "code": "firstName"
+                }],
+        "defaultMessage": "may not be null",
+        "objectName": "users",
+        "field": "firstName",
+        "rejectedValue": null,
+        "bindingFailure": false,
+        "code": "NotNull"},
+    {"codes": ["NotNull.users.lastName", "NotNull.lastName", "NotNull.java.lang.String", "NotNull"],
+        "arguments": [{"codes": ["users.lastName", "lastName"], "arguments": null, "defaultMessage": "lastName", "code": "lastName"}],
+        "defaultMessage": "may not be null",
+        "objectName": "users", "field": "lastName",
+        "rejectedValue": null,
+        "bindingFailure": false,
+        "code": "NotNull"}
+]

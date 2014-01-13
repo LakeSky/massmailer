@@ -1,0 +1,11 @@
+<h2>
+        Uživatel <a class="btn btn-primary pull-right" href="#/users/new"><i
+                class="icon-plus-sign icon-white"></i> Nový uživatel</a>
+                List
+</h2>
+<table class="table table-striped">
+        <tr ng-repeat="User in users">
+                <td><a href="#/users/{{User.id}}">{{User.firstName}}</a></td>
+                <td>{{User.lastName}}</td>
+        </tr>
+</table>

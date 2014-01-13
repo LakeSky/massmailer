@@ -37,7 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 @WebAppConfiguration
-public class UsersTest {
+public class UsersControllerTest {
 
     public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
@@ -49,7 +49,7 @@ public class UsersTest {
   
     private MockMvc mockMvc;
 
-    public UsersTest() {
+    public UsersControllerTest() {
     }
 
     @BeforeClass

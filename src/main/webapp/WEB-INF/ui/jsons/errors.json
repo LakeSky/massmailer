@@ -1,0 +1,30 @@
+{
+    "items": [
+        {
+            "pagemap": {
+                "metatags": [
+                    {
+                        "og:description": "A boxed set, including the titles 'Harry Potter and the Philosopher's Stone', 'Harry Potter and the Chamber of Secrets', 'Harry Potter and the Prisoner of Azkaban', 'Harry Potter and the Goblet of Fire', 'Harry Potter and the Order of the Phoenix', 'Harry Potter and the Half-Blood Prince' and 'Harry Potter and the Deathly Hallows'.",
+                        "og:title": "Harry Potter Adult Paperback Boxed Set: Adult Edition (Paperback)",
+                        "book:release_date": "2008-10-06",
+                        "book:author": "J. K. Rowling",
+                        "book:isbn": "9780747595847"
+                    }
+                ]
+            }
+        },
+        {
+            "pagemap": {
+                "metatags": [
+                    {
+                        "og:description": "Offers an in-depth look at the craftsmanship, artistry, technology, and more than ten-year journey that took the world's bestselling fiction from page to screen. From elaborate sets and luxurious costumes to advanced special effects and film making techniques, this title chronicles all eight films.",
+                        "og:title": "Harry Potter: Page to Screen (Hardback)",
+                        "book:release_date": "2011-10-25",
+                        "book:author": "Bob McCabe",
+                        "book:isbn": "9780857687753"
+                    }
+                ]
+            }
+        }
+    ]
+}
