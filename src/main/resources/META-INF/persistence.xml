@@ -3,7 +3,9 @@
   <persistence-unit name="com.pepaproch_MassMailMailerPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.pepaproch.massmailmailer.db.entity.Users</class>
+    <class>com.pepaproch.massmailmailer.db.Files</class>
+    <class>com.pepaproch.massmailmailer.db.entity.DataSource</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
   </persistence-unit>
-<!--    <property name="hibernate.hbm2ddl.auto" value="create" />-->
+  <!--    <property name="hibernate.hbm2ddl.auto" value="create" />-->
 </persistence>

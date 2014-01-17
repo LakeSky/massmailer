@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.service;
 
-import com.pepaproch.massmailmailer.db.entity.Users;
-import com.pepaproch.massmailmailer.repository.UserRepo;
+import com.pepaproch.massmailmailer.db.Files;
+import com.pepaproch.massmailmailer.repository.FilesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +15,26 @@ import org.springframework.stereotype.Service;
  * @author pepa
  */
 @Service
-public class UserService {
-   @Autowired
-   private UserRepo userR; 
+public class FileService {
+
+    @Autowired
+    private FilesRepo filesR;
 
     /**
      * @return the userR
      */
-    public UserRepo getUserR() {
-        return userR;
+    public FilesRepo getFilesR() {
+        return filesR;
     }
 
     /**
-     * @param userR the userR to set
+     * @param filesR
      */
-    public void setUserR(UserRepo userR) {
-        this.userR = userR;
+    public void setFilesR(FilesRepo filesR) {
+        this.filesR = filesR;
     }
-    
-    public Iterable<Users> listUsers() {
-    return userR.findAll();
+
+    public Iterable<Files> listUsers() {
+        return filesR.findAll();
     }
 }

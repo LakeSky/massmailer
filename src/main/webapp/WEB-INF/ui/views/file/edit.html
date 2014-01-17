@@ -1,0 +1,10 @@
+<form novalidate class="form-horizontal" ng-submit="save()" name="uploadFile">
+
+
+  <div ng-controller="UploadCtrl">    
+    <input type="file" ng-model="files" file-change>
+    <br><br>
+    Selected: {{ files.length }}
+</div>
+
+</form>

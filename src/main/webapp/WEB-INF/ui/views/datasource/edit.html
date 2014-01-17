@@ -1,0 +1,19 @@
+<form novalidate class="form-horizontal" ng-submit="save()" name="dataSource">
+    
+    <div class="control-group">
+        <label class="control-label" for="username">Uživatelské jméno</label>
+        <div class="controls">
+            <input type="text" ng-model="User.username" id="username" name="username" server-error />
+            <div class="errors" ng-show="form.username.$invalid">
+                <span ng-show="form.username.$error.server">{{ errors.username}}</span>
+            </div>
+        </div>
+    </div>
+
+  <div ng-controller="UploadCtrl">    
+    <input type="file" ng-model="files" file-change>
+    <br><br>
+    Selected: {{ files.length }}
+</div>
+
+</form>

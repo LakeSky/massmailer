@@ -2,25 +2,19 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'appMassMailer.services']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'upload', 'appMassMailer.services']);
 
 
 
 angular.module('appMassMailer.services', ['ngResource']).
-        factory('User', function($resource) {
-            var User = $resource('../users/:userId', {userId: '@id'}, {
-      
-                
-            });
-
-            User.prototype.isNew = function() {
-                return (typeof (this.id) === 'undefined')
+        factory('Entity', function($resource) {
+            return {
+                User: $resource('../users/:userId', {userId: '@id'}),
+                DataSource: $resource('../datasource/:dataSourceId', {dataSourceId: '@id'})
             };
-            User.prototype.formName = function() {
-                return 'saveUser';
-            };
-            return User;
         });
+
+
 
 
 
@@ -38,6 +32,10 @@ appMassMailer.config(['$routeProvider',
                 when('/users/:userId', {
                     templateUrl: 'views/user/edit.html',
                     controller: 'UserEditCtrl'
+                }).
+                when('/file/new', {
+                    templateUrl: 'views/file/edit.html'
+
                 }).
                 otherwise({
                     redirectTo: 'views/user/list.html'
@@ -59,8 +57,8 @@ angular.module('appMassMailer').directive('serverError', function() {
 });
 
 
-function UserListCtrl($scope, User) {
-    $scope.users = User.query();
+function UserListCtrl($scope, Entity) {
+    $scope.users = Entity.User.query();
 
 }
 
@@ -70,7 +68,7 @@ function UserEditCtrl($scope, $routeParams, $location, User) {
     $scope.User = User.get({userId: userId});
     $scope.save = function() {
         $scope.form = $scope.$eval(User.prototype.formName());
-      
+
         $scope.User.$save(
                 function(User, headers) {
                     handleFormSucces("Nový uživatel vytvořen", $location, '/users');
@@ -118,8 +116,3 @@ function handleFormSucces(message, $location, path) {
 
 
 
-
-function addSpringFieldsErrorsErrors($scope) {
-
-
-}
