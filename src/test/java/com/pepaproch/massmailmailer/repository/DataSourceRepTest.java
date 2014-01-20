@@ -50,7 +50,7 @@ public class DataSourceRepTest {
     public void findAll() {
         // TODO review the generated test code and remove the default call to fail.
         Iterable<DataSource> findAll = dataSourceRep.findAll();
-        findAll.;
+     
         assertNotNull(findAll);
     }
     @Test
