@@ -16,16 +16,46 @@ and open the template in the editor.
     <title>MassMailer</title>
 </head>
 <body>
+    <div>
+        
+        <nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Home</a>
+  </div>
 
-       <div>
-                <ul class="nav" role="navigation">
-                    <li>
-                        <a href="#users">Users</a>
-                         <a href="#file/new">Files</a>
-                         <a href="#datasourcer">DataSources</a>
-                    </li>
-                </ul>
-            </div>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#datasource">DataSources</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nastavení <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#users">Uživatelé</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+        
+    </div>
+
+
 <div class="container" ng-view>
  
 </div>
@@ -34,7 +64,12 @@ and open the template in the editor.
 <script src="js/angular.min.js"></script>
 <script src="js/angular-route.min.js"></script>
 <script src="js/angular-resource.js"></script>
+<script src="js/massmailer.js"></script>
+<script src="js/ngconfig.js"></script>
 <script src="js/fileUpload.js"></script>
+<script src="js/entityService.js"></script>
+<script src="js/users.js"></script>
+<script src="js/ngdirectives.js"></script>
 <script src="js/toastr.js"></script>
 <script src="js/massmailer.js"></script>
 

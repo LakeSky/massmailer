@@ -1,10 +1,8 @@
-
-
-'use strict';
-
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource','directives', 'upload', 'entityService' ,'users']);
-
-
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 angular.module('appMassMailer') .config(
         ['$routeProvider',
     function($routeProvider) {
@@ -42,29 +40,3 @@ angular.module('appMassMailer') .config(
                     redirectTo: 'views/user/list.html'
                 });
     }]);
-
-
-
-
-
-function handleFormError($scope, data) {
-    $scope.errors = {};
-    toastr.error("Zkontrolujte formulář");
-    return angular.forEach(data, function(serverError, key) {
-        $scope.form[serverError['field']].$setValidity('server', false);
-        $scope.errors[serverError['field']] = serverError['code'];
-
-    });
-
-
-
-}
-
-function handleFormSucces(message, $location, path) {
-
-    toastr.success(message);
-    $location.path(path);
-}
-
-
-

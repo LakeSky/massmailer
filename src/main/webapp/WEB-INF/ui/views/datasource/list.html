@@ -1,0 +1,10 @@
+<h2>
+        Uživatel <a class="btn btn-primary pull-right" href="#/datasource/new"><i
+                class="icon-plus-sign icon-white"></i> Nový uživatel</a>
+                List
+</h2>
+<table class="table table-striped">
+        <tr ng-repeat="DataSource in datasources" >
+                <td><a href="#/datasource/{{DataSource.id}}">{{DataSource.name}}</a></td>
+        </tr>
+</table>

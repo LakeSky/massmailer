@@ -1,19 +1,30 @@
 <form novalidate class="form-horizontal" ng-submit="save()" name="dataSource">
-    
     <div class="control-group">
-        <label class="control-label" for="username">Uživatelské jméno</label>
+        <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="name">Název</label>
         <div class="controls">
-            <input type="text" ng-model="User.username" id="username" name="username" server-error />
-            <div class="errors" ng-show="form.username.$invalid">
-                <span ng-show="form.username.$error.server">{{ errors.username}}</span>
+            <input type="text" ng-model="DataSource.name" id="name" name="name" server-error />
+            <div class="errors" ng-show="form.name.$invalid">
+                <span ng-show="form.name.$error.server">{{ errors.name}}</span>
             </div>
         </div>
     </div>
-
-  <div ng-controller="UploadCtrl">    
-    <input type="file" ng-model="files" file-change>
-    <br><br>
-    Selected: {{ files.length }}
-</div>
-
+    <div class="control-group">
+        <label class="control-label" for="fileName">Soubor s daty</label>
+        <div class="controls">
+            <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName" server-error />
+            <div class="errors" ng-show="form.fileName.$invalid">
+                <span ng-show="form.fileName.$error.server">{{ errors.fileName}}</span>
+            </div>
+        </div>
+    </div>
+    
 </form>
+
+    <div ng-controller="UploadCtrl">    
+        <input type="file" ng-model="files" file-change>
+        <br><br>
+        Selected: {{ files.length }}
+    </div>
