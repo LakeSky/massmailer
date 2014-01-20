@@ -5,6 +5,8 @@
     <class>com.pepaproch.massmailmailer.db.entity.Users</class>
     <class>com.pepaproch.massmailmailer.db.Files</class>
     <class>com.pepaproch.massmailmailer.db.entity.DataSource</class>
+    <class>com.pepaproch.massmailmailer.db.entity.DataStructure</class>
+    <class>com.pepaproch.massmailmailer.db.entity.DataStructureFields</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
   </persistence-unit>
   <!--    <property name="hibernate.hbm2ddl.auto" value="create" />-->

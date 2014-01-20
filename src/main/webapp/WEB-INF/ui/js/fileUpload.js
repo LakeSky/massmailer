@@ -4,9 +4,8 @@
 var upload = angular.module('upload', []);
 
 
-// Directive
-// ---------
-upload.directive('fileChange', function() {
+
+dataSource.directive('fileChange', function() {
 
     var linker = function($scope, element, attributes) {
         // onChange, push the files to $scope.files.
@@ -24,7 +23,6 @@ upload.directive('fileChange', function() {
     };
 
 });
-
 
 // Factory
 // -------
@@ -84,18 +82,9 @@ upload.controller('UploadCtrl', ['$scope', '$rootScope', 'uploadService', functi
             }
         }, true);
 
-        $rootScope.$on('upload:loadstart', function() {
-            console.log('Controller: on `loadstart`');
-        });
-
-        $rootScope.$on('upload:error', function() {
-            console.log('Controller: on `error`');
-        });
 
 
-        $rootScope.$on('upload:succes', function(e,xhr) {
-            toastr.success(xhr.currentTarget.responseText);
-            console.log('Controller: on `succes`');
-        });
+
+
 
     }]);

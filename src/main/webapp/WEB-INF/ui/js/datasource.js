@@ -4,14 +4,13 @@
  * and open the template in the editor.
  */
 
-var dataSource = angular.module('dataSource', ['entityService']);
-
+var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'upload']);
 
 // Controller
 // ----------
-dataSources.controller('DataSourceListCtrl', ['$scope', 'Entity', function($scope, Entity) {
-   
-    $scope.datasources = Entity.DataSource.query();
+dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', function($scope, Entity) {
+
+        $scope.datasources = Entity.DataSource.query();
 
     }]);
 
@@ -19,43 +18,100 @@ dataSources.controller('DataSourceListCtrl', ['$scope', 'Entity', function($scop
 
 // Controller
 // ----------
-dataSources.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$location' , 'Entity', function($scope, $routeParams, $location, Entity) {
-   
-    var dataSourceId = $routeParams.dataSourceId;
-    $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
-    $scope.save = function() {
-       $scope.form = "dataSource"
+dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$location', 'Entity', function($scope, $routeParams, $location, Entity) {
 
-        $scope.DataSource.$save(
-                function(Entity, headers) {
-                    handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
-                }, function(error) {
-            handleFormError($scope, error.data);
+        var dataSourceId = $routeParams.dataSourceId;
+        $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
+        $scope.save = function() {
+            $scope.form = "dataSource";
+
+            $scope.DataSource.$save(
+                    function(Entity, headers) {
+                        handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
+                    }, function(error) {
+                handleFormError($scope, error.data);
+
+            });
+        };
+
+    }]);
+
+
+
+// Controller
+// ----------
+dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', function($rootScope, $scope, $routeParams, $location, Entity, uploadService) {
+
+        // 'files' is an array of JavaScript 'File' objects.
+        $scope.files = [];
+        $scope.fields = [];
+        $scope.$watch('UploadFile', function(newValue, oldValue) {
+            // Only act when our property has changed.
+            if (newValue !== oldValue) {
+                console.log('Controller: $scope.files changed. Start upload.');
+
+                uploadService.send($scope.UploadFile);
+
+            }
+        }, true);
+
+
+        $rootScope.$on('upload:loadstart', function() {
+            console.log('Controller: on `loadstart`');
+        });
+        $rootScope.$on('upload:succes', function(event, xhr) {
+
+            $scope.$apply(function() {
+
+
+                $scope.DataSource.fileName = xhr.currentTarget.responseText;
+                
+                var DataSourceStructure = Entity.DataSourceStructure.get({fileId: 1}, function() {
+
+
+                    $scope.DataSource.fields = DataSourceStructure.dataStructureFieldsCollection;
+
+
+
+                    toastr.success(DataSourceStructure.firstRowCnames);
+
+                });
+
+            });
+
+
+            toastr.success(xhr.currentTarget.responseText);
+
+
+
 
         });
-    };
-
-    }]);
-
-
-
-// Controller
-// ----------
-dataSources.controller('DataSourceCreateController', ['$scope', '$routeParams', '$location' , 'Entity', function($scope, $routeParams, $location, Entity) {
-   
-    $scope.DataSource = new Entity.DataSource();
-    $scope.save = function() {
-        $scope.form = "dataSource"
-        $scope.DataSource.$save(
-                function(DataSource, headers) {
-                    handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
-                }, function(error) {
-                   
-            handleFormError($scope, error.data);
-
+        $rootScope.$on('upload:error', function() {
+            console.log('Controller: on `error`');
         });
-    };
+
+
+
+
+        $scope.save = function() {
+            $scope.form = "dataSource";
+            $scope.DataSource.$save(
+                    function(DataSource, headers) {
+                        handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
+                    }, function(error) {
+
+                handleFormError($scope, error.data);
+
+            });
+        };
+
 
     }]);
+
+
+
+
+
+
 
 

@@ -42,7 +42,7 @@ public class DataSourceController {
 
     @RequestMapping(value = "/{dataSourceId}", produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public DataSource showDataSourcer(@PathVariable("dataSourceId") Integer dataSourceId) {
+    public DataSource showDataSource(@PathVariable("dataSourceId") Integer dataSourceId) {
        
         return dataRepository.findOne(dataSourceId);
     }
@@ -57,7 +57,7 @@ public class DataSourceController {
 
     @RequestMapping(value = "/{dataSourcerId}",consumes = MediaType.APPLICATION_JSON_VALUE,method = { RequestMethod.PUT,RequestMethod.POST} )
     @ResponseBody
-    public ResponseEntity updateDataSourcer(@Valid @RequestBody DataSource dataSource, BindingResult result) {
+    public ResponseEntity updateDataSource(@Valid @RequestBody DataSource dataSource, BindingResult result) {
 
         return saveDataSource(dataSource,result);
 

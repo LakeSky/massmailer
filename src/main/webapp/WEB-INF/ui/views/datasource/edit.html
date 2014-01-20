@@ -1,30 +1,36 @@
-<form novalidate class="form-horizontal" ng-submit="save()" name="dataSource">
-    <div class="control-group">
-        <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
-    </div>
-    <div class="control-group">
-        <label class="control-label" for="name">Název</label>
-        <div class="controls">
-            <input type="text" ng-model="DataSource.name" id="name" name="name" server-error />
-            <div class="errors" ng-show="form.name.$invalid">
-                <span ng-show="form.name.$error.server">{{ errors.name}}</span>
+<div>
+    <form novalidate class="form-horizontal" ng-submit="save()" name="dataSource">
+        <div class="control-group">
+            <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="name">Název</label>
+            <div class="controls">
+                <input type="text" ng-model="DataSource.name" id="name" name="name" server-error />
+                <div class="errors" ng-show="form.name.$invalid">
+                    <span ng-show="form.name.$error.server">{{ errors.name}}</span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="control-group">
-        <label class="control-label" for="fileName">Soubor s daty</label>
-        <div class="controls">
-            <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName" server-error />
-            <div class="errors" ng-show="form.fileName.$invalid">
-                <span ng-show="form.fileName.$error.server">{{ errors.fileName}}</span>
+        <div class="control-group">
+            <label class="control-label" for="fileName">Soubor s daty</label>
+            <div class="controls">
+                <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName"  server-error  />
+                <div class="errors" ng-show="form.fileName.$invalid">
+                    <span ng-show="form.fileName.$error.server">{{ errors.fileName}}</span>
+                </div>
             </div>
         </div>
-    </div>
-    
-</form>
 
-    <div ng-controller="UploadCtrl">    
+        <div ng-repeat="f in DataSource.fields">
+            <input type="text" name="{{f.name}}" ng-model="f.value"/>
+
+        </div>
+    </form>
+
+    <div ng-controller="DataSourceCreateController" >
         <input type="file" ng-model="files" file-change>
         <br><br>
-        Selected: {{ files.length }}
+        Selected: {{ files.length}}
     </div>
+</div>

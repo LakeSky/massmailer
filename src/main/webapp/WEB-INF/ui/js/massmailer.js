@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource','directives', 'upload', 'entityService' ,'users']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource','directives', 'entityService' ,'users','dataSource']);
 
 
 angular.module('appMassMailer') .config(
@@ -26,7 +26,8 @@ angular.module('appMassMailer') .config(
 
                 }).
                when('/datasource', {
-                    templateUrl: 'views/datasource/list.html'
+                    templateUrl: 'views/datasource/list.html',
+                   controller: 'DataSourceListCtrl'
 
                 }).
                 when('/datasource/:dataSourceId', {
@@ -35,7 +36,7 @@ angular.module('appMassMailer') .config(
                 }).
                 when('/datasource/new', {
                     templateUrl: 'views/datasource/edit.html',
-                     controller: 'DataSourceCreateCtrl'
+                     controller: 'DataSourceCreateController'
 
                 }).
                 otherwise({
@@ -68,3 +69,4 @@ function handleFormSucces(message, $location, path) {
 
 
 
+      
