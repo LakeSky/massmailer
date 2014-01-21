@@ -45,7 +45,8 @@ users.controller('UserCreateController', ['$scope', '$routeParams', '$location' 
    
     $scope.User = new Entity.User();
     $scope.save = function() {
-        $scope.form = "saveUser"
+           $scope.form = $scope.$eval("saveUser");
+   
         $scope.User.$save(
                 function(User, headers) {
                     handleFormSucces("Nový uživatel vytvořen", $location, '/users');

@@ -41,7 +41,7 @@ dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$locatio
 // Controller
 // ----------
 dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', function($rootScope, $scope, $routeParams, $location, Entity, uploadService) {
-
+   $scope.DataSource = new Entity.DataSource();
         // 'files' is an array of JavaScript 'File' objects.
         $scope.files = [];
         $scope.fields = [];
@@ -66,14 +66,10 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
                 $scope.DataSource.fileName = xhr.currentTarget.responseText;
                 
-                var DataSourceStructure = Entity.DataSourceStructure.get({fileId: 1}, function() {
+                var DataStructure = Entity.DataStructure.get({fileId: 1}, function() {
 
-
-                    $scope.DataSource.fields = DataSourceStructure.dataStructureFieldsCollection;
-
-
-
-                    toastr.success(DataSourceStructure.firstRowCnames);
+                  $scope.DataSource.dataStructure = DataStructure;
+                    toastr.success( $scope.DataSource.dataStructure.firstRowCnames);
 
                 });
 
@@ -94,7 +90,8 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
         $scope.save = function() {
-            $scope.form = "dataSource";
+                       $scope.form = $scope.$eval("dataSource");
+
             $scope.DataSource.$save(
                     function(DataSource, headers) {
                         handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');

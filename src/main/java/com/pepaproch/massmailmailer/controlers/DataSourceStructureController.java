@@ -33,7 +33,7 @@ public class DataSourceStructureController {
         
         ds.setFirstRowCnames(Boolean.TRUE);
         List l = new ArrayList();
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             DataStructureFields f = new DataStructureFields(null, "field_" + i, "field_" + i + "_value", i);
             l.add(f);
         }

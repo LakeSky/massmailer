@@ -32,10 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "DataStructureFields.findAll", query = "SELECT d FROM DataStructureFields d"),
     @NamedQuery(name = "DataStructureFields.findById", query = "SELECT d FROM DataStructureFields d WHERE d.id = :id"),
-    @NamedQuery(name = "DataStructureFields.findByName", query = "SELECT d FROM DataStructureFields d WHERE d.name = :name"),
-    @NamedQuery(name = "DataStructureFields.findByValue", query = "SELECT d FROM DataStructureFields d WHERE d.value = :value"),
+    @NamedQuery(name = "DataStructureFields.findByfileFName", query = "SELECT d FROM DataStructureFields d WHERE d.fileFName = :fileFName"),
+    @NamedQuery(name = "DataStructureFields.findBydataSourceFName", query = "SELECT d FROM DataStructureFields d WHERE d.dataSourceFName = :dataSourceFName"),
     @NamedQuery(name = "DataStructureFields.findByIsId", query = "SELECT d FROM DataStructureFields d WHERE d.isId = :isId"),
-    @NamedQuery(name = "DataStructureFields.findBySort", query = "SELECT d FROM DataStructureFields d WHERE d.sort = :sort"),
+    @NamedQuery(name = "DataStructureFields.findByIndex", query = "SELECT d FROM DataStructureFields d WHERE d.index = :index"),
     @NamedQuery(name = "DataStructureFields.findByType", query = "SELECT d FROM DataStructureFields d WHERE d.type = :type")})
 public class DataStructureFields implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -47,19 +47,19 @@ public class DataStructureFields implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "FILE_FNAME")
+    private String fileFName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "VALUE")
-    private String value;
+    @Column(name = "DATA_SOURCE_FNAME")
+    private String dataSourceFName;
     @Column(name = "IS_ID")
     private Short isId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "SORT")
-    private int sort;
+    @Column(name = "INDEX")
+    private int index;
     @Size(max = 25)
     @Column(name = "TYPE")
     private String type;
@@ -76,9 +76,9 @@ public class DataStructureFields implements Serializable {
 
     public DataStructureFields(Integer id, String name, String value, int sort) {
         this.id = id;
-        this.name = name;
-        this.value = value;
-        this.sort = sort;
+        this.fileFName = name;
+        this.dataSourceFName = value;
+        this.index = sort;
     }
 
     public Integer getId() {
@@ -89,21 +89,7 @@ public class DataStructureFields implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 
     public Short getIsId() {
         return isId;
@@ -113,12 +99,12 @@ public class DataStructureFields implements Serializable {
         this.isId = isId;
     }
 
-    public int getSort() {
-        return sort;
+    public int getIndex() {
+        return index;
     }
 
-    public void setSort(int sort) {
-        this.sort = sort;
+    public void setIndex(int sort) {
+        this.index = sort;
     }
 
     public String getType() {
@@ -160,6 +146,34 @@ public class DataStructureFields implements Serializable {
     @Override
     public String toString() {
         return "com.pepaproch.massmailmailer.db.entity.DataStructureFields[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the dataSourceFName
+     */
+    public String getDataSourceFName() {
+        return dataSourceFName;
+    }
+
+    /**
+     * @param dataSourceFName the dataSourceFName to set
+     */
+    public void setDataSourceFName(String dataSourceFName) {
+        this.dataSourceFName = dataSourceFName;
+    }
+
+    /**
+     * @return the fileFName
+     */
+    public String getFileFName() {
+        return fileFName;
+    }
+
+    /**
+     * @param fileFName the fileFName to set
+     */
+    public void setFileFName(String fileFName) {
+        this.fileFName = fileFName;
     }
     
 }

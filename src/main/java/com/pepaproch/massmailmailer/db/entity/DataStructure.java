@@ -19,9 +19,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -44,6 +44,7 @@ public class DataStructure implements Serializable {
     @Column(name = "FIRST_ROW_CNAMES")
     private Boolean firstRowCnames;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataStructureId")
+    @Valid
     private Collection<DataStructureFields> dataStructureFieldsCollection;
 
     public DataStructure() {

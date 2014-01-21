@@ -30,14 +30,14 @@ angular.module('appMassMailer') .config(
                    controller: 'DataSourceListCtrl'
 
                 }).
-                when('/datasource/:dataSourceId', {
-                    templateUrl: 'views/datasource/edit.html',
-                    controller: 'DataSourceEditCtrl'
-                }).
                 when('/datasource/new', {
                     templateUrl: 'views/datasource/edit.html',
                      controller: 'DataSourceCreateController'
 
+                }).
+                when('/datasource/:dataSourceId', {
+                    templateUrl: 'views/datasource/edit.html',
+                    controller: 'DataSourceEditCtrl'
                 }).
                 otherwise({
                     redirectTo: 'views/user/list.html'
@@ -51,7 +51,9 @@ angular.module('appMassMailer') .config(
 function handleFormError($scope, data) {
     $scope.errors = {};
     toastr.error("Zkontrolujte formulář");
+
     return angular.forEach(data, function(serverError, key) {
+
         $scope.form[serverError['field']].$setValidity('server', false);
         $scope.errors[serverError['field']] = serverError['code'];
 
@@ -69,4 +71,27 @@ function handleFormSucces(message, $location, path) {
 
 
 
-      
+appMassMailer.directive('interpolModel', function($interpolate) {
+    return {
+      priority: 10000,
+      restrict: 'AC',
+      controller: function($scope, $element, $attrs) {
+        $attrs.$set('name', $interpolate($attrs.interpolModel || $attrs.name)($scope));
+        
+        $element.data('$interpolModelController', null);
+      }
+    };
+  }) ;
+  
+  appMassMailer.directive('interpolShow', function($interpolate) {
+    return {
+      priority: 10000,
+      restrict: 'AC',
+      controller: function($scope, $element, $attrs) {
+       
+        var ds =  $scope.$eval();
+       
+        $element.data('$interpolModelController', null);
+      }
+    };
+  }) ;

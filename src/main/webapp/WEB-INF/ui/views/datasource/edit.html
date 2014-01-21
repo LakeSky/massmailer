@@ -1,36 +1,59 @@
 <div>
-    <form novalidate class="form-horizontal" ng-submit="save()" name="dataSource">
-        <div class="control-group">
-            <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="name">Název</label>
-            <div class="controls">
-                <input type="text" ng-model="DataSource.name" id="name" name="name" server-error />
-                <div class="errors" ng-show="form.name.$invalid">
-                    <span ng-show="form.name.$error.server">{{ errors.name}}</span>
+    <div class="row">
+        <form novalidate class="form-horizontal" ng-submit="save()" name="dataSource">
+            <div class="col-md-6">
+                <div class="control-group">
+                    <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
                 </div>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="fileName">Soubor s daty</label>
-            <div class="controls">
-                <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName"  server-error  />
-                <div class="errors" ng-show="form.fileName.$invalid">
-                    <span ng-show="form.fileName.$error.server">{{ errors.fileName}}</span>
+                <div class="control-group">
+                    <label class="control-label" for="name">Název</label>
+                    <div class="controls">
+                        <input type="text" ng-model="DataSource.name" id="name" name="name" server-error />
+                        <div class="errors" ng-show="form.name.$invalid">
+                            <span ng-show="form.name.$error.server">{{ errors.name}}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div ng-repeat="f in DataSource.fields">
-            <input type="text" name="{{f.name}}" ng-model="f.value"/>
-
-        </div>
-    </form>
-
+                <div class="control-group">
+                    <label class="control-label" for="fileName">Soubor s daty</label>
+                    <div class="controls">
+                        <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName"  server-error  />
+                        <div class="errors" ng-show="form.fileName.$invalid">
+                            <span ng-show="form.fileName.$error.server">{{ errors.fileName}}</span>
+                        </div>
+                    </div>
+                </div>
     <div ng-controller="DataSourceCreateController" >
         <input type="file" ng-model="files" file-change>
         <br><br>
         Selected: {{ files.length}}
     </div>
+                  <div class="control-group">
+        <button id="save" class="btn btn-primary">Uložit</button>
+    </div>
+            </div>
+            <div class="col-md-6">
+                <div ng-repeat="f in DataSource.dataStructure.dataStructureFieldsCollection">
+                    <div class="control-group">
+                        <label class="control-label" for="dataStructure.dataStructureFieldsCollection{{f.index}}.dataSourceFName">{{f.fileFName}}</label>
+                        <div class="controls">
+                            <input type="text" id = "dataStructure.dataStructureFieldsCollection{{f.index}}.dataSourceFName" name="dataStructure.dataStructureFieldsCollection[{{f.index}}].dataSourceFName" ng-model="f.dataSourceFName"  interpol-model="dataStructure.dataStructureFieldsCollection[{{f.index}}].dataSourceFName"/>
+                            <div class="errors" interpol-show="{{f.fileFName.$invalid}}" >
+                                <span    interpol-show="dataStructure.dataStructureFieldsCollection[{{f.index}}].dataSourceFName"  ></span>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+{{ form | json }}
+
+
+
+
+
+
+
 </div>

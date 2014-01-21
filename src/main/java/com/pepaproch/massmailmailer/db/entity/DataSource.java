@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,6 +52,8 @@ public class DataSource implements Serializable {
     private String fileName;
     @Column(name = "RECORDS_COUNT")
     private Integer recordsCount;
+    @Transient
+    private DataStructure dataStructure;
 
     public DataSource() {
     }
@@ -118,6 +122,21 @@ public class DataSource implements Serializable {
     @Override
     public String toString() {
         return "com.pepaproch.massmailmailer.db.entity.DataSource[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the dataStructure
+     */
+    @Valid
+    public DataStructure getDataStructure() {
+        return dataStructure;
+    }
+
+    /**
+     * @param dataStructure the dataStructure to set
+     */
+    public void setDataStructure(DataStructure dataStructure) {
+        this.dataStructure = dataStructure;
     }
     
 }

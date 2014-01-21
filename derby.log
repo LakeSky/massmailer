@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Mon Jan 20 16:28:52 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0143-b044-b6e3-000003cf05f0 
-on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@79bcfbeb 
+Tue Jan 21 15:57:21 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0143-b54e-3420-000003cddb60 
+on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@663f3fbd 
 Loaded from file:/home/pepa/.m2/repository/org/apache/derby/derby/10.9.1.0/derby-10.9.1.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_25-b15
@@ -10,9 +10,9 @@ derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Mon Jan 20 16:29:02 CET 2014:
-Shutting down instance a816c00e-0143-b044-b6e3-000003cf05f0 on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@79bcfbeb 
-Mon Jan 20 16:29:02 CET 2014 Thread[Thread-2,5,main] Cleanup action starting
+Tue Jan 21 15:57:31 CET 2014:
+Shutting down instance a816c00e-0143-b54e-3420-000003cddb60 on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@663f3fbd 
+Tue Jan 21 15:57:31 CET 2014 Thread[Thread-3,5,main] Cleanup action starting
 java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
