@@ -23,8 +23,7 @@ dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$locatio
         var dataSourceId = $routeParams.dataSourceId;
         $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
         $scope.save = function() {
-            $scope.form = "dataSource";
-
+     
             $scope.DataSource.$save(
                     function(Entity, headers) {
                         handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
@@ -41,10 +40,27 @@ dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$locatio
 // Controller
 // ----------
 dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', function($rootScope, $scope, $routeParams, $location, Entity, uploadService) {
-   $scope.DataSource = new Entity.DataSource();
+        var dataSourceId = $routeParams.dataSourceId;
+        if(undefined===dataSourceId) {
+                    $scope.DataSource = new Entity.DataSource();
+        }else {
+             $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
+            
+        }
+       
+
         // 'files' is an array of JavaScript 'File' objects.
         $scope.files = [];
         $scope.fields = [];
+   
+        $scope.$watch('dataSource', function(value) {
+            // Only act when our property has changed.
+            if (undefined !== value) {
+                $scope.form = $scope.$eval("dataSource");
+
+            }
+        }, true);
+
         $scope.$watch('UploadFile', function(newValue, oldValue) {
             // Only act when our property has changed.
             if (newValue !== oldValue) {
@@ -65,11 +81,11 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
                 $scope.DataSource.fileName = xhr.currentTarget.responseText;
-                
+
                 var DataStructure = Entity.DataStructure.get({fileId: 1}, function() {
 
-                  $scope.DataSource.dataStructure = DataStructure;
-                    toastr.success( $scope.DataSource.dataStructure.firstRowCnames);
+                    $scope.DataSource.dataStructure = DataStructure;
+                    toastr.success($scope.DataSource.dataStructure.firstRowCnames);
 
                 });
 
@@ -90,7 +106,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
         $scope.save = function() {
-                       $scope.form = $scope.$eval("dataSource");
+
 
             $scope.DataSource.$save(
                     function(DataSource, headers) {
@@ -101,6 +117,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
             });
         };
+
 
 
     }]);

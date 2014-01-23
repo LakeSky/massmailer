@@ -15,8 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -52,7 +52,9 @@ public class DataSource implements Serializable {
     private String fileName;
     @Column(name = "RECORDS_COUNT")
     private Integer recordsCount;
-    @Transient
+
+
+    @OneToOne(mappedBy = "ID")
     private DataStructure dataStructure;
 
     public DataSource() {
