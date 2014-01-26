@@ -46,6 +46,9 @@ public class DataStructure implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataStructureId")
     @Valid
     private Collection<DataStructureFields> dataStructureFieldsCollection;
+    
+    
+
 
     public DataStructure() {
     }
@@ -104,5 +107,7 @@ public class DataStructure implements Serializable {
     public String toString() {
         return "com.pepaproch.massmailmailer.db.entity.DataStructure[ id=" + id + " ]";
     }
+
+ 
     
 }

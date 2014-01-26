@@ -6,7 +6,8 @@
 
 package com.pepaproch.massmailmailer.db;
 
-import javax.sql.DataSource;
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -14,23 +15,39 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author pepa
  */
 public class DataAccess {
-    
-    private DataSource dataSource;
+    @Autowired
+    private DataSourceInfoRep dataSourceInfoRep;
+    @Autowired
+    private UserRepo userRepo;
 
     /**
      * @return the dataSource
      */
-    public DataSource getDataSource() {
-        return dataSource;
+    public DataSourceInfoRep getDataSourceInfoRep() {
+        return dataSourceInfoRep;
     }
 
     /**
-     * @param dataSource the dataSource to set
+     * @param dataSourceInfoRep
      */
     
     @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setDataSource(DataSourceInfoRep dataSourceInfoRep) {
+        this.dataSourceInfoRep = dataSourceInfoRep;
+    }
+
+    /**
+     * @return the userRepo
+     */
+    public UserRepo getUserRepo() {
+        return userRepo;
+    }
+
+    /**
+     * @param userRepo the userRepo to set
+     */
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
     
 }

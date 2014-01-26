@@ -5,7 +5,9 @@
  */
 package com.pepaproch.massmailmailer.repository;
 
-import com.pepaproch.massmailmailer.db.entity.DataSource;
+
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,11 +25,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
-public class DataSourceRepTest {
+public class DataSourceInfoRepTest {
     @Autowired
-    private DataSourceRep dataSourceRep;
+    private DataSourceInfoRep dataSourceRep;
     
-    public DataSourceRepTest() {
+    public DataSourceInfoRepTest() {
     }
     
     @BeforeClass
@@ -49,31 +51,31 @@ public class DataSourceRepTest {
     @Test
     public void findAll() {
         // TODO review the generated test code and remove the default call to fail.
-        Iterable<DataSource> findAll = dataSourceRep.findAll();
+        Iterable<DataSourceInfo> findAll = dataSourceRep.findAll();
      
         assertNotNull(findAll);
     }
     @Test
     public void insert() {
-    DataSource dasource = new DataSource();
-    dasource.setFileName("test");
+    DataSourceInfo dasource = new DataSourceInfo();
+
     dasource.setName("NMAE");
-    dasource.setRecordsCount(2);
-    DataSource save = dataSourceRep.save(dasource);
+    
+    DataSourceInfo save = dataSourceRep.save(dasource);
     assertNotNull(save.getId());
     }
 
     /**
      * @return the dataSourceRep
      */
-    public DataSourceRep getDataSourceRep() {
+    public DataSourceInfoRep getDataSourceRep() {
         return dataSourceRep;
     }
 
     /**
      * @param dataSourceRep the dataSourceRep to set
      */
-    public void setDataSourceRep(DataSourceRep dataSourceRep) {
+    public void setDataSourceRep(DataSourceInfoRep dataSourceRep) {
         this.dataSourceRep = dataSourceRep;
     }
     

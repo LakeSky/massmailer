@@ -15,9 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,13 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "DATA_SOURCE")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "DataSource.findAll", query = "SELECT d FROM DataSource d"),
-    @NamedQuery(name = "DataSource.findById", query = "SELECT d FROM DataSource d WHERE d.id = :id"),
-    @NamedQuery(name = "DataSource.findByName", query = "SELECT d FROM DataSource d WHERE d.name = :name"),
-    @NamedQuery(name = "DataSource.findByFileName", query = "SELECT d FROM DataSource d WHERE d.fileName = :fileName"),
-    @NamedQuery(name = "DataSource.findByRecordsCount", query = "SELECT d FROM DataSource d WHERE d.recordsCount = :recordsCount")})
-public class DataSource implements Serializable {
+
+public class DataSourceMeta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,17 +47,15 @@ public class DataSource implements Serializable {
     private Integer recordsCount;
 
 
-    @OneToOne(mappedBy = "ID")
-    private DataStructure dataStructure;
 
-    public DataSource() {
+    public DataSourceMeta() {
     }
 
-    public DataSource(Integer id) {
+    public DataSourceMeta(Integer id) {
         this.id = id;
     }
 
-    public DataSource(Integer id, String name) {
+    public DataSourceMeta(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -108,37 +99,13 @@ public class DataSource implements Serializable {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DataSource)) {
-            return false;
-        }
-        DataSource other = (DataSource) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+    
 
     @Override
     public String toString() {
         return "com.pepaproch.massmailmailer.db.entity.DataSource[ id=" + id + " ]";
     }
 
-    /**
-     * @return the dataStructure
-     */
-    @Valid
-    public DataStructure getDataStructure() {
-        return dataStructure;
-    }
 
-    /**
-     * @param dataStructure the dataStructure to set
-     */
-    public void setDataStructure(DataStructure dataStructure) {
-        this.dataStructure = dataStructure;
-    }
     
 }

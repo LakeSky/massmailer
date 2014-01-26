@@ -5,7 +5,8 @@
  */
 package com.pepaproch.massmailmailer.db;
 
-import javax.sql.DataSource;
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.repository.UserRepo;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -27,18 +28,6 @@ public class DataAccessTest {
     public DataAccessTest() {
     }
 
-    /**
-     * Test of getDataSource method, of class DataAccess.
-     */
-    @Test
-    public void testGetDataSource() {
-        System.out.println("getDataSource");
-
-        DataSource result = instance.getDataSource();
-        assertNotNull(result);
-
-
-    }
 
     /**
      * @return the instance
@@ -53,5 +42,28 @@ public class DataAccessTest {
     public void setInstance(DataAccess instance) {
         this.instance = instance;
     }
+
+    /**
+     * Test of getDataSourceInfoRep method, of class DataAccess.
+     */
+    @Test
+    public void testGetDataSourceInfoRep() {
+           System.out.println("getDataSourceInfoRep");
+        DataSourceInfoRep dataSourceInfoRep = instance.getDataSourceInfoRep();
+        assertNotNull(dataSourceInfoRep);
+    }
+
+    /**
+     * Test of getUserRepo method, of class DataAccess.
+     */
+    @Test
+    public void testGetUserRepo() {
+        System.out.println("getUserRepo");
+        UserRepo userRepo = instance.getUserRepo();
+        assertNotNull(userRepo);
+
+    }
+
+   
 
 }

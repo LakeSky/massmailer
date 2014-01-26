@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 
-package com.pepaproch.massmailmailer.repository;
+package com.pepaproch.massmailmailer.mongo.repository;
 
-import com.pepaproch.massmailmailer.db.entity.DataSource;
+import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author pepa
  */
-public interface DataSourceRep extends  CrudRepository<DataSource, Integer>{
-    
+public interface DataSourceInfoRep extends CrudRepository<DataSourceInfo, String> {
+
 }

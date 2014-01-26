@@ -6,8 +6,6 @@
 
 package com.pepaproch.massmailmailer.controlers;
 
-import static com.pepaproch.massmailmailer.controlers.DataSourceControllerTest.APPLICATION_JSON_UTF8;
-import com.pepaproch.massmailmailer.db.entity.DataSource;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import javax.annotation.Resource;
@@ -16,7 +14,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
