@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller(value = "IndexController")
 
-@RequestMapping("/")
+@RequestMapping("/index.html")
 public class IndexController {
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex() {
-    return "index";
+    return "redirect:ui/index.html";
     }
     
 }

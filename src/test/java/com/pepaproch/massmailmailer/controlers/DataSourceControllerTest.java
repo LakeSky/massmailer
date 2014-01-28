@@ -5,7 +5,13 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
+import com.pepaproch.massmailmailer.db.documents.DataStructureField;
+import com.pepaproch.massmailmailer.db.documents.DataStructureInfo;
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import javax.annotation.Resource;
 import org.junit.After;
@@ -14,6 +20,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,6 +49,13 @@ public class DataSourceControllerTest {
             Charset.forName("utf8")
     );
 
+    
+    private DataSourceInfo dataSource;
+    private final List<String> cleanUp = new ArrayList<String>();
+
+    @Autowired
+    private DataSourceInfoRep dataSourceRep;
+    private String dataSourceID;
     @Resource
     WebApplicationContext wac;
 
@@ -61,9 +75,23 @@ public class DataSourceControllerTest {
   @Before
     public void setUp() {
           mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+          dataSource = new DataSourceInfo();
+        dataSource.setName("NAME_TEST" );
+        List<DataStructureField> fields = new ArrayList();
+        for (int i = 0; i < 6; i++) {
+          DataStructureField field = new DataStructureField(i, i + "display_name");
+           fields.add(field);
+        }
+        String toString = fields.toString();
+        DataStructureInfo dataStructureInfo = new DataStructureInfo(fields);
+        dataSource.setDataStructureInfo(dataStructureInfo);
+        DataSourceInfo save = dataSourceRep.save(dataSource);
+        dataSourceID = save.getId();
+        
     }
     @After
     public void tearDown() {
+        dataSourceRep.delete(dataSourceID);
     }
 
     /**
@@ -87,7 +115,7 @@ public class DataSourceControllerTest {
      */
     @Test
     public void testShowDataSourcer() throws Exception {
-        ResultActions perform = mockMvc.perform(get("/datasource/1").locale(Locale.ENGLISH).accept(APPLICATION_JSON_UTF8))
+        ResultActions perform = mockMvc.perform(get("/datasource/" + dataSourceID).locale(Locale.ENGLISH).accept(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8));
         MvcResult andReturn = perform.andReturn();

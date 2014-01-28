@@ -20,15 +20,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "datasources")
 public class DataSourceInfo {
     @Id
-   private  String id;
+    private  String id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-   private String name;
+    private String name;
+
     
    private DataStructureInfo dataStructureInfo;
    
-   private Collection<DataSourceRow> dataSourceRows;
+
 
     /**
      * @return the name
@@ -57,6 +58,22 @@ public class DataSourceInfo {
     public void setId(String id) {
         this.id = id;
     }
+
+    /**
+     * @return the dataStructureInfo
+     */
+    public DataStructureInfo getDataStructureInfo() {
+        return dataStructureInfo;
+    }
+
+    /**
+     * @param dataStructureInfo the dataStructureInfo to set
+     */
+    public void setDataStructureInfo(DataStructureInfo dataStructureInfo) {
+        this.dataStructureInfo = dataStructureInfo;
+    }
+
+
 
     
 }

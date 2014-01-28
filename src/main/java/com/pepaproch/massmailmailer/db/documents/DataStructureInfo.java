@@ -14,11 +14,28 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author pepa
  */
-@Document(collection = "datastructures")
-class DataStructureInfo {
+@Document
+public class DataStructureInfo {
     
-    @Id
-    private String id;
+
     private Collection<DataStructureField> dataStructureFields; 
+
+    public DataStructureInfo(Collection<DataStructureField> dataStructureFields) {
+        this.dataStructureFields = dataStructureFields;
+    }
+
+    /**
+     * @return the dataStructureFields
+     */
+    public Collection<DataStructureField> getDataStructureFields() {
+        return dataStructureFields;
+    }
+
+    /**
+     * @param dataStructureFields the dataStructureFields to set
+     */
+    public void setDataStructureFields(Collection<DataStructureField> dataStructureFields) {
+        this.dataStructureFields = dataStructureFields;
+    }
     
 }

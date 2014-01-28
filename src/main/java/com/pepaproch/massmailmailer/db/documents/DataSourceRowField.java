@@ -6,20 +6,21 @@
 
 package com.pepaproch.massmailmailer.db.documents;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 /**
  *
  * @author pepa
  */
-@Document       
-public class DataStructureField {
+public class DataSourceRowField {
     private Integer index;
-    private String name;
+    private String value;
 
-    public DataStructureField(Integer index, String name) {
+    public DataSourceRowField() {
+        
+    }
+
+    public DataSourceRowField(Integer index, String value) {
         this.index = index;
-        this.name = name;
+        this.value = value;
     }
 
     /**
@@ -37,17 +38,17 @@ public class DataStructureField {
     }
 
     /**
-     * @return the name
+     * @return the value
      */
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * @param name the name to set
+     * @param value the value to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(String value) {
+        this.value = value;
     }
-   
+    
 }
