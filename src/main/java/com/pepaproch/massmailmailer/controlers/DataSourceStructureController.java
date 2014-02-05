@@ -29,6 +29,7 @@ public class DataSourceStructureController {
     @RequestMapping(value = "/{fileId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<DataStructure> getStructure(@PathVariable("fileId") String fileId) {
+        
         DataStructure ds = new DataStructure();
         
         ds.setFirstRowCnames(Boolean.TRUE);

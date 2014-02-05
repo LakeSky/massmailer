@@ -6,6 +6,7 @@
 
 package com.pepaproch.massmailmailer.db.documents;
 
+import com.pepaproch.massmailmailer.poi.SourceRow;
 import java.util.Collection;
 import javax.persistence.Id;
 
@@ -16,15 +17,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author pepa
  */
 @Document(collection = "datasourcesrows")
-public class DataSourceRow {
+public class DataSourceRow implements SourceRow{
     @Id
     private String id;
     
     private String dataSourceId;
     
-    private Collection<DataSourceRowField> dataSourceFields;
+    private Collection<DataSourceField> dataSourceFields;
 
-    public DataSourceRow(String dataSourceId, Collection<DataSourceRowField> dataSourceFields) {
+    public DataSourceRow(String dataSourceId, Collection<DataSourceField> dataSourceFields) {
         this.dataSourceId = dataSourceId;
         this.dataSourceFields = dataSourceFields;
     }
@@ -34,14 +35,14 @@ public class DataSourceRow {
     /**
      * @return the dataSourceFileld
      */
-    public Collection<DataSourceRowField> getDataSourceFields() {
+    public Collection<DataSourceField> getDataSourceFields() {
         return dataSourceFields;
     }
 
     /**
      * @param dataSourceFields
      */
-    public void setDataSourceField(Collection<DataSourceRowField> dataSourceFields) {
+    public void setDataSourceField(Collection<DataSourceField> dataSourceFields) {
         this.dataSourceFields = dataSourceFields;
     }
 

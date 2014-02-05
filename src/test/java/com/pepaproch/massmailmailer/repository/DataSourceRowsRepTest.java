@@ -5,14 +5,16 @@
  */
 package com.pepaproch.massmailmailer.repository;
 
-import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
-import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
-import com.pepaproch.massmailmailer.db.documents.DataSourceRowField;
+import com.pepaproch.massmailmailer.db.documents.DataSourceField;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
+import com.pepaproch.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalDate;
+import org.joda.time.tz.UTCProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,8 +57,8 @@ public class DataSourceRowsRepTest {
 
     @After
     public void tearDown() {
-        for(String d : cleanUp) {
-        dataSourceRowRep.delete(d);
+        for (String d : cleanUp) {
+            dataSourceRowRep.delete(d);
         }
     }
 
@@ -72,29 +74,40 @@ public class DataSourceRowsRepTest {
 
         //find datasourceby id;
         List<DataSourceRow> rows = new ArrayList();
-        for (int i = 0; i < 10; i++) {
+          Iterable<DataSourceRow> save = null;
+        try {
+            for (int i = 0; i < 10; i++) {
 
-            List<DataSourceRowField> fields = new ArrayList();
-            for (int r = 0; r < 6; r++) {
-                DataSourceRowField F = new DataSourceRowField(r, r + "_value" + i);
+                List<DataSourceField> fields = new ArrayList();
+                for (int r = 0; r < 6; r++) {
+                    DataSourceField<String> F = new DataSourceField(r, r + "_value" + i);
+                    fields.add(F);
+
+                }
+                DataSourceField<Date> F = new DataSourceField(6, DateUtils.addDays(DateUtils.getStartDate(new Date()), i));
                 fields.add(F);
+                DataSourceRow row = new DataSourceRow(dataSourceId, fields);
+                rows.add(row);
 
             }
-            DataSourceRow row = new DataSourceRow(dataSourceId, fields);
-            rows.add(row);
+           save = dataSourceRowRep.save(rows);
+            assertNotNull(save);
+            Collection<DataSourceRow> findByColumnValue = dataSourceRowRep.findByColumnValue(dataSourceId, 2, "2_value3");
+            assertNotNull(findByColumnValue);
+            assertTrue("FIND ONE", findByColumnValue.size() == 1);
+             
+            Collection<DataSourceRow> findByColumnDateValue = dataSourceRowRep.findByColumnValue(dataSourceId, 6, DateUtils.addDays(DateUtils.getStartDate(new Date()), 0));
+            assertNotNull(findByColumnDateValue);
+            assertTrue("FIND ONE", findByColumnDateValue.size() == 1);
 
+        } finally {
+            if(save!=null) {
+            for (DataSourceRow d : save) {
+                assertNotNull(d.getId());
+                cleanUp.add(d.getId());
+            }
+            }
         }
-        Iterable<DataSourceRow> save = dataSourceRowRep.save(rows);
-        Collection<DataSourceRow> findByColumnValue = dataSourceRowRep.findByColumnValue(dataSourceId, 2, "2_value3");
-        assertNotNull(findByColumnValue);
-        assertTrue("FIND ONE",findByColumnValue.size()==1);
-        
-        for(DataSourceRow d : save) {
-        assertNotNull(d.getId());
-        cleanUp.add(d.getId());
-        }
-        assertNotNull(save);
-       
 
     }
 

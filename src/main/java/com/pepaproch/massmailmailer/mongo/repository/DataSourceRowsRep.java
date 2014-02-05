@@ -18,6 +18,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String> {
     
     @Query("  { $and: [ {dataSourceId: ?0}, { dataSourceFields: { $elemMatch: { index: ?1, value: ?2 } } }]} ")
-    public Collection<DataSourceRow> findByColumnValue(String dataSourceId,Integer columnIndex, String value);
+    public Collection<DataSourceRow> findByColumnValue(String dataSourceId,Integer columnIndex, Object value);
+    
 
 }

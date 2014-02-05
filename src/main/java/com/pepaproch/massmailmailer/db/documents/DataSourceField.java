@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.db.documents;
 
 /**
  *
  * @author pepa
+ * @param <T>
  */
-public class DataSourceRowField {
-    private Integer index;
-    private String value;
+public class DataSourceField<T> {
 
-    public DataSourceRowField() {
-        
+    private Integer index;
+    private T value;
+
+
+    public DataSourceField() {
+
     }
 
-    public DataSourceRowField(Integer index, String value) {
+    public DataSourceField(Integer index, T value) {
         this.index = index;
         this.value = value;
     }
@@ -40,15 +42,15 @@ public class DataSourceRowField {
     /**
      * @return the value
      */
-    public String getValue() {
+    public T getValue() {
         return value;
     }
 
     /**
      * @param value the value to set
      */
-    public void setValue(String value) {
+    public void setValue(T value) {
         this.value = value;
     }
-    
+
 }
