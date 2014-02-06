@@ -5,6 +5,8 @@
  */
 package com.pepaproch.massmailmailer.db.documents;
 
+import com.pepaproch.massmailmailer.poi.SourceRow;
+
 /**
  *
  * @author pepa
@@ -19,6 +21,7 @@ public class DataSourceField<T> {
     public DataSourceField() {
 
     }
+
 
     public DataSourceField(Integer index, T value) {
         this.index = index;

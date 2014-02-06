@@ -6,7 +6,6 @@
 
 package com.pepaproch.massmailmailer.db.documents;
 
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author pepa
  */
 @Document(collection = "datasources")
-public class DataSourceInfo {
+public class DataSource {
     @Id
     private  String id;
     @Basic(optional = false)
@@ -26,8 +25,7 @@ public class DataSourceInfo {
     @Size(min = 1, max = 255)
     private String name;
 
-    
-   private DataStructureInfo dataStructureInfo;
+   private DataStructureMeta dataStructureInfo;
    
 
 
@@ -62,14 +60,14 @@ public class DataSourceInfo {
     /**
      * @return the dataStructureInfo
      */
-    public DataStructureInfo getDataStructureInfo() {
+    public DataStructureMeta getDataStructureInfo() {
         return dataStructureInfo;
     }
 
     /**
      * @param dataStructureInfo the dataStructureInfo to set
      */
-    public void setDataStructureInfo(DataStructureInfo dataStructureInfo) {
+    public void setDataStructureInfo(DataStructureMeta dataStructureInfo) {
         this.dataStructureInfo = dataStructureInfo;
     }
 

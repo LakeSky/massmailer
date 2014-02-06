@@ -23,7 +23,7 @@ dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$locatio
         var dataSourceId = $routeParams.dataSourceId;
         $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
         $scope.save = function() {
-     
+
             $scope.DataSource.$save(
                     function(Entity, headers) {
                         handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
@@ -41,18 +41,18 @@ dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$locatio
 // ----------
 dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', function($rootScope, $scope, $routeParams, $location, Entity, uploadService) {
         var dataSourceId = $routeParams.dataSourceId;
-        if(undefined===dataSourceId) {
-                    $scope.DataSource = new Entity.DataSource();
-        }else {
-             $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
-            
+        if (undefined === dataSourceId) {
+            $scope.DataSource = new Entity.DataSource();
+        } else {
+            $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
+
         }
-       
+
 
         // 'files' is an array of JavaScript 'File' objects.
         $scope.files = [];
         $scope.fields = [];
-   
+
         $scope.$watch('dataSource', function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
@@ -82,9 +82,10 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
                 $scope.DataSource.fileName = xhr.currentTarget.responseText;
 
-                var DataStructure = Entity.DataStructure.get({fileId: 1}, function() {
+                var DataStructure = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText}, function() {
 
                     $scope.DataSource.dataStructure = DataStructure;
+              
                     toastr.success($scope.DataSource.dataStructure.firstRowCnames);
 
                 });

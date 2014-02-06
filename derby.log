@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Mon Feb 03 14:03:35 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0143-f7d8-ba22-0000037f73a0 
-on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@6e66da2c 
+Thu Feb 06 16:10:10 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-07bf-b64f-0000037d4848 
+on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@79bcfbeb 
 Loaded from file:/home/pepa/.m2/repository/org/apache/derby/derby/10.9.1.0/derby-10.9.1.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_25-b15
@@ -9,6 +9,3 @@ user.dir=/home/pepa/NetBeansProjects/MassMailMailer
 derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Mon Feb 03 14:54:02 CET 2014:
-Shutting down instance a816c00e-0143-f7d8-ba22-0000037f73a0 on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@6e66da2c 

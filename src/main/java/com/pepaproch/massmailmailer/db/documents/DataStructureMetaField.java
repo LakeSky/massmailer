@@ -13,11 +13,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author pepa
  */
 @Document       
-public class DataStructureField {
+public class DataStructureMetaField {
     private Integer index;
     private String name;
 
-    public DataStructureField(Integer index, String name) {
+    public DataStructureMetaField(Integer index, String name) {
         this.index = index;
         this.name = name;
     }

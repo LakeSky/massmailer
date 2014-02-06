@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.db.documents;
 
+import com.pepaproch.massmailmailer.poi.RowRecords;
 import com.pepaproch.massmailmailer.poi.SourceRow;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Id;
 
@@ -17,12 +18,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author pepa
  */
 @Document(collection = "datasourcesrows")
-public class DataSourceRow implements SourceRow{
+public class DataSourceRow implements SourceRow {
+
     @Id
     private String id;
-    
+
     private String dataSourceId;
-    
+
     private Collection<DataSourceField> dataSourceFields;
 
     public DataSourceRow(String dataSourceId, Collection<DataSourceField> dataSourceFields) {
@@ -30,7 +32,13 @@ public class DataSourceRow implements SourceRow{
         this.dataSourceFields = dataSourceFields;
     }
 
+    public DataSourceRow() {
+    }
 
+    public DataSourceRow(String string, RowRecords<DataSourceField> row) {
+
+        this.dataSourceFields = row.getFields();
+    }
 
     /**
      * @return the dataSourceFileld
@@ -74,6 +82,4 @@ public class DataSourceRow implements SourceRow{
         this.id = id;
     }
 
-
-    
 }

@@ -5,15 +5,15 @@
  */
 package com.pepaproch.massmailmailer.poi.impl;
 
-import com.pepaproch.massmailmailer.db.entity.DataStructure;
-import com.pepaproch.massmailmailer.db.entity.DataStructureFields;
+import com.pepaproch.massmailmailer.db.documents.DataSourceField;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
+import com.pepaproch.massmailmailer.poi.RowRecords;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import java.util.Iterator;
 
 /**
  *
@@ -34,18 +34,22 @@ public class XLSProcessor implements PoiFlatFileHandler {
     }
 
     @Override
-    public DataStructure getStructure(File f) {
-        DataStructure ds = new DataStructure();
+    public DataStructureMeta getStructure(File file) {
+        RowMapper<RowRecords> rows = process(file);
+        ArrayList<DataStructureMetaField> fields = null;
+        //get fields names
+        Iterator it = rows.iterator();
+        if (it.hasNext()) {
+            fields =new ArrayList<DataStructureMetaField>();
+            RowRecords<DataSourceField> row = (RowRecords<DataSourceField>) it.next();
+            for (DataSourceField field : row) {
+                DataStructureMetaField dataStructureField = new DataStructureMetaField(field.getIndex(), field.getValue().toString());
+                fields.add(dataStructureField);
 
-        ds.setFirstRowCnames(Boolean.TRUE);
-        List l = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            DataStructureFields fields = new DataStructureFields(null, "field_" + i, "field_" + i + "_value", i);
-            l.add(f);
+            }
         }
-        ds.setDataStructureFieldsCollection(l);
-        ResponseEntity<DataStructure> resp = new ResponseEntity<DataStructure>(ds, HttpStatus.ACCEPTED);
-        return ds;
+
+        return new DataStructureMeta(fields);
     }
 
 }

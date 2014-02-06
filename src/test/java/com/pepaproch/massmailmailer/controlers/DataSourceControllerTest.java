@@ -5,9 +5,9 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
-import com.pepaproch.massmailmailer.db.documents.DataStructureField;
-import com.pepaproch.massmailmailer.db.documents.DataStructureInfo;
+import com.pepaproch.massmailmailer.db.documents.DataSource;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class DataSourceControllerTest {
     );
 
     
-    private DataSourceInfo dataSource;
+    private DataSource dataSource;
     private final List<String> cleanUp = new ArrayList<String>();
 
     @Autowired
@@ -75,17 +75,17 @@ public class DataSourceControllerTest {
   @Before
     public void setUp() {
           mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-          dataSource = new DataSourceInfo();
+          dataSource = new DataSource();
         dataSource.setName("NAME_TEST" );
-        List<DataStructureField> fields = new ArrayList();
+        List<DataStructureMetaField> fields = new ArrayList();
         for (int i = 0; i < 6; i++) {
-          DataStructureField field = new DataStructureField(i, i + "display_name");
+          DataStructureMetaField field = new DataStructureMetaField(i, i + "display_name");
            fields.add(field);
         }
         String toString = fields.toString();
-        DataStructureInfo dataStructureInfo = new DataStructureInfo(fields);
+        DataStructureMeta dataStructureInfo = new DataStructureMeta(fields);
         dataSource.setDataStructureInfo(dataStructureInfo);
-        DataSourceInfo save = dataSourceRep.save(dataSource);
+        DataSource save = dataSourceRep.save(dataSource);
         dataSourceID = save.getId();
         
     }

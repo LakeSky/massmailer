@@ -24,4 +24,9 @@ public class RowRecordsImpl implements RowRecords<DataSourceField> {
         return iterator;
     }
 
+    @Override
+    public Collection<DataSourceField> getFields() {
+        return fields;
+    }
+
 }

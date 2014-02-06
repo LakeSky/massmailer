@@ -5,10 +5,17 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.entity.DataStructure;
-import com.pepaproch.massmailmailer.db.entity.DataStructureFields;
+import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
+import com.pepaproch.massmailmailer.poi.RowMapper;
+import com.pepaproch.massmailmailer.poi.RowRecords;
+import com.pepaproch.massmailmailer.poi.impl.HSSRowToSrcRowMapper;
+import com.pepaproch.massmailmailer.poi.impl.XLSProcessor;
+import com.pepaproch.massmailmailer.poi.impl.XSSRowToSrcRowMapper;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,21 +33,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/datasource/structure")
 public class DataSourceStructureController {
 
-    @RequestMapping(value = "/{fileId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{fileId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<DataStructure> getStructure(@PathVariable("fileId") String fileId) {
-        
-        DataStructure ds = new DataStructure();
-        
-        ds.setFirstRowCnames(Boolean.TRUE);
-        List l = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            DataStructureFields f = new DataStructureFields(null, "field_" + i, "field_" + i + "_value", i);
-            l.add(f);
+    public ResponseEntity<DataStructureMeta> getStructure(@PathVariable("fileId") String fileId) {
+
+        PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
+        DataStructureMeta ds = processor.getStructure(new File("/tmp/" + fileId));
+        RowMapper<RowRecords> rowMapper = processor.process(new File("/tmp/" + fileId));
+        Collection previewRows = new ArrayList();
+        int i = 0;
+        for (RowRecords row : rowMapper) {
+            if (i > 0 && i < 6) {
+                previewRows.add(new DataSourceRow("preview" + fileId ,row));
+
+            }
+            i++;
         }
-        ds.setDataStructureFieldsCollection(l);
-        ResponseEntity<DataStructure> resp = new ResponseEntity<DataStructure>(ds, HttpStatus.ACCEPTED);
+        ds.setPreviewRows(previewRows);
+
+        ResponseEntity< DataStructureMeta> resp = new ResponseEntity<DataStructureMeta>(ds, HttpStatus.ACCEPTED);
         return resp;
     }
+
+
 
 }

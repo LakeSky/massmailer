@@ -6,11 +6,13 @@
 
 package com.pepaproch.massmailmailer.poi;
 
+import java.util.Collection;
+
 /**
  *
  * @author pepa
  * @param <T>
  */
 public interface RowRecords<T> extends Iterable<T> {
-    
+    public Collection getFields();
 }

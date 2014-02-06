@@ -6,13 +6,13 @@
 
 package com.pepaproch.massmailmailer.mongo.repository;
 
-import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
+import com.pepaproch.massmailmailer.db.documents.DataSource;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author pepa
  */
-public interface DataSourceInfoRep extends CrudRepository<DataSourceInfo, String> {
+public interface DataSourceInfoRep extends CrudRepository<DataSource, String> {
 
 }

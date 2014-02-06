@@ -6,9 +6,9 @@
 package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
-import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
-import com.pepaproch.massmailmailer.db.documents.DataStructureField;
-import com.pepaproch.massmailmailer.db.documents.DataStructureInfo;
+import com.pepaproch.massmailmailer.db.documents.DataSource;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 public class DataSourceInfoRepTest {
 
-    private DataSourceInfo dataSource;
+    private DataSource dataSource;
     private final List<String> cleanUp = new ArrayList<String>();
 
     @Autowired
@@ -49,15 +49,15 @@ public class DataSourceInfoRepTest {
 
     @Before
     public void setUp() {
-        dataSource = new DataSourceInfo();
+        dataSource = new DataSource();
         dataSource.setName("NAME_TEST" );
-        List<DataStructureField> fields = new ArrayList();
+        List<DataStructureMetaField> fields = new ArrayList();
         for (int i = 0; i < 6; i++) {
-          DataStructureField field = new DataStructureField(i, i + "display_name");
+          DataStructureMetaField field = new DataStructureMetaField(i, i + "display_name");
            fields.add(field);
         }
         String toString = fields.toString();
-        DataStructureInfo dataStructureInfo = new DataStructureInfo(fields);
+        DataStructureMeta dataStructureInfo = new DataStructureMeta(fields);
         dataSource.setDataStructureInfo(dataStructureInfo);
     }
 
@@ -71,7 +71,7 @@ public class DataSourceInfoRepTest {
     @Test
     public void findAll() {
         // TODO review the generated test code and remove the default call to fail.
-        Iterable<DataSourceInfo> findAll = dataSourceRep.findAll();
+        Iterable<DataSource> findAll = dataSourceRep.findAll();
 
         assertNotNull(findAll);
     }
@@ -79,7 +79,7 @@ public class DataSourceInfoRepTest {
     @Test
     public void insert() {
 
-        DataSourceInfo save = dataSourceRep.save(dataSource);
+        DataSource save = dataSourceRep.save(dataSource);
         assertNotNull(save.getId());
         cleanUp.add(save.getId());
 

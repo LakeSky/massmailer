@@ -97,6 +97,7 @@ public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
     }
     
     private void setUp(File f) {
+        currentPoss = 0;
         InputStream inp;
         
         try {

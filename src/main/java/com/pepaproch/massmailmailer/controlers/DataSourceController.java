@@ -6,7 +6,7 @@
 package com.pepaproch.massmailmailer.controlers;
 
 
-import com.pepaproch.massmailmailer.db.documents.DataSourceInfo;
+import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import java.util.List;
 import javax.validation.Valid;
@@ -37,20 +37,20 @@ public class DataSourceController {
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public List<DataSourceInfo> listDatasourcer() {
+    public List<DataSource> listDatasourcer() {
         return (List) dataRepository.findAll();
     }
 
     @RequestMapping(value = "/{dataSourceId}", produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public DataSourceInfo showDataSource(@PathVariable("dataSourceId") String dataSourceId) {
+    public DataSource showDataSource(@PathVariable("dataSourceId") String dataSourceId) {
        
         return dataRepository.findOne(dataSourceId);
     }
 
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity saveDatasourcer(@Valid @RequestBody DataSourceInfo dataSource, BindingResult result) {
+    public ResponseEntity saveDatasourcer(@Valid @RequestBody DataSource dataSource, BindingResult result) {
 
         return saveDataSource(dataSource,result);
 
@@ -58,21 +58,21 @@ public class DataSourceController {
 
     @RequestMapping(value = "/{dataSourcerId}",consumes = MediaType.APPLICATION_JSON_VALUE,method = { RequestMethod.PUT,RequestMethod.POST} )
     @ResponseBody
-    public ResponseEntity updateDataSource(@Valid @RequestBody DataSourceInfo dataSource, BindingResult result) {
+    public ResponseEntity updateDataSource(@Valid @RequestBody DataSource dataSource, BindingResult result) {
 
         return saveDataSource(dataSource,result);
 
     }
     
-    private ResponseEntity saveDataSource(DataSourceInfo dataSource,BindingResult result) {
+    private ResponseEntity saveDataSource(DataSource dataSource,BindingResult result) {
         if (result.hasErrors()) {
             List<ObjectError> allErrors = result.getAllErrors();
             List<FieldError> fieldErrors = result.getFieldErrors();
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-            DataSourceInfo savedDataSource = dataRepository.save(dataSource);
-            ResponseEntity<DataSourceInfo> responseEntity = new ResponseEntity(savedDataSource, HttpStatus.CREATED);
+            DataSource savedDataSource = dataRepository.save(dataSource);
+            ResponseEntity<DataSource> responseEntity = new ResponseEntity(savedDataSource, HttpStatus.CREATED);
             return responseEntity;
         }
     }

@@ -25,6 +25,7 @@
             <properties>
                 <netbeans.deploy>true</netbeans.deploy>
                 <skipTests>true</skipTests>
+                <netbeans.deploy.clientUrlPart>/index.html</netbeans.deploy.clientUrlPart>
             </properties>
         </action>
     </actions>
