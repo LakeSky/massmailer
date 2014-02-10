@@ -24,9 +24,10 @@ public class DataSource {
     @NotNull
     @Size(min = 1, max = 255)
     private String name;
+    
+    private DataStructureMeta dataStructureMeta;
+ 
 
-   private DataStructureMeta dataStructureInfo;
-   
 
 
     /**
@@ -58,18 +59,20 @@ public class DataSource {
     }
 
     /**
-     * @return the dataStructureInfo
+     * @return the dataStructureMeta
      */
-    public DataStructureMeta getDataStructureInfo() {
-        return dataStructureInfo;
+    public DataStructureMeta getDataStructureMeta() {
+        return dataStructureMeta;
     }
 
     /**
-     * @param dataStructureInfo the dataStructureInfo to set
+     * @param dataStructureMeta the dataStructureMeta to set
      */
-    public void setDataStructureInfo(DataStructureMeta dataStructureInfo) {
-        this.dataStructureInfo = dataStructureInfo;
+    public void setDataStructureMeta(DataStructureMeta dataStructureMeta) {
+        this.dataStructureMeta = dataStructureMeta;
     }
+
+
 
 
 

@@ -6,11 +6,14 @@
 package com.pepaproch.massmailmailer.poi.impl;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
 import com.pepaproch.massmailmailer.poi.RowRecords;
 import java.io.File;
 import java.util.Collection;
+import java.util.Iterator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -66,6 +69,47 @@ public class XLSXProcessorTest {
         }
 
         assertEquals(rowCout, 2);
+    }
+
+    /**
+     * Test of getRows method, of class CsvProcessor.
+     */
+    @Test
+    public void testGetFieldsFormating() {
+        System.out.println("testGetFieldsFormating");
+        int count = 0;
+        File f = new File("/home/pepa/test.xlsx");
+        Collection<Collection<DataSourceField>> expResult = null;
+        PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
+        RowMapper<RowRecords> rows = processor.process(f);
+        int rowCout = 0;
+        for (RowRecords r : rows) {
+            for (Iterator it = r.getFields().iterator(); it.hasNext();) {
+                DataSourceField field = (DataSourceField) it.next();
+                System.out.println(field.stringValue());
+            }
+            rowCout++;
+        }
+
+        assertEquals(rowCout, 2);
+    }
+
+    /**
+     * Test of getRows method, of class CsvProcessor.
+     */
+    @Test
+    public void testStructure() {
+        System.out.println("getStructure");
+        int count = 0;
+        File f = new File("/home/pepa/test.xlsx");
+        PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
+        DataStructureMeta structure = processor.getStructure(f);
+        for (DataStructureMetaField field : structure.getDataStructureFields()) {
+            System.out.println(field.getDataType());
+
+        }
+
+        assertEquals(structure.getDataStructureFields().size(), 3);
     }
 
 }

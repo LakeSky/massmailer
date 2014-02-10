@@ -4,42 +4,40 @@
  * and open the template in the editor.
  */
 
-var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'upload']);
+var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'upload', 'ui.bootstrap']);
 
 // Controller
 // ----------
-dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', function($scope, Entity) {
+dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', function($scope, Entity, $modal) {
 
         $scope.datasources = Entity.DataSource.query();
+        $scope.openForm = function() {
 
-    }]);
+            var modalInstance = $modal.open({
+                templateUrl: 'views/datasource/edit.html',
+                resolve: {
+                }
+            });
 
-
-
-// Controller
-// ----------
-dataSource.controller('DataSourceEditCtrl', ['$scope', '$routeParams', '$location', 'Entity', function($scope, $routeParams, $location, Entity) {
-
-        var dataSourceId = $routeParams.dataSourceId;
-        $scope.DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
-        $scope.save = function() {
-
-            $scope.DataSource.$save(
-                    function(Entity, headers) {
-                        handleFormSucces("Nový uživatel vytvořen", $location, '/dataSource');
-                    }, function(error) {
-                handleFormError($scope, error.data);
-
+            modalInstance.result.then(function(selectedItem) {
+                $scope.selected = selectedItem;
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
             });
         };
 
+
+
     }]);
+
+
+
 
 
 
 // Controller
 // ----------
-dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', function($rootScope, $scope, $routeParams, $location, Entity, uploadService) {
+dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService' , function($rootScope, $scope, $routeParams, $location, Entity, uploadService) {
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
             $scope.DataSource = new Entity.DataSource();
@@ -65,6 +63,10 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
             // Only act when our property has changed.
             if (newValue !== oldValue) {
                 console.log('Controller: $scope.files changed. Start upload.');
+                if (typeof $scope.DataSource.dataStructure !== 'undefined' && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
+                    $scope.DataSource.dataStructure.previewRows = null;
+
+                }
 
                 uploadService.send($scope.UploadFile);
 
@@ -85,8 +87,8 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                 var DataStructure = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText}, function() {
 
                     $scope.DataSource.dataStructure = DataStructure;
-              
-                    toastr.success($scope.DataSource.dataStructure.firstRowCnames);
+
+
 
                 });
 
@@ -119,7 +121,14 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
             });
         };
 
+        $scope.ok = function() {
+             $scope.save();
+            modalInstance.close();
+        };
 
+        $scope.cancel = function() {
+            dismiss('cancel');
+        };
 
     }]);
 

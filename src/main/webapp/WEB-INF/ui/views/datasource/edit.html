@@ -1,76 +1,87 @@
-
 <div ng-controller="DataSourceCreateController">
+<div class="modal-header">
+    <h3>I'm a modal!</h3>
+</div>
+<div class="modal-body">
 
-    <div class="row">
-        <form novalidate class="form-horizontal" ng-submit="save()" name="dataSourceInfo"  >
-            <div class="col-md-6">
-                <div class="control-group">
-                    <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="name">Název</label>
-                    <div class="controls">
-                        <input type="text" id = "name" name="name" ng-model="DataSource.name"  interpol-model="name" server-error="name"/>
-                        <div class="errors"  show-inter="name" >
-                            <error-message error="name" ></error-message>   
-                        </div>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="fileName">Soubor s daty</label>
-                    <div class="controls">
-                        <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName" interpol-model="fileName" server-error="fileName"  />
 
-                    </div>
-                </div>
-
-                <input type="file" ng-model="files" file-change>
-                <br><br>
-                Selected: {{ UploadFile.name}}
-
-                <div class="control-group">
-                    <button id="save" class="btn btn-primary">Uložit</button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div ng-repeat="f in DataSource.dataStructureInfo.dataStructureFields">
+        <div class="row">
+            <form novalidate class="form-horizontal" ng-submit="save()" name="dataSource"  >
+                <div class="col-md-6">
                     <div class="control-group">
-                        <label class="control-label" for="dataStructure.dataStructureFields{{f.index}}.name">Pole {{f.index}}</label>
+                        <input type="hidden" ng-model="DataSource.id" id="id" name="id" />
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="name">Název</label>
                         <div class="controls">
-                            <input type="text" id = "dataStructure.dataStructureFields{{f.index}}.name" name="dataStructure.dataStructureFields[{{f.index}}].name" ng-model="f.name"  interpol-model="dataStructure.dataStructureFields[{{f.index}}].name" server-error="dataStructure.dataStructureFieldsCollection[{{f.index}}].name"/>
-                            <div class="errors"  style="height: 1em;" show-inter="dataStructure.dataStructureFields[{{f.index}}].name" >
-                                <error-message error="dataStructure.dataStructureFields[{{f.index}}].name" ></error-message>   
+                            <input type="text" id = "name" name="name" ng-model="DataSource.name"  interpol-model="name" server-error="name"/>
+                            <div class="errors"  show-inter="name" >
+                                <error-message error="name" ></error-message>   
                             </div>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label" for="fileName">Soubor s daty</label>
+                        <div class="controls">
+                            <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName" interpol-model="fileName" server-error="fileName"  />
+
+                        </div>
+                    </div>
+
+                    <input type="file" ng-model="files" file-change>
+                    <br><br>
+                    Selected: {{ UploadFile.name}}
+
+                    <div class="control-group">
+                        <button id="save" class="btn btn-primary">Uložit</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div ng-repeat="f in DataSource.dataStructure.dataStructureFields">
+                        <div class="control-group">
+                            <label class="control-label" for="dataStructure.dataStructureFields{{f.index}}.name">Pole {{f.index}}</label>
+                            <div class="controls">
+                                <input type="text" id = "dataStructure.dataStructureFields{{f.index}}.name" name="dataStructure.dataStructureFields[{{f.index}}].name" ng-model="f.name"  interpol-model="dataStructure.dataStructureFields[{{f.index}}].name" server-error="dataStructure.dataStructureFieldsCollection[{{f.index}}].name"/>
+                                <div class="errors"  style="height: 1em;" show-inter="dataStructure.dataStructureFields[{{f.index}}].name" >
+                                    <error-message error="dataStructure.dataStructureFields[{{f.index}}].name" ></error-message>   
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 
                 </div>
+            </form>
+        </div>
+        <div class="row">
+            <table class="table table-striped">
+                <thead>
+                <th ng-repeat="f in DataSource.dataStructure.dataStructureFields">
+                    {{f.name}}
+                </th>
+                </thead>
 
-            </div>
-        </form>
+                <tr ng-repeat="row in DataSource.dataStructure.previewRows" >
+                    <td ng-repeat="field in row.dataSourceFields" >
+                        {{ field.value | format : DataSource.dataStructure.dataStructureFields[field.index].dataType }}
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+
+
+
+
+
+
+
     </div>
-    <div class="row">
-        <table class="table table-striped">
-            <thead>
-            <th ng-repeat="f in DataSource.dataStructureInfo.dataStructureFields">
-             {{f.name}}
-            </th>
-            </thead>
 
-            <tr ng-repeat="row in DataSource.dataStructureInfo.previewRows" >
-                <td ng-repeat="field in row.dataSourceFields" >
-                    {{field.value}}
-                </td>
-            </tr>
-        </table>
-
-    </div>
-
-
-
-
-
-
-
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
 
 </div>

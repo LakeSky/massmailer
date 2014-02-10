@@ -9,6 +9,7 @@ import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.poi.DataType;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -53,12 +54,12 @@ public class DataSourceInfoRepTest {
         dataSource.setName("NAME_TEST" );
         List<DataStructureMetaField> fields = new ArrayList();
         for (int i = 0; i < 6; i++) {
-          DataStructureMetaField field = new DataStructureMetaField(i, i + "display_name");
+          DataStructureMetaField field = new DataStructureMetaField(i, i + "display_name",DataType.TEXT);
            fields.add(field);
         }
         String toString = fields.toString();
-        DataStructureMeta dataStructureInfo = new DataStructureMeta(fields);
-        dataSource.setDataStructureInfo(dataStructureInfo);
+        DataStructureMeta dataStructureMeta = new DataStructureMeta(fields);
+        dataSource.setDataStructureMeta(dataStructureMeta);
     }
 
     @After

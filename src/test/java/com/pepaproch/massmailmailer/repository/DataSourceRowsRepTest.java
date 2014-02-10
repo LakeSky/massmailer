@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.repository;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
+import com.pepaproch.massmailmailer.poi.DataType;
 import com.pepaproch.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,38 +75,36 @@ public class DataSourceRowsRepTest {
 
         //find datasourceby id;
         List<DataSourceRow> rows = new ArrayList();
-          Iterable<DataSourceRow> save = null;
+        Iterable<DataSourceRow> save = null;
         try {
             for (int i = 0; i < 10; i++) {
-
                 List<DataSourceField> fields = new ArrayList();
                 for (int r = 0; r < 6; r++) {
-                    DataSourceField<String> F = new DataSourceField(r, r + "_value" + i);
+                    DataSourceField<String> F = new DataSourceField(r, r + "_value" + i, DataType.TEXT);
                     fields.add(F);
-
                 }
-                DataSourceField<Date> F = new DataSourceField(6, DateUtils.addDays(DateUtils.getStartDate(new Date()), i));
+                DataSourceField<Date> F = new DataSourceField(6, DateUtils.addDays(DateUtils.getStartDate(new Date()), i), DataType.DATE);
                 fields.add(F);
                 DataSourceRow row = new DataSourceRow(dataSourceId, fields);
                 rows.add(row);
 
             }
-           save = dataSourceRowRep.save(rows);
+            save = dataSourceRowRep.save(rows);
             assertNotNull(save);
             Collection<DataSourceRow> findByColumnValue = dataSourceRowRep.findByColumnValue(dataSourceId, 2, "2_value3");
             assertNotNull(findByColumnValue);
             assertTrue("FIND ONE", findByColumnValue.size() == 1);
-             
+
             Collection<DataSourceRow> findByColumnDateValue = dataSourceRowRep.findByColumnValue(dataSourceId, 6, DateUtils.addDays(DateUtils.getStartDate(new Date()), 0));
             assertNotNull(findByColumnDateValue);
             assertTrue("FIND ONE", findByColumnDateValue.size() == 1);
 
         } finally {
-            if(save!=null) {
-            for (DataSourceRow d : save) {
-                assertNotNull(d.getId());
-                cleanUp.add(d.getId());
-            }
+            if (save != null) {
+                for (DataSourceRow d : save) {
+                    assertNotNull(d.getId());
+                    cleanUp.add(d.getId());
+                }
             }
         }
 

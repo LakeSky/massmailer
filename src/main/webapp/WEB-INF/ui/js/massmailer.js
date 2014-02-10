@@ -197,7 +197,7 @@ appMassMailer.directive('errorMessage', function($interpolate) {
                 var unregister = $scope.$watch('errors', function(newValue) {
                     // Only act when our property has changed.
                     if (undefined !== newValue) {
-                      procces();
+                        procces();
 
                     }
 
@@ -209,13 +209,26 @@ appMassMailer.directive('errorMessage', function($interpolate) {
             }
 
             function procces() {
-              $scope.errorCode = $scope.errors[$interpolate($attrs.error)($scope)];
-               
+                $scope.errorCode = $scope.errors[$interpolate($attrs.error)($scope)];
+
             }
         }
         ,
-            template: '{{errorCode}}'
+        template: '{{errorCode}}'
     };
 
 
+});
+
+appMassMailer.filter('format', function() {
+    return function(value, format) {
+
+        if (format === 'DATE') {
+            return new Date(value);
+        } else {
+            return    value;
+
+        }
+
+    };
 });

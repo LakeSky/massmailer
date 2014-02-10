@@ -6,6 +6,7 @@
 package com.pepaproch.massmailmailer.poi.impl;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
+import com.pepaproch.massmailmailer.poi.DataType;
 import com.pepaproch.massmailmailer.poi.RowMapper;
 import com.pepaproch.massmailmailer.poi.RowRecords;
 import java.io.BufferedReader;
@@ -56,7 +57,7 @@ public class CsvRowToSrcRowMapper implements RowMapper<RowRecords> {
                 int idx = 0;
                 Collection<DataSourceField> rowColl = new ArrayList();
                 while (iterator.hasNext()) {
-                    DataSourceField<String> field = new DataSourceField<String>(idx, iterator.next());
+                    DataSourceField<String> field = new DataSourceField<String>(idx, iterator.next(),DataType.TEXT);
                     rowColl.add(field);
                     idx++;
 

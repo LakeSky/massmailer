@@ -5,7 +5,7 @@
  */
 package com.pepaproch.massmailmailer.db.documents;
 
-import com.pepaproch.massmailmailer.poi.SourceRow;
+import com.pepaproch.massmailmailer.poi.DataType;
 
 /**
  *
@@ -16,16 +16,16 @@ public class DataSourceField<T> {
 
     private Integer index;
     private T value;
-
+    private DataType dataType;
 
     public DataSourceField() {
 
     }
 
-
-    public DataSourceField(Integer index, T value) {
+    public DataSourceField(Integer index, T value, DataType dataType) {
         this.index = index;
         this.value = value;
+        this.dataType = dataType;
     }
 
     /**
@@ -54,6 +54,25 @@ public class DataSourceField<T> {
      */
     public void setValue(T value) {
         this.value = value;
+    }
+
+    public String stringValue() {
+        return getDataType().format(value);
+
+    }
+
+    /**
+     * @return the dataType
+     */
+    public DataType getDataType() {
+        return dataType;
+    }
+
+    /**
+     * @param dataType the dataType to set
+     */
+    public void setDataType(DataType dataType) {
+        this.dataType = dataType;
     }
 
 }

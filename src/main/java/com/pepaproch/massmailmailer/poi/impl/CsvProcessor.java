@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.poi.impl;
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.poi.DataType;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
 import com.pepaproch.massmailmailer.poi.RowRecords;
@@ -41,7 +42,7 @@ public class CsvProcessor implements PoiFlatFileHandler {
             fields = new ArrayList<DataStructureMetaField>();
             RowRecords<DataSourceField> row = rows.iterator().next();
             for (DataSourceField field : row) {
-                DataStructureMetaField dataStructureField = new DataStructureMetaField(field.getIndex(), field.getValue().toString());
+                DataStructureMetaField dataStructureField = new DataStructureMetaField(field.getIndex(), field.getValue().toString(),DataType.TEXT);
                 fields.add(dataStructureField);
 
             }

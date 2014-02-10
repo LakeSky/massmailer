@@ -1,10 +1,12 @@
 <h2>
-        Zdroje dat <a class="btn btn-primary pull-right" href="#/datasource/new"><i
-                class="icon-plus-sign icon-white"></i> Nový zdroj</a>
-                List
+    Zdroje dat <a class="btn btn-primary pull-right" ng-click="openForm()"><i
+            class="icon-plus-sign icon-white"></i> Nový zdroj</a>
+    List
 </h2>
 <table class="table table-striped">
-        <tr ng-repeat="DataSource in datasources" >
-                <td><a href="#/datasource/{{DataSource.id}}">{{DataSource.name}}</a></td>
-        </tr>
+    <tr ng-repeat="DataSource in datasources" >
+        <td><a href="#/datasource/{{DataSource.id}}">{{DataSource.name}}</a><br/></td>
+    </tr>
 </table>
+
+
