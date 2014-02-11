@@ -6,7 +6,7 @@
 
 package com.pepaproch.massmailmailer.poi;
 
-import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import java.io.File;
 
 /**
@@ -23,5 +23,5 @@ public  interface PoiFlatFileHandler {
      */
     public  RowMapper process(File f);
 
-    public DataStructureMeta getStructure(File f);
+    public DataStructure getStructure(File f);
 }

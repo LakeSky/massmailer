@@ -20,5 +20,8 @@ public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String>
     @Query("  { $and: [ {dataSourceId: ?0}, { dataSourceFields: { $elemMatch: { index: ?1, value: ?2 } } }]} ")
     public Collection<DataSourceRow> findByColumnValue(String dataSourceId,Integer columnIndex, Object value);
     
+    @Query("  { dataSourceId: ?0} ")
+    public Collection<DataSourceRow> findByDataSourceId(String dataSourceId);
+ 
 
 }

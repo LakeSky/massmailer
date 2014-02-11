@@ -6,7 +6,7 @@
 package com.pepaproch.massmailmailer.poi.impl;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
-import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
@@ -103,7 +103,7 @@ public class XLSXProcessorTest {
         int count = 0;
         File f = new File("/home/pepa/test.xlsx");
         PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
-        DataStructureMeta structure = processor.getStructure(f);
+        DataStructure structure = processor.getStructure(f);
         for (DataStructureMetaField field : structure.getDataStructureFields()) {
             System.out.println(field.getDataType());
 

@@ -6,7 +6,7 @@
 package com.pepaproch.massmailmailer.poi.impl;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
-import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
 import com.pepaproch.massmailmailer.poi.RowRecords;
@@ -80,7 +80,7 @@ public class CsvProcessorTest {
         File f = new File("/home/pepa/test.csv");
 
         PoiFlatFileHandler processor = new CsvProcessor(new CsvRowToSrcRowMapper());
-        DataStructureMeta structure = processor.getStructure(f);
+        DataStructure structure = processor.getStructure(f);
 
         assertEquals(structure.getDataStructureFields().size(), 2);
     }

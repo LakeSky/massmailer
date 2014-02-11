@@ -15,14 +15,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author pepa
  */
 @Document
-public class DataStructureMeta {
+public class DataStructure {
     
+    private String fileName;
 
     private Collection<DataStructureMetaField> dataStructureFields; 
     @Transient
     private Collection<DataSourceRow> previewRows;
 
-    public DataStructureMeta(Collection<DataStructureMetaField> dataStructureFields) {
+    public DataStructure(Collection<DataStructureMetaField> dataStructureFields) {
         this.dataStructureFields = dataStructureFields;
     }
 
@@ -52,6 +53,20 @@ public class DataStructureMeta {
      */
     public void setPreviewRows(Collection<DataSourceRow> previewRows) {
         this.previewRows = previewRows;
+    }
+
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * @param fileName the fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
     
 }

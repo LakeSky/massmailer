@@ -7,7 +7,7 @@ package com.pepaproch.massmailmailer.poi.impl;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
-import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.poi.DataType;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
@@ -35,7 +35,7 @@ public class XLSProcessor implements PoiFlatFileHandler {
     }
 
     @Override
-    public DataStructureMeta getStructure(File file) {
+    public DataStructure getStructure(File file) {
         RowMapper<RowRecords> rows = process(file);
         ArrayList<DataStructureMetaField> fields = null;
         //get fields names
@@ -66,7 +66,7 @@ public class XLSProcessor implements PoiFlatFileHandler {
 
         }
 
-        return new DataStructureMeta(fields);
+        return new DataStructure(fields);
     }
 
 }

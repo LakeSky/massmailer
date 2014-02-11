@@ -71,6 +71,34 @@ public class DataSourceRowsRepTest {
     }
 
     @Test
+    public void deleteAll() {
+        // TODO review the generated test code and remove the default call to fail.
+        List<DataSourceRow> rows = new ArrayList();
+        Collection<DataSourceRow> save = null;
+
+        for (int i = 0; i < 10; i++) {
+            List<DataSourceField> fields = new ArrayList();
+            for (int r = 0; r < 6; r++) {
+                DataSourceField<String> F = new DataSourceField(r, r + "_value" + i, DataType.TEXT);
+                fields.add(F);
+            }
+            DataSourceField<Date> F = new DataSourceField(6, DateUtils.addDays(DateUtils.getStartDate(new Date()), i), DataType.DATE);
+            fields.add(F);
+            DataSourceRow row = new DataSourceRow(dataSourceId, fields);
+            rows.add(row);
+
+        }
+        save = (Collection<DataSourceRow>) dataSourceRowRep.save(rows);
+        
+        assertEquals(save.size(), rows.size());
+      
+        dataSourceRowRep.delete( dataSourceRowRep.findByDataSourceId(dataSourceId));
+        Collection<DataSourceRow> findByDataSourceId = dataSourceRowRep.findByDataSourceId(dataSourceId);
+        assertEquals(findByDataSourceId.size(), 0);
+ 
+    }
+
+    @Test
     public void insertAll() {
 
         //find datasourceby id;

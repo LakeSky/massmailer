@@ -8,7 +8,7 @@ package com.pepaproch.massmailmailer.repository;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
-import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.poi.DataType;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +58,8 @@ public class DataSourceInfoRepTest {
            fields.add(field);
         }
         String toString = fields.toString();
-        DataStructureMeta dataStructureMeta = new DataStructureMeta(fields);
-        dataSource.setDataStructureMeta(dataStructureMeta);
+        DataStructure dataStructureMeta = new DataStructure(fields);
+        dataSource.setDataStructure(dataStructureMeta);
     }
 
     @After

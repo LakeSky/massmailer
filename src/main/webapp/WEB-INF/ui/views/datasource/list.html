@@ -1,12 +1,25 @@
 <h2>
     Zdroje dat <a class="btn btn-primary pull-right" ng-click="openForm()"><i
             class="icon-plus-sign icon-white"></i> Nový zdroj</a>
-    List
 </h2>
 <table class="table table-striped">
-    <tr ng-repeat="DataSource in datasources" >
-        <td><a href="#/datasource/{{DataSource.id}}">{{DataSource.name}}</a><br/></td>
+    <tr ng-repeat="d in datasources" >
+        <td>{{d.name}}</td><td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" >
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Dopis</a></li>
+                    <li><a ng-click="openForm(d.id)"  >Upravit</a></li>
+                    <li class="divider"></li>
+                    <li><a ng-click="openDeleteDialog(d.id, d.name)" >Smazat</a></li>
+                </ul>
+            </div>
+        </td>
     </tr>
 </table>
+
 
 

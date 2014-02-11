@@ -52,21 +52,25 @@ function handleFormError($scope, data) {
     $scope.errors = {};
     toastr.error("Zkontrolujte formulář");
 
-    return angular.forEach(data, function(serverError, key) {
+     angular.forEach(data, function(serverError, key) {
         console.log(serverError);
         $scope.form[serverError['field']].$setValidity('server', false);
         $scope.errors[serverError['field']] = serverError['code'];
 
     });
+    
+    return false;
 
 
 
 }
 
 function handleFormSucces(message, $location, path) {
-
+    
     toastr.success(message);
     $location.path(path);
+
+
 }
 
 

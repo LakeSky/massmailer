@@ -25,7 +25,7 @@ public class DataSource {
     @Size(min = 1, max = 255)
     private String name;
     
-    private DataStructureMeta dataStructureMeta;
+    private DataStructure dataStructure;
  
 
 
@@ -59,17 +59,17 @@ public class DataSource {
     }
 
     /**
-     * @return the dataStructureMeta
+     * @return the dataStructure
      */
-    public DataStructureMeta getDataStructureMeta() {
-        return dataStructureMeta;
+    public DataStructure getDataStructure() {
+        return dataStructure;
     }
 
     /**
-     * @param dataStructureMeta the dataStructureMeta to set
+     * @param dataStructure
      */
-    public void setDataStructureMeta(DataStructureMeta dataStructureMeta) {
-        this.dataStructureMeta = dataStructureMeta;
+    public void setDataStructure(DataStructure dataStructure) {
+        this.dataStructure = dataStructure;
     }
 
 

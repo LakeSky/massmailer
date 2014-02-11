@@ -7,7 +7,6 @@ package com.pepaproch.massmailmailer.db.documents;
 
 import com.pepaproch.massmailmailer.poi.RowRecords;
 import com.pepaproch.massmailmailer.poi.SourceRow;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Id;
 

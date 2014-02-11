@@ -1,6 +1,6 @@
 <div ng-controller="DataSourceCreateController">
 <div class="modal-header">
-    <h3>I'm a modal!</h3>
+    <h3>Datový zdroj</h3>
 </div>
 <div class="modal-body">
 
@@ -19,22 +19,12 @@
                                 <error-message error="name" ></error-message>   
                             </div>
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="fileName">Soubor s daty</label>
-                        <div class="controls">
-                            <input type="text" ng-model="DataSource.fileName" id="fileName" name="fileName" interpol-model="fileName" server-error="fileName"  />
-
-                        </div>
-                    </div>
+                    </div>  
+            
 
                     <input type="file" ng-model="files" file-change>
-                    <br><br>
-                    Selected: {{ UploadFile.name}}
+               
 
-                    <div class="control-group">
-                        <button id="save" class="btn btn-primary">Uložit</button>
-                    </div>
                 </div>
                 <div class="col-md-6">
                     <div ng-repeat="f in DataSource.dataStructure.dataStructureFields">

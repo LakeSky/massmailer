@@ -6,11 +6,10 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
-import com.pepaproch.massmailmailer.db.documents.DataStructureMeta;
+import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
 import com.pepaproch.massmailmailer.poi.RowMapper;
 import com.pepaproch.massmailmailer.poi.RowRecords;
-import com.pepaproch.massmailmailer.poi.impl.HSSRowToSrcRowMapper;
 import com.pepaproch.massmailmailer.poi.impl.XLSProcessor;
 import com.pepaproch.massmailmailer.poi.impl.XSSRowToSrcRowMapper;
 import java.io.File;
@@ -35,10 +34,10 @@ public class DataSourceStructureController {
 
     @RequestMapping(value = "/{fileId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<DataStructureMeta> getStructure(@PathVariable("fileId") String fileId) {
+    public ResponseEntity<DataStructure> getStructure(@PathVariable("fileId") String fileId) {
 
         PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
-        DataStructureMeta ds = processor.getStructure(new File("/tmp/" + fileId));
+        DataStructure ds = processor.getStructure(new File("/tmp/" + fileId));
         RowMapper<RowRecords> rowMapper = processor.process(new File("/tmp/" + fileId));
         Collection previewRows = new ArrayList();
         int i = 0;
@@ -51,7 +50,7 @@ public class DataSourceStructureController {
         }
         ds.setPreviewRows(previewRows);
 
-        ResponseEntity< DataStructureMeta> resp = new ResponseEntity<DataStructureMeta>(ds, HttpStatus.ACCEPTED);
+        ResponseEntity< DataStructure> resp = new ResponseEntity<DataStructure>(ds, HttpStatus.ACCEPTED);
         return resp;
     }
 
