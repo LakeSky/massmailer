@@ -19,6 +19,7 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
 
 
             modalInstance = $modal.open({
+              
                 templateUrl: 'views/deleteDialog.html',
                 controller: 'DataSourceDeleteController'
             });
@@ -33,6 +34,7 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
         $scope.openForm = function(dataSourceId) {
             $routeParams.dataSourceId = dataSourceId;
             modalInstance = $modal.open({
+                  windowClass: 'modal-datasource',
                 templateUrl: 'views/datasource/edit.html',
                 resolve: {
                 }
@@ -86,7 +88,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                     $scope.DataSource.dataStructure.previewRows = null;
 
                 }
-
+                   
                 uploadService.send($scope.UploadFile);
 
             }
@@ -94,6 +96,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
         $rootScope.$on('upload:loadstart', function() {
+                 $scope.loadingfile = true;
             console.log('Controller: on `loadstart`');
         });
         $rootScope.$on('upload:succes', function(event, xhr) {
@@ -106,7 +109,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                 var DataStructure = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText}, function() {
 
                     $scope.DataSource.dataStructure = DataStructure;
-
+               $scope.loadingfile = false;
                  
 
                 });

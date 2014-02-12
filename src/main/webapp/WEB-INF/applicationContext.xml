@@ -21,6 +21,7 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.service"/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.controlers"/>
+    
     <jpa:repositories base-package="com.pepaproch.massmailmailer.repository" />
     
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
@@ -70,16 +71,16 @@
  
 
     <mongo:db-factory id="mongDbFactory"
-                  host="localhost"
-                  port="27017"
-                  dbname="massmailer"
-                  username="masmailler"
-                  password="pepajede"/>
+                      host="localhost"
+                      port="27017"
+                      dbname="massmailer"
+                      username="masmailler"
+                      password="pepajede"/>
 
-  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-    <constructor-arg ref="mongDbFactory"/>
-  </bean>
-<mongo:repositories base-package="com.pepaproch.massmailmailer.mongo.repository" />
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongDbFactory"/>
+    </bean>
+    <mongo:repositories base-package="com.pepaproch.massmailmailer.mongo.repository" />
 
     <bean id="dataAccessHolder" class="com.pepaproch.massmailmailer.db.DataAccess" />
     

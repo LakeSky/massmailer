@@ -7,6 +7,8 @@
 package com.pepaproch.massmailmailer.mongo.repository;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
+import java.util.Collection;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -14,5 +16,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author pepa
  */
 public interface DataSourceInfoRep extends CrudRepository<DataSource, String> {
-
+ @Query("  { name: ?0} ")
+    public Collection<DataSource> findByName(String name);
 }

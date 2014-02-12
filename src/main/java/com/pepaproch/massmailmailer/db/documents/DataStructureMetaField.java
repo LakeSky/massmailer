@@ -6,6 +6,9 @@
 package com.pepaproch.massmailmailer.db.documents;
 
 import com.pepaproch.massmailmailer.poi.DataType;
+import javax.persistence.Basic;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -16,6 +19,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class DataStructureMetaField {
 
     private Integer index;
+      @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     private String name;
     private DataType dataType;
 

@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Tue Feb 11 15:16:24 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-214e-478b-0000037dc078 
-on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@79bcfbeb 
+Wed Feb 12 16:12:33 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-26a8-0762-0000029134a8 
+on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@663f3fbd 
 Loaded from file:/home/pepa/.m2/repository/org/apache/derby/derby/10.9.1.0/derby-10.9.1.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_25-b15
@@ -9,7 +9,7 @@ user.dir=/home/pepa/NetBeansProjects/MassMailMailer
 derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
-Tue Feb 11 15:16:34 CET 2014 Thread[Thread-3,5,main] Cleanup action starting
+Wed Feb 12 16:12:50 CET 2014 Thread[Thread-5,5,main] Cleanup action starting
 java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
@@ -68,5 +68,5 @@ java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
 ============= end nested exception, level (1) ===========
 Cleanup action completed
 ----------------------------------------------------------------
-Tue Feb 11 15:16:34 CET 2014:
-Shutting down instance a816c00e-0144-214e-478b-0000037dc078 on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@79bcfbeb 
+Wed Feb 12 16:12:50 CET 2014:
+Shutting down instance a816c00e-0144-26a8-0762-0000029134a8 on database directory memory:/home/pepa/NetBeansProjects/MassMailMailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@663f3fbd 

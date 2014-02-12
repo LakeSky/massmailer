@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,8 @@ public class DataSourceController {
     private DataSourceInfoRep dataRepository;
     @Autowired
     private DataSourceRowsRep dataSourceRowsRep;
+     @Autowired
+      private  DataSourceValidator dataSourceValidator;
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
@@ -78,8 +82,8 @@ public class DataSourceController {
     private ResponseEntity saveDataSource(DataSource dataSource, BindingResult result) {
         if (result.hasErrors()) {
             List<ObjectError> allErrors = result.getAllErrors();
-            List<FieldError> fieldErrors = result.getFieldErrors();
-            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
+
+            ResponseEntity<List<ObjectError>> errorResponse = new ResponseEntity<List<ObjectError>>(allErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
             DataSource savedDataSource = dataRepository.save(dataSource);
@@ -89,6 +93,26 @@ public class DataSourceController {
     }
 
     public DataSourceController() {
+    }
+    
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(getDataSourceValidator());
+
+    }
+
+    /**
+     * @return the dataSourceValidator
+     */
+    public DataSourceValidator getDataSourceValidator() {
+        return dataSourceValidator;
+    }
+
+    /**
+     * @param dataSourceValidator the dataSourceValidator to set
+     */
+    public void setDataSourceValidator(DataSourceValidator dataSourceValidator) {
+        this.dataSourceValidator = dataSourceValidator;
     }
 
 }

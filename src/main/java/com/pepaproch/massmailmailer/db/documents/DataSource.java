@@ -7,6 +7,7 @@
 package com.pepaproch.massmailmailer.db.documents;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
@@ -21,6 +22,7 @@ public class DataSource {
     @Id
     private  String id;
     @Basic(optional = false)
+    @Column(unique = true)
     @NotNull
     @Size(min = 1, max = 255)
     private String name;
