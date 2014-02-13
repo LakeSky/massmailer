@@ -41,6 +41,8 @@ public class DataSourceValidator implements Validator {
     private void validate(DataSource dataSource, Errors errors) {
         if (null != dataSource.getName()) {
             if (dataSourceInfoRep.findByName(dataSource.getName()).size() > 0) {
+                if(dataSourceInfoRep.findByName(dataSource.getName()).size()==1 && (dataSourceInfoRep.findByName(dataSource.getName()).iterator().next().getId().compareTo(dataSource.getId())!=0))
+                
                 errors.reject("name", "error.Unique");
             }
 

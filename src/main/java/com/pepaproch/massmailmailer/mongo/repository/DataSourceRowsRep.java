@@ -6,22 +6,34 @@
 
 package com.pepaproch.massmailmailer.mongo.repository;
 
-import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
+import com.pepaproch.massmailmailer.db.documents.DataSourceRow;;
 import java.util.Collection;
+import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author pepa
  */
-public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String> {
+public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String> ,PagingAndSortingRepository<DataSourceRow, String>{
     
     @Query("  { $and: [ {dataSourceId: ?0}, { dataSourceFields: { $elemMatch: { index: ?1, value: ?2 } } }]} ")
     public Collection<DataSourceRow> findByColumnValue(String dataSourceId,Integer columnIndex, Object value);
     
     @Query("  { dataSourceId: ?0} ")
     public Collection<DataSourceRow> findByDataSourceId(String dataSourceId);
+
+    /**
+     *
+     * @param dataSourceId
+     * @param pageable
+     * @return
+     */
+    @Query("  { dataSourceId: ?0} ")
+    public List<DataSourceRow> findByDataSourceIdPaginated(String dataSourceId,  Pageable pageable);
  
    
 

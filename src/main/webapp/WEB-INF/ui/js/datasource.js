@@ -19,7 +19,6 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
 
 
             modalInstance = $modal.open({
-              
                 templateUrl: 'views/deleteDialog.html',
                 controller: 'DataSourceDeleteController'
             });
@@ -34,7 +33,7 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
         $scope.openForm = function(dataSourceId) {
             $routeParams.dataSourceId = dataSourceId;
             modalInstance = $modal.open({
-                  windowClass: 'modal-datasource',
+                windowClass: 'modal-datasource',
                 templateUrl: 'views/datasource/edit.html',
                 resolve: {
                 }
@@ -84,11 +83,11 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
             // Only act when our property has changed.
             if (newValue !== oldValue) {
                 console.log('Controller: $scope.files changed. Start upload.');
-                if (typeof $scope.DataSource.dataStructure !== 'undefined' && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
+                if (typeof $scope.DataSource.dataStructure !== 'undefined' && $scope.DataSource.dataStructure !==null  && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
                     $scope.DataSource.dataStructure.previewRows = null;
 
                 }
-                   
+
                 uploadService.send($scope.UploadFile);
 
             }
@@ -96,7 +95,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
         $rootScope.$on('upload:loadstart', function() {
-                 $scope.loadingfile = true;
+            $scope.loadingfile = true;
             console.log('Controller: on `loadstart`');
         });
         $rootScope.$on('upload:succes', function(event, xhr) {
@@ -107,10 +106,10 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
                 var DataStructure = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText}, function() {
-
+                    $scope.DataSource.fileUploaded = true;
                     $scope.DataSource.dataStructure = DataStructure;
-               $scope.loadingfile = false;
-                 
+                    $scope.loadingfile = false;
+
 
                 });
 
@@ -131,6 +130,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
         $scope.save = function() {
+            
             var deferred = $q.defer();
             $scope.DataSource.$save(
                     function(DataSource, headers) {

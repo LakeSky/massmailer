@@ -49,6 +49,7 @@ public class DataSourceStructureController {
             i++;
         }
         ds.setPreviewRows(previewRows);
+        ds.setFileName(fileId);
 
         ResponseEntity< DataStructure> resp = new ResponseEntity<DataStructure>(ds, HttpStatus.ACCEPTED);
         return resp;

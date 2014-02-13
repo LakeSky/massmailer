@@ -19,7 +19,11 @@ public class DataStructure {
     
     private String fileName;
 
+    public DataStructure() {
+    }
+
     private Collection<DataStructureMetaField> dataStructureFields; 
+    
     @Transient
     private Collection<DataSourceRow> previewRows;
 

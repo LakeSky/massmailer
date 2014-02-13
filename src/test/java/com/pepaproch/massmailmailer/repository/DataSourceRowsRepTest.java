@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.joda.time.LocalDate;
-import org.joda.time.tz.UTCProvider;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,6 +23,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -89,13 +91,13 @@ public class DataSourceRowsRepTest {
 
         }
         save = (Collection<DataSourceRow>) dataSourceRowRep.save(rows);
-        
+
         assertEquals(save.size(), rows.size());
-      
-        dataSourceRowRep.delete( dataSourceRowRep.findByDataSourceId(dataSourceId));
+
+        dataSourceRowRep.delete(dataSourceRowRep.findByDataSourceId(dataSourceId));
         Collection<DataSourceRow> findByDataSourceId = dataSourceRowRep.findByDataSourceId(dataSourceId);
         assertEquals(findByDataSourceId.size(), 0);
- 
+
     }
 
     @Test
@@ -126,6 +128,11 @@ public class DataSourceRowsRepTest {
             Collection<DataSourceRow> findByColumnDateValue = dataSourceRowRep.findByColumnValue(dataSourceId, 6, DateUtils.addDays(DateUtils.getStartDate(new Date()), 0));
             assertNotNull(findByColumnDateValue);
             assertTrue("FIND ONE", findByColumnDateValue.size() == 1);
+
+            Sort sort = new Sort(Sort.Direction.ASC, "id");
+            Pageable pageSpecification = new PageRequest(0, 2, sort);
+            Iterable<DataSourceRow> findAll = dataSourceRowRep.findByDataSourceIdPaginated(dataSourceId, pageSpecification);
+            assertNotNull(findAll);
 
         } finally {
             if (save != null) {

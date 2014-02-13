@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class DataStructureMetaField {
 
     private Integer index;
-      @Basic(optional = false)
+    @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     private String name;
@@ -29,6 +29,9 @@ public class DataStructureMetaField {
         this.index = index;
         this.name = name;
         this.dataType = dataType;
+    }
+
+    public DataStructureMetaField() {
     }
 
     /**

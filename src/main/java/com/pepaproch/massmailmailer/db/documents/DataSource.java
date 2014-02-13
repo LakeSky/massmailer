@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.db.documents;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
@@ -28,6 +29,13 @@ public class DataSource {
     private String name;
     
     private DataStructure dataStructure;
+    
+    private Integer recordsCount;
+    
+    @Transient
+    private Boolean fileUploaded;
+    
+    
  
 
 
@@ -72,6 +80,34 @@ public class DataSource {
      */
     public void setDataStructure(DataStructure dataStructure) {
         this.dataStructure = dataStructure;
+    }
+
+    /**
+     * @return the recordsCount
+     */
+    public Integer getRecordsCount() {
+        return (recordsCount==null)? 0 : recordsCount;
+    }
+
+    /**
+     * @param recordsCount the recordsCount to set
+     */
+    public void setRecordsCount(Integer recordsCount) {
+        this.recordsCount = recordsCount;
+    }
+
+    /**
+     * @return the fileUploaded
+     */
+    public Boolean getFileUploaded() {
+        return (fileUploaded==null)? Boolean.FALSE : fileUploaded ;
+    }
+
+    /**
+     * @param fileUploaded the fileUploaded to set
+     */
+    public void setFileUploaded(Boolean fileUploaded) {
+        this.fileUploaded = fileUploaded;
     }
 
 
