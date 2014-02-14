@@ -45,12 +45,69 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
                 ;
             });
         };
+        $scope.openBrowse = function(dataSourceId) {
+            $routeParams.dataSourceId = dataSourceId;
+            modalInstance = $modal.open({
+                controller:'DataSourceRowsListCtrl', 
+                windowClass: 'modal-datasource',
+                templateUrl: 'views/datasource/browse.html',
+                resolve: {
+                }
+            });
 
+            modalInstance.result.then(function() {
+                $scope.datasources = Entity.DataSource.query();
+            }, function() {
+                ;
+            });
+        };
 
 
     }]);
 
+dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
 
+        var dataSourceId = $routeParams.dataSourceId;
+
+        if (undefined === dataSourceId) {
+
+        } else {
+            var DataSource = Entity.DataSource.get({dataSourceId: dataSourceId}, function() {
+  
+                $scope.DataSource = DataSource;
+            });
+
+       var  dataSourceRows = Entity.DataSourceRow.query({dataSourceId: dataSourceId}, function() {
+               
+                $scope.dataSourceRows = dataSourceRows;
+            });
+
+
+
+        }
+
+
+        var modalInstance;
+        $scope.openDeleteDialog = function(dataSourceId, name) {
+            $routeParams.dataSourceId = dataSourceId;
+
+
+            modalInstance = $modal.open({
+                templateUrl: 'views/deleteDialog.html',
+                controller: 'DataSourceDeleteController'
+            });
+
+            modalInstance.result.then(function() {
+                $scope.datasources = Entity.DataSource.query();
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+
+
+
+    }]);
 
 
 
@@ -83,7 +140,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
             // Only act when our property has changed.
             if (newValue !== oldValue) {
                 console.log('Controller: $scope.files changed. Start upload.');
-                if (typeof $scope.DataSource.dataStructure !== 'undefined' && $scope.DataSource.dataStructure !==null  && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
+                if (typeof $scope.DataSource.dataStructure !== 'undefined' && $scope.DataSource.dataStructure !== null && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
                     $scope.DataSource.dataStructure.previewRows = null;
 
                 }
@@ -130,7 +187,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
         $scope.save = function() {
-            
+
             var deferred = $q.defer();
             $scope.DataSource.$save(
                     function(DataSource, headers) {

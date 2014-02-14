@@ -22,6 +22,7 @@ public class DataStructure {
     public DataStructure() {
     }
 
+
     private Collection<DataStructureMetaField> dataStructureFields; 
     
     @Transient

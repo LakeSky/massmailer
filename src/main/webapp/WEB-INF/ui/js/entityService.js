@@ -9,6 +9,8 @@ var entityService = angular.module('entityService', ['ngResource']).
             return {
                 User: $resource('../users/:userId', {userId: '@id'}),
                 DataSource: $resource('../datasource/:dataSourceId', {dataSourceId: '@id'}),
-                DataStructure: $resource('../datasource/structure/:fileId\\/', {fileId: '@id'})
+                DataStructure: $resource('../datasource/structure/:fileId\\/', {fileId: '@id'}),
+                DataSourceRow: $resource('../datasource/:dataSourceId/rows/:page/:limit/:sort', {dataSourceId: '@id',page:0,limit:10,sort: 'id'})
+      
             };
         });

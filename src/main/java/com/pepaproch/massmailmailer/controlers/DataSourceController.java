@@ -7,7 +7,6 @@ package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
-import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
@@ -75,12 +74,13 @@ public class DataSourceController {
      * @param sort
      * @return
      */
-    @RequestMapping(value = "/{dataSourceId}/{page}/{limit}/{sort}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{dataSourceId}/rows/{page}/{limit}/{sort}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId, @PathVariable("page") Integer page, @PathVariable("limit") Integer limit, @PathVariable("sort") String sort) {
-        Sort sortable = new Sort(Sort.Direction.ASC, "id");
-        Pageable pageSpecification = new PageRequest(page, limit, sortable);
-        return dataSourceRowsRep.findByDataSourceIdPaginated(dataSourceId, pageSpecification);
+        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields.1.value");
+        Pageable pageSpecification = new PageRequest(page, limit,sortable);
+        List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowsRep.findByDataSourceIdPaginated(dataSourceId, pageSpecification);
+        return findByDataSourceIdPaginated;
     }
 
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)

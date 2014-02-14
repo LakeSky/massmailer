@@ -21,7 +21,6 @@ public class DataSourceRow implements SourceRow {
 
     @Id
     private String id;
-
     private String dataSourceId;
 
     private Collection<DataSourceField> dataSourceFields;
@@ -34,24 +33,12 @@ public class DataSourceRow implements SourceRow {
     public DataSourceRow() {
     }
 
-    public DataSourceRow(String string, RowRecords<DataSourceField> row) {
-
+    public DataSourceRow(String dataSourceId, RowRecords<DataSourceField> row) {
+        this.dataSourceId = dataSourceId;
         this.dataSourceFields = row.getFields();
     }
 
-    /**
-     * @return the dataSourceFileld
-     */
-    public Collection<DataSourceField> getDataSourceFields() {
-        return dataSourceFields;
-    }
 
-    /**
-     * @param dataSourceFields
-     */
-    public void setDataSourceField(Collection<DataSourceField> dataSourceFields) {
-        this.dataSourceFields = dataSourceFields;
-    }
 
     /**
      * @return the dataSourceId
@@ -79,6 +66,20 @@ public class DataSourceRow implements SourceRow {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * @return the dataSourceFields
+     */
+    public Collection<DataSourceField> getDataSourceFields() {
+        return dataSourceFields;
+    }
+
+    /**
+     * @param dataSourceFields the dataSourceFields to set
+     */
+    public void setDataSourceFields(Collection<DataSourceField> dataSourceFields) {
+        this.dataSourceFields = dataSourceFields;
     }
 
 }
