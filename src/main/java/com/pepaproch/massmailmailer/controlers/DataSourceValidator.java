@@ -6,7 +6,6 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
-import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,7 +42,7 @@ public class DataSourceValidator implements Validator {
             if (dataSourceInfoRep.findByName(dataSource.getName()).size() > 0) {
                 if(dataSourceInfoRep.findByName(dataSource.getName()).size()==1 && (dataSourceInfoRep.findByName(dataSource.getName()).iterator().next().getId().compareTo(dataSource.getId())!=0))
                 
-                errors.reject("name", "error.Unique");
+                 errors.rejectValue("name", "error.Unique");
             }
 
         }

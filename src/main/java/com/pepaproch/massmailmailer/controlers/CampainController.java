@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
@@ -20,6 +21,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +40,8 @@ public class CampainController {
 
     @Autowired
     private CampainRepo campainRepo;
+    @Autowired
+    private CampainValidator campainValidator;
 
     /**
      *
@@ -45,34 +51,50 @@ public class CampainController {
     @ResponseBody
 
     public List<Campain> listCampain() {
-        return (List) campainRepo.findAll();
+        return (List) getCampainRepo().findAll();
     }
 
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public Campain getCampain(@PathVariable("campainId") BigDecimal campainId) {
 
-        return campainRepo.findOne(campainId);
+        return getCampainRepo().findOne(campainId);
     }
 
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity saveCampain(@Valid @RequestBody Campain campain, BindingResult result) {
-        campainRepo.save(campain);
+        getCampainRepo().save(campain);
         throw new UnsupportedOperationException();
     }
 
-    @RequestMapping(value = "/{dataSourceId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
     public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) {
-        campainRepo.save(campain);
-        throw new UnsupportedOperationException();
+        
+                if (result.hasErrors()) {
+            List<FieldError> fieldErrors = result.getFieldErrors();
+
+            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
+            return errorResponse;
+        } else {
+                
+        Campain campainSaved = getCampainRepo().save(campain);
+
+       
+
+            ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
+            return responseEntity;
+        }
+        
+
+
     }
 
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity deleteDataSource(@PathVariable("campainId") BigDecimal campainId) {
-        campainRepo.delete(campainId);
+        getCampainRepo().delete(campainId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
 
     }
@@ -107,5 +129,37 @@ public class CampainController {
 //        return findByDataSourceIdPaginated;\
         return null;
     }
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(getCampainValidator());
 
+    }
+
+    /**
+     * @return the campainRepo
+     */
+    public CampainRepo getCampainRepo() {
+        return campainRepo;
+    }
+
+    /**
+     * @param campainRepo the campainRepo to set
+     */
+    public void setCampainRepo(CampainRepo campainRepo) {
+        this.campainRepo = campainRepo;
+    }
+
+    /**
+     * @return the campainValidator
+     */
+    public CampainValidator getCampainValidator() {
+        return campainValidator;
+    }
+
+    /**
+     * @param campainValidator the campainValidator to set
+     */
+    public void setCampainValidator(CampainValidator campainValidator) {
+        this.campainValidator = campainValidator;
+    }
 }

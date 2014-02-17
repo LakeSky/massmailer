@@ -1,95 +1,35 @@
-<div class="row">
-    <div class="container"> </div>
-    <div ng-controller="DataSourceCreateController">
-        <div class="modal-header">
-            <h3 style="">Datový zdroj</h3>
-        </div>
-        <div class="modal-body ">
-            <div>
 
-                <form novalidate class="form-horizontal" ng-submit="save()" name="dataSource"  >
-
-                    <div class="col-md-2">
-                        <input type="hidden" ng-model="DataSource.id" interpol-model="id" server-error="id" name="id"/>
-
-                        <div class="form-group">
-                            <label class="control-label" for="name">Název</label>
-                            <input type="text" id = "name" name="name" ng-model="DataSource.name"  interpol-model="name" server-error="name"/>
-                            <div class="errors"  show-inter="name" >
-                                <error-message error="name" ></error-message>   
-
-                            </div>
-                        </div>  
-                        <h4 style="">Pole</h4>
-                        <div ng-repeat="f in DataSource.dataStructure.dataStructureFields">
-                            <div class="form-group">
-                                <label class="control-label" for="dataStructure.dataStructureFields{{f.index}}.name">Pole {{f.index}}</label>
-
-                                <input type="text" id = "dataStructure.dataStructureFields{{f.index}}.name" name="dataStructure.dataStructureFields[{{f.index}}].name" ng-model="f.name"  interpol-model="dataStructure.dataStructureFields[{{f.index}}].name" server-error="dataStructure.dataStructureFieldsCollection[{{f.index}}].name"/>
-                                <div class="errors"  style="height: 1em;" show-inter="dataStructure.dataStructureFields[{{f.index}}].name" >
-                                    <error-message error="dataStructure.dataStructureFields[{{f.index}}].name" ></error-message>   
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-
-                    </div>
-                      </form>
-                    <div class="col-md-10">
-                        <div class="row">
-                            <div class="col-md-5" >
-                                <div class="form-group">
-                                    <input type="file" ng-model="files" file-change id="file" >
-
-                                </div>
-                            </div>
-                           <div class="col-md-5">
-                                <div ng-show="loadingfile">
-                                    <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
-
-                                </div>
-                            </div>
-                        </div>
-
-        
-                           <div class="row">
-                <h4 style="">Náhled dat</h4>
-                <table class="table table-striped table-condensed table-bordered" style="font-size: 0.9em;">
-                    <thead>
-                    <th ng-repeat="f in DataSource.dataStructure.dataStructureFields">
-                        {{f.name}}
-                    </th>
-                    </thead>
-
-                    <tr ng-repeat="row in DataSource.dataStructure.previewRows" >
-                        <td ng-repeat="field in row.dataSourceFields" >
-                            {{ field.value | format : DataSource.dataStructure.dataStructureFields[field.index].dataType }}
-                        </td>
-                    </tr>
-                </table>
-                           </div>
-            </div>
-
-
-        </div>
-
-
-
-
-
-
-
-
-
+<div ng-controller="CampainEditController">
+    <div class="modal-header">
+        <h3 style="">Kampaň (email)</h3>
+    </div>
+    <div class="modal-body ">
+        {{campainName}}
+        <form novalidate class="form-horizontal" ng-submit="save()" name="campainForm"  >
+            <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
+            <div class="form-group">
+    
+                <label class="control-label" for="campainName">Název</label>
+                <input type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
+             
+                <div class="errors"  show-inter="campainName" >
+                    <error-message error="campainName" ></error-message>   
+                </div>
+            </div>  
+            <br/>
+            <div class="form-group">
+                <label class="control-label" for="dataSourceId">Datový zdroj</label>
+                <input type="text" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
+                <div class="errors"  show-inter="dataSourceId" >
+                    <error-message error="dataSourceId" ></error-message>   
+                </div>
+            </div>  
+        </form>
     </div>
 
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">OK</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
+</div>
 
-</div>
-</div>

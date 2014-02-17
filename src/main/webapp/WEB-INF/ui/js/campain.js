@@ -9,14 +9,14 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 // Controller
 // ----------
 dataSource.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
-       var campains = Entity.Campain.query( function() {
+        var campains = Entity.Campain.query(function() {
 
-                $scope.campains = campains;
+            $scope.campains = campains;
         });
         var modalInstance;
         $scope.openDeleteDialog = function(campainsId, name) {
-        $routeParams.dataSourceId = dataSourceId;
-        modalInstance = $modal.open({
+            $routeParams.dataSourceId = dataSourceId;
+            modalInstance = $modal.open({
                 templateUrl: 'views/deleteDialog.html',
                 controller: 'CampainDeleteController'
             });
@@ -27,8 +27,8 @@ dataSource.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeP
             });
         };
 
-        $scope.openForm = function(dataSourceId) {
-            $routeParams.campainId = dataSourceId;
+        $scope.openForm = function(campainId) {
+            $routeParams.campainId = campainId;
             modalInstance = $modal.open({
                 windowClass: 'modal-campain',
                 templateUrl: 'views/campain/edit.html',
@@ -75,7 +75,7 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
             searchString: '*'
 
 
-        }
+        };
         function getData() {
             var dataSourceRows = Entity.DataSourceRow.query({dataSourceId: dataSourceId,
                 page: $scope.filterParams.page,
@@ -96,7 +96,7 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
             $scope.filterParams.page = 0;
             getData();
 
-        }
+        };
         $scope.paginate = function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
@@ -104,14 +104,8 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
                 getData();
 
             }
-        }
-        if (undefined != dataSourceId) {
-            var DataSource = Entity.DataSource.get({dataSourceId: dataSourceId}, function() {
-                $scope.DataSource = DataSource;
-            });
-            getData();
-        
-        }
+        };
+
 
         var modalInstance;
         $scope.openDeleteDialog = function(dataSourceId, name) {
@@ -126,8 +120,8 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-        
-            $scope.cancel = function() {
+
+        $scope.cancel = function() {
             this.$dismiss('cancel');
         };
     }]);
@@ -138,12 +132,12 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
 // Controller
 // ----------
 dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
-        var dataSourceId = $routeParams.dataSourceId;
-        if (undefined === dataSourceId) {
-            $scope.DataSource = new Entity.DataSource();
+        var campainId = $routeParams.campainId;
+        if (undefined === campainId) {
+            $scope.Campain = new Entity.Campain();
         } else {
-            DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
-            $scope.DataSource = DataSource;
+            Campain = Entity.Campain.get({campainId: campainId});
+            $scope.Campain = Campain;
         }
 
 
@@ -151,27 +145,17 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         $scope.files = [];
         $scope.fields = [];
 
-        $scope.$watch('dataSource', function(value) {
+
+
+        $scope.$watch('campainForm', function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
-                $scope.form = $scope.$eval("dataSource");
+               $scope.form = $scope.$eval("campainForm");
 
             }
         }, true);
 
-        $scope.$watch('UploadFile', function(newValue, oldValue) {
-            // Only act when our property has changed.
-            if (newValue !== oldValue) {
-                console.log('Controller: $scope.files changed. Start upload.');
-                if (typeof $scope.DataSource.dataStructure !== 'undefined' && $scope.DataSource.dataStructure !== null && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
-                    $scope.DataSource.dataStructure.previewRows = null;
 
-                }
-
-                uploadService.send($scope.UploadFile);
-
-            }
-        }, true);
 
 
         $rootScope.$on('upload:loadstart', function() {
@@ -212,10 +196,10 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         $scope.save = function() {
 
             var deferred = $q.defer();
-            $scope.DataSource.$save(
-                    function(DataSource, headers) {
+            $scope.Campain.$save(
+                    function(Campain, headers) {
                         deferred.resolve(DataSource);
-                        return  handleFormSucces("Nový datový zdroj vytvořen", $location, '/datasource');
+                        return  handleFormSucces("Nový datový zdroj vytvořen", $location, '/campain');
                     }, function(error) {
                 return   handleFormError($scope, error.data);
 
@@ -269,7 +253,7 @@ dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$lo
 
         }
         $scope.delete = function() {
-        var deferred = $q.defer();
+            var deferred = $q.defer();
             $scope.DataSource.$delete(
                     function(DataSource, headers) {
                         deferred.resolve(DataSource);

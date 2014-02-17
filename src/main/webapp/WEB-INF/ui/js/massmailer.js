@@ -211,6 +211,7 @@ appMassMailer.directive('errorMessage', function($interpolate) {
     return {
         priority: 0,
         restrict: 'E',
+        scope: true,
         controller: function($scope, $element, $attrs) {
             if (undefined === $scope.errors) {
                 var unregister = $scope.$watch('errors', function(newValue) {

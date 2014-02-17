@@ -6,6 +6,7 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ public class Campain implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
-    private Integer id;
+    private BigDecimal id;
     @Column(name = "CAMPAIN_NAME")
     private String campainName;
     @Lob
@@ -46,20 +47,6 @@ public class Campain implements Serializable {
     private Boolean customizeAttachments;
     @Column(name = "SENT_ATTACHMENT_AS")
     private String sentAttachemntAs;
-
-    /**
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * @return the emailText
@@ -171,6 +158,20 @@ public class Campain implements Serializable {
      */
     public void setCampainName(String campainName) {
         this.campainName = campainName;
+    }
+
+    /**
+     * @return the id
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
     }
 
 }
