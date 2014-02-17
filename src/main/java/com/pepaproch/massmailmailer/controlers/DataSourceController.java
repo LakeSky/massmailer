@@ -67,19 +67,28 @@ public class DataSourceController {
     }
 
     /**
-     *
+     * datasource/:dataSourceId/rows/:page/:limit/:sort/:sortDir/:search/:searchString'
      * @param dataSourceId
      * @param page
      * @param limit
      * @param sort
+     * @param sortDirection
+     * @param search
+     * @param searchString
      * @return
      */
-    @RequestMapping(value = "/{dataSourceId}/rows/{page}/{limit}/{sort}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{dataSourceId}/rows/{page}/{limit}/{sort}/{sortDir}/{search}/{searchString}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId, @PathVariable("page") Integer page, @PathVariable("limit") Integer limit, @PathVariable("sort") String sort) {
-        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields.1.value");
-        Pageable pageSpecification = new PageRequest(page, limit,sortable);
-        List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowsRep.findByDataSourceIdPaginated(dataSourceId, pageSpecification);
+    public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId, 
+                    @PathVariable("page") String page,
+                    @PathVariable("limit") String limit,
+                    @PathVariable("sort") String sort,
+                    @PathVariable("sortDir") String sortDirection,
+                    @PathVariable("search") String search,
+                    @PathVariable("searchString") String searchString) {
+        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields."+sort+".value");
+        Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit),sortable);
+        List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowsRep.findByDataSourceIdPaginated(dataSourceId,new Integer(search),searchString, pageSpecification);
         return findByDataSourceIdPaginated;
     }
 

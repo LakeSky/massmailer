@@ -4,31 +4,34 @@
  * and open the template in the editor.
  */
 
-var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'upload', 'ui.bootstrap']);
+var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', 'ui.bootstrap']);
 
 // Controller
 // ----------
-dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
-        $scope.datasources = Entity.DataSource.query();
+dataSource.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+       var campains = Entity.Campain.query( function() {
+
+                $scope.campains = campains;
+        });
         var modalInstance;
-        $scope.openDeleteDialog = function(dataSourceId, name) {
+        $scope.openDeleteDialog = function(campainsId, name) {
         $routeParams.dataSourceId = dataSourceId;
         modalInstance = $modal.open({
                 templateUrl: 'views/deleteDialog.html',
-                controller: 'DataSourceDeleteController'
+                controller: 'CampainDeleteController'
             });
             modalInstance.result.then(function() {
-                $scope.datasources = Entity.DataSource.query();
+                $scope.campains = Entity.Campain.query();
             }, function() {
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
 
         $scope.openForm = function(dataSourceId) {
-            $routeParams.dataSourceId = dataSourceId;
+            $routeParams.campainId = dataSourceId;
             modalInstance = $modal.open({
-                windowClass: 'modal-datasource',
-                templateUrl: 'views/datasource/edit.html',
+                windowClass: 'modal-campain',
+                templateUrl: 'views/campain/edit.html',
                 resolve: {
                 }
             });
@@ -42,9 +45,9 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
         $scope.openBrowse = function(dataSourceId) {
             $routeParams.dataSourceId = dataSourceId;
             modalInstance = $modal.open({
-                controller: 'DataSourceRowsListCtrl',
-                windowClass: 'modal-datasource',
-                templateUrl: 'views/datasource/browse.html',
+                controller: 'CampainRowsListCtrl',
+                windowClass: 'modal-campain',
+                templateUrl: 'views/campain/browse.html',
                 resolve: {
                 }
             });
@@ -59,7 +62,7 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
 
     }]);
 
-dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
 
         $scope.currentPage = 0;
         var dataSourceId = $routeParams.dataSourceId;
@@ -134,7 +137,7 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
 
 // Controller
 // ----------
-dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
+dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
             $scope.DataSource = new Entity.DataSource();
@@ -250,7 +253,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 // Controller
 // ----------
-dataSource.controller('DataSourceDeleteController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
+dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
 

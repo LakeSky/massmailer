@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'users', 'dataSource']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'users', 'dataSource','campain']);
 
 
 angular.module('appMassMailer').config(
@@ -38,6 +38,21 @@ angular.module('appMassMailer').config(
                         when('/datasource/:dataSourceId', {
                             templateUrl: 'views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
+                        }).
+                   
+                        when('/campain', {
+                            templateUrl: 'views/campain/list.html',
+                            controller: 'CampainListCtrl'
+
+                        }).
+                        when('/campain/new', {
+                            templateUrl: 'views/campain/edit.html',
+                            controller: 'CampainEditController'
+
+                        }).
+                        when('/campain/:campainId', {
+                            templateUrl: 'views/campain/edit.html',
+                            controller: 'CampainEditController'
                         }).
                         otherwise({
                             redirectTo: 'views/user/list.html'
@@ -222,6 +237,39 @@ appMassMailer.directive('errorMessage', function($interpolate) {
     };
 
 
+});
+
+
+appMassMailer.directive('onBlurChange', function ($parse) {
+  return function (scope, element, attr) {
+  
+    var fn = $parse(attr['onBlurChange']);
+
+    var hasChanged = false;
+    element.on('change', function (event) {
+      hasChanged = true;
+    });
+ 
+    element.on('blur', function (event) {
+      if (hasChanged) {
+        scope.$apply(function () {
+          fn(scope, {$event: event});
+        });
+        hasChanged = false;
+      }
+    });
+  };
+});
+
+appMassMailer.directive('onEnterBlur', function() {
+  return function(scope, element, attrs) {
+    element.bind("keydown keypress", function(event) {
+      if(event.which === 13) {
+        element.blur();
+        event.preventDefault();
+      }
+    });
+  };
 });
 
 appMassMailer.filter('format', function() {

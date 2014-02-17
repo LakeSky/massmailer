@@ -5,77 +5,56 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html ng-app="appMassMailer">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" href="css/bootstrap.css"/>
         <link rel="stylesheet" href="css/custom.css"/>
-    <link rel="stylesheet" href="css/toastr.css"/>
+        <link rel="stylesheet" href="css/toastr.css"/>
 
-    <style>
+        <style>
 
-    </style>
-    <title>MassMailer</title>
-</head>
-<body>
-    <div>
-        
-        <nav class="navbar navbar-default" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">Home</a>
-  </div>
+        </style>
+        <title>MassMailer</title>
+    </head>
+    <body>
+        <div class="container"> 
+            <div class="row">
+                <div class="col-md-2" >
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Data <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#datasource">DataSources</a></li>
-        </ul>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nastavení <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#users">Uživatelé</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div><!-- /.navbar-collapse -->
-</nav>
-
-        
-    </div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#datasource">DataSources</a></li>
+                        <li><a href="#campain">Kampaně</a></li>
+                        <li><a href="#datasource">Další</a></li>
 
 
-<div class="container" ng-view>
- 
-</div>
-     <script src="https://code.jquery.com/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/angular.min.js"></script>
-<script src="js/angular-route.min.js"></script>
-<script src="js/angular-resource.js"></script>
-<script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
 
-<script src="js/massmailer.js"></script>
-<script src="js/datasource.js"></script>
-<script src="js/fileUpload.js"></script>
-<script src="js/entityService.js"></script>
-<script src="js/users.js"></script>
+                <div class="col-md-10" >
 
-<script src="js/ngdirectives.js"></script>
-<script src="js/toastr.js"></script>
-<script src="js/massmailer.js"></script>
+                    <div  ng-view>
 
-</body>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <script src="https://code.jquery.com/jquery.js"></script>
+            <script src="js/bootstrap.js"></script>
+            <script src="js/angular.min.js"></script>
+            <script src="js/angular-route.min.js"></script>
+            <script src="js/angular-resource.js"></script>
+            <script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
+
+            <script src="js/massmailer.js"></script>
+            <script src="js/datasource.js"></script>
+                      <script src="js/campain.js"></script>
+            <script src="js/fileUpload.js"></script>
+            <script src="js/entityService.js"></script>
+            <script src="js/users.js"></script>
+
+            <script src="js/ngdirectives.js"></script>
+            <script src="js/toastr.js"></script>
+            <script src="js/massmailer.js"></script>
+
+    </body>
 </html>

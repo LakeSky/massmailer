@@ -12,7 +12,7 @@
         <tr>
         <th>
             Název
-            <input on-enter-blur on-blur-change="search()" ng-indexname="f.index"  ng-model="f.searchString" type="text" />
+          
         </th>
         <th>
             Počet záznamů
@@ -23,26 +23,23 @@
         </tr>
        </thead><tfoot>
            <tr><td colspan="3">
-                        <pagination total-items="DataSource.recordsCount" page="currentPage" on-select-page="paginate(page-1)" ></pagination>
+                        <pagination  page="currentPage" on-select-page="paginate(page-1)" ></pagination>
                </td>
            </tr>
        </tfoot>
         <tbody>
-            <tr ng-repeat="d in datasources" >
-                <td>{{d.name}}</td>
-                <td>{{d.recordsCount}}</td>
+            <tr ng-repeat="c in campains" >
+                <td>{{c.campainName}}</td>
                 <td class="text-right">
                     <div class="btn-group text-left">
                         <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
                             Action <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" >
-                            <li><a href="#">Email</a></li>
-                            <li><a href="#">Dopis</a></li>
-                            <li><a ng-click="openBrowse(d.id)"  >Zobrazit data</a></li>
-                            <li><a ng-click="openForm(d.id)"  >Upravit</a></li>
+                            <li><a ng-click="openBrowse(c.id)"  >Zobrazit data</a></li>
+                            <li><a ng-click="openForm(c.id)"  >Upravit</a></li>
                             <li class="divider"></li>
-                            <li><a ng-click="openDeleteDialog(d.id, d.name)" >Smazat</a></li>
+                            <li><a ng-click="openDeleteDialog(c.id, c.campainName)" >Smazat</a></li>
                         </ul>
                     </div>
                 </td>
