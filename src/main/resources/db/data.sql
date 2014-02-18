@@ -13,5 +13,11 @@ values ('TEST1','filename2');
 insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID) 
 values ('TEST1','dasourcessdad');
 
-insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID) 
-values ('TESTSSA','dasourcesasdassdad');
+insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID,STATUS,RECORDS_COUNT) 
+values ('TESTSSA','dasourcesasdassdad','READY', 10 );
+
+insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID,STATUS,RECORDS_COUNT) 
+values ('TESTSSAAA','dasourcesasdassdad','SENDING', 123 );
+
+insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID,STATUS,RECORDS_COUNT) 
+values ('TESXXAAAA','dasouzsrcesasdassdad','EDIT',0 );

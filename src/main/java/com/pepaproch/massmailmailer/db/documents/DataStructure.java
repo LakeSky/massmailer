@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.db.documents;
 
 import java.util.Collection;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -22,7 +23,7 @@ public class DataStructure {
     public DataStructure() {
     }
 
-
+   @Valid
     private Collection<DataStructureMetaField> dataStructureFields; 
     
     @Transient

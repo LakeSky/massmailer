@@ -47,6 +47,12 @@ public class Campain implements Serializable {
     private Boolean customizeAttachments;
     @Column(name = "SENT_ATTACHMENT_AS")
     private String sentAttachemntAs;
+    
+     @Column(name = "RECORDS_COUNT")
+    private BigDecimal recordsCount;
+     
+    @Column(name = "STATUS")
+    private String status;
 
     /**
      * @return the emailText
@@ -172,6 +178,34 @@ public class Campain implements Serializable {
      */
     public void setId(BigDecimal id) {
         this.id = id;
+    }
+
+    /**
+     * @return the recordsCount
+     */
+    public BigDecimal getRecordsCount() {
+        return (null==recordsCount)? BigDecimal.ZERO : recordsCount;
+    }
+
+    /**
+     * @param recordsCount the recordsCount to set
+     */
+    public void setRecordsCount(BigDecimal recordsCount) {
+        this.recordsCount = recordsCount;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

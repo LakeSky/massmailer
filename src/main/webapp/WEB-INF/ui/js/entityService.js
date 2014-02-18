@@ -8,7 +8,11 @@ var entityService = angular.module('entityService', ['ngResource']).
            
             return {
                 User: $resource('../users/:userId', {userId: '@id'}),
-                DataSource: $resource('../datasource/:dataSourceId', {dataSourceId: '@id'}),
+                DataSource: $resource('../datasource/:dataSourceId', {dataSourceId: '@id'},{search: {
+    method:'GET',
+    params: { search:'f', searchString:'s'} 
+, isArray:true
+}}),
                 Campain: $resource('../campain/:campainId', {campainId: '@id'}),
                 DataStructure: $resource('../datasource/structure/:fileId\\/', {fileId: '@id'}),
                 DataSourceRow: $resource('../datasource/:dataSourceId/rows/:page/:limit/:sort/:sortDir/:search/:searchString', {dataSourceId: '@id',page:0,limit:10,sort: 'id',sortDir:1,search:'0',searchString:''})
@@ -16,3 +20,4 @@ var entityService = angular.module('entityService', ['ngResource']).
       
             };
         });
+        

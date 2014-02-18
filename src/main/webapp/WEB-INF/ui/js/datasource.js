@@ -205,9 +205,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
 
 
 
-
         $scope.save = function() {
-
             var deferred = $q.defer();
             $scope.DataSource.$save(
                     function(DataSource, headers) {
@@ -219,7 +217,6 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
             });
             return deferred.promise;
         };
-
 
 
         $scope.ok = function() {

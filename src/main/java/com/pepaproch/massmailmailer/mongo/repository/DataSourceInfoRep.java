@@ -18,4 +18,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface DataSourceInfoRep extends CrudRepository<DataSource, String> {
  @Query("  { name: ?0} ")
     public Collection<DataSource> findByName(String name);
+    
+     @Query("  { name: {$regex : ?0 }  } ")
+    public Collection<DataSource> findByNameLike(String name);
+    
 }

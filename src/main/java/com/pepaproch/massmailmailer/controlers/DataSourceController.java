@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -54,9 +55,12 @@ public class DataSourceController {
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-
-    public List<DataSource> listDatasourcer() {
+    public List<DataSource> listDatasourcer(@RequestParam(value="search", required = false )String searchColumn,@RequestParam(value="searchString", required = false ) String  searchString) {
+        if("name".equalsIgnoreCase(searchColumn)) {
+              return (List) dataRepository.findByNameLike("/^" + searchString + ".*/i");
+        }else {
         return (List) dataRepository.findAll();
+        }
     }
 
     @RequestMapping(value = "/{dataSourceId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)

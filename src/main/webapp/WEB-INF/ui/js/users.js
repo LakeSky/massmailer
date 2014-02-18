@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var users = angular.module('users', ['entityService']);
+var users = angular.module('menu', ['entityService']);
 
 
 // Controller

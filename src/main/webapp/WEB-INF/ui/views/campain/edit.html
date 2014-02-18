@@ -4,22 +4,26 @@
         <h3 style="">Kampaň (email)</h3>
     </div>
     <div class="modal-body ">
-        {{campainName}}
         <form novalidate class="form-horizontal" ng-submit="save()" name="campainForm"  >
+
             <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
+
             <div class="form-group">
-    
-                <label class="control-label" for="campainName">Název</label>
-                <input type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
-             
+                <label  for="campainName">Název</label>
+                <input  class="form-control" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
                 <div class="errors"  show-inter="campainName" >
                     <error-message error="campainName" ></error-message>   
                 </div>
             </div>  
-            <br/>
+
             <div class="form-group">
                 <label class="control-label" for="dataSourceId">Datový zdroj</label>
-                <input type="text" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
+                <input class="form-control"  type="text" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
+                
+                    <pre>Model: {{asyncSelected | json}}</pre>
+    <input type="text" ng-model="asyncSelected" placeholder="Vyhledat datový zdroj" typeahead-loading="loadingLocations"  typeahead="address for address in searchDataSources($viewValue) | filter:$viewValue" class="form-control">
+    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
                 <div class="errors"  show-inter="dataSourceId" >
                     <error-message error="dataSourceId" ></error-message>   
                 </div>

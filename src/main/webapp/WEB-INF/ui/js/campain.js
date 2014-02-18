@@ -150,7 +150,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         $scope.$watch('campainForm', function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
-               $scope.form = $scope.$eval("campainForm");
+                $scope.form = $scope.$eval("campainForm");
 
             }
         }, true);
@@ -224,6 +224,27 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         $scope.cancel = function() {
             this.$dismiss('cancel');
         };
+
+
+        $scope.searchDataSources = function(val) {
+            var dataSourceRows = Entity.DataSource.search({
+                search: 'name',
+                searchString: val
+            }, function() {
+
+                dataSourceRows;
+                var addresses = [];
+                angular.forEach( dataSourceRows, function(item) {
+                    addresses.push(item.formatted_address);
+                });
+                return addresses;
+
+            });
+        }
+
+
+
+
 
     }]);
 
