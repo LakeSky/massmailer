@@ -139,7 +139,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
             Campain = Entity.Campain.get({campainId: campainId});
             $scope.Campain = Campain;
         }
-
+	new nicEditor({iconsPath : 'js/nicEditorIcons.gif' ,minHeight : 400,minWidth : 400}).panelInstance('rr');
 
         // 'files' is an array of JavaScript 'File' objects.
         $scope.files = [];
@@ -221,26 +221,56 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         };
 
+
+
+        $scope.searchByName = function(val) {
+
+            var deferred = $q.defer();
+            var dataSources = Entity.DataSource.search({
+                search: 'name',
+                searchString: val
+
+            }, function() {
+                deferred.resolve(dataSources);
+
+            });
+            return deferred.promise;
+        };
+
+
+
+        $scope.searchDataSources = function(value) {
+
+            var myDataPromise = $scope.searchByName(value);
+
+         return   myDataPromise.then(function(datasource) {  // this is only run after $http completes
+
+                var datasources = [];
+                angular.forEach(datasource, function(item) {
+                    datasources.push(item);
+                });
+                return datasources;
+
+            });
+
+
+        };
+        
+        $scope.onDatasourceSelected = function(datasource) {
+            $scope.Campain.dataSourceId = datasource.id;
+            
+        };
+        
+
+
+
+
         $scope.cancel = function() {
             this.$dismiss('cancel');
         };
 
 
-        $scope.searchDataSources = function(val) {
-            var dataSourceRows = Entity.DataSource.search({
-                search: 'name',
-                searchString: val
-            }, function() {
 
-                dataSourceRows;
-                var addresses = [];
-                angular.forEach( dataSourceRows, function(item) {
-                    addresses.push(item.formatted_address);
-                });
-                return addresses;
-
-            });
-        }
 
 
 

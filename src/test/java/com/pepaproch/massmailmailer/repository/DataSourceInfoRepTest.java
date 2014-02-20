@@ -51,11 +51,11 @@ public class DataSourceInfoRepTest {
     @Before
     public void setUp() {
         dataSource = new DataSource();
-        dataSource.setName("NAME_TEST" );
+        dataSource.setName("NAME_TEST");
         List<DataStructureMetaField> fields = new ArrayList();
         for (int i = 0; i < 6; i++) {
-          DataStructureMetaField field = new DataStructureMetaField(i, i + "display_name",DataType.TEXT);
-           fields.add(field);
+            DataStructureMetaField field = new DataStructureMetaField(i, i + "display_name", DataType.TEXT);
+            fields.add(field);
         }
         String toString = fields.toString();
         DataStructure dataStructureMeta = new DataStructure(fields);
@@ -64,8 +64,8 @@ public class DataSourceInfoRepTest {
 
     @After
     public void tearDown() {
-        for(String id : cleanUp) {
-        dataSourceRep.delete(id);
+        for (String id : cleanUp) {
+            dataSourceRep.delete(id);
         }
     }
 
@@ -75,6 +75,14 @@ public class DataSourceInfoRepTest {
         Iterable<DataSource> findAll = dataSourceRep.findAll();
 
         assertNotNull(findAll);
+    }
+
+    @Test
+    public void findByNameLike() {
+        // TODO review the generated test code and remove the default call to fail.
+        List list = (List) dataSourceRep.findByLikName(".*(I|i).*");
+
+        assertNotNull(list);
     }
 
     @Test
