@@ -37,10 +37,13 @@ public class CampainValidator implements Validator {
     }
 
     private void validate(Campain capmain, Errors errors) {
+        if (capmain.getDataSourceId() == null) {
+            errors.rejectValue("dataSourceId", "error.NotNull");
+        }
 
-        errors.rejectValue("campainName", "error.Unique");
-        
-        errors.rejectValue("dataSourceId", "error.Uniquesss");
+        if (capmain.getAttachmentName() == null) {
+            errors.rejectValue("attachmentName", "error.NotNull");
+        }
     }
 
     /**

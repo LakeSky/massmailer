@@ -7,6 +7,7 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Clob;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

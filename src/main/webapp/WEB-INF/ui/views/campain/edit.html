@@ -3,44 +3,81 @@
     <div class="modal-header">
         <h3 style="">Kampaň (email)</h3>
     </div>
-    <div class="modal-body ">
+    <div class="modal-body container">
         <form novalidate class="form-horizontal" ng-submit="save()" name="campainForm"  >
+            <div class="row">
+                <div class="col-md-9">
+                    <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
 
-            <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
+                    <div class="form-group">
+                        <label  for="campainName">Název</label>
+                        <input  class="form-control" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
+                        <div class="errors"  show-inter="campainName" >
+                            <error-message error="campainName" ></error-message>   
+                        </div>
+                    </div>  
 
-            <div class="form-group">
-                <label  for="campainName">Název</label>
-                <input  class="form-control" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
-                <div class="errors"  show-inter="campainName" >
-                    <error-message error="campainName" ></error-message>   
+                    <div class="form-group">
+                        <input class="form-control"  type="hidden" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
+
+                        <pre>Datový zdroj: {{datasourceSelected.name}}</pre>
+
+                        <input type="text" ng-model="datasourceSelected" placeholder="Vyhledat datový zdroj" typeahead-loading="loadingLocations"  typeahead="datasource as datasource.name for datasource in searchDataSources($viewValue) | filter:{name: $viewValue}"  typeahead-on-select="onDatasourceSelected($item)" class="form-control">
+                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+                        <div class="errors"  show-inter="dataSourceId" >
+                            <error-message error="dataSourceId" ></error-message>   
+                        </div>
+
+                    </div>  
                 </div>
-            </div>  
-
-            <div class="form-group">
-                <input class="form-control"  type="hidden" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
-                
-                    <pre>Datový zdroj: {{datasourceSelected.name}}</pre>
-
-    <input type="text" ng-model="datasourceSelected" placeholder="Vyhledat datový zdroj" typeahead-loading="loadingLocations"  typeahead="datasource as datasource.name for datasource in searchDataSources($viewValue) | filter:{name: $viewValue}"  typeahead-on-select="onDatasourceSelected($item)" class="form-control">
-    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-
-                <div class="errors"  show-inter="dataSourceId" >
-                    <error-message error="dataSourceId" ></error-message>   
-                </div>
-
-            </div>  
-            <textarea cols="60" id="rr" rows="30" >
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <textarea cols="60" id="rr" rows="30"  style="width: 800px;height: 300px; z-index: 100;" ng-model="Campain.emailText" >
                
-            </textarea>
+                    </textarea>
+                </div>
+                <div class="col-md-3">
+                    <h3>Dostupné proměné</h3>
+                    <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
+
+                        ###{{f.name}}###
+                    </p>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5" >
+                    <div class="form-group">
+                        <input type="file" ng-model="files" file-change id="file" >
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div ng-show="loadingfile">
+                        <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  for="campainName">Název</label>
+                    <input  class="form-control" type="text" id = "attachmentName" name="attachmentName" ng-model="Campain.attachmentName"  interpol-model="attachmentName" server-error="attachmentName"/>
+                    <div class="errors"  show-inter="attachmentName" >
+                        <error-message error="attachmentName" ></error-message>   
+                    </div>
+                </div>  
+            </div>
         </form>
-        
+
     </div>
 
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">OK</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
-   <script src="js/nicEdit.js"></script>
+    <script src="js/nicEdit.js"></script>
 
 
 </div>
