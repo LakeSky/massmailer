@@ -1,0 +1,1 @@
+mvn install:install-file  -Dfile=/home/pepa/NetBeansProjects/DocToPdf/dist/lib/jodconverter-core-3.0-beta-4.jar -DgroupId=com.pepaproch.jod -DartifactId=jodconverter-core-3.0-beta-4 -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true
