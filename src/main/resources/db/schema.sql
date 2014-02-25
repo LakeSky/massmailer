@@ -55,6 +55,10 @@ DROP TABLE CAMPAIN;
 CREATE TABLE "CAMPAIN"  ( 
 	"ID"               	INTEGER  GENERATED ALWAYS AS IDENTITY NOT NULL,
 	"CAMPAIN_NAME"            	VARCHAR(255) ,
+	"RECIPIENTS"            	VARCHAR(255) ,
+	"CC_RECIPIENTS"            	VARCHAR(255) ,
+	"BCC_RECIPIENTS"            	VARCHAR(255) ,
+	"SUBJECT"            	VARCHAR(255) ,
 	"EMAIL_TEXT"             	CLOB  ,
 	"DATASOURCE_ID"            	VARCHAR(255) ,
 	"ATTACHMENT"            	BLOB ,

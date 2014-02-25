@@ -138,6 +138,7 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
 // Controller
 // ----------
 dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
+
         getDataSourceById = function(id) {
             var deferred = $q.defer();
             var dataSources = Entity.DataSource.get({
@@ -167,8 +168,9 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
             });
 
             $scope.Campain = Campain;
+
         }
-        new nicEditor({iconsPath: 'js/nicEditorIcons.gif', minHeight: 400, minWidth: 400}).panelInstance('rr');
+
 
 
 
@@ -191,6 +193,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         $scope.$watch('campainForm', function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
+
                 $scope.form = $scope.$eval("campainForm");
 
             }
@@ -200,13 +203,15 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
             // Only act when our property has changed.
             if (newValue !== oldValue) {
                 console.log('Controller: $scope.files changed. Start upload.');
-
-
                 uploadService.send($scope.UploadFile);
 
             }
         }, true);
-
+ 
+     $scope.atcangeged = function customizeAttachment() {
+         
+              
+     };
 
 
 
@@ -238,8 +243,9 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
 
         $scope.save = function() {
-
+            $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
             var deferred = $q.defer();
+
             $scope.Campain.$save(
                     function(Campain, headers) {
                         deferred.resolve(DataSource);

@@ -12,8 +12,8 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
         $scope.datasources = Entity.DataSource.query();
         var modalInstance;
         $scope.openDeleteDialog = function(dataSourceId, name) {
-        $routeParams.dataSourceId = dataSourceId;
-        modalInstance = $modal.open({
+            $routeParams.dataSourceId = dataSourceId;
+            modalInstance = $modal.open({
                 templateUrl: 'views/deleteDialog.html',
                 controller: 'DataSourceDeleteController'
             });
@@ -107,7 +107,7 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
                 $scope.DataSource = DataSource;
             });
             getData();
-        
+
         }
 
         var modalInstance;
@@ -123,8 +123,8 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-        
-            $scope.cancel = function() {
+
+        $scope.cancel = function() {
             this.$dismiss('cancel');
         };
     }]);
@@ -263,7 +263,7 @@ dataSource.controller('DataSourceDeleteController', ['$scope', '$routeParams', '
 
         }
         $scope.delete = function() {
-        var deferred = $q.defer();
+            var deferred = $q.defer();
             $scope.DataSource.$delete(
                     function(DataSource, headers) {
                         deferred.resolve(DataSource);
