@@ -13,7 +13,13 @@ and open the template in the editor.
     width: 80%;
 }
 
+.modal-campain > .modal-dialog  {
+    
+    width: 80%;
+}
+
 .modal-header {
     padding: 0 15px 0 15px;
     
 }
+

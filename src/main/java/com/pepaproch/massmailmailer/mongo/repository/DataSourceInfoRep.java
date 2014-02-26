@@ -20,6 +20,6 @@ public interface DataSourceInfoRep extends CrudRepository<DataSource, String> {
     public Collection<DataSource> findByName(String name);
     
      @Query("  { name: {$regex : ?0 }  } ")
-    public Collection<DataSource> findByNameLike(String name);
+    public Collection<DataSource> findByLikName(String name);
     
 }

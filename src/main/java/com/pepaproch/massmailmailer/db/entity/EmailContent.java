@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author honzaf
  */
 @Entity
-@Table(name = "EMAIL_BODY")
+@Table(name = "EMAIL_CONTENT")
 @NamedQueries({
     @NamedQuery(name = "EmailContent.findAll", query = "SELECT e FROM EmailContent e"),
     @NamedQuery(name = "EmailContent.findById", query = "SELECT e FROM EmailContent e WHERE e.id = :id")})
@@ -25,9 +25,10 @@ public class EmailContent implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private BigDecimal id;
+    @Column(name = "EMAIL_VARIABLES")
     @Lob
-    private String emailText;
-    private String atachment;
+    private String emailVariables;
+
 
     public EmailContent() {
     }
@@ -69,32 +70,7 @@ public class EmailContent implements Serializable {
         return "com.pepaproch.massmailmailer.db.entity.EmailContent[id=" + id + "]";
     }
 
-    /**
-     * @return the emailText
-     */
-    public String getEmailText() {
-        return emailText;
-    }
 
-    /**
-     * @param emailText the emailText to set
-     */
-    public void setEmailText(String emailText) {
-        this.emailText = emailText;
-    }
 
-    /**
-     * @return the atachment
-     */
-    public String getAtachment() {
-        return atachment;
-    }
-
-    /**
-     * @param atachment the atachment to set
-     */
-    public void setAtachment(String atachment) {
-        this.atachment = atachment;
-    }
 
 }

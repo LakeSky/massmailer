@@ -41,8 +41,11 @@ public class Email implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private BigDecimal id;
+    @Column(name = "FROM_EMAIL")
     private String fromEmail;
+    @Column(name = "RECIPIENTS")
     private String recipients;
+    @Column(name = "CC_RECIPIENTSL")
     private String ccRecipients;
     @Column(name = "BCC_RECIPIENT")
     private String bccRecipients;
@@ -50,22 +53,26 @@ public class Email implements Serializable {
     private String subject;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="EMAIL_CONTENT")
+    @JoinColumn(name = "EMAIL_CONTENT")
     private EmailContent emailContent;
+
     @Column(name = "SENT_DATE")
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date sentDate;
-    @JoinColumn(name = "EMAIL_FOLEDER")
+    @Column(name = "STATUS_DATE")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date statusDate;
+    @JoinColumn(name = "EMAIL_FOLDER")
     @ManyToOne
     private EmailFolder emailFolder;
-    @Transient
+    @Column(name = "READY_TO_SENT")
+
     private Boolean readyToSent;
-    @Lob
-    @Column(name = "ATTACHMENT")
-    private Serializable attachment;
-    @Column(name = "ATTACHMENT_NAME")
-    private String attachmentName;
+    @JoinColumn(name = "EMAIL_STATUS")
+    @ManyToOne
+    private EmailFolder emailStatus;
 
     public Email() {
     }
@@ -167,17 +174,15 @@ public class Email implements Serializable {
      * @return the emailBody
      */
     public EmailContent getEmailBody() {
-        return emailContent;
+        return getEmailContent();
     }
 
     /**
      * @param emailContent
      */
     public void setEmailBody(EmailContent emailContent) {
-        this.emailContent = emailContent;
+        this.setEmailContent(emailContent);
     }
-
-
 
     /**
      * @return the sentDate
@@ -193,8 +198,6 @@ public class Email implements Serializable {
         this.sentDate = sentDate;
     }
 
-
-
     /**
      * @return the readyToSent
      */
@@ -208,8 +211,6 @@ public class Email implements Serializable {
     public void setReadyToSent(Boolean readyToSent) {
         this.readyToSent = readyToSent;
     }
-
-
 
     /**
      * @return the emailFolder
@@ -226,34 +227,6 @@ public class Email implements Serializable {
     }
 
     /**
-     * @return the attachment
-     */
-    public Serializable getAttachment() {
-        return attachment;
-    }
-
-    /**
-     * @param attachment the attachment to set
-     */
-    public void setAttachment(Serializable attachment) {
-        this.attachment = attachment;
-    }
-
-    /**
-     * @return the attachmentName
-     */
-    public String getAttachmentName() {
-        return attachmentName;
-    }
-
-    /**
-     * @param attachmentName the attachmentName to set
-     */
-    public void setAttachmentName(String attachmentName) {
-        this.attachmentName = attachmentName;
-    }
-
-    /**
      * @return the fromEmail
      */
     public String getFromEmail() {
@@ -267,6 +240,46 @@ public class Email implements Serializable {
         this.fromEmail = fromEmail;
     }
 
+    /**
+     * @return the emailContent
+     */
+    public EmailContent getEmailContent() {
+        return emailContent;
+    }
 
+    /**
+     * @param emailContent the emailContent to set
+     */
+    public void setEmailContent(EmailContent emailContent) {
+        this.emailContent = emailContent;
+    }
+
+    /**
+     * @return the statusDate
+     */
+    public Date getStatusDate() {
+        return statusDate;
+    }
+
+    /**
+     * @param statusDate the statusDate to set
+     */
+    public void setStatusDate(Date statusDate) {
+        this.statusDate = statusDate;
+    }
+
+    /**
+     * @return the emailStatus
+     */
+    public EmailFolder getEmailStatus() {
+        return emailStatus;
+    }
+
+    /**
+     * @param emailStatus the emailStatus to set
+     */
+    public void setEmailStatus(EmailFolder emailStatus) {
+        this.emailStatus = emailStatus;
+    }
 
 }

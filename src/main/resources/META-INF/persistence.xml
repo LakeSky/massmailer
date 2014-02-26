@@ -6,5 +6,5 @@
     <class>com.pepaproch.massmailmailer.db.Files</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
   </persistence-unit>
-  <!--    <property name="hibernate.hbm2ddl.auto" value="create" />-->
+  <property name="hibernate.hbm2ddl.auto" value="none"/>
 </persistence>

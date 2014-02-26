@@ -7,6 +7,7 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Clob;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +32,14 @@ public class Campain implements Serializable {
     private BigDecimal id;
     @Column(name = "CAMPAIN_NAME")
     private String campainName;
+    @Column(name = "RECIPIENTS")
+    private String recipients;
+    @Column(name = "CC_RECIPIENTS")
+    private String ccRecipients;
+    @Column(name = "BCC_RECIPIENTS")
+    private String bccRecipients;
+    @Column(name = "SUBJECT")
+    private String subject;
     @Lob
     @Column(name = "EMAIL_TEXT")
     private String emailText;
@@ -128,7 +137,7 @@ public class Campain implements Serializable {
      * @return the customizeAttachments
      */
     public Boolean getCustomizeAttachments() {
-        return customizeAttachments;
+        return (customizeAttachments==null) ? java.lang.Boolean.FALSE : customizeAttachments;
     }
 
     /**
@@ -206,6 +215,62 @@ public class Campain implements Serializable {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the recipients
+     */
+    public String getRecipients() {
+        return recipients;
+    }
+
+    /**
+     * @param recipients the recipients to set
+     */
+    public void setRecipients(String recipients) {
+        this.recipients = recipients;
+    }
+
+    /**
+     * @return the ccRecipients
+     */
+    public String getCcRecipients() {
+        return ccRecipients;
+    }
+
+    /**
+     * @param ccRecipients the ccRecipients to set
+     */
+    public void setCcRecipients(String ccRecipients) {
+        this.ccRecipients = ccRecipients;
+    }
+
+    /**
+     * @return the bccRecipients
+     */
+    public String getBccRecipients() {
+        return bccRecipients;
+    }
+
+    /**
+     * @param bccRecipients the bccRecipients to set
+     */
+    public void setBccRecipients(String bccRecipients) {
+        this.bccRecipients = bccRecipients;
+    }
+
+    /**
+     * @return the subject
+     */
+    public String getSubject() {
+        return subject;
+    }
+
+    /**
+     * @param subject the subject to set
+     */
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
 }

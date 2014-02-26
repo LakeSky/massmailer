@@ -57,7 +57,7 @@ public class DataSourceController {
     @ResponseBody
     public List<DataSource> listDatasourcer(@RequestParam(value="search", required = false )String searchColumn,@RequestParam(value="searchString", required = false ) String  searchString) {
         if("name".equalsIgnoreCase(searchColumn)) {
-              return (List) dataRepository.findByNameLike("/^" + searchString + ".*/i");
+              return (List) dataRepository.findByLikName(".*" + searchString + ".*");
         }else {
         return (List) dataRepository.findAll();
         }

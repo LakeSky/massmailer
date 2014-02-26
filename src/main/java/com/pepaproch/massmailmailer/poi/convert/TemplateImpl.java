@@ -1,0 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.pepaproch.massmailmailer.poi.convert;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author pepa
+ */
+public class TemplateImpl implements Template{
+  private final DocumentHolder doc;
+  private final DataSourceItem itemVars;
+
+
+    public TemplateImpl(DocumentHolder doc, DataSourceItem itemVars) {
+        this.doc = doc;
+        this.itemVars = itemVars;
+    }
+  
+
+    @Override
+    public void procces(String outputFileName) {
+      try {
+          doc.procces(itemVars, outputFileName);
+      } catch (IOException ex) {
+          Logger.getLogger(TemplateImpl.class.getName()).log(Level.SEVERE, null, ex);
+      }
+    }
+
+
+
+ 
+ 
+    
+}

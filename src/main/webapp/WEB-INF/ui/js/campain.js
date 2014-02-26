@@ -6,9 +6,15 @@
 
 var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', 'ui.bootstrap']);
 
+
+
 // Controller
 // ----------
 dataSource.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+
+
+
+
         var campains = Entity.Campain.query(function() {
 
             $scope.campains = campains;
@@ -132,13 +138,50 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
 // Controller
 // ----------
 dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
+
+        getDataSourceById = function(id) {
+            var deferred = $q.defer();
+            var dataSources = Entity.DataSource.get({
+                dataSourceId: id
+
+            }, function() {
+                deferred.resolve(dataSources);
+
+            });
+            return deferred.promise;
+        };
         var campainId = $routeParams.campainId;
         if (undefined === campainId) {
             $scope.Campain = new Entity.Campain();
         } else {
-            Campain = Entity.Campain.get({campainId: campainId});
+            Campain = Entity.Campain.get({campainId: campainId}
+            , function() {
+
+                if (Campain.dataSourceId !== null) {
+                    var myDataPromise = getDataSourceById(Campain.dataSourceId);
+                    myDataPromise.then(function(datasource) {  // this is only run after $http completes
+                        $scope.datasourceSelected = datasource;
+                    });
+
+                }
+
+            });
+
             $scope.Campain = Campain;
+
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // 'files' is an array of JavaScript 'File' objects.
@@ -150,11 +193,30 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         $scope.$watch('campainForm', function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
+
                 $scope.form = $scope.$eval("campainForm");
 
             }
         }, true);
 
+        $scope.$watch('UploadFile', function(newValue, oldValue) {
+            // Only act when our property has changed.
+            if (newValue !== oldValue) {
+                console.log('Controller: $scope.files changed. Start upload.');
+                uploadService.send($scope.UploadFile);
+
+            }
+        }, true);
+ 
+     $scope.atcangeged = function customizeAttachment() {
+             $scope.TemplateFields =    Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
+             
+   $scope.TemplateFields.$promise.then(function(da) {
+       alert(da);
+   
+   });
+              
+     };
 
 
 
@@ -166,17 +228,9 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
             $scope.$apply(function() {
 
+                $scope.loadingfile = false;
 
-
-
-                var DataStructure = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText}, function() {
-                    $scope.DataSource.fileUploaded = true;
-                    $scope.DataSource.dataStructure = DataStructure;
-                    $scope.loadingfile = false;
-
-
-                });
-
+                $scope.Campain.attachmentName = xhr.currentTarget.responseText;
             });
 
 
@@ -194,8 +248,9 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
 
         $scope.save = function() {
-
+            $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
             var deferred = $q.defer();
+
             $scope.Campain.$save(
                     function(Campain, headers) {
                         deferred.resolve(DataSource);
@@ -221,26 +276,59 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         };
 
+
+
+        $scope.searchByName = function(val) {
+
+            var deferred = $q.defer();
+            var dataSources = Entity.DataSource.search({
+                search: 'name',
+                searchString: val
+
+            }, function() {
+                deferred.resolve(dataSources);
+
+            });
+            return deferred.promise;
+        };
+
+
+
+        $scope.searchDataSources = function(value) {
+
+            var myDataPromise = $scope.searchByName(value);
+
+            return   myDataPromise.then(function(datasource) {  // this is only run after $http completes
+
+                var datasources = [];
+                angular.forEach(datasource, function(item) {
+                    datasources.push(item);
+                });
+                return datasources;
+
+            });
+
+
+        };
+
+
+
+
+        $scope.onDatasourceSelected = function(datasource) {
+            $scope.Campain.dataSourceId = datasource.id;
+
+        };
+
+
+
+
+
         $scope.cancel = function() {
             this.$dismiss('cancel');
         };
 
 
-        $scope.searchDataSources = function(val) {
-            var dataSourceRows = Entity.DataSource.search({
-                search: 'name',
-                searchString: val
-            }, function() {
 
-                dataSourceRows;
-                var addresses = [];
-                angular.forEach( dataSourceRows, function(item) {
-                    addresses.push(item.formatted_address);
-                });
-                return addresses;
-
-            });
-        }
 
 
 

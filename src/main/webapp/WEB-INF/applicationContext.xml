@@ -73,9 +73,9 @@
     <mongo:db-factory id="mongDbFactory"
                       host="localhost"
                       port="27017"
-                      dbname="massmailer"
-                      username="masmailler"
-                      password="pepajede"/>
+                  dbname="massmailler"
+                  username="massmailler"
+                  password="massmailler"/>
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongDbFactory"/>

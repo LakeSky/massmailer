@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Feb 19 14:26:58 CET 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-4a53-ec32-000005f521d0 
+Tue Feb 25 19:36:54 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0144-6a55-d515-000005f1fb80 
 on database directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/embeddedDataSource  with class loader sun.misc.Launcher$AppClassLoader@3b6cdbb8 
 Loaded from file:/home/pepa/.m2/repository/org/apache/derby/derby/10.9.1.0/derby-10.9.1.0.jar
 java.vendor=Oracle Corporation
@@ -9,23 +9,27 @@ user.dir=/home/pepa/NetBeansProjects/massmailer/massmailer
 derby.system.home=null
 derby.stream.error.method=org.springframework.jdbc.datasource.embedded.OutputStreamFactory.getNoopOutputStream
 Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Wed Feb 19 14:27:01 CET 2014:
-Shutting down instance a816c00e-0144-4a53-ec32-000005f521d0 on database directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@3b6cdbb8 
-Wed Feb 19 14:27:01 CET 2014 Thread[Thread-5,5,main] Cleanup action starting
-ERROR XBM0I: Directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/embeddedDataSource cannot be removed.
-	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
-	at org.apache.derby.impl.services.monitor.BaseMonitor.removePersistentService(Unknown Source)
-	at org.apache.derby.iapi.services.monitor.Monitor.removePersistentService(Unknown Source)
+Tue Feb 25 19:36:59 CET 2014 Thread[Thread-5,5,main] Cleanup action starting
+java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
 	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
 	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
 	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
-	at org.springframework.jdbc.datasource.embedded.DerbyEmbeddedDatabaseConfigurer.shutdown(DerbyEmbeddedDatabaseConfigurer.java:81)
-	at org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory.shutdownDatabase(EmbeddedDatabaseFactory.java:152)
-	at org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean.destroy(EmbeddedDatabaseFactoryBean.java:65)
+	at org.springframework.jdbc.datasource.SimpleDriverDataSource.getConnectionFromDriver(SimpleDriverDataSource.java:140)
+	at org.springframework.jdbc.datasource.AbstractDriverBasedDataSource.getConnectionFromDriver(AbstractDriverBasedDataSource.java:153)
+	at org.springframework.jdbc.datasource.AbstractDriverBasedDataSource.getConnection(AbstractDriverBasedDataSource.java:119)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:111)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:77)
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:45)
+	at org.springframework.jdbc.datasource.init.DataSourceInitializer.destroy(DataSourceInitializer.java:92)
 	at org.springframework.beans.factory.support.DisposableBeanAdapter.destroy(DisposableBeanAdapter.java:238)
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroyBean(DefaultSingletonBeanRegistry.java:510)
 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton(DefaultSingletonBeanRegistry.java:486)
@@ -34,12 +38,54 @@ ERROR XBM0I: Directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/
 	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1090)
 	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1064)
 	at org.springframework.context.support.AbstractApplicationContext$1.run(AbstractApplicationContext.java:980)
+Caused by: java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 27 more
+============= begin nested exception, level (1) ===========
+java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.springframework.jdbc.datasource.SimpleDriverDataSource.getConnectionFromDriver(SimpleDriverDataSource.java:140)
+	at org.springframework.jdbc.datasource.AbstractDriverBasedDataSource.getConnectionFromDriver(AbstractDriverBasedDataSource.java:153)
+	at org.springframework.jdbc.datasource.AbstractDriverBasedDataSource.getConnection(AbstractDriverBasedDataSource.java:119)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:111)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:77)
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:45)
+	at org.springframework.jdbc.datasource.init.DataSourceInitializer.destroy(DataSourceInitializer.java:92)
+	at org.springframework.beans.factory.support.DisposableBeanAdapter.destroy(DisposableBeanAdapter.java:238)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroyBean(DefaultSingletonBeanRegistry.java:510)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton(DefaultSingletonBeanRegistry.java:486)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingleton(DefaultListableBeanFactory.java:742)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingletons(DefaultSingletonBeanRegistry.java:455)
+	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1090)
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1064)
+	at org.springframework.context.support.AbstractApplicationContext$1.run(AbstractApplicationContext.java:980)
+============= end nested exception, level (1) ===========
 Cleanup action completed
-Wed Feb 19 14:27:01 CET 2014 Thread[Thread-5,5,main] Cleanup action starting
-ERROR XBM0I: Directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/embeddedDataSource cannot be removed.
-	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
-	at org.apache.derby.impl.services.monitor.BaseMonitor.removePersistentService(Unknown Source)
-	at org.apache.derby.iapi.services.monitor.Monitor.removePersistentService(Unknown Source)
+----------------------------------------------------------------
+Tue Feb 25 19:36:59 CET 2014:
+Shutting down instance a816c00e-0144-6a55-d515-000005f1fb80 on database directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/embeddedDataSource with class loader sun.misc.Launcher$AppClassLoader@3b6cdbb8 
+Tue Feb 25 19:36:59 CET 2014 Thread[Thread-5,5,main] Cleanup action starting
+java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
 	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
@@ -57,4 +103,36 @@ ERROR XBM0I: Directory memory:/home/pepa/NetBeansProjects/massmailer/massmailer/
 	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1090)
 	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1064)
 	at org.springframework.context.support.AbstractApplicationContext$1.run(AbstractApplicationContext.java:980)
+Caused by: java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 23 more
+============= begin nested exception, level (1) ===========
+java.sql.SQLException: Database 'memory:embeddedDataSource' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.springframework.jdbc.datasource.embedded.DerbyEmbeddedDatabaseConfigurer.shutdown(DerbyEmbeddedDatabaseConfigurer.java:81)
+	at org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory.shutdownDatabase(EmbeddedDatabaseFactory.java:152)
+	at org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean.destroy(EmbeddedDatabaseFactoryBean.java:65)
+	at org.springframework.beans.factory.support.DisposableBeanAdapter.destroy(DisposableBeanAdapter.java:238)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroyBean(DefaultSingletonBeanRegistry.java:510)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton(DefaultSingletonBeanRegistry.java:486)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.destroySingleton(DefaultListableBeanFactory.java:742)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingletons(DefaultSingletonBeanRegistry.java:455)
+	at org.springframework.context.support.AbstractApplicationContext.destroyBeans(AbstractApplicationContext.java:1090)
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1064)
+	at org.springframework.context.support.AbstractApplicationContext$1.run(AbstractApplicationContext.java:980)
+============= end nested exception, level (1) ===========
 Cleanup action completed

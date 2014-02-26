@@ -71,23 +71,18 @@ public class CampainController {
     @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
     public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) {
-        
-                if (result.hasErrors()) {
-            List<FieldError> fieldErrors = result.getFieldErrors();
 
+        if (result.hasErrors()) {
+            List<FieldError> fieldErrors = result.getFieldErrors();
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-                
-        Campain campainSaved = getCampainRepo().save(campain);
-
-       
+             
+            Campain campainSaved = getCampainRepo().save(campain);
 
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;
         }
-        
-
 
     }
 
@@ -129,6 +124,7 @@ public class CampainController {
 //        return findByDataSourceIdPaginated;\
         return null;
     }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setValidator(getCampainValidator());

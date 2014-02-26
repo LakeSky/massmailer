@@ -6,13 +6,13 @@ var upload = angular.module('upload', []);
 
 
 dataSource.directive('fileChange', function() {
-
+     
     var linker = function($scope, element, attributes) {
         // onChange, push the files to $scope.files.
         element.bind('change', function(event) {
             var selectedFile = event.target.files[0];
-            $scope.$apply(function() {
-                $scope.UploadFile = selectedFile;
+            $scope.$parent.$apply(function() {
+             $scope.$parent.UploadFile = selectedFile;
             });
         });
     };
