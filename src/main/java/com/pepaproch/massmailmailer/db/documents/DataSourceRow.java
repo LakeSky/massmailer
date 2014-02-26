@@ -22,13 +22,16 @@ public class DataSourceRow implements SourceRow {
     @Id
     private String id;
     private String dataSourceId;
-
     private Collection<DataSourceField> dataSourceFields;
+    
+    
 
     public DataSourceRow(String dataSourceId, Collection<DataSourceField> dataSourceFields) {
         this.dataSourceId = dataSourceId;
         this.dataSourceFields = dataSourceFields;
     }
+    
+    
 
     public DataSourceRow() {
     }

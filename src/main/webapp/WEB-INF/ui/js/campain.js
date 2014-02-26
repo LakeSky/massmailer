@@ -209,10 +209,11 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         }, true);
  
      $scope.atcangeged = function customizeAttachment() {
-             $scope.TemplateFields =    Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
+       var TemplateFieldsPromise =    Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
              
-   $scope.TemplateFields.$promise.then(function(da) {
-       alert(da);
+   
+         TemplateFieldsPromise.$promise.then(function(result) {
+  $scope.templateFields = result.placeHolders;
    
    });
               

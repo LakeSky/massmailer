@@ -15,5 +15,5 @@ import java.util.Collection;
 public interface PlaceHolderHelper {
     public Collection<String> getPlaceHolders(DocumentHolder dcoHolder) ;
    
-    public void setPlaceHolders(DocumentHolder dcoHolder , DataSourceItem item);
+    public void setPlaceHolders(DocumentHolder dcoHolder , TemplateDataItem item);
 }

@@ -24,9 +24,11 @@ public class WordDocument implements DocumentHolder {
     private final HWPFDocument doc;
     private final PlaceHolderHelper placeHolderRetriver;
     private final Range range;
+    private final String fileName;
 
     public WordDocument(String inputFilename, PlaceHolderHelper placeHolderRetriver_) throws FileNotFoundException, IOException {
         this.placeHolderRetriver = placeHolderRetriver_;
+        this.fileName = inputFilename;
         FileInputStream fis = new FileInputStream(inputFilename);
 
         doc = new HWPFDocument(fis);
@@ -35,9 +37,9 @@ public class WordDocument implements DocumentHolder {
 
     }
 
-    public WordDocument(HWPFDocument doc_, PlaceHolderHelper placeHolderRetriver_) throws FileNotFoundException, IOException {
+    public WordDocument(HWPFDocument doc_, PlaceHolderHelper placeHolderRetriver_,String inputFileName) throws FileNotFoundException, IOException {
         this.placeHolderRetriver = placeHolderRetriver_;
-
+        this.fileName = inputFileName;
         doc = doc_;
         range = doc.getRange();
 
@@ -61,12 +63,12 @@ public class WordDocument implements DocumentHolder {
      * @throws IOException
      */
     @Override
-    public void procces(DataSourceItem item, String outputFileName) throws FileNotFoundException, IOException {
+    public void procces(TemplateDataItem item, String outputFileName) throws FileNotFoundException, IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         doc.write(os);
         ByteArrayInputStream bi = new ByteArrayInputStream(os.toByteArray());
         HWPFDocument docCopy = new HWPFDocument(bi);
-        DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver);
+        DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver,this.fileName);
         placeHolderRetriver.setPlaceHolders(holderCopy, item);
         holderCopy.write(outputFileName);
 
@@ -89,6 +91,14 @@ public class WordDocument implements DocumentHolder {
                 fos.close();
             }
         }
+    }
+
+    @Override
+    public TemplateMeta getTemplateMeta() {
+        TemplateMeta meta = new TemplateMeta();
+        meta.setPlaceHolders(this.getPlaceHolders());
+        meta.setFileName(fileName);
+        return meta;
     }
 
 }

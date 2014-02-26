@@ -29,9 +29,9 @@ public class DocToPdfTest {
         PlaceHolderHelper pl = new StringPlaceHolderHelper("####");
 
         DocumentHolder docu = new WordDocument("/home/pepa/test.doc", pl);
-        List<DataSourceItem> items = new ArrayList();
+        List<TemplateDataItem> items = new ArrayList();
         for (int i = 0; i < 10; i++) {
-            DataSourceItem dat = new DataSourceItem();
+            TemplateDataItem dat = new TemplateDataItem();
             dat.add("####NAME####", "PEPA " + i);
             dat.add("####TEL####", "00420 444 567 89" + i);
             items.add(dat);
@@ -43,7 +43,7 @@ public class DocToPdfTest {
         officeManager.start();
         OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
         int c = 0;
-        for (DataSourceItem dat : items) {
+        for (TemplateDataItem dat : items) {
 
             String outputFilename = "/home/pepa/CONVTEST/TMP/OUT" + c + ".html";
 

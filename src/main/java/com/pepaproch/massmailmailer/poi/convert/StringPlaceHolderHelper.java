@@ -41,7 +41,7 @@ public class StringPlaceHolderHelper implements PlaceHolderHelper {
      *
      */
     @Override
-    public void setPlaceHolders(DocumentHolder dcoHolder, DataSourceItem item) {
+    public void setPlaceHolders(DocumentHolder dcoHolder, TemplateDataItem item) {
         for (String varName : getPlaceHolders(dcoHolder)) {
             dcoHolder.setVariable(varName, item.getVarValue(varName));
         }

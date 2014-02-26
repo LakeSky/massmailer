@@ -8,14 +8,15 @@ package com.pepaproch.massmailmailer.controlers;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
+import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import com.pepaproch.massmailmailer.service.UserService;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -37,15 +37,19 @@ public class TemplateController {
 
     @Autowired
     private UserService userService;
+    
+    private ConvertService convertService;
+    private TemlateService templateService;
+         
 
     @ResponseBody
     @RequestMapping(value = "templatefields/{fileId}", produces = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.GET})
-    public ResponseEntity getTemplateFields(@PathVariable("fileId") String fileName, HttpServletResponse response) {
+    public  ResponseEntity<TemplateMeta>  getTemplateFields(@PathVariable("fileId") String fileName, HttpServletResponse response) {
 
         PlaceHolderHelper pl = new StringPlaceHolderHelper("####");
         try {
             DocumentHolder docu = new WordDocument("/tmp/" + fileName, pl);
-            ResponseEntity<Collection<String>> responseE = new ResponseEntity<Collection<String>>(docu.getPlaceHolders(), HttpStatus.ACCEPTED);
+            ResponseEntity<TemplateMeta> responseE = new ResponseEntity<TemplateMeta>(docu.getTemplateMeta(), HttpStatus.ACCEPTED);
             return responseE;
 
         } catch (IOException ex) {
@@ -55,6 +59,15 @@ public class TemplateController {
         return null;
 
     }
+    
+        @ResponseBody
+    @RequestMapping(value = "pdfpreview/{datasourceId}/{fileId}", method = {RequestMethod.GET},produces = "application/pdf")
+    public  FileSystemResource   getTemplateFields(@PathVariable("datasourceId") String datasourceId,@PathVariable("fileId") String fileName, HttpServletResponse response) {
+
+     return new FileSystemResource("/tmp/PDF0.pdf");
+
+    }
+    
 
     @RequestMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
     @ResponseBody
@@ -78,6 +91,34 @@ public class TemplateController {
      */
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    /**
+     * @return the convertService
+     */
+    public ConvertService getConvertService() {
+        return convertService;
+    }
+
+    /**
+     * @param convertService the convertService to set
+     */
+    public void setConvertService(ConvertService convertService) {
+        this.convertService = convertService;
+    }
+
+    /**
+     * @return the templateService
+     */
+    public TemlateService getTemplateService() {
+        return templateService;
+    }
+
+    /**
+     * @param templateService the templateService to set
+     */
+    public void setTemplateService(TemlateService templateService) {
+        this.templateService = templateService;
     }
 
 }

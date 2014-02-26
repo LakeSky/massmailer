@@ -17,9 +17,10 @@ public interface DocumentHolder {
 
     public String getDocumentText();
     public Collection<String> getPlaceHolders();
-    public void procces(DataSourceItem item, String outputFileName) throws FileNotFoundException, IOException;
+    public void procces(TemplateDataItem item, String outputFileName) throws FileNotFoundException, IOException;
     public void setVariable(String varName, String varValue);
     public void write(String outputFileName) throws FileNotFoundException, IOException;
+    public TemplateMeta getTemplateMeta();
 
 
 

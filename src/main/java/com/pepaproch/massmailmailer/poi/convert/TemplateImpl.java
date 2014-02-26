@@ -16,10 +16,10 @@ import java.util.logging.Logger;
  */
 public class TemplateImpl implements Template{
   private final DocumentHolder doc;
-  private final DataSourceItem itemVars;
+  private final TemplateDataItem itemVars;
 
 
-    public TemplateImpl(DocumentHolder doc, DataSourceItem itemVars) {
+    public TemplateImpl(DocumentHolder doc, TemplateDataItem itemVars) {
         this.doc = doc;
         this.itemVars = itemVars;
     }
@@ -29,6 +29,7 @@ public class TemplateImpl implements Template{
     public void procces(String outputFileName) {
       try {
           doc.procces(itemVars, outputFileName);
+         
       } catch (IOException ex) {
           Logger.getLogger(TemplateImpl.class.getName()).log(Level.SEVERE, null, ex);
       }

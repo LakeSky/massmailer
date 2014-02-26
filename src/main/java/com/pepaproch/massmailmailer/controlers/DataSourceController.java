@@ -144,6 +144,7 @@ public class DataSourceController {
         PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
         RowMapper<RowRecords> rowMapper = processor.process(new File("/tmp/" + dataSource.getDataStructure().getFileName()));
         Collection<DataSourceRow> previewRows = new ArrayList();
+   
         int i = 0;
         for (RowRecords row : rowMapper) {
 

@@ -11,15 +11,18 @@ import java.util.HashMap;
  *
  * @author pepa
  */
-public class DataSourceItem {
-
+public class TemplateDataItem {
+    
+    private String inFileName;
+    private String outFileName;
+    
     HashMap<String, String> nameValuePair;
 
-    public DataSourceItem(HashMap<String, String> nameValuePair) {
+    public TemplateDataItem(HashMap<String, String> nameValuePair) {
         this.nameValuePair = nameValuePair;
     }
 
-    public DataSourceItem() {
+    public TemplateDataItem() {
         this.nameValuePair = new HashMap();
     }
 
