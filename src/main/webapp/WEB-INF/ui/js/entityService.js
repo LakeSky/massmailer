@@ -13,9 +13,9 @@ var entityService = angular.module('entityService', ['ngResource']).
                         params: {search: 'f', searchString: 's'}
                         , isArray: true
                     }}),
-                Campain: $resource('../campain/:campainId', {campainId: '@id'} ),
+                Campain: $resource('../campain/:campainId', {campainId: '@id'}),
                 DataStructure: $resource('../datasource/structure/:fileId\\/', {fileId: '@id'}),
-                TemplateFields: $resource('../template/templatefields/:fileId\\/', {fileId: '@id'}, { 'get':    {method:'GET',isArray:false }} ),
+                TemplateFields: $resource('../template/templatefields/:fileId\\/', {fileId: '@id'}),
                 DataSourceRow: $resource('../datasource/:dataSourceId/rows/:page/:limit/:sort/:sortDir/:search/:searchString', {dataSourceId: '@id', page: 0, limit: 10, sort: 'id', sortDir: 1, search: '0', searchString: ''})
 
 
