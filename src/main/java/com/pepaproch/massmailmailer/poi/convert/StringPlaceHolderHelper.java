@@ -42,7 +42,7 @@ public class StringPlaceHolderHelper implements PlaceHolderHelper {
      */
     @Override
     public void setPlaceHolders(DocumentHolder dcoHolder, TemplateDataItem item) {
-        for (String varName : getPlaceHolders(dcoHolder)) {
+        for (String varName : item.nameValuePair.keySet()) {
             dcoHolder.setVariable(varName, item.getVarValue(varName));
         }
 

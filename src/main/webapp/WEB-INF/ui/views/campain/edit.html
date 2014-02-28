@@ -129,30 +129,32 @@
                                     </div>  
                                 </div>
                             </div>
-                            <div>
-                <h3 style="margin-top: 0;">Dostupné proměné</h3>
-                    <p ng-repeat="f in templateFields">
-
-                        ###{{f}}###
-                    </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" >
+                                <h4 style="margin-top: 0;">Použité proměné</h4>
+                                <p ng-repeat="f in templateFields">
+                                    ###{{f}}### 
+                                </p>
                             </div>
-               <iframe ng-src="{{templateUrl}}"   width="400px" height="300px" />
-                  </div>
+                            <div class="col-md-4" >
+                                <iframe ng-src="{{templateUrl}}"   width="600px" height="400px" /> 
+                            </div>
+                        </div>
+                    </div>
                 </tab>
-
             </tabset>
 
         </form>
-
     </div>
 
 
 
-    <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-    </div>
-    <script src="js/ckeditor/ckeditor.js"></script>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
+<script src="js/ckeditor/ckeditor.js"></script>
 
 
 </div>

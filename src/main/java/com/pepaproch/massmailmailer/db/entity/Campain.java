@@ -7,7 +7,7 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Clob;
+import java.sql.Blob;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +47,7 @@ public class Campain implements Serializable {
     private String dataSourceId;
     @Lob
     @Column(name = "ATTACHMENT")
-    private Serializable attachment;
+    private byte[] attachment;
     @Column(name = "ATTACHMENT_NAME")
     private String attachmentName;
     @Column(name = "CUSTOMIZE_EMAIL")
@@ -91,19 +91,7 @@ public class Campain implements Serializable {
         this.dataSourceId = dataSourceId;
     }
 
-    /**
-     * @return the attachment
-     */
-    public Serializable getAttachment() {
-        return attachment;
-    }
 
-    /**
-     * @param attachment the attachment to set
-     */
-    public void setAttachment(Serializable attachment) {
-        this.attachment = attachment;
-    }
 
     /**
      * @return the attachmentName
@@ -272,5 +260,20 @@ public class Campain implements Serializable {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+    /**
+     * @return the attachment
+     */
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    /**
+     * @param attachment the attachment to set
+     */
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
 
 }

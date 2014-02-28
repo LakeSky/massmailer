@@ -5,15 +5,14 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.poi.convert.Template;
-import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
-import com.pepaproch.massmailmailer.poi.convert.TemplateImpl;
 import java.io.File;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
-import org.artofsolving.jodconverter.office.OfficeConnectionProtocol;
-import org.artofsolving.jodconverter.office.OfficeException;
 import org.artofsolving.jodconverter.office.OfficeManager;
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,9 +20,13 @@ import org.springframework.stereotype.Service;
  * @author pepa
  */
 @Service
+@Transactional
 public class ConvertService {
 
     OfficeManager officeManager;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public ConvertService() {
 
@@ -50,16 +53,30 @@ public class ConvertService {
         if (officeManager == null) {
             officeManager = new DefaultOfficeManagerConfiguration().buildOfficeManager();
         } else {
-        officeManager.stop();
+            officeManager.stop();
         }
-            
-            officeManager.start();
-            System.out.println("STARTING OFFICE MANAGER");
+        System.out.println("STARTING OFFICE MANAGER");
+        officeManager.start();
 
     }
 
     public void stopManager() {
-
+        System.out.println("STOPPING OFFICE MANAGER");
         officeManager.stop();
     }
+
+    /**
+     * @return the entityManager
+     */
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    /**
+     * @param entityManager the entityManager to set
+     */
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
 }

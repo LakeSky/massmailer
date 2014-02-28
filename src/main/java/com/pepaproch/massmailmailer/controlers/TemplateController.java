@@ -37,14 +37,14 @@ public class TemplateController {
 
     @Autowired
     private UserService userService;
-    
+    @Autowired
     private ConvertService convertService;
+    @Autowired
     private TemlateService templateService;
-         
 
     @ResponseBody
     @RequestMapping(value = "templatefields/{fileId}", produces = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.GET})
-    public  ResponseEntity<TemplateMeta>  getTemplateFields(@PathVariable("fileId") String fileName, HttpServletResponse response) {
+    public ResponseEntity<TemplateMeta> getTemplateFields(@PathVariable("fileId") String fileName, HttpServletResponse response) {
 
         PlaceHolderHelper pl = new StringPlaceHolderHelper("####");
         try {
@@ -59,17 +59,25 @@ public class TemplateController {
         return null;
 
     }
-    
-        @ResponseBody
-    @RequestMapping(value = "pdfpreview/{datasourceId}/{fileId}", method = {RequestMethod.GET},produces = "application/pdf")
-    public  FileSystemResource   getTemplateFields(@PathVariable("datasourceId") String datasourceId,@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
+
+    @ResponseBody
+    @RequestMapping(value = "pdfpreview/{datasourceId}/{fileId}", method = {RequestMethod.GET}, produces = "application/pdf")
+    public FileSystemResource getTemplatePreviewWithData(@PathVariable("datasourceId") String datasourceId, @PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
         String createPreview = templateService.createPreview("/tmp/" + fileName, datasourceId);
-        convertService.convert(createPreview, createPreview + "pdf", Boolean.TRUE);
-     return new FileSystemResource(createPreview + "pdf");
+        convertService.convert("/tmp/" + createPreview,"/tmp/" +  createPreview + ".pdf", Boolean.FALSE);
+        return new FileSystemResource("/tmp/" + createPreview + ".pdf");
 
     }
-    
 
+    
+    @ResponseBody
+    @RequestMapping(value = "pdfpreview/{fileId}", method = {RequestMethod.GET}, produces = "application/pdf")
+    public FileSystemResource getTemplatePreview(@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
+     
+        convertService.convert("/tmp/" + fileName,"/tmp/" +  fileName + ".pdf", Boolean.FALSE);
+        return new FileSystemResource("/tmp/" + fileName + ".pdf");
+    }
+    
     @RequestMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
     @ResponseBody
     public ResponseEntity deleteFile(@PathVariable("fileId") Integer id, BindingResult result) {

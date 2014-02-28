@@ -6,9 +6,6 @@
 
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
-import com.pepaproch.massmailmailer.db.documents.DataStructure;
-import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -59,7 +56,7 @@ public class TemlateServiceTest {
         System.out.println("createPreview");
         String templateFile = "";
         String dataSourceId = "";
-        String name =  getService().createPreview("/home/pepa/NetBeansProjects/massmailer/massmailer/src/main/resources/testtemplate.doc", "530f09f644ae3bbdfd1e34fb");
+        String name =  getService().createPreview("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc", "52fcd88844aef19a6f3c74db");
   
         // TODO review the generated test code and remove the default call to fail.
         assertNotNull(name);

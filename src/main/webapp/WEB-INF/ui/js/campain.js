@@ -152,13 +152,14 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
         };
         var campainId = $routeParams.campainId;
         if (undefined === campainId) {
+            $scope.Campain = null;
             $scope.Campain = new Entity.Campain();
         } else {
-            Campain = Entity.Campain.get({campainId: campainId}
+            $scope.Campain = Entity.Campain.get({campainId: campainId}
             , function() {
 
-                if (Campain.dataSourceId !== null) {
-                    var myDataPromise = getDataSourceById(Campain.dataSourceId);
+                if ($scope.Campain.dataSourceId !== null) {
+                    var myDataPromise = getDataSourceById($scope.Campain.dataSourceId);
                     myDataPromise.then(function(datasource) {  // this is only run after $http completes
                         $scope.datasourceSelected = datasource;
                     });
@@ -167,7 +168,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
             });
 
-            $scope.Campain = Campain;
+
 
         }
 
@@ -207,19 +208,27 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
             }
         }, true);
- 
-     $scope.atcangeged = function customizeAttachment() {
-       var TemplateFieldsPromise =    Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
-             
-   
-         TemplateFieldsPromise.$promise.then(function(result) {
-  $scope.templateFields = result.placeHolders;
-   
-   });
-   $scope.templateUrl = '../template/pdfpreview/'  + Campain.attachmentName + '/' + Campain.dataSourceId;
 
-              
-     };
+        $scope.atcangeged = function customizeAttachment() {
+            var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
+
+
+            TemplateFieldsPromise.$promise.then(function(result) {
+                $scope.templateFields = result.placeHolders;
+
+            });
+            var path = '../template/pdfpreview/'
+            if (undefined !== $scope.Campain.dataSourceId) {
+                path = path + $scope.Campain.dataSourceId + '\/';
+            }
+            if (undefined !== $scope.Campain.attachmentName) {
+                path = path + $scope.Campain.attachmentName + '\/';
+            }
+
+            $scope.templateUrl = path ;
+
+
+        };
 
 
 

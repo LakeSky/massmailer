@@ -6,11 +6,13 @@
 
 package com.pepaproch.massmailmailer.controlers;
 
+import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  *
@@ -18,7 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
-
+@TransactionConfiguration(transactionManager = "txManager")
+@Transactional
 public class ConvertServiceTest {
     @Autowired
     private ConvertService service;
@@ -31,7 +34,7 @@ public class ConvertServiceTest {
      */
     @Test
     public void testConvert() {
-        service.convert("/home/pepa/NetBeansProjects/massmailer/massmailer/src/main/resources/testtemplate.doc", "/tmp/52fcd88844aef19a6f3c74db530320e444ae50d084842e2ftest.pdf", Boolean.FALSE);
+        service.convert("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc", "/tmp/52fcd88844aef19a6f3c74db530320e444ae50d084842e2ftest.pdf", Boolean.FALSE);
     }
 
     /**

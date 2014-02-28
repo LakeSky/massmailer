@@ -9,9 +9,14 @@ import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
+import org.hibernate.Hibernate;
+import org.hibernate.LobHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +43,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/campain")
 public class CampainController {
 
-    @Autowired
-    private CampainRepo campainRepo;
+  @Autowired
+  private CampainService campainService;
     @Autowired
     private CampainValidator campainValidator;
 
@@ -51,34 +56,31 @@ public class CampainController {
     @ResponseBody
 
     public List<Campain> listCampain() {
-        return (List) getCampainRepo().findAll();
+        
+        return getCampainService().findAll();
     }
 
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public Campain getCampain(@PathVariable("campainId") BigDecimal campainId) {
 
-        return getCampainRepo().findOne(campainId);
+        return getCampainService().findOne(campainId);
     }
 
-    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity saveCampain(@Valid @RequestBody Campain campain, BindingResult result) {
-        getCampainRepo().save(campain);
-        throw new UnsupportedOperationException();
-    }
+
 
     @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
-    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) {
+    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException {
 
         if (result.hasErrors()) {
             List<FieldError> fieldErrors = result.getFieldErrors();
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-             
-            Campain campainSaved = getCampainRepo().save(campain);
+             FileInputStream fis = new FileInputStream(campain.getAttachmentName());
+              
+            Campain campainSaved = getCampainService().save(campain);
 
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;
@@ -89,7 +91,7 @@ public class CampainController {
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity deleteDataSource(@PathVariable("campainId") BigDecimal campainId) {
-        getCampainRepo().delete(campainId);
+        getCampainService().delete(campainId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
 
     }
@@ -131,19 +133,7 @@ public class CampainController {
 
     }
 
-    /**
-     * @return the campainRepo
-     */
-    public CampainRepo getCampainRepo() {
-        return campainRepo;
-    }
 
-    /**
-     * @param campainRepo the campainRepo to set
-     */
-    public void setCampainRepo(CampainRepo campainRepo) {
-        this.campainRepo = campainRepo;
-    }
 
     /**
      * @return the campainValidator
@@ -157,5 +147,19 @@ public class CampainController {
      */
     public void setCampainValidator(CampainValidator campainValidator) {
         this.campainValidator = campainValidator;
+    }
+
+    /**
+     * @return the campainService
+     */
+    public CampainService getCampainService() {
+        return campainService;
+    }
+
+    /**
+     * @param campainService the campainService to set
+     */
+    public void setCampainService(CampainService campainService) {
+        this.campainService = campainService;
     }
 }

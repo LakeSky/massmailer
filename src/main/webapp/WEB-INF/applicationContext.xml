@@ -22,12 +22,12 @@
     <context:component-scan base-package="com.pepaproch.massmailmailer.service"/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.controlers"/>
     
-    <jpa:repositories base-package="com.pepaproch.massmailmailer.repository" />
-    
+    <jpa:repositories base-package="com.pepaproch.massmailmailer.repository" transaction-manager-ref="txManager" />
+
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
         <property name="defaultLocale" value="en_Us" />
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+  
 
     <bean id="appMassMailer" class="org.springframework.beans.factory.config.PropertiesFactoryBean" >
         <property name="locations">
@@ -55,8 +55,9 @@
     <bean name="persistenceUnitManager"
           class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
         <property name="defaultDataSource" ref="embeddedDataSource" />
+        
     </bean>
-
+    
 
 
     <bean id="entityManagerFactory"
@@ -65,17 +66,18 @@
         <property name="persistenceUnitManager" ref="persistenceUnitManager"/>
     </bean>
  
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
- 
+   <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+
 
     <mongo:db-factory id="mongDbFactory"
                       host="localhost"
                       port="27017"
-                  dbname="massmailler"
-                  username="massmailler"
-                  password="massmailler"/>
+                      dbname="massmailer"
+                      username="masmailler"
+                      password="pepajede"/>
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongDbFactory"/>
@@ -87,5 +89,6 @@
    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
    	<bean id="convertService" class="com.pepaproch.massmailmailer.controlers.ConvertService" 
 		init-method="startManager" destroy-method="stopManager"/>
+   
    
 </beans>
