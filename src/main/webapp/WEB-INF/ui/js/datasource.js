@@ -141,6 +141,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
         } else {
             DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
             $scope.DataSource = DataSource;
+                $scope.DataSource.fileUploaded = false;
         }
 
 

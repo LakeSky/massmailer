@@ -5,13 +5,14 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.Template;
+import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.TemplateImpl;
 import java.io.File;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeConnectionProtocol;
+import org.artofsolving.jodconverter.office.OfficeException;
 import org.artofsolving.jodconverter.office.OfficeManager;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +23,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConvertService {
 
+    OfficeManager officeManager;
+
     public ConvertService() {
+
     }
 
     public void convert(String inFileName, String outFileName, Boolean removeInput) {
-        OfficeManager officeManager = new DefaultOfficeManagerConfiguration()
-      .setConnectionProtocol(OfficeConnectionProtocol.PIPE)
-      .setPipeNames("office1", "office2")
-      .setTaskExecutionTimeout(30000L).buildOfficeManager();
+
         File inputFile = new File(inFileName);
         try {
 
-            officeManager.start();
             OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
             converter.convert(inputFile, new File(outFileName));
 
@@ -41,8 +41,25 @@ public class ConvertService {
             if (removeInput) {
                 boolean delete = inputFile.delete();
             }
-            officeManager.stop();
+
         }
 
+    }
+
+    public void startManager() {
+        if (officeManager == null) {
+            officeManager = new DefaultOfficeManagerConfiguration().buildOfficeManager();
+        } else {
+        officeManager.stop();
+        }
+            
+            officeManager.start();
+            System.out.println("STARTING OFFICE MANAGER");
+
+    }
+
+    public void stopManager() {
+
+        officeManager.stop();
     }
 }

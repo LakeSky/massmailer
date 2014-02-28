@@ -66,8 +66,9 @@ public class DataSourceController {
     @RequestMapping(value = "/{dataSourceId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public DataSource showDataSource(@PathVariable("dataSourceId") String dataSourceId) {
-
-        return dataRepository.findOne(dataSourceId);
+        DataSource findOne = dataRepository.findOne(dataSourceId);
+        findOne.setFileUploaded(Boolean.FALSE);
+        return findOne;
     }
 
     /**

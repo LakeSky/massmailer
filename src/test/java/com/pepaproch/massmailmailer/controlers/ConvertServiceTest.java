@@ -31,7 +31,7 @@ public class ConvertServiceTest {
      */
     @Test
     public void testConvert() {
-        service.convert("/tmp/52fcd88844aef19a6f3c74db530320e444ae50d084842e2ftest.doc", "/tmp/52fcd88844aef19a6f3c74db530320e444ae50d084842e2ftest.pdf", Boolean.FALSE);
+        service.convert("/home/pepa/NetBeansProjects/massmailer/massmailer/src/main/resources/testtemplate.doc", "/tmp/52fcd88844aef19a6f3c74db530320e444ae50d084842e2ftest.pdf", Boolean.FALSE);
     }
 
     /**

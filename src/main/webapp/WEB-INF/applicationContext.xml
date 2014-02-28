@@ -73,9 +73,9 @@
     <mongo:db-factory id="mongDbFactory"
                       host="localhost"
                       port="27017"
-                      dbname="massmailer"
-                      username="masmailler"
-                      password="pepajede"/>
+                  dbname="massmailler"
+                  username="massmailler"
+                  password="massmailler"/>
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongDbFactory"/>
@@ -85,6 +85,7 @@
     <bean id="dataAccessHolder" class="com.pepaproch.massmailmailer.db.DataAccess" />
   
    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-   
+   	<bean id="convertService" class="com.pepaproch.massmailmailer.controlers.ConvertService" 
+		init-method="startManager" destroy-method="stopManager"/>
    
 </beans>

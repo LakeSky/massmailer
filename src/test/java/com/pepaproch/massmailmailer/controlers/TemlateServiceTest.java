@@ -59,7 +59,7 @@ public class TemlateServiceTest {
         System.out.println("createPreview");
         String templateFile = "";
         String dataSourceId = "";
-      String name =  getService().createPreview("/home/pepa/CONVTEST/test.doc", "52fcd88844aef19a6f3c74db");
+        String name =  getService().createPreview("/home/pepa/NetBeansProjects/massmailer/massmailer/src/main/resources/testtemplate.doc", "530f09f644ae3bbdfd1e34fb");
   
         // TODO review the generated test code and remove the default call to fail.
         assertNotNull(name);

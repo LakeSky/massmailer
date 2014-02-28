@@ -62,9 +62,10 @@ public class TemplateController {
     
         @ResponseBody
     @RequestMapping(value = "pdfpreview/{datasourceId}/{fileId}", method = {RequestMethod.GET},produces = "application/pdf")
-    public  FileSystemResource   getTemplateFields(@PathVariable("datasourceId") String datasourceId,@PathVariable("fileId") String fileName, HttpServletResponse response) {
-
-     return new FileSystemResource("/tmp/PDF0.pdf");
+    public  FileSystemResource   getTemplateFields(@PathVariable("datasourceId") String datasourceId,@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
+        String createPreview = templateService.createPreview("/tmp/" + fileName, datasourceId);
+        convertService.convert(createPreview, createPreview + "pdf", Boolean.TRUE);
+     return new FileSystemResource(createPreview + "pdf");
 
     }
     

@@ -10,12 +10,12 @@ import java.util.Locale;
 import javax.annotation.Resource;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
-
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -60,7 +60,7 @@ public class UsersControllerTest {
     @AfterClass
     public static void tearDownClass() {
     }
-
+    @Ignore("not ready yet")
     @Before
     public void setUp() {
           mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -74,6 +74,7 @@ public class UsersControllerTest {
      * Test of listStories method, of class Users.
      * @throws java.lang.Exception
      */
+    @Ignore("not ready yet")
     @Test
     public void testListStories() throws Exception {
        

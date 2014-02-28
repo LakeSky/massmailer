@@ -6,8 +6,8 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
-import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.db.documents.DataStructure;
+import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.poi.DataType;
 import java.nio.charset.Charset;
@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class DataSourceControllerTest {
     @AfterClass
     public static void tearDownClass() {
     }
-
+@Ignore("not ready yet")
   @Before
     public void setUp() {
           mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -99,6 +100,7 @@ public class DataSourceControllerTest {
      * Test of listDatasourcer method, of class DataSourceController.
      * @throws java.lang.Exception
      */
+    @Ignore("not ready yet")
     @Test
     public void testListDatasourcer() throws Exception {
 
@@ -114,6 +116,7 @@ public class DataSourceControllerTest {
      * Test of showDataSourcer method, of class DataSourceController.
      * @throws java.lang.Exception
      */
+    @Ignore("not ready yet")
     @Test
     public void testShowDataSourcer() throws Exception {
         ResultActions perform = mockMvc.perform(get("/datasource/" + dataSourceID).locale(Locale.ENGLISH).accept(APPLICATION_JSON_UTF8))

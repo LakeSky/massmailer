@@ -216,6 +216,8 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
   $scope.templateFields = result.placeHolders;
    
    });
+   $scope.templateUrl = '../template/pdfpreview/'  + Campain.attachmentName + '/' + Campain.dataSourceId;
+
               
      };
 

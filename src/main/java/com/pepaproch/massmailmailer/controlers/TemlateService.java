@@ -49,6 +49,9 @@ public class TemlateService {
         Pageable pageSpecification = new PageRequest(1, 1, sortable);
 
         Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) dataSourceRowsRep.findByDataSourceIdPage(dataSourceId, pageSpecification);
+        if(findByDataSourceIdPage==null || findByDataSourceIdPage.size()==0) {
+        throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
+        }
         DocumentHolder docu = new WordDocument(templateFile,new StringPlaceHolderHelper("####"));
         return populateTemplate(docu,ds.getDataStructure() , findByDataSourceIdPage.iterator().next());
     }
