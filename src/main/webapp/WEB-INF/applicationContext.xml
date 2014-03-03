@@ -9,6 +9,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
@@ -16,11 +17,13 @@
        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-       http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.3.xsd">
+       http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.3.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
     
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.service"/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.controlers"/>
+    <context:component-scan base-package="com.pepaproch.massmailmailer.mail"/>
     
     <jpa:repositories base-package="com.pepaproch.massmailmailer.repository" transaction-manager-ref="txManager" />
 
@@ -69,15 +72,15 @@
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-   <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
 
 
     <mongo:db-factory id="mongDbFactory"
                       host="localhost"
                       port="27017"
-                  dbname="massmailler"
-                  username="massmailler"
-                  password="massmailler"/>
+                      dbname="massmailler"
+                      username="massmailler"
+                      password="massmailler"/>
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongDbFactory"/>
@@ -86,9 +89,90 @@
 
     <bean id="dataAccessHolder" class="com.pepaproch.massmailmailer.db.DataAccess" />
   
-   <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-   	<bean id="convertService" class="com.pepaproch.massmailmailer.controlers.ConvertService" 
-		init-method="startManager" destroy-method="stopManager"/>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+    <bean id="convertService" class="com.pepaproch.massmailmailer.controlers.ConvertService" 
+          init-method="startManager" destroy-method="stopManager"/>
    
    
+    
+    
+    
+
+    <!-- Credentials provider needed by apache default http client -->
+    <bean id="credentialProvider" class="org.apache.http.impl.client.BasicCredentialsProvider" />
+
+    <!-- Used to invoke a method in BasicCredentialsProvider.  This has to be done this way as BasicCredentialsProvider does not take 
+    provider and credentials in constructor or setter method.  It has to set by invoking setCredentials() method and passing two arguments -->  
+    <bean id="methodInvoke" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="credentialProvider" /> 
+        </property>
+        <property name="targetMethod" value="setCredentials"> </property>
+        <property name="arguments"  >
+            <list>
+                <ref local="authScope" />
+                <ref local="credentials" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Authorization scope for accessing restful service.  Since we want this template to be used for everything, we are setting up it with defaults -->
+    <bean id="authScope" class="org.apache.http.auth.AuthScope">
+        <constructor-arg name="host">
+            <null />
+        </constructor-arg>
+        <constructor-arg>
+            <value>-1</value> 
+        </constructor-arg>
+        <constructor-arg>
+            <null />
+        </constructor-arg>
+        <constructor-arg><value>BASIC</value></constructor-arg>
+    </bean>
+
+    <!-- Username and Password Credentials to access restful service -->
+    <bean id="credentials" class="org.apache.http.auth.UsernamePasswordCredentials">
+        <constructor-arg name="userName">
+            <value>api</value>
+        </constructor-arg>
+        <constructor-arg name="password">
+            <value>key-4gejiublrcrau0mnopgtae272ca5hof1</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- Client factory which uses Apache HttpClient implementation.  Note that it DO NOT use apache commons httpclient -->
+    <bean id="httpClientFactory" class="com.pepaproch.massmailmailer.mail.mailgun.HttpComponentsClientHttpRequestFactoryBasicAuth"> 
+        <constructor-arg ref="httpClient"/> 
+                <constructor-arg name="host">
+            <value>api.mailgun.net</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient">
+        <property name="credentialsProvider" ref="credentialProvider"/>
+    </bean>
+    
+    
+    
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+
+            <constructor-arg ref="httpClientFactory" />
+   
+        <property name="messageConverters"> 
+            <list> 
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                </bean> 
+                <bean class="org.springframework.http.converter.FormHttpMessageConverter"/> 
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+            </list> 
+        </property>
+    </bean>
+
+
+          
+
+    
+    
+    
+    
 </beans>

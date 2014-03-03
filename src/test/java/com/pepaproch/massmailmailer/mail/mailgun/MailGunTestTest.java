@@ -60,4 +60,21 @@ public class MailGunTestTest {
   
     }
     
+    
+        /**
+     * Test of SendSimpleMessage method, of class MailGunTest.
+     */
+    @Test
+    public void getStatus() {
+        System.out.println("SendSimpleMessage");
+        ClientResponse expResult = null;
+       String result = MailGunTest.getStatus();
+        
+
+        System.out.println(result.toString());
+        assertNotNull(result);
+        // TODO review the generated test code and remove the default call to fail.
+  
+    }
+    
 }
