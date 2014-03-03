@@ -85,7 +85,7 @@ public class CampainService {
         this.entityManager = entityManager;
     }
 
-    public Campain findOne(BigDecimal campainId)  {
+    public Campain findOne(BigDecimal campainId) {
         Campain findOne = campainRepo.findOne(campainId);
         if (findOne.getAttachment() != null) {
             byte[] docBytes = findOne.getAttachment();
@@ -98,7 +98,6 @@ public class CampainService {
             } catch (IOException e) {
 
             }
-        
 
         }
         return findOne;

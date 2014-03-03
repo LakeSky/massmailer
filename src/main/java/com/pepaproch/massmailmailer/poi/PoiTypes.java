@@ -13,10 +13,16 @@ public enum PoiTypes {
 
     XLS("xls"),
     XLSX("xlsx"),
-    CSV("csv");
+    CSV("csv"),
+    HTML("html"),
+    ODS("ods");
 
     private final String suffix;
-
+    
+    public  String getSuffix() {
+    return suffix;
+    }
+      
     PoiTypes(String suffix) {
         this.suffix = suffix;
     }

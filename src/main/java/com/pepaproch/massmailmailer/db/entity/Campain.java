@@ -50,16 +50,25 @@ public class Campain implements Serializable {
     private byte[] attachment;
     @Column(name = "ATTACHMENT_NAME")
     private String attachmentName;
+    @Column(name = "ATTACHMENT_FILE_NAME")
+    private String attachmentFileName;
+    @Column(name = "ATTACHMENT_FILE_TYPE")
+    private String attachmentFileType;
+    @Column(name = "ATTACHMENT_OUTPUT_NAME")
+    private String attachmentOutputName;
+    @Column(name = "ATTACHMENT_OUTPUT_TYPE")
+    private String attachmentOutputType;
+
     @Column(name = "CUSTOMIZE_EMAIL")
     private Boolean customizeEmail;
     @Column(name = "CUSTOMIZE_ATTACHMENT")
     private Boolean customizeAttachments;
     @Column(name = "SENT_ATTACHMENT_AS")
     private String sentAttachemntAs;
-    
-     @Column(name = "RECORDS_COUNT")
+
+    @Column(name = "RECORDS_COUNT")
     private BigDecimal recordsCount;
-     
+
     @Column(name = "STATUS")
     private String status;
 
@@ -90,8 +99,6 @@ public class Campain implements Serializable {
     public void setDataSourceId(String dataSourceId) {
         this.dataSourceId = dataSourceId;
     }
-
-
 
     /**
      * @return the attachmentName
@@ -125,7 +132,7 @@ public class Campain implements Serializable {
      * @return the customizeAttachments
      */
     public Boolean getCustomizeAttachments() {
-        return (customizeAttachments==null) ? java.lang.Boolean.FALSE : customizeAttachments;
+        return (customizeAttachments == null) ? java.lang.Boolean.FALSE : customizeAttachments;
     }
 
     /**
@@ -181,7 +188,7 @@ public class Campain implements Serializable {
      * @return the recordsCount
      */
     public BigDecimal getRecordsCount() {
-        return (null==recordsCount)? BigDecimal.ZERO : recordsCount;
+        return (null == recordsCount) ? BigDecimal.ZERO : recordsCount;
     }
 
     /**
@@ -274,6 +281,5 @@ public class Campain implements Serializable {
     public void setAttachment(byte[] attachment) {
         this.attachment = attachment;
     }
-
 
 }

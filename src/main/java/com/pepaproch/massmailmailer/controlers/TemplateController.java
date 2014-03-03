@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.poi.PoiTypes;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
@@ -61,22 +62,22 @@ public class TemplateController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "pdfpreview/{datasourceId}/{fileId}", method = {RequestMethod.GET}, produces = "application/pdf")
-    public FileSystemResource getTemplatePreviewWithData(@PathVariable("datasourceId") String datasourceId, @PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "preview/{type}/{datasourceId}/{fileId}", method = {RequestMethod.GET}, produces = "application/pdf")
+    public FileSystemResource getTemplatePreviewWithData(@PathVariable("type") String type ,@PathVariable("datasourceId") String datasourceId, @PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
         String createPreview = templateService.createPreview("/tmp/" + fileName, datasourceId);
-        convertService.convert("/tmp/" + createPreview,"/tmp/" +  createPreview + ".pdf", Boolean.FALSE);
+        convertService.convert("/tmp/" + createPreview, "/tmp/" + createPreview + ".pdf", Boolean.FALSE);
         return new FileSystemResource("/tmp/" + createPreview + ".pdf");
 
     }
 
-    
     @ResponseBody
-    @RequestMapping(value = "pdfpreview/{fileId}", method = {RequestMethod.GET}, produces = "application/pdf")
-    public FileSystemResource getTemplatePreview(@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
-     
-        convertService.convert("/tmp/" + fileName,"/tmp/" +  fileName + ".pdf", Boolean.FALSE);
-        return new FileSystemResource("/tmp/" + fileName + ".pdf");
+    @RequestMapping(value = "preview/{type}/{fileId}", method = {RequestMethod.GET}, produces = MediaType.TEXT_HTML_VALUE)
+    public FileSystemResource getTemplatePreview(@PathVariable("type") String type ,@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
+        
+        convertService.convert("/tmp/" + fileName, "/tmp/" + fileName + ".html", Boolean.FALSE);
+        return new FileSystemResource("/tmp/" + fileName + "." );
     }
+
     
     @RequestMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
     @ResponseBody
