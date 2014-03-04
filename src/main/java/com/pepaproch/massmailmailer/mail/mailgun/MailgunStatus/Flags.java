@@ -5,12 +5,17 @@ package com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Generated("com.googlecode.jsonschema2pojo")
 public class Flags {
 
+    
+    @JsonProperty("is-authenticated")
     private Boolean is_authenticated;
+    @JsonProperty("is-system-test")
     private Boolean is_system_test;
+        @JsonProperty("is-test-mode")
     private Boolean is_test_mode;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Generated("com.googlecode.jsonschema2pojo")
 public class Item {
@@ -14,7 +15,11 @@ public class Item {
     private Double timestamp;
     private Envelope envelope;
     private String event;
+    @JsonProperty(value = "delivery-status")
+    private DeliveryStatus deliveryStastus;
     private List<Object> campaigns = new ArrayList<Object>();
+    
+@JsonProperty("user-variables")
     private User_variables user_variables;
     private Flags flags;
     private Message message;
@@ -109,5 +114,20 @@ public class Item {
     public void setAdditionalProperties(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    /**
+     * @return the deliveryStastus
+     */
+    public DeliveryStatus getDeliveryStastus() {
+        return deliveryStastus;
+    }
+
+    /**
+     * @param deliveryStastus the deliveryStastus to set
+     */
+    public void setDeliveryStastus(DeliveryStatus deliveryStastus) {
+        this.deliveryStastus = deliveryStastus;
+    }
+
 
 }

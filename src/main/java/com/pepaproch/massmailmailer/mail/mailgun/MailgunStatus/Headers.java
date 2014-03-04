@@ -5,11 +5,13 @@ package com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 @Generated("com.googlecode.jsonschema2pojo")
 public class Headers {
 
     private String to;
+    @JsonProperty("message-id")
     private String message_id;
     private String from;
     private String subject;
