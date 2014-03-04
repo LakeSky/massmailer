@@ -9,7 +9,9 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    
     <mvc:resources mapping="/ui/**" location="/WEB-INF/ui/"/>
+    <mvc:resources mapping="/resources/**" location="file:/home/pepa/NetBeansProjects/MassMailMailer/resources/"/>
     
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 

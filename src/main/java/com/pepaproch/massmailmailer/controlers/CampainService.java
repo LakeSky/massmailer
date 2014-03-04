@@ -90,7 +90,7 @@ public class CampainService {
         if (findOne.getAttachment() != null) {
             byte[] docBytes = findOne.getAttachment();
             try (
-                    OutputStream outFile = new FileOutputStream("/tmp/" + findOne.getAttachmentName());) {
+                    OutputStream outFile = new FileOutputStream("/tmp/" + findOne.getAttachmentFileSystemName());) {
                 int read;
 
                 outFile.write(docBytes);

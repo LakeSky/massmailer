@@ -78,7 +78,8 @@ public class CampainController {
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-             FileInputStream fis = new FileInputStream(campain.getAttachmentName());
+         
+             
               
             Campain campainSaved = getCampainService().save(campain);
 

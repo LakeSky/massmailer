@@ -139,6 +139,9 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
 // ----------
 dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
 
+
+$scope.previewType ='pdf';
+
         getDataSourceById = function(id) {
             var deferred = $q.defer();
             var dataSources = Entity.DataSource.get({
@@ -162,6 +165,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
                     var myDataPromise = getDataSourceById($scope.Campain.dataSourceId);
                     myDataPromise.then(function(datasource) {  // this is only run after $http completes
                         $scope.datasourceSelected = datasource;
+                        $scope.customizeAttachment();
                     });
 
                 }
@@ -209,23 +213,35 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
             }
         }, true);
 
-        $scope.atcangeged = function customizeAttachment() {
-            var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
+        $scope.customizeAttachment = function customizeAttachment() {
+            if ($scope.Campain.attachmentFileSystemName !== undefined && $scope.Campain.attachmentFileSystemName !== null) {
 
 
-            TemplateFieldsPromise.$promise.then(function(result) {
-                $scope.templateFields = result.placeHolders;
+                var path = '../template/preview/' + $scope.previewType + "\/";
+                if ($scope.Campain.customizeAttachments) {
+                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
+                    TemplateFieldsPromise.$promise.then(function(result) {
+                        $scope.templateFields = result.placeHolders;
 
-            });
-            var path = '../template/pdfpreview/'
-            if (undefined !== $scope.Campain.dataSourceId) {
-                path = path + $scope.Campain.dataSourceId + '\/';
+                    });
+                    if (undefined !== $scope.Campain.dataSourceId) {
+                        path = path + $scope.Campain.dataSourceId + '\/';
+                    }
+                    if (undefined !== $scope.Campain.attachmentFileSystemName) {
+                        path = path + $scope.Campain.attachmentFileSystemName + '\/';
+                    }
+
+                } else {
+                    path = path + $scope.Campain.attachmentFileSystemName + '\/';
+
+                }
+
+
+
+
+
+                $scope.templateUrl = path;
             }
-            if (undefined !== $scope.Campain.attachmentName) {
-                path = path + $scope.Campain.attachmentName + '\/';
-            }
-
-            $scope.templateUrl = path ;
 
 
         };
@@ -241,8 +257,9 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
             $scope.$apply(function() {
 
                 $scope.loadingfile = false;
-
-                $scope.Campain.attachmentName = xhr.currentTarget.responseText;
+                $scope.Campain.attachmentFileSystemName = xhr.currentTarget.responseText;
+                $scope.Campain.attachmentName = $scope.UploadFile.name;
+                $scope.Campain.attachmentFileType = $scope.UploadFile.type;
             });
 
 
@@ -265,8 +282,8 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
             $scope.Campain.$save(
                     function(Campain, headers) {
-                        deferred.resolve(DataSource);
-                        return  handleFormSucces("Nový datový zdroj vytvořen", $location, '/campain');
+                        deferred.resolve(Campain);
+                        return  handleFormSucces("Kammpa+n vytvo5ena ový datový zdroj vytvořen", $location, '/campain');
                     }, function(error) {
                 return   handleFormError($scope, error.data);
 
@@ -323,11 +340,21 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         };
 
+        $scope.getEmailFields = function(value) {
+            var emailFields = [];
+            angular.forEach($scope.datasourceSelected.dataStructure.dataStructureFields, function(item) {
+                if (item.dataType === 'EMAIL') {
+                    emailFields.push(item.name);
+                }
+            });
 
+            return emailFields;
+        };
 
 
         $scope.onDatasourceSelected = function(datasource) {
             $scope.Campain.dataSourceId = datasource.id;
+
 
         };
 

@@ -65,8 +65,8 @@ public class TemplateController {
     @RequestMapping(value = "preview/{type}/{datasourceId}/{fileId}", method = {RequestMethod.GET}, produces = "application/pdf")
     public FileSystemResource getTemplatePreviewWithData(@PathVariable("type") String type ,@PathVariable("datasourceId") String datasourceId, @PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
         String createPreview = templateService.createPreview("/tmp/" + fileName, datasourceId);
-        convertService.convert("/tmp/" + createPreview, "/tmp/" + createPreview + ".pdf", Boolean.FALSE);
-        return new FileSystemResource("/tmp/" + createPreview + ".pdf");
+        convertService.convert("/tmp/" + createPreview, "/tmp/" + createPreview + "." + type, Boolean.FALSE);
+        return new FileSystemResource("/tmp/" + createPreview + "." + type);
 
     }
 
@@ -74,8 +74,8 @@ public class TemplateController {
     @RequestMapping(value = "preview/{type}/{fileId}", method = {RequestMethod.GET}, produces = MediaType.TEXT_HTML_VALUE)
     public FileSystemResource getTemplatePreview(@PathVariable("type") String type ,@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
         
-        convertService.convert("/tmp/" + fileName, "/tmp/" + fileName + ".html", Boolean.FALSE);
-        return new FileSystemResource("/tmp/" + fileName + "." );
+        convertService.convert("/tmp/" + fileName, "/tmp/" + fileName + "." + type, Boolean.FALSE);
+        return new FileSystemResource("/tmp/" + fileName + "."  + type);
     }
 
     

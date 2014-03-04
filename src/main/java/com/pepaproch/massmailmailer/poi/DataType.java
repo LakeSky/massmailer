@@ -26,6 +26,12 @@ public enum DataType {
                     return FormatString.format((String) o);
                 }
             },
+    EMAIL("EMAIL") {
+                @Override
+                public String format(Object o) {
+                    return FormatString.format((String) o);
+                }
+            },
     NUMBER("NUMBER") {
                 @Override
                 public String format(Object o) {
@@ -34,7 +40,7 @@ public enum DataType {
                     } else if (o instanceof BigDecimal) {
                         return FormatNumber.format((BigDecimal) o);
                     } else {
-                    return   o.toString();
+                        return o.toString();
                     }
                 }
             };

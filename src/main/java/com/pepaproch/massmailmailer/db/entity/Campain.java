@@ -7,10 +7,10 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Blob;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,13 +45,19 @@ public class Campain implements Serializable {
     private String emailText;
     @Column(name = "DATASOURCE_ID")
     private String dataSourceId;
+    @Basic(fetch=FetchType.LAZY)
     @Lob
-    @Column(name = "ATTACHMENT")
+    @Column(name = "ATTACHMENT" )
     private byte[] attachment;
+    
+    
     @Column(name = "ATTACHMENT_NAME")
     private String attachmentName;
-    @Column(name = "ATTACHMENT_FILE_NAME")
-    private String attachmentFileName;
+    
+    
+    @Column(name = "ATTACHMENT_FS_NAME")
+    private String attachmentFileSystemName;
+    
     @Column(name = "ATTACHMENT_FILE_TYPE")
     private String attachmentFileType;
     @Column(name = "ATTACHMENT_OUTPUT_NAME")
@@ -280,6 +286,63 @@ public class Campain implements Serializable {
      */
     public void setAttachment(byte[] attachment) {
         this.attachment = attachment;
+    }
+
+
+    /**
+     * @return the attachmentFileType
+     */
+    public String getAttachmentFileType() {
+        return attachmentFileType;
+    }
+
+    /**
+     * @param attachmentFileType the attachmentFileType to set
+     */
+    public void setAttachmentFileType(String attachmentFileType) {
+        this.attachmentFileType = attachmentFileType;
+    }
+
+    /**
+     * @return the attachmentOutputName
+     */
+    public String getAttachmentOutputName() {
+        return attachmentOutputName;
+    }
+
+    /**
+     * @param attachmentOutputName the attachmentOutputName to set
+     */
+    public void setAttachmentOutputName(String attachmentOutputName) {
+        this.attachmentOutputName = attachmentOutputName;
+    }
+
+    /**
+     * @return the attachmentOutputType
+     */
+    public String getAttachmentOutputType() {
+        return attachmentOutputType;
+    }
+
+    /**
+     * @param attachmentOutputType the attachmentOutputType to set
+     */
+    public void setAttachmentOutputType(String attachmentOutputType) {
+        this.attachmentOutputType = attachmentOutputType;
+    }
+
+    /**
+     * @return the attachmentFileSystemName
+     */
+    public String getAttachmentFileSystemName() {
+        return attachmentFileSystemName;
+    }
+
+    /**
+     * @param attachmentFileSystemName the attachmentFileSystemName to set
+     */
+    public void setAttachmentFileSystemName(String attachmentFileSystemName) {
+        this.attachmentFileSystemName = attachmentFileSystemName;
     }
 
 }
