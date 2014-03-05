@@ -6,6 +6,7 @@
 
 package com.pepaproch.massmailmailer.poi.convert;
 
+import com.pepaproch.massmailmailer.db.TextDocumentHolder;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,25 +15,23 @@ import java.util.logging.Logger;
  *
  * @author pepa
  */
-public class TemplateImpl implements DocumentTemplate{
-  private final DocumentHolder doc;
+public class TextTemplateImpl implements TextTemplate{
+  private final TextDocumentHolder doc;
   private final TemplateDataItem itemVars;
 
 
-    public TemplateImpl(DocumentHolder doc, TemplateDataItem itemVars) {
+    public TextTemplateImpl(TextDocumentHolder doc, TemplateDataItem itemVars) {
         this.doc = doc;
         this.itemVars = itemVars;
     }
   
 
     @Override
-    public void procces(String outputFileName) {
-      try {
-          doc.procces(itemVars, outputFileName);
+    public String procces() {
+      
+       return   doc.procces(itemVars);
          
-      } catch (IOException ex) {
-          Logger.getLogger(TemplateImpl.class.getName()).log(Level.SEVERE, null, ex);
-      }
+
     }
 
 

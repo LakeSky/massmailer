@@ -51,11 +51,6 @@ public class Email implements Serializable {
     private String bccRecipients;
     @Column(name = "SUBJECT")
     private String subject;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "EMAIL_CONTENT")
-    private EmailContent emailContent;
-
     @Column(name = "SENT_DATE")
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -68,11 +63,17 @@ public class Email implements Serializable {
     @ManyToOne
     private EmailFolder emailFolder;
     @Column(name = "READY_TO_SENT")
-
     private Boolean readyToSent;
-    @JoinColumn(name = "EMAIL_STATUS")
-    @ManyToOne
-    private EmailFolder emailStatus;
+    @Column(name = "EMAIL_STATUS")
+    private String emailStatus;
+
+    @Lob
+    @Column(name = "EMAIL_CONTENT")
+    private String emailText;
+
+    @OneToOne
+    @JoinColumn(name = "ATTACHMENT_ID")
+    private Attachment attachment;
 
     public Email() {
     }
@@ -171,20 +172,6 @@ public class Email implements Serializable {
     }
 
     /**
-     * @return the emailBody
-     */
-    public EmailContent getEmailBody() {
-        return getEmailContent();
-    }
-
-    /**
-     * @param emailContent
-     */
-    public void setEmailBody(EmailContent emailContent) {
-        this.setEmailContent(emailContent);
-    }
-
-    /**
      * @return the sentDate
      */
     public Date getSentDate() {
@@ -241,20 +228,6 @@ public class Email implements Serializable {
     }
 
     /**
-     * @return the emailContent
-     */
-    public EmailContent getEmailContent() {
-        return emailContent;
-    }
-
-    /**
-     * @param emailContent the emailContent to set
-     */
-    public void setEmailContent(EmailContent emailContent) {
-        this.emailContent = emailContent;
-    }
-
-    /**
      * @return the statusDate
      */
     public Date getStatusDate() {
@@ -271,15 +244,43 @@ public class Email implements Serializable {
     /**
      * @return the emailStatus
      */
-    public EmailFolder getEmailStatus() {
+    public String getEmailStatus() {
         return emailStatus;
     }
 
     /**
      * @param emailStatus the emailStatus to set
      */
-    public void setEmailStatus(EmailFolder emailStatus) {
+    public void setEmailStatus(String emailStatus) {
         this.emailStatus = emailStatus;
+    }
+
+    /**
+     * @return the emailText
+     */
+    public String getEmailText() {
+        return emailText;
+    }
+
+    /**
+     * @param emailText the emailText to set
+     */
+    public void setEmailText(String emailText) {
+        this.emailText = emailText;
+    }
+
+    /**
+     * @return the attachment
+     */
+    public Attachment getAttachment() {
+        return attachment;
+    }
+
+    /**
+     * @param attachment the attachment to set
+     */
+    public void setAttachment(Attachment attachment) {
+        this.attachment = attachment;
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.db.TextDocumentHolder;
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceField;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
@@ -16,9 +17,11 @@ import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
-import com.pepaproch.massmailmailer.poi.convert.Template;
+import com.pepaproch.massmailmailer.poi.convert.DocumentTemplate;
 import com.pepaproch.massmailmailer.poi.convert.TemplateImpl;
 import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
+import com.pepaproch.massmailmailer.poi.convert.TextTemplate;
+import com.pepaproch.massmailmailer.poi.convert.TextTemplateImpl;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +50,6 @@ public class TemlateService {
         DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
         Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
         Pageable pageSpecification = new PageRequest(1, 1, sortable);
-
         Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) dataSourceRowsRep.findByDataSourceIdPage(dataSourceId, pageSpecification);
         if(findByDataSourceIdPage==null || findByDataSourceIdPage.size()==0) {
         throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
@@ -76,9 +78,36 @@ public class TemlateService {
             dat.add("####" + mf.getName() + "####", array[mf.getIndex()].stringValue());
             items.add(dat);
         }
-        Template template = new TemplateImpl(docu, dat);
+        DocumentTemplate template = new TemplateImpl(docu, dat);
         template.procces("/tmp/" + row.getDataSourceId() + row.getId() + docu.getTemplateMeta().getFileName());
         return row.getDataSourceId() + row.getId() + docu.getTemplateMeta().getFileName();
+
+    }
+    
+    
+      public String populateTextTemplate(TextDocumentHolder docu, DataStructure ds, DataSourceRow row) {
+    
+        Collection<String> placeHolders = docu.getPlaceHolders();
+        Collection<DataStructureMetaField> usedFields = new ArrayList<DataStructureMetaField>();
+        for (DataStructureMetaField mf : ds.getDataStructureFields()) {
+            if (placeHolders.contains("####" + mf.getName() +"####")) {
+                usedFields.add(mf);
+            }
+
+        }
+
+        List<TemplateDataItem> items = new ArrayList();
+        Collection<DataSourceField> dataSourceFields = row.getDataSourceFields();
+        DataSourceField[] array = new DataSourceField[dataSourceFields.size()];
+        dataSourceFields.toArray(array);
+        TemplateDataItem dat = new TemplateDataItem();
+        for (DataStructureMetaField mf : usedFields) {
+            dat.add("####" + mf.getName() + "####", array[mf.getIndex()].stringValue());
+            items.add(dat);
+        }
+          TextTemplate template = new TextTemplateImpl(docu, dat);
+   
+        return template.procces();
 
     }
     

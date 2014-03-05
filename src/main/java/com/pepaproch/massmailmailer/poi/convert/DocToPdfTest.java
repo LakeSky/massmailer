@@ -47,7 +47,7 @@ public class DocToPdfTest {
 
             String outputFilename = "/home/pepa/CONVTEST/TMP/OUT" + c + ".html";
 
-            Template template = new TemplateImpl(docu, dat);
+            DocumentTemplate template = new TemplateImpl(docu, dat);
             template.procces(outputFilename);
 
             converter.convert(new File(outputFilename), new File("/home/pepa/CONVTEST/PDFOUT/PDF"+c+".html"));

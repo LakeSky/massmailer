@@ -11,13 +11,13 @@ insert  into DATA_SOURCE (NAME,FILE_NAME)
 values ('TEST1','filename2');
 
 insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID) 
-values ('TEST1','dasourcessdad');
+values ('TEST1','52fcd88844aef19a6f3c74db');
 
 insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID,STATUS,RECORDS_COUNT) 
-values ('TESTSSA','dasourcesasdassdad','READY', 10 );
+values ('TESTSSA','52fcd88844aef19a6f3c74db','READY', 10 );
 
 insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID,STATUS,RECORDS_COUNT) 
-values ('TESTSSAAA','dasourcesasdassdad','SENDING', 123 );
+values ('TESTSSAAA','52fcd88844aef19a6f3c74db','SENDING', 123 );
 
 insert  into CAMPAIN (CAMPAIN_NAME,DATASOURCE_ID,STATUS,RECORDS_COUNT) 
-values ('TESXXAAAA','dasouzsrcesasdassdad','EDIT',0 );
+values ('TESXXAAAA','52fcd88844aef19a6f3c74db','EDIT',0 );

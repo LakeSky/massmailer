@@ -73,7 +73,7 @@
 
                                     <label class="control-label col-sm-3"   for="recipients">Předmět</label>
                                     <div class="col-sm-9">
-                                        <input  class="form-control input-sm" type="text" id = "subject" name="subject" ng-model="Campain.subject"  interpol-model="subject" server-error="subject"/>
+                                        <input  class="form-control inpsmut-sm" type="text" id = "subject" name="subject" ng-model="Campain.subject"  interpol-model="subject" server-error="subject"/>
                                         <div class="errors"  show-inter="subject" >
                                             <error-message error="subject" ></error-message>   
                                         </div>
@@ -130,17 +130,29 @@
 
 
                         <div class="row">
-                               <div class="btn-group">
-        <button type="button" class="btn btn-primary" ng-model="previewType" btn-radio="'pdf'">Pdf</button>
-        <button type="button" class="btn btn-primary" ng-model="previewType" btn-radio="'html'">Html</button>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="btn-group text-left">
+                                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">Typ náhledu<span class="caret"></span>
+                                        </button>
 
-    </div>
+                                        <ul class="dropdown-menu" >
+                                            <li><a ng-click="toglePreviewType('pdf')"  >pdf</a></li>
+                                            <li><a ng-click="toglePreviewType('html')"  >html</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <pre class="input-sm"> {{previewType}}</pre>
+                                </div>
+                            </div>
                             <iframe class="col-md-7" ng-src="{{templateUrl}}"    height="400px" >
                             </iframe>
                             <div class="col-md-5">
-                                 <pre>
-                                    <p>Název souboru: {{ Campain.attachmentName }} </p>
-                                      <p>Typ souboru: {{ Campain.attachmentFileType }} </p>
+                                <pre>            
+Název souboru: {{ Campain.attachmentName}}
+ <br/>
+ Typ souboru: {{ Campain.attachmentFileType}} 
                                 </pre>
                                 <div class="form-group">
                                     <label class="control-label col-sm-4"  for="customizeAttachments">Nahrát soubor</label>
@@ -168,17 +180,26 @@
                                 <div class="form-group">
                                     <input  class="form-control" type="hidden" id = "attachmentFileSystemName" name="attachmentFileSystemName" ng-model="Campain.attachmentFileSystemName" />
                                     <input  class="form-control" type="hidden" id = "attachmentName" name="attachmentName" ng-model="Campain.attachmentName" />
-                                     <input  class="form-control" type="hidden" id = "attachmentType" name="attachmentType" ng-model="Campain.attachmentType" />
+                                    <input  class="form-control" type="hidden" id = "attachmentType" name="attachmentType" ng-model="Campain.attachmentType" />
                                 </div> 
 
 
 
+                                <div class="col-sm-6">
+                                    <h4 style="margin-top: 0;">Použadované proměné</h4>
+                                    <p ng-repeat="f in templateFields">
+                                        ###{{f}}### 
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
 
-                                <h4 style="margin-top: 0;">Použadované proměné</h4>
-                                <p ng-repeat="f in templateFields">
-                                    ###{{f}}### 
-                                </p>
+                                    <h4 style="margin-top: 0;">Dostupné proměné</h4>
+                                    <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
 
+                                        ###{{f.name}}###
+                                    </p>
+
+                                </div>
                             </div>
                         </div>
                     </div>

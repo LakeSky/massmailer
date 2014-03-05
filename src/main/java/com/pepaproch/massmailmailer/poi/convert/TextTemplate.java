@@ -6,14 +6,15 @@
 
 package com.pepaproch.massmailmailer.poi.convert;
 
-import java.util.Collection;
-
 /**
  *
  * @author pepa
  */
-public interface PlaceHolderHelper {
-    public Collection<String> getPlaceHolders(TemplateHolder  dcoHolder) ;
-   
-    public void setPlaceHolders(TemplateHolder dcoHolder , TemplateDataItem item);
+public interface TextTemplate {
+    
+    
+  
+public String procces();
+
+
 }

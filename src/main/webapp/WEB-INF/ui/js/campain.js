@@ -140,89 +140,85 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
 dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
 
 
-$scope.previewType ='pdf';
+        $scope.previewType = 'pdf';
 
-        getDataSourceById = function(id) {
-            var deferred = $q.defer();
-            var dataSources = Entity.DataSource.get({
-                dataSourceId: id
-
-            }, function() {
-                deferred.resolve(dataSources);
-
-            });
-            return deferred.promise;
+        $scope.toglePreviewType = function(val) {
+            $scope.previewType = val;
         };
+
+        $scope.$watch('previewType', function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+                $scope.customizeAttachment();
+            }
+
+
+        }, true);
         var campainId = $routeParams.campainId;
+
         if (undefined === campainId) {
             $scope.Campain = null;
             $scope.Campain = new Entity.Campain();
         } else {
             $scope.Campain = Entity.Campain.get({campainId: campainId}
             , function() {
-
                 if ($scope.Campain.dataSourceId !== null) {
-                    var myDataPromise = getDataSourceById($scope.Campain.dataSourceId);
-                    myDataPromise.then(function(datasource) {  // this is only run after $http completes
-                        $scope.datasourceSelected = datasource;
+                    var dataSourcePromise = Entity.DataSource.get({
+                        dataSourceId: $scope.Campain.dataSourceId
+
+                    });
+                    dataSourcePromise.$promise.then(function(dataSource) {
+                        $scope.datasourceSelected = dataSource;
                         $scope.customizeAttachment();
                     });
-
                 }
-
             });
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // 'files' is an array of JavaScript 'File' objects.
-        $scope.files = [];
-        $scope.fields = [];
-
-
 
         $scope.$watch('campainForm', function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
-
                 $scope.form = $scope.$eval("campainForm");
 
             }
         }, true);
 
+        // 'files' is an array of JavaScript 'File' objects.
+        $scope.files = [];
         $scope.$watch('UploadFile', function(newValue, oldValue) {
-            // Only act when our property has changed.
-            if (newValue !== oldValue) {
+            if (newValue !== undefined) {
                 console.log('Controller: $scope.files changed. Start upload.');
                 uploadService.send($scope.UploadFile);
-
             }
+
+
         }, true);
+
+
+        $rootScope.$on('upload:loadstart', function() {
+            $scope.loadingfile = true;
+
+        });
+        $rootScope.$on('upload:succes', function(event, xhr) {
+            $scope.$apply(function() {
+                $scope.loadingfile = false;
+                $scope.Campain.attachmentFileSystemName = xhr.currentTarget.responseText;
+                $scope.Campain.attachmentName = $scope.UploadFile.name;
+                $scope.Campain.attachmentFileType = $scope.UploadFile.type;
+                $scope.customizeAttachment();
+            });
+        });
+        $rootScope.$on('upload:error', function() {
+            console.log('Controller: on `error`');
+        });
+
 
         $scope.customizeAttachment = function customizeAttachment() {
             if ($scope.Campain.attachmentFileSystemName !== undefined && $scope.Campain.attachmentFileSystemName !== null) {
-
-
                 var path = '../template/preview/' + $scope.previewType + "\/";
                 if ($scope.Campain.customizeAttachments) {
-                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentName});
+                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentFileSystemName});
                     TemplateFieldsPromise.$promise.then(function(result) {
                         $scope.templateFields = result.placeHolders;
-
                     });
                     if (undefined !== $scope.Campain.dataSourceId) {
                         path = path + $scope.Campain.dataSourceId + '\/';
@@ -235,11 +231,6 @@ $scope.previewType ='pdf';
                     path = path + $scope.Campain.attachmentFileSystemName + '\/';
 
                 }
-
-
-
-
-
                 $scope.templateUrl = path;
             }
 
@@ -247,88 +238,38 @@ $scope.previewType ='pdf';
         };
 
 
-
-        $rootScope.$on('upload:loadstart', function() {
-            $scope.loadingfile = true;
-            console.log('Controller: on `loadstart`');
-        });
-        $rootScope.$on('upload:succes', function(event, xhr) {
-
-            $scope.$apply(function() {
-
-                $scope.loadingfile = false;
-                $scope.Campain.attachmentFileSystemName = xhr.currentTarget.responseText;
-                $scope.Campain.attachmentName = $scope.UploadFile.name;
-                $scope.Campain.attachmentFileType = $scope.UploadFile.type;
-            });
-
-
-            toastr.success(xhr.currentTarget.responseText);
-
-
-
-
-        });
-        $rootScope.$on('upload:error', function() {
-            console.log('Controller: on `error`');
-        });
-
-
-
-
-        $scope.save = function() {
+        $scope.ok = function() {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
-            var deferred = $q.defer();
-
-            $scope.Campain.$save(
+            var campainPromise = $scope.Campain.$save(
                     function(Campain, headers) {
-                        deferred.resolve(Campain);
-                        return  handleFormSucces("Kammpa+n vytvo5ena ový datový zdroj vytvořen", $location, '/campain');
+                        return  handleFormSucces("Kampaň uspěšně uložena", $location, '/campain');
                     }, function(error) {
                 return   handleFormError($scope, error.data);
 
             });
-            return deferred.promise;
-        };
-
-
-
-        $scope.ok = function() {
-
-            var myDataPromise = $scope.save();
-            var contrr = this;
-            myDataPromise.then(function(DataSource) {  // this is only run after $http completes
+            var   contrr = this;
+            campainPromise.then(function(campain) {
                 contrr.$close();
-
             });
-
-
         };
 
 
-
-        $scope.searchByName = function(val) {
-
-            var deferred = $q.defer();
-            var dataSources = Entity.DataSource.search({
-                search: 'name',
-                searchString: val
-
-            }, function() {
-                deferred.resolve(dataSources);
-
-            });
-            return deferred.promise;
+        $scope.cancel = function() {
+            this.$dismiss('cancel');
         };
+
 
 
 
         $scope.searchDataSources = function(value) {
 
-            var myDataPromise = $scope.searchByName(value);
+            var dataSourcesPromise = Entity.DataSource.search({
+                search: 'name',
+                searchString: value
 
-            return   myDataPromise.then(function(datasource) {  // this is only run after $http completes
+            });
 
+            return       dataSourcesPromise.$promise.then(function(datasource) {  // this is only run after $http completes
                 var datasources = [];
                 angular.forEach(datasource, function(item) {
                     datasources.push(item);
@@ -336,7 +277,6 @@ $scope.previewType ='pdf';
                 return datasources;
 
             });
-
 
         };
 
@@ -354,17 +294,13 @@ $scope.previewType ='pdf';
 
         $scope.onDatasourceSelected = function(datasource) {
             $scope.Campain.dataSourceId = datasource.id;
-
+            $scope.customizeAttachment();
 
         };
 
 
 
 
-
-        $scope.cancel = function() {
-            this.$dismiss('cancel');
-        };
 
 
 

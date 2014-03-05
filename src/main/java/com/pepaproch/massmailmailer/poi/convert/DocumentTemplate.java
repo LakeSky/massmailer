@@ -10,7 +10,10 @@ package com.pepaproch.massmailmailer.poi.convert;
  *
  * @author pepa
  */
-public interface Template {
+public interface DocumentTemplate {
+    
+    
+  
 public void procces(String outputFileName);
 
 

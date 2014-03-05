@@ -20,9 +20,9 @@ public class StringPlaceHolderHelper implements PlaceHolderHelper {
     }
 
     @Override
-    public Collection<String> getPlaceHolders(DocumentHolder docHolder) {
+    public Collection<String> getPlaceHolders(TemplateHolder docHolder) {
         List<String> tr = new ArrayList();
-
+    
         Matcher m = pattern.matcher(docHolder.getDocumentText());
         while (m.find()) {
             if (!tr.contains(m.group())) {
@@ -41,7 +41,7 @@ public class StringPlaceHolderHelper implements PlaceHolderHelper {
      *
      */
     @Override
-    public void setPlaceHolders(DocumentHolder dcoHolder, TemplateDataItem item) {
+    public void setPlaceHolders(TemplateHolder dcoHolder, TemplateDataItem item) {
         for (String varName : item.nameValuePair.keySet()) {
             dcoHolder.setVariable(varName, item.getVarValue(varName));
         }

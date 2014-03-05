@@ -125,8 +125,8 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
         };
 
         $scope.cancel = function() {
-            this.$dismiss('cancel');
-        };
+             this.$dismiss('cancel');
+       };
     }]);
 
 

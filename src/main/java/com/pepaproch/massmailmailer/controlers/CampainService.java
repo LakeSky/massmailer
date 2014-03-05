@@ -6,6 +6,7 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,13 +16,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +33,17 @@ public class CampainService {
 
     @Autowired
     private CampainRepo campainRepo;
+    @Autowired
+    private DataSourceRowsRep rowsRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
 
     public Campain save(Campain c) throws FileNotFoundException {
-        Session session = getEntityManager().getEntityManagerFactory().createEntityManager().unwrap(Session.class);
-        File file = new File("/tmp/" + c.getAttachmentName());
+        BigDecimal countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
+        c.setRecordsCount(countRows);
+        c.setStatus("READY");
+        File file = new File("/tmp/" + c.getAttachmentFileSystemName());
         byte[] fileBytes = new byte[(int) file.length()];
         try (
                 InputStream inputStream = new FileInputStream(file);) {
@@ -90,9 +92,8 @@ public class CampainService {
         if (findOne.getAttachment() != null) {
             byte[] docBytes = findOne.getAttachment();
             try (
-                    OutputStream outFile = new FileOutputStream("/tmp/" + findOne.getAttachmentFileSystemName());) {
+               OutputStream outFile = new FileOutputStream("/tmp/" + findOne.getAttachmentFileSystemName());) {
                 int read;
-
                 outFile.write(docBytes);
 
             } catch (IOException e) {
@@ -109,6 +110,20 @@ public class CampainService {
 
     void delete(BigDecimal campainId) {
         campainRepo.delete(campainId);
+    }
+
+    /**
+     * @return the rowsRepository
+     */
+    public DataSourceRowsRep getRowsRepository() {
+        return rowsRepository;
+    }
+
+    /**
+     * @param rowsRepository the rowsRepository to set
+     */
+    public void setRowsRepository(DataSourceRowsRep rowsRepository) {
+        this.rowsRepository = rowsRepository;
     }
 
 }

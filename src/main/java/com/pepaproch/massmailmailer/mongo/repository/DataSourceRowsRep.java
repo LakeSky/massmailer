@@ -6,6 +6,7 @@
 package com.pepaproch.massmailmailer.mongo.repository;
 
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
+import java.math.BigDecimal;
 ;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +31,10 @@ public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String>
 
     @Query("  { dataSourceId: ?0} ")
     public List<DataSourceRow> findByDataSourceIdPage(String dataSourceId, Pageable pageable);
+    
+    
+   @Query(value = "  { dataSourceId: ?0} ",count = true)
+    public BigDecimal countByDataSourceId(String dataSourceId);
 
     /**
      *

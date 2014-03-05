@@ -10,6 +10,7 @@ import com.pepaproch.massmailmailer.db.documents.DataSourceField;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.poi.DataType;
 import com.pepaproch.utils.DateUtils;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -72,6 +73,13 @@ public class DataSourceRowsRepTest {
         assertNotNull(findAll);
     }
 
+        @Test
+    public void count() {
+BigDecimal count = dataSourceRowRep.countByDataSourceId("52fcd88844aef19a6f3c74db");
+            assertNotNull(count);
+    }
+    
+    
     @Test
     public void deleteAll() {
         // TODO review the generated test code and remove the default call to fail.

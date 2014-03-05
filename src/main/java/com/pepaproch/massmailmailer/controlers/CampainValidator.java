@@ -62,11 +62,11 @@ public class CampainValidator implements Validator {
             DataSource ds = dataSourceRep.findOne(capmain.getDataSourceId());
             PlaceHolderHelper pl = new StringPlaceHolderHelper("####");
 
-            DocumentHolder docu = new WordDocument("/tmp/" + capmain.getAttachmentName(), pl);
+            DocumentHolder docu = new WordDocument("/tmp/" + capmain.getAttachmentFileSystemName(), pl);
 
             List<String> dataFiledsNames = new ArrayList();
             for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {
-                dataFiledsNames.add(f.getName());
+                dataFiledsNames.add("####" + f.getName() + "####");
             }
             
 
@@ -74,7 +74,7 @@ public class CampainValidator implements Validator {
                 System.out.println("OK");
 
             } else {
-                errors.rejectValue("attachmentName", "error.NotAllWars");
+                errors.rejectValue("customizeAttachments", "error.NotAllWars");
             }
 
             if (capmain.getCampainName() == null || "".equalsIgnoreCase(capmain.getCampainName())) {
