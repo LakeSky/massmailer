@@ -5,22 +5,21 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.db.DefaultMailRecordBulder;
 import com.pepaproch.massmailmailer.db.HtmlDocument;
+import com.pepaproch.massmailmailer.db.MailRecordBulder;
 import com.pepaproch.massmailmailer.db.TextDocumentHolder;
-import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
-import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
-import org.apache.poi.hwpf.converter.TextDocumentFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,15 +43,17 @@ public class CampainSendService {
         Campain c = campainService.findOne(id);
         DataStructure ds = dataSourceRep.findOne(c.getDataSourceId()).getDataStructure();
         Collection<DataSourceRow> findByDataSourceId = rowsrepository.findByDataSourceId(c.getDataSourceId());
-        TextDocumentHolder document = new HtmlDocument(new StringPlaceHolderHelper("####"), c.getEmailText());
-        DocumentHolder docu = null;
+        TextDocumentHolder emailText = new HtmlDocument(new StringPlaceHolderHelper("####"), c.getEmailText());
+        DocumentHolder emailAttachmentdocu = null;
         if (c.getCustomizeAttachments()) {
-            docu = new WordDocument(c.getAttachmentFileSystemName(), new StringPlaceHolderHelper("####"));
+            emailAttachmentdocu = new WordDocument(c.getAttachmentFileSystemName(), new StringPlaceHolderHelper("####"));
 
         }
 
         for (DataSourceRow r : findByDataSourceId) {
-
+            MailRecordBulder mlBulder = new DefaultMailRecordBulder();
+            mlBulder.setFrom("pepaproch@gmail.com");
+            mlBulder.setEmailContent(templateService.populateTextTemplate(emailText, ds, r));
         }
     }
 
