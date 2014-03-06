@@ -30,16 +30,23 @@ public class Attachment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private BigDecimal id;
-    @Basic(fetch=FetchType.LAZY)
+    @Basic(fetch = FetchType.LAZY)
     @Lob
-    @Column(name = "ATTACHMENT" )
+    @Column(name = "ATTACHMENT")
     private byte[] attachment;
     @Column(name = "ATTACHMENT_NAME")
     private String attachmentName;
     @Column(name = "ATTACHMENT_FILE_TYPE")
     private String attachmentFileType;
 
+    public Attachment() {
+    }
 
+    public Attachment(byte[] b, String fileName, String fileType) {
+        this.attachment = b;
+        this.attachmentName = fileName;
+        this.attachmentFileType = fileType;
+    }
 
     /**
      * @return the attachmentName
@@ -55,10 +62,6 @@ public class Attachment implements Serializable {
         this.attachmentName = attachmentName;
     }
 
-
-
-
-
     /**
      * @return the id
      */
@@ -72,10 +75,6 @@ public class Attachment implements Serializable {
     public void setId(BigDecimal id) {
         this.id = id;
     }
-
-
-
-
 
     /**
      * @return the attachment
@@ -91,7 +90,6 @@ public class Attachment implements Serializable {
         this.attachment = attachment;
     }
 
-
     /**
      * @return the attachmentFileType
      */
@@ -106,8 +104,4 @@ public class Attachment implements Serializable {
         this.attachmentFileType = attachmentFileType;
     }
 
-   }
-
-   
-
-
+}

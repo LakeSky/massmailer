@@ -111,13 +111,15 @@ DROP TABLE EMAIL;
 
 CREATE TABLE "EMAIL"  ( 
 	"ID"               	INTEGER  GENERATED ALWAYS AS IDENTITY NOT NULL,
+	"MESSAGE_ID"            	VARCHAR(255) ,
 	"FROM_EMAIL"            	VARCHAR(255) ,
 	"RECIPIENTS"            	VARCHAR(255) ,
 	"CC_RECIPIENTS"            	VARCHAR(255) ,
 	"BCC_RECIPIENTS"            	VARCHAR(255) ,
 	"SUBJECT"            	VARCHAR(255) ,
-        "EMAIL_CONTENT"         BLOB,
+        "EMAIL_CONTENT"         CLOB,
         "ATTACHMENT_ID"          INTEGER  ,
+        "CAMPAIN_ID"          INTEGER  ,
         "EMAIL_FOLDER"          INTEGER  ,
 	"READY_TO_SENT"            	SMALLINT,
 	"SENT_DATE"            	DATE ,
@@ -129,7 +131,10 @@ CREATE TABLE "EMAIL"  (
 	REFERENCES "EMAIL_FOLDER"("ID"),
         CONSTRAINT "emailattachment_fk"
 	FOREIGN KEY("ATTACHMENT_ID")
-	REFERENCES "ATTACHMENT"("ID")
+	REFERENCES "ATTACHMENT"("ID"),
+        CONSTRAINT "emailcampain_fk"
+	FOREIGN KEY("CAMPAIN_ID")
+	REFERENCES "CAMPAIN"("ID")
  
 
 );

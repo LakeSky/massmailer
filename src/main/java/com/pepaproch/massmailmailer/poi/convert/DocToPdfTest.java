@@ -49,8 +49,9 @@ public class DocToPdfTest {
 
             DocumentTemplate template = new TemplateImpl(docu, dat);
             template.procces(outputFilename);
-
+          
             converter.convert(new File(outputFilename), new File("/home/pepa/CONVTEST/PDFOUT/PDF"+c+".html"));
+            
             c++;
         }
         }

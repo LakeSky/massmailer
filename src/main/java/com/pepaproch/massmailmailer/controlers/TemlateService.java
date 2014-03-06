@@ -51,19 +51,19 @@ public class TemlateService {
         Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
         Pageable pageSpecification = new PageRequest(1, 1, sortable);
         Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) dataSourceRowsRep.findByDataSourceIdPage(dataSourceId, pageSpecification);
-        if(findByDataSourceIdPage==null || findByDataSourceIdPage.size()==0) {
-        throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
+        if (findByDataSourceIdPage == null || findByDataSourceIdPage.size() == 0) {
+            throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
         }
-        DocumentHolder docu = new WordDocument(templateFile,new StringPlaceHolderHelper("####"));
-        return populateTemplate(docu,ds.getDataStructure() , findByDataSourceIdPage.iterator().next());
+        DocumentHolder docu = new WordDocument(templateFile, new StringPlaceHolderHelper("####"));
+        return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
     }
 
-    public String populateTemplate(DocumentHolder docu, DataStructure ds, DataSourceRow row) {
+    private DocumentTemplate buildtemplate(DocumentHolder docu, DataStructure ds, DataSourceRow row) {
         TemplateMeta templateMeta = docu.getTemplateMeta();
         Collection<String> placeHolders = templateMeta.getPlaceHolders();
         Collection<DataStructureMetaField> usedFields = new ArrayList<DataStructureMetaField>();
         for (DataStructureMetaField mf : ds.getDataStructureFields()) {
-            if (placeHolders.contains("####" + mf.getName() +"####")) {
+            if (placeHolders.contains("####" + mf.getName() + "####")) {
                 usedFields.add(mf);
             }
 
@@ -78,19 +78,31 @@ public class TemlateService {
             dat.add("####" + mf.getName() + "####", array[mf.getIndex()].stringValue());
             items.add(dat);
         }
-        DocumentTemplate template = new TemplateImpl(docu, dat);
+        return new TemplateImpl(docu, dat);
+    }
+
+    public String populateTemplate(DocumentHolder docu, DataStructure ds, DataSourceRow row) {
+
+        DocumentTemplate template = buildtemplate(docu, ds, row);
+
         template.procces("/tmp/" + row.getDataSourceId() + row.getId() + docu.getTemplateMeta().getFileName());
         return row.getDataSourceId() + row.getId() + docu.getTemplateMeta().getFileName();
 
     }
-    
-    
-      public String populateTextTemplate(TextDocumentHolder docu, DataStructure ds, DataSourceRow row) {
-    
+
+    public byte[] populateTemplateOutputStream(DocumentHolder docu, DataStructure ds, DataSourceRow row) {
+
+        DocumentTemplate template = buildtemplate(docu, ds, row);
+        return template.procces();
+
+    }
+
+    public String populateTextTemplate(TextDocumentHolder docu, DataStructure ds, DataSourceRow row) {
+
         Collection<String> placeHolders = docu.getPlaceHolders();
         Collection<DataStructureMetaField> usedFields = new ArrayList<DataStructureMetaField>();
         for (DataStructureMetaField mf : ds.getDataStructureFields()) {
-            if (placeHolders.contains("####" + mf.getName() +"####")) {
+            if (placeHolders.contains("####" + mf.getName() + "####")) {
                 usedFields.add(mf);
             }
 
@@ -105,13 +117,11 @@ public class TemlateService {
             dat.add("####" + mf.getName() + "####", array[mf.getIndex()].stringValue());
             items.add(dat);
         }
-          TextTemplate template = new TextTemplateImpl(docu, dat);
-   
+        TextTemplate template = new TextTemplateImpl(docu, dat);
+
         return template.procces();
 
     }
-    
-    
 
     /**
      * @return the dataSourceRowsRep

@@ -237,7 +237,10 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         };
 
-
+        $scope.sent = function() {
+            $scope.Campain.status = 'READY';
+            $scope.ok();
+        };
         $scope.ok = function() {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
             var campainPromise = $scope.Campain.$save(
@@ -247,7 +250,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
                 return   handleFormError($scope, error.data);
 
             });
-            var   contrr = this;
+            var contrr = this;
             campainPromise.then(function(campain) {
                 contrr.$close();
             });

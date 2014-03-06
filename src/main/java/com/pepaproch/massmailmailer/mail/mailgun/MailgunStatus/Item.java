@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @Generated("com.googlecode.jsonschema2pojo")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
 
     private List<Object> tags = new ArrayList<Object>();
@@ -18,6 +20,7 @@ public class Item {
     @JsonProperty(value = "delivery-status")
     private DeliveryStatus deliveryStastus;
     private List<Object> campaigns = new ArrayList<Object>();
+    
     
 @JsonProperty("user-variables")
     private User_variables user_variables;

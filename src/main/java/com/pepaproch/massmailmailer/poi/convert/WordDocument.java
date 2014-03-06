@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;
 
@@ -37,7 +39,7 @@ public class WordDocument implements DocumentHolder {
 
     }
 
-    public WordDocument(HWPFDocument doc_, PlaceHolderHelper placeHolderRetriver_,String inputFileName) throws FileNotFoundException, IOException {
+    public WordDocument(HWPFDocument doc_, PlaceHolderHelper placeHolderRetriver_, String inputFileName) throws FileNotFoundException, IOException {
         this.placeHolderRetriver = placeHolderRetriver_;
         this.fileName = inputFileName;
         doc = doc_;
@@ -68,9 +70,24 @@ public class WordDocument implements DocumentHolder {
         doc.write(os);
         ByteArrayInputStream bi = new ByteArrayInputStream(os.toByteArray());
         HWPFDocument docCopy = new HWPFDocument(bi);
-        DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver,this.fileName);
+        DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver, this.fileName);
         placeHolderRetriver.setPlaceHolders(holderCopy, item);
         holderCopy.write(outputFileName);
+
+    }
+
+    @Override
+    public byte[] procces(TemplateDataItem item) throws FileNotFoundException, IOException {
+        
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            doc.write(os);
+            ByteArrayInputStream bi = new ByteArrayInputStream(os.toByteArray());
+            HWPFDocument docCopy = new HWPFDocument(bi);
+            
+            DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver, this.fileName);
+            placeHolderRetriver.setPlaceHolders(holderCopy, item);
+            return holderCopy.getOutputStream();
+
 
     }
 
@@ -99,6 +116,19 @@ public class WordDocument implements DocumentHolder {
         meta.setPlaceHolders(this.getPlaceHolders());
         meta.setFileName(fileName);
         return meta;
+    }
+
+
+    public byte[] getOutputStream() {
+        byte[] result = null;
+        try (
+             ByteArrayOutputStream os = new ByteArrayOutputStream();) {
+            doc.write(os);
+            result = os.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger(WordDocument.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
 }

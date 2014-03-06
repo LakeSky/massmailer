@@ -21,5 +21,10 @@ public interface DocumentHolder extends TemplateHolder{
     public TemplateMeta getTemplateMeta();
 
 
+      public byte[] procces(TemplateDataItem item) throws FileNotFoundException, IOException;
+    
+   public byte[] getOutputStream();
+
+
 
 }

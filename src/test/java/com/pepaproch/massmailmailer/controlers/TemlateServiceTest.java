@@ -6,6 +6,16 @@
 
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.db.documents.DataSource;
+import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
+import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
+import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
+import com.pepaproch.massmailmailer.poi.convert.WordDocument;
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,18 +24,26 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
- * @author pepa
+ * @autho
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
+r pepa
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
 public class TemlateServiceTest {
-    
+        @Autowired
+    private DataSourceRowsRep dataSourceRowsRep;
+    @Autowired
+    private DataSourceInfoRep dataSourceInfoRep;
     @Autowired
     private TemlateService service;
     
@@ -63,6 +81,21 @@ public class TemlateServiceTest {
     }
 
 
+    @Test
+    public void testPopulateWord() throws Exception {
+        DataSource ds = getDataSourceInfoRep().findOne("52fcd88844aef19a6f3c74db");
+        Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
+        Pageable pageSpecification = new PageRequest(1, 1, sortable);
+        Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) getDataSourceRowsRep().findByDataSourceIdPage("52fcd88844aef19a6f3c74db", pageSpecification);
+        if (findByDataSourceIdPage == null || findByDataSourceIdPage.size() == 0) {
+            throw new IllegalArgumentException("DataSource not found: " + "52fcd88844aef19a6f3c74db");
+        }
+        DocumentHolder docu = new WordDocument("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc", new StringPlaceHolderHelper("####"));
+        String result =  service.populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
+        File f = new File("/tmp/"+ result);
+        assertTrue(f.exists());
+    }
+
 
 
 
@@ -80,6 +113,34 @@ public class TemlateServiceTest {
      */
     public void setService(TemlateService service) {
         this.service = service;
+    }
+
+    /**
+     * @return the dataSourceInfoRep
+     */
+    public DataSourceInfoRep getDataSourceInfoRep() {
+        return dataSourceInfoRep;
+    }
+
+    /**
+     * @param dataSourceInfoRep the dataSourceInfoRep to set
+     */
+    public void setDataSourceInfoRep(DataSourceInfoRep dataSourceInfoRep) {
+        this.dataSourceInfoRep = dataSourceInfoRep;
+    }
+
+    /**
+     * @return the dataSourceRowsRep
+     */
+    public DataSourceRowsRep getDataSourceRowsRep() {
+        return dataSourceRowsRep;
+    }
+
+    /**
+     * @param dataSourceRowsRep the dataSourceRowsRep to set
+     */
+    public void setDataSourceRowsRep(DataSourceRowsRep dataSourceRowsRep) {
+        this.dataSourceRowsRep = dataSourceRowsRep;
     }
     
 }

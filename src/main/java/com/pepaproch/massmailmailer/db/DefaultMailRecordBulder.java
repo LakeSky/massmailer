@@ -6,6 +6,7 @@
 
 package com.pepaproch.massmailmailer.db;
 
+import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
 
@@ -47,6 +48,22 @@ public class DefaultMailRecordBulder implements MailRecordBulder {
     @Override
     public Email getEmail() {
         return email;
+    }
+
+    @Override
+    public void setAttachment(byte[] b, String fileName, String fileType) {
+        Attachment at = new Attachment( b, fileName, fileType);
+        email.setAttachment(at);
+    }
+
+    @Override
+    public void setCampain(Campain c) {
+    email.setCampain(c);
+    }
+
+    @Override
+    public void setSubject(String proccesEmailBody) {
+email.setSubject(proccesEmailBody);
     }
 
 

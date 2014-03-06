@@ -8,15 +8,14 @@ package com.pepaproch.massmailmailer.controlers;
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.entity.Campain;
-import com.pepaproch.massmailmailer.repository.CampainRepo;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
+
 import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
-import org.hibernate.Hibernate;
-import org.hibernate.LobHelper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,11 +41,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/campain")
 public class CampainController {
-
-  @Autowired
-  private CampainService campainService;
+    
+    @Autowired
+    private CampainService campainService;
     @Autowired
     private CampainValidator campainValidator;
+    
+    @Autowired
+    private CampainSendService campainSendService;
 
     /**
      *
@@ -54,49 +56,48 @@ public class CampainController {
      */
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-
+    
     public List<Campain> listCampain() {
         
         return getCampainService().findAll();
     }
-
+    
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public Campain getCampain(@PathVariable("campainId") BigDecimal campainId) {
-
+        
         return getCampainService().findOne(campainId);
     }
-
-
-
+    
     @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
-    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException {
-
+    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException,IOException {
+        
         if (result.hasErrors()) {
             List<FieldError> fieldErrors = result.getFieldErrors();
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-         
-             
-              
+            
             Campain campainSaved = getCampainService().save(campain);
-
+            if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
+                campainSendService.processCampain(campainSaved);
+            }
+            
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;
         }
-
+        
     }
-
+    
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity deleteDataSource(@PathVariable("campainId") BigDecimal campainId) {
         getCampainService().delete(campainId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
-
+        
     }
-
+     
     public CampainController() {
     }
 
@@ -127,14 +128,12 @@ public class CampainController {
 //        return findByDataSourceIdPaginated;\
         return null;
     }
-
+    
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setValidator(getCampainValidator());
-
+        
     }
-
-
 
     /**
      * @return the campainValidator
@@ -162,5 +161,19 @@ public class CampainController {
      */
     public void setCampainService(CampainService campainService) {
         this.campainService = campainService;
+    }
+
+    /**
+     * @return the campainSendService
+     */
+    public CampainSendService getCampainSendService() {
+        return campainSendService;
+    }
+
+    /**
+     * @param campainSendService the campainSendService to set
+     */
+    public void setCampainSendService(CampainSendService campainSendService) {
+        this.campainSendService = campainSendService;
     }
 }

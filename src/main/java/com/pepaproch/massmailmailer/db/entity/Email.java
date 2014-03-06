@@ -41,13 +41,16 @@ public class Email implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private BigDecimal id;
+    @Column(name = "MESSAGE_ID")
+    private String messageId;
+    
     @Column(name = "FROM_EMAIL")
     private String fromEmail;
     @Column(name = "RECIPIENTS")
     private String recipients;
-    @Column(name = "CC_RECIPIENTSL")
+    @Column(name = "CC_RECIPIENTS")
     private String ccRecipients;
-    @Column(name = "BCC_RECIPIENT")
+    @Column(name = "BCC_RECIPIENTS")
     private String bccRecipients;
     @Column(name = "SUBJECT")
     private String subject;
@@ -66,12 +69,16 @@ public class Email implements Serializable {
     private Boolean readyToSent;
     @Column(name = "EMAIL_STATUS")
     private String emailStatus;
+    
+    @JoinColumn(name = "CAMPAIN_ID")
+    @ManyToOne
+    private Campain campain;
 
     @Lob
     @Column(name = "EMAIL_CONTENT")
     private String emailText;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "ATTACHMENT_ID")
     private Attachment attachment;
 
@@ -281,6 +288,34 @@ public class Email implements Serializable {
      */
     public void setAttachment(Attachment attachment) {
         this.attachment = attachment;
+    }
+
+    /**
+     * @return the campain
+     */
+    public Campain getCampain() {
+        return campain;
+    }
+
+    /**
+     * @param campain the campain to set
+     */
+    public void setCampain(Campain campain) {
+        this.campain = campain;
+    }
+
+    /**
+     * @return the messageId
+     */
+    public String getMessageId() {
+        return messageId;
+    }
+
+    /**
+     * @param messageId the messageId to set
+     */
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
 }

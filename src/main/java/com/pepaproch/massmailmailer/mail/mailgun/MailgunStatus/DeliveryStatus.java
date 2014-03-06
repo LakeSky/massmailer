@@ -6,7 +6,6 @@
 
 package com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 

@@ -16,5 +16,7 @@ public interface DocumentTemplate {
   
 public void procces(String outputFileName);
 
+public byte[] procces();
+
 
 }

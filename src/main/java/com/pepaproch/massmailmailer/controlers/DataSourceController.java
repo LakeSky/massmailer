@@ -148,13 +148,14 @@ public class DataSourceController {
    
         int i = 0;
         for (RowRecords row : rowMapper) {
-
+            if(i>0) {
             previewRows.add(new DataSourceRow(dataSource.getId(), row));
+            }
             i++;
 
         }
         dataSourceRowsRep.save(previewRows);
-        dataSource.setRecordsCount(i);
+        dataSource.setRecordsCount(i-1);
         dataRepository.save(dataSource);
 
     }

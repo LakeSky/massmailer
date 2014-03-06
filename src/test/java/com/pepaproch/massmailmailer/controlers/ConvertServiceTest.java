@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.controlers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +25,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @TransactionConfiguration(transactionManager = "txManager")
 @Transactional
 public class ConvertServiceTest {
+
     @Autowired
     private ConvertService service;
-    
+
     public ConvertServiceTest() {
     }
 
@@ -35,6 +38,23 @@ public class ConvertServiceTest {
     @Test
     public void testConvert() {
         service.convert("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc", "/tmp/52fcd88844aef19a6f3c74db530320e444ae50d084842e2ftest.pdf", Boolean.FALSE);
+    }
+
+    @Test
+    public void testConvertStream() {
+        File f = new File("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc");
+
+        try (
+                FileInputStream fis = new FileInputStream(f);
+                FileOutputStream fos = new FileOutputStream("/home/pepa/CONVTEST/testtemplatestream.pdf");) {
+            byte[] b = new byte[(int) f.length()];
+            fis.read(b);
+            byte[] convert = service.convert(b,"doc", "pdf", Boolean.TRUE);
+            fos.write(convert);
+        } catch (Exception e) {
+
+        }
+
     }
 
     /**
@@ -50,5 +70,5 @@ public class ConvertServiceTest {
     public void setService(ConvertService service) {
         this.service = service;
     }
-    
+
 }

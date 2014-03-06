@@ -6,13 +6,15 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.artofsolving.jodconverter.OfficeDocumentConverter;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
-import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,6 +45,38 @@ public class ConvertService {
         } finally {
             if (removeInput) {
                 boolean delete = inputFile.delete();
+            }
+
+        }
+
+    }
+
+    public byte[] convert(byte[] file, String inFileType, String outFileType, Boolean removeInput) throws IOException {
+        FileOutputStream fos = new FileOutputStream("/tmp/tmpname." + inFileType);
+        fos.write(file);
+        File inputFile = new File("/tmp/tmpname." + inFileType);
+        File output = new File("/tmp/file.pdf");
+        try {
+
+            OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
+
+            converter.convert(inputFile, output);
+            byte[] b = new byte[(int) output.length()];
+            try (
+                    FileInputStream fis = new FileInputStream(output);) {
+
+                fis.read(b);
+            } catch (IOException e) {
+
+            }
+
+            return b;
+
+        } finally {
+            if (removeInput) {
+                inputFile.delete();
+                output.delete();
+
             }
 
         }
