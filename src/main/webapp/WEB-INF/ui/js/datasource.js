@@ -64,36 +64,32 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
         $scope.currentPage = 0;
         var dataSourceId = $routeParams.dataSourceId;
         $scope.filterParams = {
-            page: 0,
-            limit: 10,
-            sort: '2',
-            sortDir: 1,
-            search: '0',
-            searchString: '*'
+            page: 0
 
 
-        }
+        };
         function getData() {
-            var dataSourceRows = Entity.DataSourceRow.query({dataSourceId: dataSourceId,
+            var dataSourceRows = Entity.DataSourceRow.browse({dataSourceId: dataSourceId,
                 page: $scope.filterParams.page,
                 limit: $scope.filterParams.limit,
                 sort: $scope.filterParams.sort,
                 sortDir: $scope.filterParams.sortDir,
                 search: $scope.filterParams.search,
                 searchString: $scope.filterParams.searchString
-            }, function() {
+            }, function(datSourceRows) {
 
                 $scope.dataSourceRows = dataSourceRows;
             });
+
         }
 
         $scope.search = function(searchField) {
-            $scope.filterParams.sort = searchField.index;
+            $scope.filterParams.search = searchField.index;
             $scope.filterParams.searchString = searchField.searchString;
             $scope.filterParams.page = 0;
             getData();
 
-        }
+        };
         $scope.paginate = function(value) {
             // Only act when our property has changed.
             if (undefined !== value) {
@@ -101,8 +97,8 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
                 getData();
 
             }
-        }
-        if (undefined != dataSourceId) {
+        };
+        if (undefined !== dataSourceId) {
             var DataSource = Entity.DataSource.get({dataSourceId: dataSourceId}, function() {
                 $scope.DataSource = DataSource;
             });
@@ -125,8 +121,8 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
         };
 
         $scope.cancel = function() {
-             this.$dismiss('cancel');
-       };
+            this.$dismiss('cancel');
+        };
     }]);
 
 
@@ -135,27 +131,30 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
 // Controller
 // ----------
 dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
+                $scope.DataSource = new Entity.DataSource();
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
             $scope.DataSource = new Entity.DataSource();
+                        
         } else {
-            DataSource = Entity.DataSource.get({dataSourceId: dataSourceId});
-            $scope.DataSource = DataSource;
+            var dataSourcePromise = Entity.DataSource.get({dataSourceId: dataSourceId});
+            dataSourcePromise.$promise.then(function(DataSource) {
+                $scope.DataSource = DataSource;
                 $scope.DataSource.fileUploaded = false;
+           
+            });
         }
 
 
-        // 'files' is an array of JavaScript 'File' objects.
+// 'files' is an array of JavaScript 'File' objects.
+
+
+
         $scope.files = [];
         $scope.fields = [];
 
-        $scope.$watch('dataSource', function(value) {
-            // Only act when our property has changed.
-            if (undefined !== value) {
-                $scope.form = $scope.$eval("dataSource");
 
-            }
-        }, true);
+
 
         $scope.$watch('UploadFile', function(newValue, oldValue) {
             // Only act when our property has changed.
@@ -163,49 +162,37 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                 console.log('Controller: $scope.files changed. Start upload.');
                 if (typeof $scope.DataSource.dataStructure !== 'undefined' && $scope.DataSource.dataStructure !== null && typeof $scope.DataSource.dataStructure.previewRows !== 'undefined') {
                     $scope.DataSource.dataStructure.previewRows = null;
-
                 }
 
                 uploadService.send($scope.UploadFile);
-
             }
         }, true);
-
-
         $rootScope.$on('upload:loadstart', function() {
             $scope.loadingfile = true;
             console.log('Controller: on `loadstart`');
         });
+
+
+        $scope.fileU = {
+            name: '',
+            type: ''
+        };
+
         $rootScope.$on('upload:succes', function(event, xhr) {
 
-            $scope.$apply(function() {
-
-
-
-
-                var DataStructure = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText}, function() {
-                    $scope.DataSource.fileUploaded = true;
-                    $scope.DataSource.dataStructure = DataStructure;
-                    $scope.loadingfile = false;
-
-
-                });
-
+            var dataStructurePromise = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText});
+            dataStructurePromise.$promise.then(function(DataStructure) {
+                $scope.DataSource.fileUploaded = true;
+                $scope.fileU.name = $scope.UploadFile.name;
+                $scope.fileU.type = $scope.UploadFile.type;
+                $scope.DataSource.dataStructure = DataStructure;
+                $scope.loadingfile = false;
+                toastr.success(xhr.currentTarget.responseText);
             });
-
-
-            toastr.success(xhr.currentTarget.responseText);
-
-
-
-
         });
         $rootScope.$on('upload:error', function() {
             console.log('Controller: on `error`');
         });
-
-
-
         $scope.save = function() {
             var deferred = $q.defer();
             $scope.DataSource.$save(
@@ -214,38 +201,21 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                         return  handleFormSucces("Nový datový zdroj vytvořen", $location, '/datasource');
                     }, function(error) {
                 return   handleFormError($scope, error.data);
-
             });
             return deferred.promise;
         };
-
-
         $scope.ok = function() {
 
             var myDataPromise = $scope.save();
             var contrr = this;
             myDataPromise.then(function(DataSource) {  // this is only run after $http completes
                 contrr.$close();
-
             });
-
-
         };
-
         $scope.cancel = function() {
             this.$dismiss('cancel');
         };
-
     }]);
-
-
-
-
-
-
-
-
-
 // Controller
 // ----------
 dataSource.controller('DataSourceDeleteController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
@@ -257,11 +227,6 @@ dataSource.controller('DataSourceDeleteController', ['$scope', '$routeParams', '
                 $scope.deleteMessage = DataSource.name;
                 $scope.DataSource = DataSource;
             });
-
-
-
-
-
         }
         $scope.delete = function() {
             var deferred = $q.defer();
@@ -269,16 +234,11 @@ dataSource.controller('DataSourceDeleteController', ['$scope', '$routeParams', '
                     function(DataSource, headers) {
                         deferred.resolve(DataSource);
                         handleFormSucces("Smazano", $location, '/datasource');
-
                     }, function(error) {
                 return   handleFormError($scope, error.data);
-
             });
             return deferred.promise;
         };
-
-
-
         $scope.okDelete = function() {
             var myDataPromise = $scope.delete();
             var contrr = this;
@@ -286,17 +246,8 @@ dataSource.controller('DataSourceDeleteController', ['$scope', '$routeParams', '
                 $scope.datasources = Entity.DataSource.query();
                 contrr.$close();
             });
-
-
         };
-
-
-
-
-
-
         $scope.cancel = function() {
             this.$dismiss('cancel');
         };
-
     }]);

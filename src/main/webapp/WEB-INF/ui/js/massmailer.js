@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'users', 'dataSource','campain']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'users', 'dataSource', 'campain']);
 
 
 angular.module('appMassMailer').config(
@@ -39,7 +39,6 @@ angular.module('appMassMailer').config(
                             templateUrl: 'views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
                         }).
-                   
                         when('/campain', {
                             templateUrl: 'views/campain/list.html',
                             controller: 'CampainListCtrl'
@@ -67,13 +66,13 @@ function handleFormError($scope, data) {
     $scope.errors = {};
     toastr.error("Zkontrolujte formulář");
 
-     angular.forEach(data, function(serverError, key) {
+    angular.forEach(data, function(serverError, key) {
         console.log(serverError);
         $scope.form[serverError['field']].$setValidity('server', false);
         $scope.errors[serverError['field']] = serverError['code'];
 
     });
-    
+
     return false;
 
 
@@ -81,7 +80,7 @@ function handleFormError($scope, data) {
 }
 
 function handleFormSucces(message, $location, path) {
-    
+
     toastr.success(message);
     $location.path(path);
 
@@ -108,8 +107,8 @@ appMassMailer.directive('showInter', ['$interpolate', '$animate', function($inte
             priority: 0,
             restrict: 'AC',
             controller: function($scope, $element, $attrs) {
-                if (undefined === $scope.form) {
-                    var unregister = $scope.$watch('form', function(newValue) {
+                if (undefined === $scope.form[$interpolate($attrs.showInter)($scope)]) {
+                    var unregister = $scope.$watch('form[' + $interpolate($attrs.showInter)($scope) + ']', function(newValue) {
                         // Only act when our property has changed.
                         if (undefined !== newValue) {
                             procces();
@@ -124,15 +123,19 @@ appMassMailer.directive('showInter', ['$interpolate', '$animate', function($inte
                 }
 
                 function procces() {
-                    console.log('Controller: $scope.form created');
+
                     var fna = $scope.form[$interpolate($attrs.showInter)($scope)];
 
                     $scope.$watch(function() {
                         return fna.$invalid;
                     }
+
                     , function ngShowWatchAction(value, newValue) {
                         $animate[value ? 'removeClass' : 'addClass']($element, 'ng-hide');
                     });
+
+
+
                 }
             }
         };
@@ -241,36 +244,36 @@ appMassMailer.directive('errorMessage', function($interpolate) {
 });
 
 
-appMassMailer.directive('onBlurChange', function ($parse) {
-  return function (scope, element, attr) {
-  
-    var fn = $parse(attr['onBlurChange']);
+appMassMailer.directive('onBlurChange', function($parse) {
+    return function(scope, element, attr) {
 
-    var hasChanged = false;
-    element.on('change', function (event) {
-      hasChanged = true;
-    });
- 
-    element.on('blur', function (event) {
-      if (hasChanged) {
-        scope.$apply(function () {
-          fn(scope, {$event: event});
+        var fn = $parse(attr['onBlurChange']);
+
+        var hasChanged = false;
+        element.on('change', function(event) {
+            hasChanged = true;
         });
-        hasChanged = false;
-      }
-    });
-  };
+
+        element.on('blur', function(event) {
+            if (hasChanged) {
+                scope.$apply(function() {
+                    fn(scope, {$event: event});
+                });
+                hasChanged = false;
+            }
+        });
+    };
 });
 
 appMassMailer.directive('onEnterBlur', function() {
-  return function(scope, element, attrs) {
-    element.bind("keydown keypress", function(event) {
-      if(event.which === 13) {
-        element.blur();
-        event.preventDefault();
-      }
-    });
-  };
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            if (event.which === 13) {
+                element.blur();
+                event.preventDefault();
+            }
+        });
+    };
 });
 
 appMassMailer.filter('format', function() {

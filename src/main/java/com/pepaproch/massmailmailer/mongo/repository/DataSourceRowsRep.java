@@ -44,7 +44,7 @@ public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String>
      * @param pageable
      * @return
      */
-    @Query("  { $and: [ {dataSourceId: ?0}, { dataSourceFields: { $elemMatch: { index: ?1, value: ?2 } } }]} ")
+    @Query("  { $and: [ {dataSourceId: ?0}, { dataSourceFields: { $elemMatch: { index: ?1, value:{$regex : ?2 } } } }]} ")
     public List<DataSourceRow> findByDataSourceIdPaginated(String dataSourceId, Integer columnIndex, Object value, Pageable pageable);
 
 }

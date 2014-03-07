@@ -52,6 +52,8 @@ public class DataSourceController {
     private DataSourceRowsRep dataSourceRowsRep;
     @Autowired
     private DataSourceValidator dataSourceValidator;
+    @Autowired
+    private DataSourceRowService dataSourceRowService;
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
@@ -82,18 +84,22 @@ public class DataSourceController {
      * @param searchString
      * @return
      */
-    @RequestMapping(value = "/{dataSourceId}/rows/{page}/{limit}/{sort}/{sortDir}/{search}/{searchString}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{dataSourceId}/rows/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId, 
-                    @PathVariable("page") String page,
-                    @PathVariable("limit") String limit,
-                    @PathVariable("sort") String sort,
-                    @PathVariable("sortDir") String sortDirection,
-                    @PathVariable("search") String search,
-                    @PathVariable("searchString") String searchString) {
-        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields."+sort+".value");
-        Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit),sortable);
-        List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowsRep.findByDataSourceIdPaginated(dataSourceId,new Integer(search),searchString, pageSpecification);
+                    @RequestParam(value="page", required = false) Integer page,
+                    @RequestParam(value="limit", required = false) Integer limit,
+                    @RequestParam(value="sort", required = false) Integer sort,
+                    @RequestParam(value="sortDir", required = false) Integer sortDirection,
+                    @RequestParam(value="search", required = false) Integer search,
+                    @RequestParam(value="searchString", required = false) String searchString) {
+        
+        
+        PageSpecBuilder  specBulder = new PageSpecBuilderMongo("dataSourceFields");
+        PageSpeciFication pageSpecification = specBulder.setPage(page, limit).setSort(sort, sortDirection).setSearch(search, searchString).getPageSpecification();
+        
+    
+        List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowService.searchRows(dataSourceId, pageSpecification);
         return findByDataSourceIdPaginated;
     }
 
@@ -181,6 +187,20 @@ public class DataSourceController {
      */
     public void setDataSourceValidator(DataSourceValidator dataSourceValidator) {
         this.dataSourceValidator = dataSourceValidator;
+    }
+
+    /**
+     * @return the dataSourceRowService
+     */
+    public DataSourceRowService getDataSourceRowService() {
+        return dataSourceRowService;
+    }
+
+    /**
+     * @param dataSourceRowService the dataSourceRowService to set
+     */
+    public void setDataSourceRowService(DataSourceRowService dataSourceRowService) {
+        this.dataSourceRowService = dataSourceRowService;
     }
 
 }
