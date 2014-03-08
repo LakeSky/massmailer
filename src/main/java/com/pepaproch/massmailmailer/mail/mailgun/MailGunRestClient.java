@@ -15,7 +15,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
@@ -28,6 +30,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -55,17 +61,31 @@ public class MailGunRestClient {
         MultiValueMap formData = new LinkedMultiValueMap();
         formData.add("from", "Mailgun Sandbox <postmaster@sandbox12540.mailgun.org>");
         formData.add("to", "Josef Procházka <pepaproch@gmail.com>");
-        formData.add("subject", "Hello Josef Procházka");
-        formData.add("text", "Congratulations Josef Procházka, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
-        formData.add("html", "<p><strong>Header test</strong></p>");
 
-        Resource logo = new FileSystemResource("/tmp/test.doc");
-        formData.add("attachment", logo);
+        formData.add("text", "Congratulations Josef Procházka, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
+
+//        		this.supportedMediaTypes.add(MediaType.APPLICATION_FORM_URLENCODED);
+//		this.supportedMediaTypes.add(MediaType.MULTIPART_FORM_DATA);
+//
+//		this.partConverters.add(new ByteArrayHttpMessageConverter());
+//		StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+//		stringHttpMessageConverter.setWriteAcceptCharset(false);
+//		this.partConverters.add(stringHttpMessageConverter);
+//		this.partConverters.add(new ResourceHttpMessageConverter());
+        HttpHeaders htmlHeaders = new HttpHeaders();
+        htmlHeaders.setContentType(new MediaType("plain", "html", Charset.forName("UTF-8")));
+
+        HttpEntity<String> subject = new HttpEntity("Hello Josef ěěčěšč áčšew   Procházka", htmlHeaders);
+        formData.add("subject", subject);
+
+
+        HttpEntity<String> html = new HttpEntity("ěščřžýáíé", htmlHeaders);
+        formData.add("html", html);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(formData, headers);
 
         ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
         System.out.println(postForEntity);
@@ -80,13 +100,18 @@ public class MailGunRestClient {
             formData.add("subject", e.getSubject());
             formData.add("text", e.getEmailText().replaceAll("\\<.*?\\>", ""));
             formData.add("html", e.getEmailText());
-            
+
             Resource attachment = addAttachment(e.getAttachment());
             formData.add("attachment", attachment);
-            
+
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MediaType mediaType = new MediaType("multipart", "form-data", Charset.forName("UTF-8"));
+
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
+
             ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
             System.out.println(postForEntity);
             e.setSentDate(new Date());
@@ -98,23 +123,20 @@ public class MailGunRestClient {
         }
 
     }
-    
-    
-   private Resource addAttachment(Attachment at) throws FileNotFoundException {
-       File f = new  File("/tmp/" + at.getId()  + at.getAttachmentName() +".pdf");
-       try(
-       FileOutputStream fos = new FileOutputStream(f);
-               ) {
-       
-         fos.write(at.getAttachment());
-       } catch (IOException ex) {
-       
-       }
-     
-       return new FileSystemResource(f);
-       
-   
-   }
+
+    private Resource addAttachment(Attachment at) throws FileNotFoundException {
+        File f = new File("/tmp/" + at.getId() + at.getAttachmentName() + ".pdf");
+        try (
+                FileOutputStream fos = new FileOutputStream(f);) {
+
+            fos.write(at.getAttachment());
+        } catch (IOException ex) {
+
+        }
+
+        return new FileSystemResource(f);
+
+    }
 
     public MailgunStatus getEvents() {
         MultiValueMap queryParams = new LinkedMultiValueMap();

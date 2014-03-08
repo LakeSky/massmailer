@@ -10,6 +10,7 @@ var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'uplo
 // ----------
 dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
         $scope.datasources = Entity.DataSource.query();
+
         var modalInstance;
         $scope.openDeleteDialog = function(dataSourceId, name) {
             $routeParams.dataSourceId = dataSourceId;
@@ -153,7 +154,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
         $scope.files = [];
         $scope.fields = [];
 
-
+        $scope.errors = {};
 
 
         $scope.$watch('UploadFile', function(newValue, oldValue) {

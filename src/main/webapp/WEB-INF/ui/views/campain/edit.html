@@ -4,17 +4,17 @@
         <h3 style="">Kampaň (email)</h3>
     </div>
     <div class="modal-body container">
-        <form  class="form-horizontal" ng-submit="save()" name="campainForm"   >
+        <form  class="form-horizontal" ng-submit="save()" name="form"   >
             <div class="row">
                 <div class="col-md-6">
                     <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
                     <div class="form-group">
                         <label  class="control-label col-sm-3" for="campainName">Název</label>
                         <div class="col-sm-9" >
+                                       <div show-inter="campainName"  class="alert alert-danger " ><error-message error="campainName" ></error-message>  </div> 
+                           
                             <input  class="form-control input-sm" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
-                            <div class="errors"  show-inter="campainName" >
-                                <error-message error="campainName" ></error-message>   
-                            </div>
+                   
                         </div>
                     </div>  
 

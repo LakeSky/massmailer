@@ -53,7 +53,7 @@ public class MailGunTestTest {
         ClientResponse expResult = null;
         ClientResponse result = MailGunTest.SendSimpleMessage();
         
-      SentEmailResponse res = result.getEntity(SentEmailResponse.class);
+      String res = result.getEntity(String.class);
         System.out.println(result.toString());
         assertNotNull(result);
         // TODO review the generated test code and remove the default call to fail.

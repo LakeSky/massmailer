@@ -27,8 +27,8 @@ public class MailGunTest {
         MultivaluedMapImpl formData = new MultivaluedMapImpl();
         formData.add("from", "Mailgun Sandbox <postmaster@sandbox12540.mailgun.org>");
         formData.add("to", "Josef Procházka <pepaproch@gmail.com>");
-        formData.add("subject", "Hello Josef Procházka");
-        formData.add("text", "Congratulations Josef Procházka, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
+        formData.add("subject", "Hello Josef Proížíážíýčážřcházka");
+        formData.add("text", "Congratulations Josef Procházkaížáýřáýříýžážřýřčšýřč, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
         return webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
     }
 

@@ -7,15 +7,19 @@
             <div class="col-md-12">
                 <form novalidate class="form-horizontal" ng-submit="save()" name="form"  >
                     <div class="form-group col-md-4">
-                        <input type="hidden" ng-model="DataSource.id" interpol-model="id" server-error="id" name="id"/>
+                       
+                        
                         <label class="control-label col-sm-3"  for="name">Název</label>
                         <div class="col-sm-9">
-                            <input class="input-sm" type="text" id = "name" name="name" ng-model="DataSource.name"  interpol-model="name" server-error="name"/>
-                            <div class="errors"  show-inter="name" >
-                                <error-message error="name" ></error-message>   
-                            </div>
+                                        <div show-inter="name"  class="alert alert-danger " ><error-message error="name" ></error-message>  </div> 
+                           
+                            
+                            <input type="hidden" ng-model="DataSource.id" interpol-model="id" server-error="id" name="id"/>
+                            <input class="input-sm form-control" type="text" id = "name" name="name" ng-model="DataSource.name"  interpol-model="name" server-error="name"/>
+              
                         </div>
                     </div>  
+                    
                     <div class="col-md-8">
                         <div class="col-md-4 well" >
                             Název souboru: {{ fileU.name}}<br/>Typ souboru: {{ fileU.type}} 
@@ -34,14 +38,15 @@
                         <h4 style="">Data</h4>
                         <table class="table table-condensed table-bordered" style="margin-bottom: 0px;">
                             <thead>
-                            <th ng-repeat="f in DataSource.dataStructure.dataStructureFields" class="form-group">
-                            <div   show-inter="dataStructure.dataStructureFields[{{f.index}}].name" >
-                                <div class=" alert alert-danger" ><error-message error="dataStructure.dataStructureFields[{{f.index}}].name" ></error-message>  </div> 
-                            </div>
-                            <input   class="form-control input-sm" type="text" id = "dataStructure.dataStructureFields{{f.index}}.name" name="dataStructure.dataStructureFields[{{f.index}}].name" ng-model="f.name"  interpol-model="dataStructure.dataStructureFields[{{f.index}}].name" server-error="dataStructure.dataStructureFields[{{f.index}}].name"/>
+                            <th ng-repeat="f in DataSource.dataStructure.dataStructureFields" class="form-group  has-warning has-feedback">
+                   
+                                <div show-inter="dataStructure.dataStructureFields[{{f.index}}].name"  class="alert alert-danger " ><error-message error="dataStructure.dataStructureFields[{{f.index}}].name" ></error-message>  </div> 
+                           
+                            <input interpol-model  server-error = "dataStructure.dataStructureFields[{{f.index }}].name"  class="form-control input-sm" type="text" id = "dataStructure.dataStructureFields[{{f.index }}].name" name="dataStructure.dataStructureFields[{{f.index}}].name" ng-model="f.name" />
                             </th>
                             </thead>
                         </table>
+
                     </div>
                 </form>
             </div>

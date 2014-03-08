@@ -107,8 +107,8 @@ appMassMailer.directive('showInter', ['$interpolate', '$animate', function($inte
             priority: 0,
             restrict: 'AC',
             controller: function($scope, $element, $attrs) {
-                if (undefined === $scope.form[$interpolate($attrs.showInter)($scope)]) {
-                    var unregister = $scope.$watch('form[' + $interpolate($attrs.showInter)($scope) + ']', function(newValue) {
+                if (undefined === $scope.form) {
+                    var unregister = $scope.$watch('form', function(newValue) {
                         // Only act when our property has changed.
                         if (undefined !== newValue) {
                             procces();
@@ -123,16 +123,30 @@ appMassMailer.directive('showInter', ['$interpolate', '$animate', function($inte
                 }
 
                 function procces() {
-
+                    console.log('Controller: $scope.form created');
                     var fna = $scope.form[$interpolate($attrs.showInter)($scope)];
+                    if (fna === undefined) {
 
-                    $scope.$watch(function() {
-                        return fna.$invalid;
+                        $scope.$watch('form[' + $interpolate($attrs.showInter)($scope) + ']', function(value) {
+                            fna = $scope.form[$interpolate($attrs.showInter)($scope)];
+                            $scope.$watch(function() {
+                                return fna.$invalid;
+                            }
+                            , function ngShowWatchAction(value, newValue) {
+                                $animate[value ? 'removeClass' : 'addClass']($element, 'ng-hide');
+                            });
+                        });
+
+                    } else {
+                        $scope.$watch(function() {
+                            return fna.$invalid;
+                        }
+                        , function ngShowWatchAction(value, newValue) {
+                            $animate[value ? 'removeClass' : 'addClass']($element, 'ng-hide');
+                        });
+
                     }
 
-                    , function ngShowWatchAction(value, newValue) {
-                        $animate[value ? 'removeClass' : 'addClass']($element, 'ng-hide');
-                    });
 
 
 
@@ -163,6 +177,31 @@ appMassMailer.directive('hideInter', ['$interpolate', '$animate', function($inte
         };
     }]);
 
+appMassMailer.directive('serverValidated', ['$interpolate', '$animate', function($interpolate, $animate) {
+        return {
+            restrict: 'A',
+            scope: true,
+            require: '?ngModel',
+            link: function(scope, element, attrs, ctrl) {
+                if (attrs.ngModel) {
+                    var unregister = scope.$watch('hasErrors', function(newValue) {
+                        // Only act when our property has changed.
+                        if (undefined !== scope.errors[$interpolate(attrs.id)(scope)]) {
+                            scope.form[$interpolate(attrs.id)(scope)].$setValidity('server', false); // <<< or whatever your error key is
+
+                        }
+                        element.bind('change', function(event) {
+                            $ctrl.$setValidity('server', true);
+                        });
+
+
+                    });
+
+
+                }
+            }
+        };
+    }]);
 
 
 appMassMailer.directive('serverError', function($interpolate) {
@@ -170,28 +209,22 @@ appMassMailer.directive('serverError', function($interpolate) {
     return {
         priority: 0,
         restrict: 'AC',
-        controller: function($scope, $element, $attrs) {
-            if (undefined === $scope.errors) {
-                var unregister = $scope.$watch('form', function(newValue) {
+        link: function(scope, element, attrs, ctrl) {
+            if (attrs.ngModel) {
+                var unregister = scope.$watch('hasErrors', function(newValue) {
                     // Only act when our property has changed.
-                    if (undefined !== newValue) {
-                        procces($element);
-                        unregister();
+                    if (undefined !== scope.errors[$interpolate(attrs.serverError)(scope)]) {
+                        element.bind('change', function(event) {
+                            $ctrl.$setValidity('server', true);
+                        });
+
                     }
 
+
+
                 });
 
-            } else {
-                procces($element);
 
-            }
-
-            function procces($element) {
-                console.log('Controller: $scope.form created');
-                $element.bind('change', function(event) {
-                    var fna = $scope.form[$interpolate($attrs.serverError)($scope)];
-                    fna.$setValidity('server', true);
-                });
             }
         }
     };
@@ -216,12 +249,12 @@ appMassMailer.directive('errorMessage', function($interpolate) {
         restrict: 'E',
         scope: true,
         controller: function($scope, $element, $attrs) {
-            if (undefined === $scope.errors) {
-                var unregister = $scope.$watch('errors', function(newValue) {
+            if (undefined === $scope.form) {
+                var unregister = $scope.$watch('form', function(newValue) {
                     // Only act when our property has changed.
                     if (undefined !== newValue) {
                         procces();
-
+                      
                     }
 
                 });
@@ -232,7 +265,34 @@ appMassMailer.directive('errorMessage', function($interpolate) {
             }
 
             function procces() {
-                $scope.errorCode = $scope.errors[$interpolate($attrs.error)($scope)];
+                console.log('Controller: $scope.form created');
+                var fna = $scope.form[$interpolate($attrs.error)($scope)];
+                if (fna === undefined) {
+
+                    $scope.$watch('errors', function(value) {
+                        fna = $scope.errors[$interpolate($attrs.error)($scope)];
+                       if(fna!==undefined) {
+                           
+                              $scope.errorCode = fna;   
+                       }
+                    });
+
+                } else {
+                    $scope.$watch('errors', function(value) {
+                             fna = $scope.errors[$interpolate($attrs.error)($scope)];
+                                    if(value!==undefined) {
+                    $scope.errorCode = fna;       
+                           
+                       }
+                        
+                    });
+        
+           
+            
+                }
+
+
+
 
             }
         }
