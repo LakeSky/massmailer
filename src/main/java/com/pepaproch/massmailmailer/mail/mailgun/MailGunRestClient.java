@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,34 +59,6 @@ public class MailGunRestClient {
     }
 
     public void sendEmail() {
-        MultiValueMap formData = new LinkedMultiValueMap();
-        formData.add("from", "Mailgun Sandbox <postmaster@sandbox12540.mailgun.org>");
-        formData.add("to", "Josef Procházka <pepaproch@gmail.com>");
-
-        formData.add("text", "Congratulations Josef Procházka, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
-
-//        		this.supportedMediaTypes.add(MediaType.APPLICATION_FORM_URLENCODED);
-//		this.supportedMediaTypes.add(MediaType.MULTIPART_FORM_DATA);
-//
-//		this.partConverters.add(new ByteArrayHttpMessageConverter());
-//		StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
-//		stringHttpMessageConverter.setWriteAcceptCharset(false);
-//		this.partConverters.add(stringHttpMessageConverter);
-//		this.partConverters.add(new ResourceHttpMessageConverter());
-        HttpHeaders htmlHeaders = new HttpHeaders();
-        htmlHeaders.setContentType(new MediaType("plain", "html", Charset.forName("UTF-8")));
-
-        HttpEntity<String> subject = new HttpEntity("Hello Josef ěěčěšč áčšew   Procházka", htmlHeaders);
-        formData.add("subject", subject);
-
-
-        HttpEntity<String> html = new HttpEntity("ěščřžýáíé", htmlHeaders);
-        formData.add("html", html);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(formData, headers);
 
         ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
         System.out.println(postForEntity);
@@ -97,9 +70,21 @@ public class MailGunRestClient {
             MultiValueMap formData = new LinkedMultiValueMap();
             formData.add("from", e.getFromEmail());
             formData.add("to", e.getRecipients());
-            formData.add("subject", e.getSubject());
-            formData.add("text", e.getEmailText().replaceAll("\\<.*?\\>", ""));
-            formData.add("html", e.getEmailText());
+   
+      
+        HttpHeaders htmlHeaders = new HttpHeaders();
+        htmlHeaders.setContentType(new MediaType("plain", "html", Charset.forName("UTF-8")));
+
+        HttpEntity<String> subject = new HttpEntity(e.getSubject(), htmlHeaders);
+        formData.add("subject", subject);
+
+
+        HttpEntity<String> html = new HttpEntity(e.getEmailText(), htmlHeaders);
+        formData.add("html", html);
+
+    
+            
+            
 
             Resource attachment = addAttachment(e.getAttachment());
             formData.add("attachment", attachment);
@@ -108,7 +93,7 @@ public class MailGunRestClient {
 
             MediaType mediaType = new MediaType("multipart", "form-data", Charset.forName("UTF-8"));
 
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
 
@@ -161,6 +146,10 @@ public class MailGunRestClient {
      */
     public void setEmailrepo(EmailRepo emailrepo) {
         this.emailrepo = emailrepo;
+    }
+
+    void sendEmail(MultipartEmailMessage message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

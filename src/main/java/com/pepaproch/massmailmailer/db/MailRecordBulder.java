@@ -20,19 +20,12 @@ public interface MailRecordBulder {
     public void setReccipients(String rec,String bbc ,String ccr );
     public void setStatus(String s);
     public void setEmailContent( String sceRowId);
-
-    /**
-     *
-     * @param b
-     * @param fileName
-     * @param fileType
-     */
     public void setAttachment(byte[] b, String fileName, String fileType);
     public Email getEmail();
-
     public void setCampain(Campain c);
-
     public void setSubject(String proccesEmailBody);
+
+
     
       
 }
