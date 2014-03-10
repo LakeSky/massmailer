@@ -9,37 +9,23 @@ import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.MailgunStatus;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.FormHttpMessageConverter;
-import org.springframework.http.converter.ResourceHttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -60,52 +46,26 @@ public class MailGunRestClient {
 
     public void sendEmail() {
 
-        ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
-        System.out.println(postForEntity);
+//        ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
+//        System.out.println(postForEntity);
 
     }
 
     public void sendEmail(Email e) {
-        try {
-            MultiValueMap formData = new LinkedMultiValueMap();
-            formData.add("from", e.getFromEmail());
-            formData.add("to", e.getRecipients());
-   
-      
-        HttpHeaders htmlHeaders = new HttpHeaders();
-        htmlHeaders.setContentType(new MediaType("plain", "html", Charset.forName("UTF-8")));
+        MultiValueMap formData = new MultipartMessageFactory("utf-8").getMessage(e);
+        HttpHeaders headers = new HttpHeaders();
 
-        HttpEntity<String> subject = new HttpEntity(e.getSubject(), htmlHeaders);
-        formData.add("subject", subject);
+        MediaType mediaType = new MediaType("multipart", "form-data", Charset.forName("UTF-8"));
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
 
-        HttpEntity<String> html = new HttpEntity(e.getEmailText(), htmlHeaders);
-        formData.add("html", html);
-
-    
-            
-            
-
-            Resource attachment = addAttachment(e.getAttachment());
-            formData.add("attachment", attachment);
-
-            HttpHeaders headers = new HttpHeaders();
-
-            MediaType mediaType = new MediaType("multipart", "form-data", Charset.forName("UTF-8"));
-
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
-
-            ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
-            System.out.println(postForEntity);
-            e.setSentDate(new Date());
-            e.setStatusDate(e.getSentDate());
-            e.setEmailStatus(postForEntity.getBody().getMessage());
-            emailrepo.save(e);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(MailGunRestClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
+        System.out.println(postForEntity);
+        e.setSentDate(new Date());
+        e.setStatusDate(e.getSentDate());
+        e.setEmailStatus(postForEntity.getBody().getMessage());
+        emailrepo.save(e);
 
     }
 

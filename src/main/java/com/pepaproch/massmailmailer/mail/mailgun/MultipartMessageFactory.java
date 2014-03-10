@@ -16,9 +16,9 @@ public class MultipartMessageFactory implements MessageFactory<MultipartEmailMes
 
     private final HttpHeaders htmlPartHeaders;
     private final HttpHeaders plainTextPartHeaders;
-    private final String tempDirectory;
 
-    public MultipartMessageFactory(Charset charset) {
+    public MultipartMessageFactory(String charsetString) {
+        Charset charset = Charset.forName(charsetString);
         HttpHeaders htmlH = new HttpHeaders();
         htmlH.setContentType(new MediaType("plain", "html", charset));
         this.htmlPartHeaders = htmlH;
@@ -29,41 +29,34 @@ public class MultipartMessageFactory implements MessageFactory<MultipartEmailMes
 
     @Override
     public MultipartEmailMessage getMessage(Email email) {
-
         MultiValueMap<String, Object> form = new MultipartEmailMessage();
         setEnvelope(email, form);
         setContent(email, form);
         addAttaChment(email, form);
-        form.add("from", form);
-        
-
-        formData.add("from", "Mailgun Sandbox <postmaster@sandbox12540.mailgun.org>");
-        formData.add("to", "Josef Procházka <pepaproch@gmail.com>");
-
-        formData.add("text", "Congratulations Josef Procházka, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(formData, headers);
 
         return (MultipartEmailMessage) form;
 
     }
 
     private void setEnvelope(Email e, MultiValueMap<String, Object> form) {
+        HttpEntity<String> from = new HttpEntity("Mailgun Sandbox <postmaster@sandbox12540.mailgun.org>", plainTextPartHeaders);
+        form.add("from", from);
+        HttpEntity<String> to = new HttpEntity(e.getRecipients(), plainTextPartHeaders);
+        form.add("to", to);
+        HttpEntity<String> subject = new HttpEntity(e.getSubject(), plainTextPartHeaders);
 
+        form.add("subject", subject);
     }
 
     private void setContent(Email e, MultiValueMap<String, Object> form) {
-
-    }
-
-    private void setHeader(Email e, MultiValueMap<String, Object> form) {
-
+        HttpEntity<String> html = new HttpEntity(e.getEmailText(), htmlPartHeaders);
+        form.add("html", html);
     }
 
     private void addAttaChment(Email e, MultiValueMap<String, Object> form) {
+
+    
+        form.add("attachment", new AttachmenrResource(e.getAttachment().getAttachment(), e.getAttachment().getAttachmentName()));
 
     }
 

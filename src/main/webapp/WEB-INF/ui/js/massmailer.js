@@ -39,7 +39,7 @@ angular.module('appMassMailer').config(
                             templateUrl: 'views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
                         }).
-                        when('/campain', {
+                        when('/campains', {
                             templateUrl: 'views/campain/list.html',
                             controller: 'CampainListCtrl'
 

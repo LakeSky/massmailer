@@ -14,7 +14,7 @@ public class MailGatewayMailgun implements MailGateway {
 
     @Override
     public void sendEmail(Email email) {
-        MessageFactory<MultipartEmailMessage> factory = new MultipartMessageFactory();
+        MessageFactory<MultipartEmailMessage> factory = new MultipartMessageFactory("utf-8");
         MultipartEmailMessage message = factory.getMessage(email);
         client.sendEmail(message);
     }
