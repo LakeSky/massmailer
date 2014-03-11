@@ -1,240 +1,249 @@
 
 <div class="container-fluid"  ng-controller="CampainEditController">
 
-    <div class="row" style="padding-top: 0;padding-bottom: 1em;">
-    <button class="btn btn-success" ng-click="sent()">Odeslat</button>
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-</div>
-    <form  class="form-horizontal" ng-submit="save()" name="form"   >
-        <div class="row">
-            <div class="col-lg-6">
-                <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
-                <div class="form-group">
-                    <label  class="control-label col-lg-3" for="campainName">Název</label>
-                    <div class="col-lg-9" >
-                        <div show-inter="campainName"  class="alert alert-danger " ><error-message error="campainName" ></error-message>  </div> 
+            <form  class="form-horizontal" ng-submit="save()" name="form"   >
 
-                        <input  class="form-control input-sm" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
-
-                    </div>
-                </div>  
-
-
-
-            </div>
-            <div class="col-lg-6">
-
-                <div class="form-group">
-                    <input class="form-control"  type="hidden" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
-                    <label  class="control-label col-lg-3" for="datasourceSelected">Datový zdroj</label>
-                    <div class="col-lg-9">
-                        <input type="text" ng-model="datasourceSelected" placeholder="Vyhledat datový zdroj" typeahead-loading="loadingLocations"  typeahead="datasource as datasource.name for datasource in searchDataSources($viewValue) | filter:{name: $viewValue}"  typeahead-on-select="onDatasourceSelected($item)" class="form-control input-sm">
-                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                        <div class="errors"  show-inter="dataSourceId" >
-                            <error-message error="dataSourceId" ></error-message>   
-                        </div>
-                    </div>
-
-                </div>  
-
-
-
-
-            </div>
-        </div>
-        <tabset >
-            <tab class="active">
-
-                <tab-heading>
-                    <i class="glyphicon glyphicon-envelope"></i> Tělo emailu
-                </tab-heading>
-                <div>
-
-
-
-
-
-                    <div class="row" style="padding-top: 1em">
-                        <div class="col-lg-6">
-
-
-
-                            <div class="form-group">
-                                <label class="control-label col-lg-3"  for="recipients">Adresát</label>
-                                <div class="col-lg-9">
-                                    <input typeahead-editable="false" ng-disabled="datasourceSelected === undefined || datasourceSelected === null || datasourceSelected === ''"  typeahead="field for field in getEmailFields($viewValue) | filter:$viewValue" class="form-control input-sm" type="text" id = "recipients" name="recipients" ng-model="Campain.recipients"  interpol-model="recipients" server-error="recipients"/>
-
-                                    <div class="errors"  show-inter="recipients" >
-                                        <error-message error="recipients" ></error-message>   
-                                    </div>
-                                </div>
-                            </div>  
-
-
-                        </div>
-                        <div class="col-lg-6">
-
-
-                            <div class="form-group">
-                                <label class="control-label col-lg-3"  for="bccRecipients">Adresát kopie</label>
-                                <div class="col-lg-9">
-                                    <input typeahead-editable="false" ng-disabled="datasourceSelected === undefined || datasourceSelected === null || datasourceSelected === ''"  typeahead="field for field in getEmailFields($viewValue) | filter:$viewValue" c  class="form-control input-sm" type="text" id = "bccRecipients" name="bccRecipients" ng-model="Campain.bccRecipients"  interpol-model="bccRecipients" server-error="bccRecipients"/>
-                                    <div class="errors"  show-inter="bccRecipients" >
-                                        <error-message error="bccRecipients" ></error-message>   
-                                    </div>
-                                </div>
-                            </div>  
-
-
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="row" style="padding-top: 1em">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-
-                                <label class="control-label col-lg-3"   for="recipients">Předmět</label>
-                                <div class="col-lg-9">
-                                    <input  class="form-control inpsmut-sm" type="text" id = "subject" name="subject" ng-model="Campain.subject"  interpol-model="subject" server-error="subject"/>
-                                    <div class="errors"  show-inter="subject" >
-                                        <error-message error="subject" ></error-message>   
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <textarea cols="60" id="rr" rows="30"  class="ckeditor" style="width: 800px;height: 300px; z-index: 100;" ng-model="Campain.emailText" >
-               
-                            </textarea>
-                        </div>
-                        <div class="col-lg-4">
-
-                            <h4 style="margin-top: 0;">Dostupné proměné</h4>
-                            <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
-
-                                ###{{f.name}}###
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </tab>
-            <tab>
-                <tab-heading>
-                    <i class="glyphicon glyphicon-paperclip"></i>Příloha
-                </tab-heading>
-
-
-
-
-
-
-
-                <div>
-                    <div class="row" style="padding-top: 1em">
-                        <div class="col-lg-6">
-
-                            <div class="form-group">
+                <tabset>
+                    <tab>
+                        <tab-heading>
+                            <i class="glyphicon glyphicon-paperclip"></i>Kampaň
+                        </tab-heading>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
                                 <div class="form-group">
-                                    <label class="control-label col-lg-4"  for="customizeAttachments">Nahrát soubor</label>
-                                    <div class="col-lg-8">
-                                        <input type="file" ng-model="files" file-change id="file" >
+                                    <label  class="control-label col-lg-3" for="campainName">Název</label>
+                                    <div class="col-lg-9" >
+                                        <div show-inter="campainName"  class="alert alert-danger " ><error-message error="campainName" ></error-message>  </div> 
+
+                                        <input  class="form-control input-sm" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
+
                                     </div>
                                 </div>  
 
-                            </div>
-                            <div ng-show="loadingfile">
-                                <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
-                            </div>
-                            <pre>Název souboru: {{ Campain.attachmentName}}<br/>Typ souboru: {{ Campain.attachmentFileType}} 
-                            </pre>
-
-                            <div class="form-group">
-                                <label class="control-label col-lg-3"   for="attachmentOutputName">Název přílohy</label>
-                                <div class="col-lg-9">
-                                    <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="Campain.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
-                                    <div class="errors"  show-inter="attachmentOutputName" >
-                                        <error-message error="attachmentOutputName" ></error-message>   
-                                    </div>
-
-                                </div>
-                            </div> 
-
-                        </div>
-                        <div class="col-lg-6">
 
 
-
-                            <div class="form-group">
-                                <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
-                                <div class="col-lg-8">
-                                    <input  class="input-sm" ng-disabled="Campain.attachmentFileSystemName === undefined || Campain.attachmentFileSystemName === null" type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="Campain.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
-                                    <div class="errors"  show-inter="customizeAttachments" >
-                                        <error-message error="customizeAttachments" ></error-message>   
-                                    </div>
-                                </div>
-                            </div>  
-
-
-                            <div class="col-lg-6">
-                                <h4 style="margin-top: 0;">Použadované proměné</h4>
-                                <p ng-repeat="f in templateFields">
-                                    ###{{f}}### 
-                                </p>
                             </div>
                             <div class="col-lg-6">
-
-                                <h4 style="margin-top: 0;">Dostupné proměné</h4>
-                                <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
-
-                                    ###{{f.name}}###
-                                </p>
-
-                            </div>
-                            <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">N8hled </button>
-                        </div>
-                    </div>
-
-
-
-                    <div class="row">
-
-                        <hr>
-                        <div collapse="isCollapsed">
-
-                            <iframe class="col-lg-7" ng-src="{{templateUrl}}"    height="400px" > </iframe>
-
-                            <div class="col-lg-5">
-
 
                                 <div class="form-group">
-                                    <input  class="form-control" type="hidden" id = "attachmentFileSystemName" name="attachmentFileSystemName" ng-model="Campain.attachmentFileSystemName" />
-                                    <input  class="form-control" type="hidden" id = "attachmentName" name="attachmentName" ng-model="Campain.attachmentName" />
-                                    <input  class="form-control" type="hidden" id = "attachmentType" name="attachmentType" ng-model="Campain.attachmentType" />
-                                </div> 
+                                    <input class="form-control"  type="hidden" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
+                                    <label  class="control-label col-lg-3" for="datasourceSelected">Datový zdroj</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" ng-model="datasourceSelected" placeholder="Vyhledat datový zdroj" typeahead-loading="loadingLocations"  typeahead="datasource as datasource.name for datasource in searchDataSources($viewValue) | filter:{name: $viewValue}"  typeahead-on-select="onDatasourceSelected($item)" class="form-control input-sm">
+                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                        <div class="errors"  show-inter="dataSourceId" >
+                                            <error-message error="dataSourceId" ></error-message>   
+                                        </div>
+                                    </div>
+
+                                </div>  
+
+
+
+
+                            </div>
+                        </div>    
+                    </tab>
+                    <tab class="active">
+
+                        <tab-heading>
+                            <i class="glyphicon glyphicon-envelope"></i> Tělo emailu
+                        </tab-heading>
+                        <div>
+
+
+
+
+
+                            <div class="row" style="padding-top: 1em">
+                                <div class="col-lg-6">
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-3"  for="recipients">Adresát</label>
+                                        <div class="col-lg-9">
+                                            <input typeahead-editable="false" ng-disabled="datasourceSelected === undefined || datasourceSelected === null || datasourceSelected === ''"  typeahead="field for field in getEmailFields($viewValue) | filter:$viewValue" class="form-control input-sm" type="text" id = "recipients" name="recipients" ng-model="Campain.recipients"  interpol-model="recipients" server-error="recipients"/>
+
+                                            <div class="errors"  show-inter="recipients" >
+                                                <error-message error="recipients" ></error-message>   
+                                            </div>
+                                        </div>
+                                    </div>  
+
+
+                                </div>
+                                <div class="col-lg-6">
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-3"  for="bccRecipients">Adresát kopie</label>
+                                        <div class="col-lg-9">
+                                            <input typeahead-editable="false" ng-disabled="datasourceSelected === undefined || datasourceSelected === null || datasourceSelected === ''"  typeahead="field for field in getEmailFields($viewValue) | filter:$viewValue" c  class="form-control input-sm" type="text" id = "bccRecipients" name="bccRecipients" ng-model="Campain.bccRecipients"  interpol-model="bccRecipients" server-error="bccRecipients"/>
+                                            <div class="errors"  show-inter="bccRecipients" >
+                                                <error-message error="bccRecipients" ></error-message>   
+                                            </div>
+                                        </div>
+                                    </div>  
+
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row" style="padding-top: 1em">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+
+                                        <label class="control-label col-lg-3"   for="recipients">Předmět</label>
+                                        <div class="col-lg-9">
+                                            <input  class="form-control inpsmut-sm" type="text" id = "subject" name="subject" ng-model="Campain.subject"  interpol-model="subject" server-error="subject"/>
+                                            <div class="errors"  show-inter="subject" >
+                                                <error-message error="subject" ></error-message>   
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <textarea cols="60" id="rr" rows="30"  class="ckeditor" style="width: 800px;height: 300px; z-index: 100;" ng-model="Campain.emailText" >
+               
+                                    </textarea>
+                                </div>
+                                <div class="col-lg-4">
+
+                                    <h4 style="margin-top: 0;">Dostupné proměné</h4>
+                                    <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
+
+                                        ###{{f.name}}###
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            <i class="glyphicon glyphicon-paperclip"></i>Příloha
+                        </tab-heading>
+
+
+
+
+
+
+
+                        <div>
+                            <div class="row" style="padding-top: 1em">
+                                <div class="col-lg-6">
+
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4"  for="customizeAttachments">Nahrát soubor</label>
+                                            <div class="col-lg-8">
+                                                <input type="file" ng-model="files" file-change id="file" >
+                                            </div>
+                                        </div>  
+
+                                    </div>
+                                    <div ng-show="loadingfile">
+                                        <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
+                                    </div>
+                                    <pre>Název souboru: {{ Campain.attachmentName}}<br/>Typ souboru: {{ Campain.attachmentFileType}} 
+                                    </pre>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-3"   for="attachmentOutputName">Název přílohy</label>
+                                        <div class="col-lg-9">
+                                            <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="Campain.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
+                                            <div class="errors"  show-inter="attachmentOutputName" >
+                                                <error-message error="attachmentOutputName" ></error-message>   
+                                            </div>
+
+                                        </div>
+                                    </div> 
+
+                                </div>
+                                <div class="col-lg-6">
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
+                                        <div class="col-lg-8">
+                                            <input  class="input-sm" ng-disabled="Campain.attachmentFileSystemName === undefined || Campain.attachmentFileSystemName === null" type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="Campain.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
+                                            <div class="errors"  show-inter="customizeAttachments" >
+                                                <error-message error="customizeAttachments" ></error-message>   
+                                            </div>
+                                        </div>
+                                    </div>  
+
+
+                                    <div class="col-lg-6">
+                                        <h4 style="margin-top: 0;">Použadované proměné</h4>
+                                        <p ng-repeat="f in templateFields">
+                                            ###{{f}}### 
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-6">
+
+                                        <h4 style="margin-top: 0;">Dostupné proměné</h4>
+                                        <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
+
+                                            ###{{f.name}}###
+                                        </p>
+
+                                    </div>
+                                    <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">N8hled </button>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <hr>
+                                <div collapse="isCollapsed">
+
+                                    <iframe class="col-lg-7" ng-src="{{templateUrl}}"    height="400px" > </iframe>
+
+                                    <div class="col-lg-5">
+
+
+                                        <div class="form-group">
+                                            <input   type="hidden" id = "attachmentFileSystemName" name="attachmentFileSystemName" ng-model="Campain.attachmentFileSystemName" />
+                                            <input   type="hidden" id = "attachmentName" name="attachmentName" ng-model="Campain.attachmentName" />
+                                            <input   type="hidden" id = "attachmentType" name="attachmentType" ng-model="Campain.attachmentType" />
+                                        </div> 
+
+
+                                    </div>
+                                </div>
+
 
 
                             </div>
                         </div>
 
+                    </tab>
+                </tabset>
 
+            </form>
 
-                    </div>
-                </div>
+   
+        <div class="row " >
+            <div class="col-lg-12 text-right">
+                <button class="btn btn-success" ng-click="sent()">Odeslat</button>
+                <button class="btn btn-primary" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
 
-            </tab>
-        </tabset>
-
-    </form>
 </div>
-
-
 
 
 <script src="js/ckeditor/ckeditor.js"></script>

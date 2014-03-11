@@ -17,41 +17,49 @@ and open the template in the editor.
         <title>MassMailer</title>
     </head>
     <body >
-        <div class="container-fluid"  > 
+
+
+
+
+        <div class="container-fluid" ng-controller="MenuCtrl" style="background-color: #3d464f ;padding: 1em;" >
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="row" style="background-color: #fff">
-                        <div class="col-md-2">  <img src="img/livelogo.png" alt="..." class="img-rounded"> </div>
-                      
-                        <div >  
-                            <div class="page-header">
-                                
-                                <h1>MassMailler <small>Just send it !</small></h1>
+                <div class=" col-lg-10 col-lg-offset-1 clearfix">
+                    <ul class="nav nav-pills">
+                        <li   ng-class="getClass('/datasource')"><a href="#datasource">DataSources</a></li>
+                        <li ng-class="getClass('/campain/new')"  ><a href="#campain/new">Nová kampaň</a></li>
+                        <li ng-class="getClass('/campains')"  ><a href="#campains">Kampaně</a></li>
+                        <li ng-class="getClass('/other')"  ><a href="#datasource">Další</a></li>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" >
-                        <div class="col-md-2" ng-controller="MenuCtrl" style="background-color: #e1edf7" >
-
-                            <ul class="nav nav-pills nav-stacked">
-                                <li ng-class="getClass('/datasource')"  ><a href="#datasource">DataSources</a></li>
-                                <li ng-class="getClass('/campain/new')"  ><a href="#campain/new">Nová kampaň</a></li>
-                                <li ng-class="getClass('/campains')"  ><a href="#campains">Kampaně</a></li>
-                                <li ng-class="getClass('/other')"  ><a href="#datasource">Další</a></li>
-
-                            </ul>
-                        </div><!-- /.navbar-collapse -->
-
-                        <div class="col-md-10" >
-
-                            <div  ng-view>
-
-                            </div>
-                        </div>
-                    </div>
+                    </ul>
                 </div>
             </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix" style="margin-bottom: 0px; padding: 0">
+                <ol class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li class="active">Data</li>
+                </ol>
+
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-1">
+                    <ul class="nav nav-pills">
+                        <li   ng-class="getClass('/datasource')"><a href="#datasource">DataSources</a></li>
+                        <li ng-class="getClass('/campain/new')"  ><a href="#campain/new">Nová kampaň</a></li>
+                        <li ng-class="getClass('/campains')"  ><a href="#campains">Kampaně</a></li>
+                        <li ng-class="getClass('/other')"  ><a href="#datasource">Další</a></li>
+
+                    </ul>
+                </div>
+                <div  ng-view class="col-lg-10">
+
+
+
+                </div>
+            </div>
+
         </div>
 
         <script src="https://code.jquery.com/jquery.js"></script>
@@ -60,7 +68,7 @@ and open the template in the editor.
         <script src="js/angular-route.min.js"></script>
         <script src="js/angular-resource.min.js"></script>
         <script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
-              <script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.10.0.min.js"></script>
 
         <script src="js/massmailer.js"></script>
         <script src="js/menu.js"></script>
