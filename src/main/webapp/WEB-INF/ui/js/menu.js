@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-var users = angular.module('users',  ['ngRoute', 'ui.bootstrap']);
+var menu = angular.module('menu',  ['ngRoute', 'ui.bootstrap','services.breadcrumbs']);
 
 
 // Controller
 // ----------
-users.controller('MenuCtrl', ['$scope', '$location', function($scope,$location) {
+menu.controller('MenuCtrl', ['$scope', '$location','services.breadcrumbs', function($scope,$location, br) {
    
   $scope.getClass = function(path) {
     if ($location.path().substr(0, path.length) === path) {
@@ -19,6 +19,13 @@ users.controller('MenuCtrl', ['$scope', '$location', function($scope,$location) 
     }
 };
 
-    }]);
+$scope.getAllB = function () {
+    
+    return br.getAll();
+};
 
+
+
+
+    }]);
 

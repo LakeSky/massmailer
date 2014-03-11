@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'users', 'dataSource', 'campain']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'menu', 'dataSource', 'campain']);
 
 
 angular.module('appMassMailer').config(
@@ -57,6 +57,7 @@ angular.module('appMassMailer').config(
                             redirectTo: 'views/user/list.html'
                         });
             }]);
+
 
 
 

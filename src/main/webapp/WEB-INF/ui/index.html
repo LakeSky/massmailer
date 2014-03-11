@@ -36,11 +36,16 @@ and open the template in the editor.
         </div>
         <div class="panel panel-default">
             <div class="panel-heading clearfix" style="margin-bottom: 0px; padding: 0">
-                <ol class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Library</a></li>
-                    <li class="active">Data</li>
-                </ol>
+                    <ul class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;" ng-controller="MenuCtrl">
+            <li ng-repeat="breadcrumb in getAllB()">
+                <span class="divider">/</span>
+         
+                    <span ng-switch-when="true">{{breadcrumb.name}}</span>
+                    <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
+             
+            </li>
+        </ul>
+   
 
             </div>
             <div class="panel-body">
@@ -77,7 +82,7 @@ and open the template in the editor.
         <script src="js/fileUpload.js"></script>
         <script src="js/entityService.js"></script>
         <script src="js/users.js"></script>
-
+        <script src="js/breadcrumb.js"></script>
         <script src="js/ngdirectives.js"></script>
         <script src="js/toastr.js"></script>
         <script src="js/massmailer.js"></script>
