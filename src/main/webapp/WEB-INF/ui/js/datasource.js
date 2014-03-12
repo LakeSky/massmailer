@@ -8,7 +8,7 @@ var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'uplo
 
 // Controller
 // ----------
-dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location', function($scope, Entity, $modal, $routeParams, $location) {
         $scope.datasources = Entity.DataSource.query();
 
         var modalInstance;
@@ -25,42 +25,13 @@ dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$rou
             });
         };
 
-        $scope.openForm = function(dataSourceId) {
-            $routeParams.dataSourceId = dataSourceId;
-            modalInstance = $modal.open({
-                windowClass: 'modal-datasource',
-                templateUrl: 'views/datasource/edit.html',
-                resolve: {
-                }
-            });
 
-            modalInstance.result.then(function() {
-                $scope.datasources = Entity.DataSource.query();
-            }, function() {
-                ;
-            });
-        };
-        $scope.openBrowse = function(dataSourceId) {
-            $routeParams.dataSourceId = dataSourceId;
-            modalInstance = $modal.open({
-                controller: 'DataSourceRowsListCtrl',
-                windowClass: 'modal-datasource',
-                templateUrl: 'views/datasource/browse.html',
-                resolve: {
-                }
-            });
 
-            modalInstance.result.then(function() {
-                $scope.datasources = Entity.DataSource.query();
-            }, function() {
-                ;
-            });
-        };
 
 
     }]);
 
-dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+dataSource.controller('DataSourceRowsListCtrl', ['$rootScope', '$scope', 'Entity', '$modal', '$routeParams', function($rootScope, $scope, Entity, $modal, $routeParams) {
 
         $scope.currentPage = 0;
         var dataSourceId = $routeParams.dataSourceId;
@@ -69,6 +40,20 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
 
 
         };
+
+        $rootScope.$on('upload:datasourcefileuploaded', function(event, DataStructure) {
+ 
+                 $scope.dataSourceRows = null;
+                $scope.dataSourceRows = DataStructure.previewRows;
+                DataSource.dataStructure = DataStructure;
+      
+
+
+        });
+
+
+
+
         function getData() {
             var dataSourceRows = Entity.DataSourceRow.browse({dataSourceId: dataSourceId,
                 page: $scope.filterParams.page,
@@ -132,17 +117,22 @@ dataSource.controller('DataSourceRowsListCtrl', ['$scope', 'Entity', '$modal', '
 // Controller
 // ----------
 dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
-                $scope.DataSource = new Entity.DataSource();
+        $scope.DataSource = new Entity.DataSource();
+          $scope.categories = [
+              {value:'system', key:'System'},
+              {value:'report', key:'Report'}
+ 
+  ];
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
             $scope.DataSource = new Entity.DataSource();
-                        
+
         } else {
             var dataSourcePromise = Entity.DataSource.get({dataSourceId: dataSourceId});
             dataSourcePromise.$promise.then(function(DataSource) {
                 $scope.DataSource = DataSource;
                 $scope.DataSource.fileUploaded = false;
-           
+
             });
         }
 
@@ -189,6 +179,7 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                 $scope.DataSource.dataStructure = DataStructure;
                 $scope.loadingfile = false;
                 toastr.success(xhr.currentTarget.responseText);
+                $rootScope.$emit('upload:datasourcefileuploaded', DataStructure);
             });
         });
         $rootScope.$on('upload:error', function() {
@@ -208,13 +199,13 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
         $scope.ok = function() {
 
             var myDataPromise = $scope.save();
-            var contrr = this;
+      
             myDataPromise.then(function(DataSource) {  // this is only run after $http completes
-                contrr.$close();
+  
             });
         };
         $scope.cancel = function() {
-            this.$dismiss('cancel');
+          $location.path('/datasource');
         };
     }]);
 // Controller

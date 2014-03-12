@@ -23,7 +23,7 @@ and open the template in the editor.
 
         <div class="container-fluid" ng-controller="MenuCtrl" style="background-color: #3d464f ;padding: 1em;" >
             <div class="row">
-                <div class=" col-lg-10 col-lg-offset-1 clearfix">
+                <div class=" col-lg-11 col-lg-offset-1 clearfix">
                     <ul class="nav nav-pills">
                         <li   ng-class="getClass('/datasource')"><a href="#datasource">DataSources</a></li>
                         <li ng-class="getClass('/campain/new')"  ><a href="#campain/new">Nová kampaň</a></li>
@@ -39,19 +39,19 @@ and open the template in the editor.
                     <ul class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;" ng-controller="MenuCtrl">
             <li ng-repeat="breadcrumb in getAllB()">
                 <span class="divider">/</span>
-         
+                <ng-switch on="$last">
                     <span ng-switch-when="true">{{breadcrumb.name}}</span>
                     <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
-             
+                </ng-switch>
             </li>
         </ul>
    
 
             </div>
             <div class="panel-body">
-                <div class="col-lg-1">
-                    <ul class="nav nav-pills">
-                        <li   ng-class="getClass('/datasource')"><a href="#datasource">DataSources</a></li>
+                <div class="col-lg-2">
+                    <ul class="nav">
+                        <li  ng-class="getClass('/datasource')"><a href="#datasource">DataSources</a></li>
                         <li ng-class="getClass('/campain/new')"  ><a href="#campain/new">Nová kampaň</a></li>
                         <li ng-class="getClass('/campains')"  ><a href="#campains">Kampaně</a></li>
                         <li ng-class="getClass('/other')"  ><a href="#datasource">Další</a></li>

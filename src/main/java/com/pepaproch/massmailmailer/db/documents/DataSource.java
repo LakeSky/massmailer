@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.db.documents;
 
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.validation.Valid;
@@ -21,8 +21,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "datasources")
 public class DataSource {
+
     @Id
-    private  String id;
+    private String id;
     @Basic(optional = false)
     @Column(unique = true)
     @NotNull
@@ -30,16 +31,17 @@ public class DataSource {
     private String name;
     @Valid
     private DataStructure dataStructure;
-    
+
     private Integer recordsCount;
+
+    private String category;
     
+    private String description;
+    
+    private Date dateUpdated;
+
     @Transient
     private Boolean fileUploaded;
-    
-    
- 
-
-
 
     /**
      * @return the name
@@ -87,7 +89,7 @@ public class DataSource {
      * @return the recordsCount
      */
     public Integer getRecordsCount() {
-        return (recordsCount==null)? 0 : recordsCount;
+        return (recordsCount == null) ? 0 : recordsCount;
     }
 
     /**
@@ -101,7 +103,7 @@ public class DataSource {
      * @return the fileUploaded
      */
     public Boolean getFileUploaded() {
-        return (fileUploaded==null)? Boolean.FALSE : fileUploaded ;
+        return (fileUploaded == null) ? Boolean.FALSE : fileUploaded;
     }
 
     /**
@@ -111,9 +113,48 @@ public class DataSource {
         this.fileUploaded = fileUploaded;
     }
 
+    /**
+     * @return the category
+     */
+    public String getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the dateUpdated
+     */
+    public Date getDateUpdated() {
+        return dateUpdated;
+    }
+
+    /**
+     * @param dateUpdated the dateUpdated to set
+     */
+    public void setDateUpdated(Date dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
 
 
 
-
-    
 }

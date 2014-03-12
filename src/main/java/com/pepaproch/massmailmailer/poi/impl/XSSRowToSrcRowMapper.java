@@ -116,11 +116,9 @@ public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
 
     private void setUp(File f) {
         currentPoss = 0;
-        InputStream inp;
 
-        try {
+        try (InputStream inp = new BufferedInputStream(new FileInputStream(f));) {
 
-            inp = new BufferedInputStream(new FileInputStream(f));
             Workbook wb = new XSSFWorkbook(inp);
             sheet = wb.getSheetAt(0);
             rowCount = sheet.getLastRowNum();

@@ -17,6 +17,7 @@ import com.pepaproch.massmailmailer.poi.impl.XSSRowToSrcRowMapper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,6 +136,7 @@ public class DataSourceController {
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
+            dataSource.setDateUpdated(new Date());
             DataSource savedDataSource = dataRepository.save(dataSource);
 
             if (dataSource.getFileUploaded()) {

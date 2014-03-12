@@ -35,6 +35,16 @@ angular.module('appMassMailer').config(
                             controller: 'DataSourceCreateController'
 
                         }).
+                                when('/datasource/edit/:dataSourceId', {
+                            templateUrl: 'views/datasource/edit.html',
+                            controller: 'DataSourceCreateController'
+
+                        }).
+                         when('/datasource/data/:dataSourceId', {
+                            templateUrl: 'views/datasource/browse.html',
+                            controller: 'DataSourceRowsListCtrl'
+
+                        }).
                         when('/datasource/:dataSourceId', {
                             templateUrl: 'views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
