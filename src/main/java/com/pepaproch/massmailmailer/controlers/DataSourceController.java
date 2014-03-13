@@ -58,11 +58,11 @@ public class DataSourceController {
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public List<DataSource> listDatasourcer(@RequestParam(value="search", required = false )String searchColumn,@RequestParam(value="searchString", required = false ) String  searchString) {
-        if("name".equalsIgnoreCase(searchColumn)) {
-              return (List) dataRepository.findByLikName(".*" + searchString + ".*");
-        }else {
-        return (List) dataRepository.findAll();
+    public List<DataSource> listDatasourcer(@RequestParam(value = "search", required = false) String searchColumn, @RequestParam(value = "searchString", required = false) String searchString) {
+        if ("name".equalsIgnoreCase(searchColumn)) {
+            return (List) dataRepository.findByLikName(".*" + searchString + ".*");
+        } else {
+            return (List) dataRepository.findAll();
         }
     }
 
@@ -76,6 +76,7 @@ public class DataSourceController {
 
     /**
      * datasource/:dataSourceId/rows/:page/:limit/:sort/:sortDir/:search/:searchString'
+     *
      * @param dataSourceId
      * @param page
      * @param limit
@@ -87,19 +88,17 @@ public class DataSourceController {
      */
     @RequestMapping(value = "/{dataSourceId}/rows/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId, 
-                    @RequestParam(value="page", required = false) Integer page,
-                    @RequestParam(value="limit", required = false) Integer limit,
-                    @RequestParam(value="sort", required = false) Integer sort,
-                    @RequestParam(value="sortDir", required = false) Integer sortDirection,
-                    @RequestParam(value="search", required = false) Integer search,
-                    @RequestParam(value="searchString", required = false) String searchString) {
-        
-        
-        PageSpecBuilder  specBulder = new PageSpecBuilderMongo("dataSourceFields");
+    public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false) Integer limit,
+            @RequestParam(value = "sort", required = false) Integer sort,
+            @RequestParam(value = "sortDir", required = false) Integer sortDirection,
+            @RequestParam(value = "search", required = false) Integer search,
+            @RequestParam(value = "searchString", required = false) String searchString) {
+
+        PageSpecBuilder specBulder = new PageSpecBuilderMongo("dataSourceFields");
         PageSpeciFication pageSpecification = specBulder.setPage(page, limit).setSort(sort, sortDirection).setSearch(search, searchString).getPageSpecification();
-        
-    
+
         List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowService.searchRows(dataSourceId, pageSpecification);
         return findByDataSourceIdPaginated;
     }
@@ -140,7 +139,9 @@ public class DataSourceController {
             DataSource savedDataSource = dataRepository.save(dataSource);
 
             if (dataSource.getFileUploaded()) {
-                updateData(savedDataSource);
+                int i = dataSourceRowService.updateDataFromFile(savedDataSource.getId(), new File("/tmp/" + dataSource.getDataStructure().getFileName()));
+                savedDataSource.setRecordsCount(i - 1);
+                dataRepository.save(savedDataSource);
             }
 
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(savedDataSource, HttpStatus.CREATED);
@@ -153,17 +154,17 @@ public class DataSourceController {
         PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
         RowMapper<RowRecords> rowMapper = processor.process(new File("/tmp/" + dataSource.getDataStructure().getFileName()));
         Collection<DataSourceRow> previewRows = new ArrayList();
-   
+
         int i = 0;
         for (RowRecords row : rowMapper) {
-            if(i>0) {
-            previewRows.add(new DataSourceRow(dataSource.getId(), row));
+            if (i > 0) {
+                previewRows.add(new DataSourceRow(dataSource.getId(), row));
             }
             i++;
 
         }
         dataSourceRowsRep.save(previewRows);
-        dataSource.setRecordsCount(i-1);
+        dataSource.setRecordsCount(i - 1);
         dataRepository.save(dataSource);
 
     }

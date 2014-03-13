@@ -103,7 +103,7 @@ public class XLSXProcessorTest {
         int count = 0;
         File f = new File("/home/pepa/test.xlsx");
         PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
-        DataStructure structure = processor.getStructure(f);
+        DataStructure structure = processor.getStructure(processor.process(f));
         for (DataStructureMetaField field : structure.getDataStructureFields()) {
             System.out.println(field.getDataType());
 

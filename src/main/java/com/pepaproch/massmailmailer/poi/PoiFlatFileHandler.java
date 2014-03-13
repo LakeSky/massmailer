@@ -22,6 +22,5 @@ public  interface PoiFlatFileHandler {
      * @return
      */
     public  RowMapper process(File f);
-
-    public DataStructure getStructure(File f);
+      public DataStructure getStructure(RowMapper<RowRecords> m);
 }

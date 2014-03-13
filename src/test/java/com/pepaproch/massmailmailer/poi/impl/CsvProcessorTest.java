@@ -80,7 +80,7 @@ public class CsvProcessorTest {
         File f = new File("/home/pepa/test.csv");
 
         PoiFlatFileHandler processor = new CsvProcessor(new CsvRowToSrcRowMapper());
-        DataStructure structure = processor.getStructure(f);
+        DataStructure structure = processor.getStructure(processor.process(f));
 
         assertNotNull(structure.getDataStructureFields());
     }

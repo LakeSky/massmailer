@@ -34,8 +34,8 @@ public class CsvProcessor implements PoiFlatFileHandler {
     }
 
     @Override
-    public DataStructure getStructure(File file) {
-        RowMapper<RowRecords> rows = process(file);
+    public DataStructure getStructure(RowMapper<RowRecords> rows) {
+ 
         ArrayList<DataStructureMetaField> fields = null;
         //get fields names
         if (rows.iterator().hasNext()) {

@@ -146,6 +146,6 @@
 
     
     
-    
+        <bean id="poiHandlerFactory" class="com.pepaproch.massmailmailer.poi.PoiHandlerFactoryImpl" />
     
 </beans>

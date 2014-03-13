@@ -6,17 +6,10 @@
 
 package com.pepaproch.massmailmailer.poi;
 
-import java.io.File;
-
 /**
  *
  * @author pepa
- * @param <T>
  */
-public  interface RowMapper<T> extends Iterable<T> {
-    
-    public RowMapper procces(File f);
-    
-
-    
+public interface PoiHandlerFactory {
+    public PoiFlatFileHandler getHandler(String fileName);
 }

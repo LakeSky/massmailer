@@ -56,13 +56,14 @@ public class XLSProcessorTest {
     public void testGetRows() {
         System.out.println("getRows");
         int count = 0;
-        File f = new File("/home/pepa/test.xls");
+        File f = new File("/home/pepa/NetBeansProjects/MassMailMailer/resources/test.xls");
 
         Collection<Collection<DataSourceField>> expResult = null;
         PoiFlatFileHandler processor = new XLSProcessor(new HSSRowToSrcRowMapper());
         RowMapper<RowRecords> rows = processor.process(f);
         int rowCout = 0;
        for(RowRecords r : rows) {
+           System.out.println(r.getFields().toArray());
           rowCout++;
        
        }

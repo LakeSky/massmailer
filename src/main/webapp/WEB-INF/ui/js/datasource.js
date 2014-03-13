@@ -42,11 +42,11 @@ dataSource.controller('DataSourceRowsListCtrl', ['$rootScope', '$scope', 'Entity
         };
 
         $rootScope.$on('upload:datasourcefileuploaded', function(event, DataStructure) {
- 
-                 $scope.dataSourceRows = null;
-                $scope.dataSourceRows = DataStructure.previewRows;
-                DataSource.dataStructure = DataStructure;
-      
+
+            $scope.dataSourceRows = null;
+            $scope.dataSourceRows = DataStructure.previewRows;
+            DataSource.dataStructure = DataStructure;
+
 
 
         });
@@ -118,11 +118,11 @@ dataSource.controller('DataSourceRowsListCtrl', ['$rootScope', '$scope', 'Entity
 // ----------
 dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
         $scope.DataSource = new Entity.DataSource();
-          $scope.categories = [
-              {value:'system', key:'System'},
-              {value:'report', key:'Report'}
- 
-  ];
+        $scope.categories = [
+            {value: 'system', key: 'System'},
+            {value: 'report', key: 'Report'}
+
+        ];
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
             $scope.DataSource = new Entity.DataSource();
@@ -170,20 +170,29 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
         };
 
         $rootScope.$on('upload:succes', function(event, xhr) {
-
+           $scope.loadingfile = false;
             var dataStructurePromise = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText});
             dataStructurePromise.$promise.then(function(DataStructure) {
                 $scope.DataSource.fileUploaded = true;
                 $scope.fileU.name = $scope.UploadFile.name;
                 $scope.fileU.type = $scope.UploadFile.type;
                 $scope.DataSource.dataStructure = DataStructure;
-                $scope.loadingfile = false;
+     
                 toastr.success(xhr.currentTarget.responseText);
                 $rootScope.$emit('upload:datasourcefileuploaded', DataStructure);
+            }, function(error) {
+                $scope.DataSource.fileUploaded = false;
+                toastr.success(error.data);
+
+
             });
         });
+
+
         $rootScope.$on('upload:error', function() {
-            console.log('Controller: on `error`');
+            $scope.DataSource.fileUploaded = false;
+            $scope.loadingfile = false;
+            toastr.success(xhr.currentTarget.responseText);
         });
         $scope.save = function() {
             var deferred = $q.defer();
@@ -199,13 +208,13 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
         $scope.ok = function() {
 
             var myDataPromise = $scope.save();
-      
+
             myDataPromise.then(function(DataSource) {  // this is only run after $http completes
-  
+
             });
         };
         $scope.cancel = function() {
-          $location.path('/datasource');
+            $location.path('/datasource');
         };
     }]);
 // Controller

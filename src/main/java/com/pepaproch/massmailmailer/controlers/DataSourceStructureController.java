@@ -5,16 +5,11 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.documents.DataStructure;
-import com.pepaproch.massmailmailer.poi.PoiFlatFileHandler;
-import com.pepaproch.massmailmailer.poi.RowMapper;
-import com.pepaproch.massmailmailer.poi.RowRecords;
-import com.pepaproch.massmailmailer.poi.impl.XLSProcessor;
-import com.pepaproch.massmailmailer.poi.impl.XSSRowToSrcRowMapper;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.nio.charset.Charset;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,28 +26,44 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/datasource/structure")
 public class DataSourceStructureController {
+    @Autowired
+    private DataSourceRowService dataSourceRowService;
 
     @RequestMapping(value = "/{fileId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<DataStructure> getStructure(@PathVariable("fileId") String fileId) {
+    public ResponseEntity getStructure(@PathVariable("fileId") String fileId) {
 
-        PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
-        DataStructure ds = processor.getStructure(new File("/tmp/" + fileId));
-        RowMapper<RowRecords> rowMapper = processor.process(new File("/tmp/" + fileId));
-        Collection previewRows = new ArrayList();
-        int i = 0;
-        for (RowRecords row : rowMapper) {
-            if (i > 0 && i < 6) {
-                previewRows.add(new DataSourceRow("preview" + fileId ,row));
 
-            }
-            i++;
+        
+        
+        
+        DataStructure ds = null;
+        try {
+            ds = getDataSourceRowService().getDataStructureFrimFile(new File("/tmp/" + fileId));
+        } catch (IllegalArgumentException e) {
+            ResponseEntity<String> error = new ResponseEntity<>("Soubor nelze použít", HttpStatus.BAD_REQUEST);
+        return error;
         }
-        ds.setPreviewRows(previewRows);
-        ds.setFileName(fileId);
+
+
+
 
         ResponseEntity< DataStructure> resp = new ResponseEntity<DataStructure>(ds, HttpStatus.ACCEPTED);
         return resp;
+    }
+
+    /**
+     * @return the dataSourceRowService
+     */
+    public DataSourceRowService getDataSourceRowService() {
+        return dataSourceRowService;
+    }
+
+    /**
+     * @param dataSourceRowService the dataSourceRowService to set
+     */
+    public void setDataSourceRowService(DataSourceRowService dataSourceRowService) {
+        this.dataSourceRowService = dataSourceRowService;
     }
 
 
