@@ -7,9 +7,7 @@ package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import java.io.File;
-import java.nio.charset.Charset;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,7 @@ public class DataSourceStructureController {
     @Autowired
     private DataSourceRowService dataSourceRowService;
 
-    @RequestMapping(value = "/{fileId}/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{fileId}/", produces = MediaTypes.MEDIA_TYPEJSONUTF8VALUE, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getStructure(@PathVariable("fileId") String fileId) {
 

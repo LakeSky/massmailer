@@ -21,9 +21,6 @@ import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -111,14 +108,14 @@ public class DataSourceController {
 
     }
 
-    @RequestMapping(value = "/{dataSourceId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(value = "/{dataSourceId}", consumes = MediaTypes.MEDIA_TYPEJSONUTF8VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
     public ResponseEntity updateDataSource(@Valid @RequestBody DataSource dataSource, BindingResult result) {
         return saveDataSource(dataSource, result);
 
     }
 
-    @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaTypes.MEDIA_TYPEJSONUTF8VALUE)
     @ResponseBody
     public ResponseEntity deleteDataSource(@PathVariable("dataSourceId") String dataSourceId) {
         dataSourceRowsRep.delete(dataSourceRowsRep.findByDataSourceId(dataSourceId));
@@ -149,25 +146,7 @@ public class DataSourceController {
         }
     }
 
-    private void updateData(DataSource dataSource) {
-        dataSourceRowsRep.delete(dataSourceRowsRep.findByDataSourceId(dataSource.getId()));
-        PoiFlatFileHandler processor = new XLSProcessor(new XSSRowToSrcRowMapper());
-        RowMapper<RowRecords> rowMapper = processor.process(new File("/tmp/" + dataSource.getDataStructure().getFileName()));
-        Collection<DataSourceRow> previewRows = new ArrayList();
 
-        int i = 0;
-        for (RowRecords row : rowMapper) {
-            if (i > 0) {
-                previewRows.add(new DataSourceRow(dataSource.getId(), row));
-            }
-            i++;
-
-        }
-        dataSourceRowsRep.save(previewRows);
-        dataSource.setRecordsCount(i - 1);
-        dataRepository.save(dataSource);
-
-    }
 
     public DataSourceController() {
     }
