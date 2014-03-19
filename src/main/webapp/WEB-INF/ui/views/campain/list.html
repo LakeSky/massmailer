@@ -1,37 +1,34 @@
 
-<div class="panel panel-default">
-            <div class="col-lg-6">
-            <button class="btn btn-success " ng-click="sent()">Odeslat</button>
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
+<div class="panel panel-primary">
     <div class="panel-heading">
-
+        <div class=" glyphicon glyphicon-send glyphicon-sm" style="float: left; margin-right: 1em;padding: 2px 0;"></div>
         <h3 class="panel-title">Kampaně</h3>
 
     </div>
     <div class="panel-body">
         <div  >
             <table  class="table table-striped table-condensed"  >
-                <thead><tr>
-                        <th>Název</th>
-                        <th>Počet záznamů</th>
-                        <th>STAV</th>
-                        <th class="text-right">Akce</th>
-                    </tr>
-                    <tr>
-                        <th><div class="input-group" style="width: 50%">
-                    <input class="form-control " placeholder="Search"  on-enter-blur on-blur-change="search()"  ng-indexname="f.index"  ng-model="f.searchString" type="text" />
+                <thead>
+                                        <tr>
+                        <th><div class="input-group input-group-sm">
+                    <input class="form-control" placeholder="Search"  on-enter-blur on-blur-change="search()"  ng-indexname="f.index"  ng-model="f.searchString" type="text" />
                     <div class="input-group-btn">
-                        <button class="btn btn-default"  ng-click="search()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        <button class="btn btn-default btn-xs"  ng-click="search()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
                 </th>
                 <th>
                 </th>
                 <th></th>
-                <th class="text-right"><a class="btn btn-primary btn-sm pull-right" ng-click="openForm()"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a></th>
+                <th class="text-right"><a class="btn btn-primary btn-xs pull-right" ng-click="openForm()"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a></th>
                 </tr>
+                    <tr>
+                        <th class="col-lg-4 text-info">Název</th>
+                        <th class="text-right col-lg-2 text-info">Počet záznamů</th>
+                        <th class="text-center text-info">Stav</th>
+                        <th class="text-right text-info">Akce</th>
+                    </tr>
+
                 </thead>
                 <tfoot>
                     <tr><td colspan="4">
@@ -41,12 +38,12 @@
                 </tfoot>
                 <tbody>
                     <tr ng-repeat="c in campains" >
-                        <td>{{c.campainName}}</td>
-                        <td>{{c.recordsCount}}</td>
-                        <td>{{c.status}}</td>
-                        <td class="text-right">
-                            <div class="btn-group text-left">
-                                <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
+                        <td  class="col-lg-4" ><b>{{c.campainName}}</b></td>
+                        <td class="text-right col-lg-2" ><span class="badge">{{c.recordsCount}}</span></td>
+                        <td class="text-center" >{{c.status}}</td>
+                        <td class="text-right col-lg-1">
+                            <div class="btn-group-xs">
+                                <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" >
                                     <li><a ng-click="openBrowse(c.id)"  >Zobrazit data</a></li>
