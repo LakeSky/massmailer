@@ -157,6 +157,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         if (undefined === campainId) {
             $scope.Campain = null;
+                $scope.errors = {};
             $scope.Campain = new Entity.Campain();
         } else {
             $scope.Campain = Entity.Campain.get({campainId: campainId}
@@ -228,10 +229,10 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
                     }
 
                 } else {
-                    path = path + $scope.Campain.attachmentFileSystemName + '\/';
+                    path = path + $scope.Campain.attachmentFileSystemName + '\/&output=embed';
 
                 }
-                $scope.templateUrl = path;
+                $scope.previewUrl = path;
             }
 
 

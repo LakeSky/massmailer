@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller(value = "IndexController")
 
-@RequestMapping("/index.html")
+@RequestMapping({"/index.html","/"})
 public class IndexController {
     @Autowired
     private MailGunRestClient client;

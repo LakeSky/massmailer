@@ -16,7 +16,7 @@ and open the template in the editor.
         </style>
         <title>MassMailer</title>
     </head>
-    <body >
+    <body style="background-color: #3d464f;"  >
 
 
 
@@ -36,28 +36,31 @@ and open the template in the editor.
         </div>
         <div class="panel panel-default">
             <div class="panel-heading clearfix" style="margin-bottom: 0px; padding: 0">
-                    <ul class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;" ng-controller="MenuCtrl">
-            <li ng-repeat="breadcrumb in getAllB()">
-                <span class="divider">/</span>
-                <ng-switch on="$last">
-                    <span ng-switch-when="true">{{breadcrumb.name}}</span>
-                    <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
-                </ng-switch>
-            </li>
-        </ul>
-   
+                <ul class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;" ng-controller="MenuCtrl">
+                    <li ng-repeat="breadcrumb in getAllB()">
+                        <span class="divider">/</span>
+                    <ng-switch on="$last">
+                        <span ng-switch-when="true">{{breadcrumb.name}}</span>
+                        <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
+                    </ng-switch>
+                    </li>
+                </ul>
+
 
             </div>
             <div class="panel-body">
-                <div class="col-lg-2">
-                    <ul class="nav">
-                        <li  ng-class="getClass('/datasource')"><a href="#datasource">DataSources</a></li>
-                        <li ng-class="getClass('/campain/new')"  ><a href="#campain/new">Nová kampaň</a></li>
-                        <li ng-class="getClass('/campains')"  ><a href="#campains">Kampaně</a></li>
-                        <li ng-class="getClass('/other')"  ><a href="#datasource">Další</a></li>
+                <div class="panel panel-primary panel-in col-lg-2" style="padding: 0;background-color: #3d464f; min-height: 500px;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Navigace</h3>
+                    </div>
+                    <ul class="nav" style="background-color: #3d464f;" ng-controller="MenuCtrl">
+                        <li ng-class="getClass('/datasource')"  ng-repeat="item in getSubmenu()" ><a ng-href="{{item.link}}"> <span class="glyphicon {{item.glyph}}" > {{item.name}}</span></a></li>
 
-                    </ul>
+                    </ul>      
                 </div>
+
+
+
                 <div  ng-view class="col-lg-10">
 
 

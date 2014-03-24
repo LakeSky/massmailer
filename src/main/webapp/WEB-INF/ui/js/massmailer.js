@@ -64,7 +64,7 @@ angular.module('appMassMailer').config(
                             controller: 'CampainEditController'
                         }).
                         otherwise({
-                            redirectTo: 'views/user/list.html'
+                            redirectTo: 'views/dashboard/main.html'
                         });
             }]);
 
@@ -224,7 +224,7 @@ appMassMailer.directive('serverError', function($interpolate) {
             if (attrs.ngModel) {
                 var unregister = scope.$watch('hasErrors', function(newValue) {
                     // Only act when our property has changed.
-                    if (undefined !== scope.errors[$interpolate(attrs.serverError)(scope)]) {
+                    if (undefined !== scope.errors && undefined !== scope.errors[$interpolate(attrs.serverError)(scope)]) {
                         element.bind('change', function(event) {
                             $ctrl.$setValidity('server', true);
                         });
@@ -358,4 +358,20 @@ appMassMailer.filter('format', function() {
         }
 
     };
+});
+
+appMassMailer.directive('embedSrc', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var current = element;
+      scope.$watch(function() { return attrs.embedSrc; }, function () {
+        var clone = element
+                      .clone()
+                      .attr('src', attrs.embedSrc);
+        current.replaceWith(clone);
+        current = clone;
+      });
+    }
+  };
 });

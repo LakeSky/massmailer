@@ -10,6 +10,7 @@ var menu = angular.module('menu',  ['ngRoute', 'ui.bootstrap','services.breadcru
 // Controller
 // ----------
 menu.controller('MenuCtrl', ['$scope', '$location','services.breadcrumbs', function($scope,$location, br) {
+
    
   $scope.getClass = function(path) {
     if ($location.path().substr(0, path.length) === path) {
@@ -24,6 +25,10 @@ $scope.getAllB = function () {
     return br.getAll();
 };
 
+$scope.getSubmenu = function () {
+    
+    return br.getSubmenu();
+};
 
 
 

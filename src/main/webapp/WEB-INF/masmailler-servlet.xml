@@ -12,6 +12,7 @@
     
     <mvc:resources mapping="/ui/**" location="/WEB-INF/ui/"/>
     <mvc:resources mapping="/resources/**" location="file:/home/pepa/NetBeansProjects/MassMailMailer/resources/"/>
+    <mvc:resources mapping="/static/**" location="file:/tmp/"/>
     
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 

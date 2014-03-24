@@ -98,10 +98,11 @@ public class DataSourceRowService {
         PoiFlatFileHandler processor = getPoiHandlerFactory().getHandler(file.getName());
 
         if (processor == null) {
-            throw new IllegalArgumentException("Canoy read this file into datasource rows");
+            throw new IllegalArgumentException("Canot read this file into datasource rows");
         } else {
-
-            return processor.getStructure(processor.process(file));
+            DataStructure structure = processor.getStructure(processor.process(file));
+            structure.setFileName(file.getName());
+            return structure;
 
         }
 
