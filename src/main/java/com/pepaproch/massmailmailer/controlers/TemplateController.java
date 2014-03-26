@@ -48,7 +48,7 @@ public class TemplateController {
     @RequestMapping(value = "templatefields/{fileId}", produces = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.GET})
     public ResponseEntity<TemplateMeta> getTemplateFields(@PathVariable("fileId") String fileName, HttpServletResponse response) {
 
-        PlaceHolderHelper pl = new StringPlaceHolderHelper("####");
+        PlaceHolderHelper pl = new StringPlaceHolderHelper("###");
         try {
             DocumentHolder docu = new WordDocument("/tmp/" + fileName, pl);
             ResponseEntity<TemplateMeta> responseE = new ResponseEntity<TemplateMeta>(docu.getTemplateMeta(), HttpStatus.ACCEPTED);
@@ -63,40 +63,33 @@ public class TemplateController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "preview/pdf/{datasourceId}/{fileId}/", method = {RequestMethod.GET}, produces = "application/pdf")
-    public FileSystemResource getTemplatePreviewWithDataPdf(@PathVariable("datasourceId") String datasourceId, @PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
-        String createPreview = templateService.createPreview("/tmp/" + fileName, datasourceId);
-        convertService.convert("/tmp/" + createPreview, "/tmp/" + createPreview + ".pdf", Boolean.FALSE);
-        return new FileSystemResource("/tmp/" + createPreview + ".pdf" );
+    @RequestMapping(value = "preview/pdf*", method = {RequestMethod.GET}, produces = "application/pdf")
+    public FileSystemResource getTemplatePreviewPdf(@RequestParam(value = "datasourceId", required = false) String datasourceId, @RequestParam(value = "fileId", required = true) String fileName, HttpServletResponse response) throws IOException {
+        String previeFile = "/tmp/" + fileName;
+        String filedTemplate = "/tmp/" ;
+        if (datasourceId != null) {
+        filedTemplate +=  templateService.createPreview("/tmp/" + fileName, datasourceId);
+        }
 
-    }
-    
-        @ResponseBody
-    @RequestMapping(value = "preview/html/{datasourceId}/{fileId}/", method = {RequestMethod.GET}, produces = MediaType.TEXT_HTML_VALUE)
-    public FileSystemResource getTemplatePreviewWithDataHTML(@PathVariable("datasourceId") String datasourceId, @PathVariable("fileId") String fileName,@RequestParam("output") String output, HttpServletResponse response) throws IOException {
-        String createPreview = templateService.createPreview("/tmp/" + fileName, datasourceId);
-        convertService.convert("/tmp/" + createPreview, "/tmp/" + createPreview + ".html" , Boolean.FALSE);
-        return new FileSystemResource("/tmp/" + createPreview + ".html");
+        convertService.convert(filedTemplate,  previeFile + ".pdf", Boolean.FALSE);
+        return new FileSystemResource(previeFile + ".pdf");
 
-    }
-    
-        @ResponseBody
-    @RequestMapping(value = "preview/pdf/{fileId}/", method = {RequestMethod.GET}, produces = "application/pdf")
-    public FileSystemResource getTemplatePreviewPdf(@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
-        convertService.convert("/tmp/" + fileName, "/tmp/" + fileName + ".pdf", Boolean.FALSE);
-        return new FileSystemResource("/tmp/" + fileName + ".pdf");
     }
 
     @ResponseBody
-    @RequestMapping(value = "preview/html/{fileId}", method = {RequestMethod.GET}, produces = MediaType.TEXT_HTML_VALUE)
-    public FileSystemResource getTemplatePreview(@PathVariable("fileId") String fileName, HttpServletResponse response) throws IOException {
-        
-        convertService.convert("/tmp/" + fileName, "/tmp/" + fileName + ".html" , Boolean.FALSE);
+    @RequestMapping(value = "preview/html*", method = {RequestMethod.GET}, produces = MediaType.TEXT_HTML_VALUE)
+    public FileSystemResource getTemplatePreviewHtml(@RequestParam(value = "datasourceId", required = false) String datasourceId, @RequestParam(value = "fileId", required = true) String fileName, HttpServletResponse response) throws IOException {
+        String previeFile = "/tmp/" + fileName;
+        if (datasourceId != null) {
+            templateService.createPreview("/tmp/" + fileName, datasourceId);
+        }
 
-        return new FileSystemResource("/tmp/" + fileName + ".html");
+        convertService.convert("/tmp/" + previeFile, "/tmp/" + previeFile + ".html", Boolean.FALSE);
+        return new FileSystemResource("/tmp/" + previeFile + ".html");
+
     }
 
-    
+
     @RequestMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
     @ResponseBody
     public ResponseEntity deleteFile(@PathVariable("fileId") Integer id, BindingResult result) {

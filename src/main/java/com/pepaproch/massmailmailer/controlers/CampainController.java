@@ -41,12 +41,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/campain")
 public class CampainController {
-    
+
     @Autowired
     private CampainService campainService;
     @Autowired
     private CampainValidator campainValidator;
-    
+
     @Autowired
     private CampainSendService campainSendService;
 
@@ -56,48 +56,48 @@ public class CampainController {
      */
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    
+
     public List<Campain> listCampain() {
-        
+
         return getCampainService().findAll();
     }
-    
+
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public Campain getCampain(@PathVariable("campainId") BigDecimal campainId) {
-        
+
         return getCampainService().findOne(campainId);
     }
-    
+
     @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
-    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException,IOException {
-        
+    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException, IOException {
+
         if (result.hasErrors()) {
             List<FieldError> fieldErrors = result.getFieldErrors();
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-            
+
             Campain campainSaved = getCampainService().save(campain);
             if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
                 campainSendService.processCampain(campainSaved);
             }
-            
+
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;
         }
-        
+
     }
-    
+
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity deleteDataSource(@PathVariable("campainId") BigDecimal campainId) {
         getCampainService().delete(campainId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
-        
+
     }
-     
+
     public CampainController() {
     }
 
@@ -128,11 +128,11 @@ public class CampainController {
 //        return findByDataSourceIdPaginated;\
         return null;
     }
-    
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setValidator(getCampainValidator());
-        
+
     }
 
     /**

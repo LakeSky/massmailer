@@ -18,40 +18,41 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Paragraph;
 import org.apache.poi.hwpf.usermodel.ParagraphProperties;
 import org.apache.poi.hwpf.usermodel.Range;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 /**
  *
  * @author pepa
  */
-public class WordDocument implements DocumentHolder {
+public class WordXDocument implements DocumentHolder {
 
-    private final HWPFDocument doc;
+    private final XWPFDocument doc;
     private final PlaceHolderHelper placeHolderRetriver;
-    private final Range range;
+
     private final String fileName;
 
-    public WordDocument(String inputFilename, PlaceHolderHelper placeHolderRetriver_) throws FileNotFoundException, IOException {
+    public WordXDocument(String inputFilename, PlaceHolderHelper placeHolderRetriver_) throws FileNotFoundException, IOException {
         this.placeHolderRetriver = placeHolderRetriver_;
         this.fileName = inputFilename;
         FileInputStream fis = new FileInputStream(inputFilename);
 
-        doc = new HWPFDocument(fis);
+        doc = new XWPFDocument(fis);
         fis.close();
-        range = doc.getRange();
+
 
     }
 
-    public WordDocument(HWPFDocument doc_, PlaceHolderHelper placeHolderRetriver_, String inputFileName) throws FileNotFoundException, IOException {
+    public WordXDocument(XWPFDocument doc_, PlaceHolderHelper placeHolderRetriver_, String inputFileName) throws FileNotFoundException, IOException {
         this.placeHolderRetriver = placeHolderRetriver_;
         this.fileName = inputFileName;
         doc = doc_;
-        range = doc.getRange();
+  
 
     }
 
     @Override
     public String getDocumentText() {
-        return range.text();
+        return "";
     }
 
     @Override
@@ -71,8 +72,8 @@ public class WordDocument implements DocumentHolder {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         doc.write(os);
         ByteArrayInputStream bi = new ByteArrayInputStream(os.toByteArray());
-        HWPFDocument docCopy = new HWPFDocument(bi);
-        DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver, this.fileName);
+        XWPFDocument docCopy = new XWPFDocument(bi);
+        DocumentHolder holderCopy = new WordXDocument(docCopy, placeHolderRetriver, this.fileName);
         placeHolderRetriver.setPlaceHolders(holderCopy, item);
         holderCopy.write(outputFileName);
 
@@ -84,7 +85,7 @@ public class WordDocument implements DocumentHolder {
             doc.write(os);
             ByteArrayInputStream bi = new ByteArrayInputStream(os.toByteArray());
             HWPFDocument docCopy = new HWPFDocument(bi);
-            DocumentHolder holderCopy = new WordDocument(docCopy, placeHolderRetriver, this.fileName);
+            DocumentHolder holderCopy = new WordXDocument(docCopy, placeHolderRetriver, this.fileName);
             placeHolderRetriver.setPlaceHolders(holderCopy, item);
             return holderCopy.getOutputStream();
 
@@ -93,6 +94,7 @@ public class WordDocument implements DocumentHolder {
 
     @Override
     public void setVariable(String varName, String varValue) {
+        
        int paraCount = range.numParagraphs();
        int currPara = 0;
        while(paraCount>currPara) {
@@ -135,7 +137,7 @@ public class WordDocument implements DocumentHolder {
             doc.write(os);
             result = os.toByteArray();
         } catch (IOException ex) {
-            Logger.getLogger(WordDocument.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WordXDocument.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

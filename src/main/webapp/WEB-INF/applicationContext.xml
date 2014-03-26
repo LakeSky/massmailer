@@ -82,9 +82,9 @@
     <mongo:db-factory id="mongDbFactory"
                       host="localhost"
                       port="27017"
-                      dbname="massmailler"
-                      username="massmailler"
-                      password="massmailler"/>
+                      dbname="massmailer"
+                      username="masmailler"
+                      password="pepajede"/>
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongDbFactory"/>

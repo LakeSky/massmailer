@@ -31,7 +31,7 @@ upload.factory('uploadService', ['$rootScope', function($rootScope) {
         return {
             send: function(file) {
                 var data = new FormData(),
-                        xhr = new XMLHttpRequest();
+             xhr = new XMLHttpRequest();
 
 
                 xhr.onloadstart = function() {
@@ -56,8 +56,11 @@ upload.factory('uploadService', ['$rootScope', function($rootScope) {
 
                 // Send to server, where we can then access it with $_FILES['file].
                 data.append('file', file, file.name);
+       
                 xhr.open('POST', '../files');
+        
                 xhr.send(data);
+                
 
             }
         };

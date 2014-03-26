@@ -29,6 +29,7 @@ public class PageSpecBuilderMongo implements PageSpecBuilder {
         spec.setSearchSpecification(new SearchSpecification(searchIndex, searchString) );
         Sort sort= new Sort((sortDirection==1)? Sort.Direction.ASC : Sort.Direction.DESC, mongoRepository +"."+sortIndex+".value");
         Pageable pageable = new  PageRequest((pageNumber==null)? 1 : pageNumber,(limit==null)? 10: limit, sort);
+        spec.setPageable(pageable);
   
         return spec;
     }

@@ -29,4 +29,16 @@ public class RowRecordsImpl implements RowRecords<DataSourceField> {
         return fields;
     }
 
+    @Override
+    public Boolean isEmpty() {
+        Boolean isEmpty = Boolean.TRUE;
+        for (DataSourceField field : getFields()) {
+            if (field.getValue() != null && !"".equalsIgnoreCase(field.getValue().toString())) {
+                isEmpty = Boolean.FALSE;
+            }
+            break;
+        }
+        return isEmpty;
+    }
+
 }

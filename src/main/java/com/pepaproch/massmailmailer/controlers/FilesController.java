@@ -49,7 +49,7 @@ public class FilesController {
     }
 
     @ResponseBody
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(produces = MediaTypes.MEDIA_TYPEJSONUTF8VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     public ResponseEntity uploadFile(@RequestParam("file") MultipartFile mfile, HttpServletResponse response) {
         String fileName = RequestContextHolder.currentRequestAttributes().getSessionId() + "_" + mfile.getOriginalFilename();
         String destination = "/tmp/" + fileName;

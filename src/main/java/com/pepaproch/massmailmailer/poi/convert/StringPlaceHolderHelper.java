@@ -16,7 +16,7 @@ public class StringPlaceHolderHelper implements PlaceHolderHelper {
     private final Pattern pattern;
 
     public StringPlaceHolderHelper(String MARKUP) {
-        pattern = Pattern.compile(MARKUP+".*"+MARKUP);
+        pattern = Pattern.compile(MARKUP+".+?"+MARKUP);
     }
 
     @Override

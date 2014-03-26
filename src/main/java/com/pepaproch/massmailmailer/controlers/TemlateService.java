@@ -15,7 +15,6 @@ import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
-import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.DocumentTemplate;
 import com.pepaproch.massmailmailer.poi.convert.TemplateImpl;
@@ -23,7 +22,6 @@ import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
 import com.pepaproch.massmailmailer.poi.convert.TextTemplate;
 import com.pepaproch.massmailmailer.poi.convert.TextTemplateImpl;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,7 +52,7 @@ public class TemlateService {
         if (findByDataSourceIdPage == null || findByDataSourceIdPage.size() == 0) {
             throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
         }
-        DocumentHolder docu = new WordDocument(templateFile, new StringPlaceHolderHelper("####"));
+        DocumentHolder docu = new WordDocument(templateFile, new StringPlaceHolderHelper("###"));
         return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
     }
 
@@ -63,7 +61,7 @@ public class TemlateService {
         Collection<String> placeHolders = templateMeta.getPlaceHolders();
         Collection<DataStructureMetaField> usedFields = new ArrayList<DataStructureMetaField>();
         for (DataStructureMetaField mf : ds.getDataStructureFields()) {
-            if (placeHolders.contains("####" + mf.getName() + "####")) {
+            if (placeHolders.contains("###" + mf.getName() + "###")) {
                 usedFields.add(mf);
             }
 
@@ -75,7 +73,7 @@ public class TemlateService {
         dataSourceFields.toArray(array);
         TemplateDataItem dat = new TemplateDataItem();
         for (DataStructureMetaField mf : usedFields) {
-            dat.add("####" + mf.getName() + "####", array[mf.getIndex()].stringValue());
+            dat.add("###" + mf.getName() + "###", array[mf.getIndex()].stringValue());
             items.add(dat);
         }
         return new TemplateImpl(docu, dat);
@@ -102,7 +100,7 @@ public class TemlateService {
         Collection<String> placeHolders = docu.getPlaceHolders();
         Collection<DataStructureMetaField> usedFields = new ArrayList<DataStructureMetaField>();
         for (DataStructureMetaField mf : ds.getDataStructureFields()) {
-            if (placeHolders.contains("####" + mf.getName() + "####")) {
+            if (placeHolders.contains("###" + mf.getName() + "###")) {
                 usedFields.add(mf);
             }
 
@@ -114,7 +112,7 @@ public class TemlateService {
         dataSourceFields.toArray(array);
         TemplateDataItem dat = new TemplateDataItem();
         for (DataStructureMetaField mf : usedFields) {
-            dat.add("####" + mf.getName() + "####", array[mf.getIndex()].stringValue());
+            dat.add("###" + mf.getName() + "###", array[mf.getIndex()].stringValue());
             items.add(dat);
         }
         TextTemplate template = new TextTemplateImpl(docu, dat);

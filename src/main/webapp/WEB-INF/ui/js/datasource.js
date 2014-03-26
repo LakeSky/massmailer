@@ -40,7 +40,8 @@ dataSource.controller('DataSourceRowsListCtrl', ['$rootScope', '$scope', 'Entity
         $scope.currentPage = 0;
         var dataSourceId = $routeParams.dataSourceId;
         $scope.filterParams = {
-            page: 0
+            page: 0,
+            limit:10
 
 
         };

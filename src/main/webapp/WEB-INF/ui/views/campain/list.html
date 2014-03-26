@@ -2,7 +2,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class=" glyphicon glyphicon-send glyphicon-sm" style="float: left; margin-right: 1em;padding: 2px 0;"></div>
-        <h3 class="panel-title">Kampaně</h3>
+        <h3 class="panel-title">Hromadné emaily</h3>
 
     </div>
     <div class="panel-body">
@@ -20,7 +20,7 @@
                 <th>
                 </th>
                 <th></th>
-                <th class="text-right"><a class="btn btn-primary btn-xs pull-right" ng-click="openForm()"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a></th>
+                <th class="text-right"><a class="btn btn-primary btn-xs pull-right"ng-href="#/campain/new"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a></th>
                 </tr>
                     <tr>
                         <th class="col-lg-4 text-info">Název</th>
@@ -46,8 +46,8 @@
                                 <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" >
-                                    <li><a ng-click="openBrowse(c.id)"  >Zobrazit data</a></li>
-                                    <li><a ng-click="openForm(c.id)"  >Upravit</a></li>
+                                    <li><a ng-href="#/campain/{{c.id}}"  >Upravit</a></li>
+
                                     <li class="divider"></li>
                                     <li><a ng-click="openDeleteDialog(c.id, c.campainName)" >Smazat</a></li>
                                 </ul>

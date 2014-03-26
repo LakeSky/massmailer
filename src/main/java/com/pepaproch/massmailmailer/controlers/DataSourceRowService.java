@@ -52,15 +52,17 @@ public class DataSourceRowService {
             RowMapper<RowRecords> rowMapper = processor.process(f);
             Collection<DataSourceRow> previewRows = new ArrayList();
             int i = 0;
+            int realCount = 0;
             for (RowRecords row : rowMapper) {
-                if (i > 0) {
+                if (i > 0 && !row.isEmpty()) {
                     previewRows.add(new DataSourceRow(dataSourceId, row));
+                    realCount++;
                 }
-                i++;
+               i++;
 
             }
             getDataSourceRowrep().save(previewRows);
-            return i;
+            return realCount;
         }
 
     }

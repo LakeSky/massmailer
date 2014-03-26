@@ -56,6 +56,7 @@ public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
             @Override
             public RowRecords next() {
                 Row row = sheet.getRow(currentPoss);
+             
 
                 currentPoss++;
                 return readRow(row);
@@ -73,11 +74,11 @@ public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
         int idx = 0;
         Collection<DataSourceField> rowColl = new ArrayList();
         for (Cell c : row) {
+            
             int type = c.getCellType();
-
             Object value = null;
             DataType dataType = null;
-
+            
             switch (type) {
                 case HSSFCell.CELL_TYPE_STRING:
                     value = c.getStringCellValue();

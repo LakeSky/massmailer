@@ -2,7 +2,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class="glyphicon glyphicon-send glyphicon-sm" style="float: left; margin-right: 1em;padding: 2px 0;"></div>
-        <h3 class="panel-title">Kampan: {{Campain.campainName}}</h3>
+        <h3 class="panel-title">Email: {{Campain.campainName}}</h3>
     </div>
     <div class="panel-body">
 
@@ -195,7 +195,7 @@
 
                     <div  class="col-lg-12">
 
-                        <embed class="col-lg-7" embed-src="{{previewUrl}}"   type="application/pdf"   height="400px" /> 
+                        <embed class="col-lg-7" embed-src="{{previewUrl}}"  src="{{previewUrl}}"  type="application/pdf"   height="400px" /> 
                         <div class="col-lg-5">
 
 
@@ -208,7 +208,7 @@
                                     text-transform: uppercase;
                                     letter-spacing: 1px;">Použadované proměné</h4>
                                 <p ng-repeat="f in templateFields">
-                                    ###{{f}}### 
+                                    {{f}}
                                 </p>
                             </div>
                             <div class="col-lg-6">

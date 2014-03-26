@@ -60,13 +60,13 @@ public class CampainValidator implements Validator {
             errors.rejectValue("dataSourceId", "error.NotNull");
         } else {
             DataSource ds = dataSourceRep.findOne(capmain.getDataSourceId());
-            PlaceHolderHelper pl = new StringPlaceHolderHelper("####");
+            PlaceHolderHelper pl = new StringPlaceHolderHelper("###");
 
             DocumentHolder docu = new WordDocument("/tmp/" + capmain.getAttachmentFileSystemName(), pl);
 
             List<String> dataFiledsNames = new ArrayList();
             for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {
-                dataFiledsNames.add("####" + f.getName() + "####");
+                dataFiledsNames.add("###" + f.getName() + "###");
             }
             
 

@@ -15,4 +15,5 @@ import java.util.Collection;
  */
 public interface RowRecords<T> extends Iterable<T> {
     public Collection getFields();
+    public Boolean isEmpty();
 }

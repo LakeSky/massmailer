@@ -10,9 +10,11 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 
 // Controller
 // ----------
-dataSource.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams','services.breadcrumbs', function($scope, Entity, $modal, $routeParams,menu) {
 
-
+        menu.resetSubmenu();
+        menu.addToSubmenu('Hromadné emaily','#/campains', 'glyphicon-th-list');
+        menu.addToSubmenu('Nový email','#/campain/new', 'glyphicon-plus');
 
 
         var campains = Entity.Campain.query(function() {
@@ -68,7 +70,7 @@ dataSource.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeP
 
     }]);
 
-dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
+campain.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', function($scope, Entity, $modal, $routeParams) {
 
         $scope.currentPage = 0;
         var dataSourceId = $routeParams.dataSourceId;
@@ -137,7 +139,7 @@ dataSource.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$ro
 
 // Controller
 // ----------
-dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
+campain.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
 
 
         $scope.previewType = 'pdf';
@@ -157,7 +159,7 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         if (undefined === campainId) {
             $scope.Campain = null;
-                $scope.errors = {};
+            $scope.errors = {};
             $scope.Campain = new Entity.Campain();
         } else {
             $scope.Campain = Entity.Campain.get({campainId: campainId}
@@ -215,28 +217,39 @@ dataSource.controller('CampainEditController', ['$rootScope', '$scope', '$routeP
 
         $scope.customizeAttachment = function customizeAttachment() {
             if ($scope.Campain.attachmentFileSystemName !== undefined && $scope.Campain.attachmentFileSystemName !== null) {
-                var path = '../template/preview/' + $scope.previewType + "\/";
+                var path = '../template/preview/' + $scope.previewType;
                 if ($scope.Campain.customizeAttachments) {
                     var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentFileSystemName});
                     TemplateFieldsPromise.$promise.then(function(result) {
                         $scope.templateFields = result.placeHolders;
                     });
-                    if (undefined !== $scope.Campain.dataSourceId) {
-                        path = path + $scope.Campain.dataSourceId + '\/';
-                    }
-                    if (undefined !== $scope.Campain.attachmentFileSystemName) {
-                        path = path + $scope.Campain.attachmentFileSystemName + '\/';
-                    }
 
-                } else {
-                    path = path + $scope.Campain.attachmentFileSystemName + '\/&output=embed';
 
                 }
-                $scope.previewUrl = path;
+
+
+
             }
 
+  $scope.previewUrl = ''; 
+
+ var query =  '';
+ if(undefined!==$scope.Campain.customizeAttachments && $scope.Campain.customizeAttachments === true) {
+     
+  query = query +  '?datasourceId=' + encodeURIComponent($scope.Campain.dataSourceId) + '&fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
+     
+ }else {
+ query = query +  '?fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
+     
+ }
+                  
+                 
+            
+                       $scope.previewUrl = path + query;
 
         };
+
+
 
         $scope.sent = function() {
             $scope.Campain.status = 'READY';

@@ -58,12 +58,12 @@ public class CampainSendService {
         DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
         Collection<DataSourceRow> findByDataSourceId = getRowsrepository().findByDataSourceId(c.getDataSourceId());
 
-        TextDocumentHolder emailText = new HtmlDocument(new StringPlaceHolderHelper("####"), c.getEmailText());
-        TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("####"), "####" + c.getRecipients() + "####");
-        TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("####"), c.getSubject());
+        TextDocumentHolder emailText = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getEmailText());
+        TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
+        TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
         DocumentHolder emailAttachmentdocu = null;
         if (c.getCustomizeAttachments()) {
-            emailAttachmentdocu = new WordDocument("/tmp/" + c.getAttachmentFileSystemName(), new StringPlaceHolderHelper("####"));
+            emailAttachmentdocu = new WordDocument("/tmp/" + c.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
 
         }
 
