@@ -15,6 +15,8 @@ public enum PoiTypes {
     XLSX("xlsx"),
     CSV("csv"),
     HTML("html"),
+    DOC("doc"),
+    DOCX("docx"),
     ODS("ods");
 
     private final String suffix;

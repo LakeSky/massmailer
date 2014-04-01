@@ -9,10 +9,10 @@ import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.poi.DocumentFactory;
+import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
-import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
-import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +60,10 @@ public class CampainValidator implements Validator {
             errors.rejectValue("dataSourceId", "error.NotNull");
         } else {
             DataSource ds = dataSourceRep.findOne(capmain.getDataSourceId());
-            PlaceHolderHelper pl = new StringPlaceHolderHelper("###");
 
-            DocumentHolder docu = new WordDocument("/tmp/" + capmain.getAttachmentFileSystemName(), pl);
+        DocumentFactory documentFactory = new DocumentFactoryImpl();
+        DocumentHolder docu = documentFactory.getDocument("/tmp/" + capmain.getAttachmentFileSystemName(),new StringPlaceHolderHelper("###"));
+  
 
             List<String> dataFiledsNames = new ArrayList();
             for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {

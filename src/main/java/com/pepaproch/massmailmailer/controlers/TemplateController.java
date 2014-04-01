@@ -5,7 +5,8 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.poi.PoiTypes;
+import com.pepaproch.massmailmailer.poi.DocumentFactory;
+import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
@@ -50,7 +51,9 @@ public class TemplateController {
 
         PlaceHolderHelper pl = new StringPlaceHolderHelper("###");
         try {
-            DocumentHolder docu = new WordDocument("/tmp/" + fileName, pl);
+            DocumentFactory documentFactory = new DocumentFactoryImpl();
+            DocumentHolder docu = documentFactory.getDocument("/tmp/" + fileName, pl);
+
             ResponseEntity<TemplateMeta> responseE = new ResponseEntity<TemplateMeta>(docu.getTemplateMeta(), HttpStatus.ACCEPTED);
             return responseE;
 
@@ -66,12 +69,12 @@ public class TemplateController {
     @RequestMapping(value = "preview/pdf*", method = {RequestMethod.GET}, produces = "application/pdf")
     public FileSystemResource getTemplatePreviewPdf(@RequestParam(value = "datasourceId", required = false) String datasourceId, @RequestParam(value = "fileId", required = true) String fileName, HttpServletResponse response) throws IOException {
         String previeFile = "/tmp/" + fileName;
-        String filedTemplate = "/tmp/" ;
+        String filedTemplate = "/tmp/";
         if (datasourceId != null) {
-        filedTemplate +=  templateService.createPreview("/tmp/" + fileName, datasourceId);
+            filedTemplate += templateService.createPreview("/tmp/" + fileName, datasourceId);
         }
 
-        convertService.convert(filedTemplate,  previeFile + ".pdf", Boolean.FALSE);
+        convertService.convert(filedTemplate, previeFile + ".pdf", Boolean.FALSE);
         return new FileSystemResource(previeFile + ".pdf");
 
     }
@@ -88,7 +91,6 @@ public class TemplateController {
         return new FileSystemResource("/tmp/" + previeFile + ".html");
 
     }
-
 
     @RequestMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
     @ResponseBody

@@ -16,6 +16,8 @@ import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.mail.mailgun.MailGunRestClient;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
+import com.pepaproch.massmailmailer.poi.DocumentFactory;
+import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
@@ -63,7 +65,9 @@ public class CampainSendService {
         TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
         DocumentHolder emailAttachmentdocu = null;
         if (c.getCustomizeAttachments()) {
-            emailAttachmentdocu = new WordDocument("/tmp/" + c.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
+                    DocumentFactory documentFactory = new DocumentFactoryImpl();
+        emailAttachmentdocu = documentFactory.getDocument("/tmp/" + c.getAttachmentFileSystemName(),new StringPlaceHolderHelper("###"));
+
 
         }
 

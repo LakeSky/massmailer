@@ -13,6 +13,8 @@ import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
+import com.pepaproch.massmailmailer.poi.DocumentFactory;
+import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
@@ -21,7 +23,6 @@ import com.pepaproch.massmailmailer.poi.convert.TemplateImpl;
 import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
 import com.pepaproch.massmailmailer.poi.convert.TextTemplate;
 import com.pepaproch.massmailmailer.poi.convert.TextTemplateImpl;
-import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,7 +53,9 @@ public class TemlateService {
         if (findByDataSourceIdPage == null || findByDataSourceIdPage.size() == 0) {
             throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
         }
-        DocumentHolder docu = new WordDocument(templateFile, new StringPlaceHolderHelper("###"));
+        DocumentFactory documentFactory = new DocumentFactoryImpl();
+        DocumentHolder docu = documentFactory.getDocument(templateFile,new StringPlaceHolderHelper("###"));
+      
         return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
     }
 

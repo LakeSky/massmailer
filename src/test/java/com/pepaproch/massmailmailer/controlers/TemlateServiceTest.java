@@ -7,15 +7,8 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
-import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
-import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
-import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
-import com.pepaproch.massmailmailer.poi.convert.WordDocument;
-import java.io.File;
-import java.util.Collection;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,9 +17,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

@@ -27,7 +27,7 @@ public class WordDocument implements DocumentHolder {
 
     private final HWPFDocument doc;
     private final PlaceHolderHelper placeHolderRetriver;
-    private final Range range;
+
     private final String fileName;
 
     public WordDocument(String inputFilename, PlaceHolderHelper placeHolderRetriver_) throws FileNotFoundException, IOException {
@@ -37,7 +37,7 @@ public class WordDocument implements DocumentHolder {
 
         doc = new HWPFDocument(fis);
         fis.close();
-        range = doc.getRange();
+
 
     }
 
@@ -45,13 +45,13 @@ public class WordDocument implements DocumentHolder {
         this.placeHolderRetriver = placeHolderRetriver_;
         this.fileName = inputFileName;
         doc = doc_;
-        range = doc.getRange();
+
 
     }
 
     @Override
     public String getDocumentText() {
-        return range.text();
+        return doc.getRange().text();
     }
 
     @Override
@@ -93,11 +93,11 @@ public class WordDocument implements DocumentHolder {
 
     @Override
     public void setVariable(String varName, String varValue) {
-       int paraCount = range.numParagraphs();
+       int paraCount = doc.getRange().numParagraphs();
        int currPara = 0;
        while(paraCount>currPara) {
            
-           Paragraph paragraph = range.getParagraph(currPara);
+           Paragraph paragraph = doc.getRange().getParagraph(currPara);
            ParagraphProperties cloneProperties = paragraph.cloneProperties();
            paragraph.replaceText(varName, varValue);
            currPara++;
