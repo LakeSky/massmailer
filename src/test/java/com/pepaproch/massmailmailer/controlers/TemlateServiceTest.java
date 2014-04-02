@@ -3,12 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.poi.DocumentFactory;
+import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
+import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
+import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
+import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
+import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,41 +25,43 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
- * @autho
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
-r pepa
+ * @autho @ContextConfiguration(locations =
+ * {"file:src/main/webapp/WEB-INF/applicationContext.xml"}) r pepa
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
 public class TemlateServiceTest {
+
     @Autowired
-    private  Object  dataSourceRowsRep;
+    private Object dataSourceRowsRep;
     @Autowired
     private DataSourceInfoRep dataSourceInfoRep;
     @Autowired
     private TemlateService service;
-    
+
     public TemlateServiceTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -64,12 +74,24 @@ public class TemlateServiceTest {
         System.out.println("createPreview");
         String templateFile = "";
         String dataSourceId = "";
-        String name =  getService().createPreview("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc", "52fcd88844aef19a6f3c74db");
-  
-        // TODO review the generated test code and remove the default call to fail.
-        assertNotNull(name);
-    }
+        TemplateMeta templateMeta = null;
 
+        PlaceHolderHelper pl = new StringPlaceHolderHelper("###");
+        try {
+            DocumentFactory documentFactory = new DocumentFactoryImpl();
+            DocumentHolder docu = documentFactory.getDocument("/home/pepa/NetBeansProjects/MassMailMailer_/resources/test.docx", pl);
+
+            templateMeta = docu.getTemplateMeta();
+
+        } catch (IOException ex) {
+            Logger.getLogger(TemplateController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//        String name = getService().createPreview("/home/pepa/NetBeansProjects/MassMailMailer/src/main/resources/testtemplate.doc", "52fcd88844aef19a6f3c74db");
+
+        // TODO review the generated test code and remove the default call to fail.
+        assertNotNull(templateMeta);
+    }
 
     @Test
     public void testPopulateWord() throws Exception {
@@ -85,11 +107,6 @@ public class TemlateServiceTest {
 //        File f = new File("/tmp/"+ result);
 //        assertTrue(f.exists());
     }
-
-
-
-
-
 
     /**
      * @return the service
@@ -132,5 +149,4 @@ public class TemlateServiceTest {
 //    public void setDataSourceRowsRep(DataSourceRowsRep dataSourceRowsRep) {
 //        this.dataSourceRowsRep = dataSourceRowsRep;
 //    }
-    
 }

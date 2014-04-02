@@ -390,3 +390,60 @@ dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$lo
         };
 
     }]);
+
+
+
+// Controller
+// ----------
+dataSource.controller('CampainAttachmentController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
+        var dataSourceId = $routeParams.dataSourceId;
+        if (undefined === dataSourceId) {
+
+        } else {
+            var DataSource = Entity.DataSource.get({dataSourceId: dataSourceId}, function() {
+                $scope.deleteMessage = DataSource.name;
+                $scope.DataSource = DataSource;
+            });
+
+
+
+
+
+        }
+        $scope.delete = function() {
+            var deferred = $q.defer();
+            $scope.DataSource.$delete(
+                    function(DataSource, headers) {
+                        deferred.resolve(DataSource);
+                        handleFormSucces("Smazano", $location, '/datasource');
+
+                    }, function(error) {
+                return   handleFormError($scope, error.data);
+
+            });
+            return deferred.promise;
+        };
+
+
+
+        $scope.okDelete = function() {
+            var myDataPromise = $scope.delete();
+            var contrr = this;
+            myDataPromise.then(function(DataSource) {  // this is only run after $http completes
+                $scope.datasources = Entity.DataSource.query();
+                contrr.$close();
+            });
+
+
+        };
+
+
+
+
+
+
+        $scope.cancel = function() {
+            this.$dismiss('cancel');
+        };
+
+    }]);

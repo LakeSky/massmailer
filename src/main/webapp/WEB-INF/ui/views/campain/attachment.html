@@ -1,0 +1,54 @@
+
+<div class="modal-header">
+            <h3 style="">Příloha</h3>
+        </div>
+        <div class="modal-body ">
+            <div class="row">
+             <div class="row" collapse="isCollapsed" style="padding-top: 1em">
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4"  for="customizeAttachments">Nahrát soubor</label>
+                                <div class="col-lg-8">
+                                    <input type="file" ng-model="files" file-change id="file" >
+                                </div>
+                            </div>  
+
+                        </div>
+                        <div ng-show="loadingfile">
+                            <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
+                        </div>
+                        <pre>Název souboru: {{ Attachment.attachmentName}}<br/>Typ souboru: {{ Attachment.attachmentFileType}} 
+                        </pre>
+                        <div class="form-group">
+                            <label class="control-label col-lg-3"   for="attachmentOutputName">Název přílohy</label>
+                            <div class="col-lg-9">
+                                <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="Attachment.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
+                  
+                                </div>
+
+                            </div>
+                        </div> 
+
+
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
+                            <div class="col-lg-8">
+                                <input  class="input-sm" ng-disabled="Attachment.attachmentFileSystemName === undefined || Attachment.attachmentFileSystemName === null" type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="Attachment.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
+               
+                                </div>
+                            </div>
+                        </div>  
+
+                    </div>
+
+                </div>
+
+
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+

@@ -108,9 +108,12 @@ public class WordXDocument implements DocumentHolder {
             XWPFParagraph next = it.next();
             List<XWPFRun> runs = next.getRuns();
             for (XWPFRun run : runs) {
+                
                 String text = run.getText(run.getTextPosition());
-                if (text.contains(varName)) {
-                    String replaceAll = text.replaceAll(text, varName);
+                System.out.println(text);
+                if (text != null && text.contains(varName)) {
+                    
+                    String replaceAll = text.replaceAll(varName,varValue);
                     run.setText(replaceAll, 0);
                 }
 
