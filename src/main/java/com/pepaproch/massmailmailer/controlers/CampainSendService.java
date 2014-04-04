@@ -12,6 +12,7 @@ import com.pepaproch.massmailmailer.db.TextDocumentHolder;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.mail.mailgun.MailGunRestClient;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
@@ -23,7 +24,10 @@ import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.WeakHashMap;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -49,10 +53,9 @@ public class CampainSendService {
     private ConvertService convertService;
     @Autowired
     private EmailRepo emailrepo;
-    @Autowired 
+    @Autowired
     private MailGunRestClient mailgunClient;
 
-    
     @Async
     public void processCampain(Campain c) throws IOException {
         c.setStatus("CREATING");
@@ -64,11 +67,14 @@ public class CampainSendService {
         TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
         TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
         DocumentHolder emailAttachmentdocu = null;
-        if (c.getCustomizeAttachments()) {
-                    DocumentFactory documentFactory = new DocumentFactoryImpl();
-        emailAttachmentdocu = documentFactory.getDocument("/tmp/" + c.getAttachmentFileSystemName(),new StringPlaceHolderHelper("###"));
+        WeakHashMap<BigDecimal, DocumentHolder> attachments = new WeakHashMap<>();
 
-
+        for (CampainAttachment at : c.getCampainAttachments()) {
+            if (at.getCustomizeAttachments()) {
+                DocumentFactory documentFactory = new DocumentFactoryImpl();
+                emailAttachmentdocu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
+                attachments.put(at.getId(), emailAttachmentdocu);
+            }
         }
 
         for (DataSourceRow r : findByDataSourceId) {
@@ -78,9 +84,17 @@ public class CampainSendService {
             mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
             mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
             mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
-            byte[] proccesAttachment = proccesAttachment(emailAttachmentdocu, ds, r);
-            byte[] convert = getConvertService().convert(proccesAttachment, "doc", "pdf", Boolean.TRUE);
-            mlBulder.setAttachment(convert, c.getAttachmentOutputName(), c.getAttachmentOutputType());
+
+            for (CampainAttachment at : c.getCampainAttachments()) {
+                if (at.getCustomizeAttachments()) {
+
+                    byte[] proccesAttachment = proccesAttachment(attachments.get(at.getId()), ds, r);
+                    byte[] convert = getConvertService().convert(proccesAttachment, "doc", "pdf", Boolean.TRUE);
+                    mlBulder.setAttachment(convert, at.getAttachmentOutputName(), at.getAttachmentOutputType());
+                }
+
+            }
+
             mlBulder.setCampain(c);
             Email save = emailrepo.save(mlBulder.getEmail());
             mailgunClient.sendEmail(save);

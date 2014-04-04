@@ -6,6 +6,7 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
 import java.io.File;
@@ -43,17 +44,20 @@ public class CampainService {
         BigDecimal countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
         c.setRecordsCount(countRows);
         c.setStatus("READY");
-        File file = new File("/tmp/" + c.getAttachmentFileSystemName());
-        byte[] fileBytes = new byte[(int) file.length()];
-        try (
-                InputStream inputStream = new FileInputStream(file);) {
-            inputStream.read(fileBytes);
+        for (CampainAttachment at : c.getCampainAttachments()) {
+            File file = new File("/tmp/" + at.getAttachmentFileSystemName());
+            byte[] fileBytes = new byte[(int) file.length()];
+            try (
+                    InputStream inputStream = new FileInputStream(file);) {
+                inputStream.read(fileBytes);
 
-        } catch (IOException ex) {
+            } catch (IOException ex) {
 
+            }
+
+            at.setAttachment(fileBytes);
         }
 
-        c.setAttachment(fileBytes);
         return campainRepo.save(c);
 
     }
@@ -89,18 +93,21 @@ public class CampainService {
 
     public Campain findOne(BigDecimal campainId) {
         Campain findOne = campainRepo.findOne(campainId);
-        if (findOne.getAttachment() != null) {
-            byte[] docBytes = findOne.getAttachment();
-            try (
-               OutputStream outFile = new FileOutputStream("/tmp/" + findOne.getAttachmentFileSystemName());) {
-                int read;
-                outFile.write(docBytes);
+        for (CampainAttachment at : findOne.getCampainAttachments()) {
+            if (at.getAttachment() != null) {
+                byte[] docBytes = at.getAttachment();
+                try (
+                        OutputStream outFile = new FileOutputStream("/tmp/" + at.getAttachmentFileSystemName());) {
+                    int read;
+                    outFile.write(docBytes);
 
-            } catch (IOException e) {
+                } catch (IOException e) {
+
+                }
 
             }
-
         }
+
         return findOne;
     }
 

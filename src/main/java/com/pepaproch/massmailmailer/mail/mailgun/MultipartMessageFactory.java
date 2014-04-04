@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.mail.mailgun;
 
+import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import java.nio.charset.Charset;
 import org.springframework.http.HttpEntity;
@@ -54,9 +55,12 @@ public class MultipartMessageFactory implements MessageFactory<MultipartEmailMes
     }
 
     private void addAttaChment(Email e, MultiValueMap<String, Object> form) {
-
+       
+        for(Attachment at :e.getAttachments()) {
+              form.add("attachment", new AttachmenrResource(at.getAttachment(), at.getAttachmentName()));
+        }
     
-        form.add("attachment", new AttachmenrResource(e.getAttachment().getAttachment(), e.getAttachment().getAttachmentName()));
+  
 
     }
 

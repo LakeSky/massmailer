@@ -6,6 +6,7 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,9 +79,8 @@ public class Email implements Serializable {
     @Column(name = "EMAIL_CONTENT")
     private String emailText;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "ATTACHMENT_ID")
-    private Attachment attachment;
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "email")
+    private Collection<Attachment> attachments;
 
     public Email() {
     }
@@ -276,19 +276,7 @@ public class Email implements Serializable {
         this.emailText = emailText;
     }
 
-    /**
-     * @return the attachment
-     */
-    public Attachment getAttachment() {
-        return attachment;
-    }
 
-    /**
-     * @param attachment the attachment to set
-     */
-    public void setAttachment(Attachment attachment) {
-        this.attachment = attachment;
-    }
 
     /**
      * @return the campain
@@ -316,6 +304,20 @@ public class Email implements Serializable {
      */
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    /**
+     * @return the attachments
+     */
+    public Collection<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    /**
+     * @param attachments the attachments to set
+     */
+    public void setAttachments(Collection<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
 }

@@ -16,11 +16,9 @@ public interface DocumentHolder extends TemplateHolder{
 
 
     public void procces(TemplateDataItem item, String outputFileName) throws FileNotFoundException, IOException;
- 
     public void write(String outputFileName) throws FileNotFoundException, IOException;
     public TemplateMeta getTemplateMeta();
     public byte[] procces(TemplateDataItem item) throws FileNotFoundException, IOException;
-    
    public byte[] getOutputStream();
 
 

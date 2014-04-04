@@ -49,7 +49,7 @@ public class CampainServiceTest {
         Campain c = new Campain();
         c.setId(new BigDecimal("333333"));
         c.setCampainName("CampainName");
-        c.setAttachmentName("testsave.doc");
+//        c.setAttachmentName("testsave.doc");
         return service.save(c).getId();
 
     }

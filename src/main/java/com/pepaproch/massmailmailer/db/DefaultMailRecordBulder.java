@@ -9,6 +9,7 @@ package com.pepaproch.massmailmailer.db;
 import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
+import java.util.HashSet;
 
 /**
  *
@@ -52,8 +53,11 @@ public class DefaultMailRecordBulder implements MailRecordBulder {
 
     @Override
     public void setAttachment(byte[] b, String fileName, String fileType) {
-        Attachment at = new Attachment( b, fileName, fileType);
-        email.setAttachment(at);
+        Attachment at = new Attachment( b, fileName, fileType,this.email);
+        if(null==email.getAttachments()) {
+        email.setAttachments(new HashSet<Attachment>());
+        }
+        email.getAttachments().add(at);
     }
 
     @Override

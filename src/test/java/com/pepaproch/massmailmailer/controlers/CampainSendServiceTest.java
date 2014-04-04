@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
 import java.util.Collection;
+import java.util.HashSet;
 import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import static org.junit.Assert.*;
+
 /**
  *
  * @author pepa
@@ -28,42 +30,59 @@ import static org.junit.Assert.*;
 @TransactionConfiguration(transactionManager = "txManager")
 @Transactional
 public class CampainSendServiceTest {
-    
+
     @Autowired
     private CampainSendService sendService;
     @Autowired
-    private CampainRepo  campainRepo ;
+    private CampainRepo campainRepo;
     @Autowired
-    private EmailRepo  emailrepo;
-    
+    private EmailRepo emailrepo;
+
     public CampainSendServiceTest() {
     }
 
     /**
      * Test of processCampain method, of class CampainSendService.
+     *
      * @throws java.lang.Exception
      */
     @Test
     public void testProcessCampain() throws Exception {
-         Campain c = new Campain();
+        Campain c = new Campain();
 
         c.setCampainName("CampainName");
-        c.setAttachmentName("testsave.doc");
-        c.setAttachmentFileType("doc");
-        c.setAttachmentFileSystemName("test.doc");
-        c.setAttachmentFileType("pdf");
-        c.setAttachmentOutputName("output.pdf");
-        c.setAttachmentOutputType("pdf");
-        c.setRecipients("####EMAIL####");
-        c.setCustomizeAttachments(Boolean.TRUE);
-        c.setEmailText("<p>nasleduje test STRING: ####STRING#### </p>");
-        c.setSubject("####STRING#### : STRING");
+        HashSet<CampainAttachment> ats = new HashSet();
+        CampainAttachment at = new CampainAttachment();
+        at.setAttachmentName("testsave.doc");
+        at.setAttachmentFileType("doc");
+        at.setAttachmentFileSystemName("test.doc");
+        at.setAttachmentFileType("pdf");
+        at.setAttachmentOutputName("output.pdf");
+        at.setAttachmentOutputType("pdf");
+        at.setCustomizeAttachments(Boolean.TRUE);
+        at.setCampain(c);
+        ats.add(at);
+        CampainAttachment ata = new CampainAttachment();
+        ata.setAttachmentName("testsave.doc");
+        ata.setAttachmentFileType("doc");
+        ata.setAttachmentFileSystemName("test.doc");
+        ata.setAttachmentFileType("pdf");
+        ata.setAttachmentOutputName("output.pdf");
+        ata.setAttachmentOutputType("pdf");
+        ata.setCustomizeAttachments(Boolean.TRUE);
+        ata.setCampain(c);
+        ats.add(ata);
+
+        c.setRecipients("EMAIL");
+        c.setCampainAttachments(ats);
+        c.setEmailText("<p>nasleduje test STRING: ###STRING### </p>");
+        c.setSubject("###STRING### : STRING");
         c.setDataSourceId("52fcd88844aef19a6f3c74db");
         Campain save = campainRepo.save(c);
         sendService.processCampain(c);
         Collection<Email> findByCampainId = emailrepo.findByCampainId(save.getId());
-        assertTrue(findByCampainId.size()>0);
-       
+        assertTrue(findByCampainId.size() > 0);
+
     }
 
     /**
@@ -149,5 +168,5 @@ public class CampainSendServiceTest {
     public void setEmailrepo(EmailRepo emailrepo) {
         this.emailrepo = emailrepo;
     }
-    
+
 }

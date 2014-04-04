@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.controlers;
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataStructureMetaField;
 import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.poi.DocumentFactory;
 import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
@@ -56,38 +57,37 @@ public class CampainValidator implements Validator {
     }
 
     private void validate(Campain capmain, Errors errors) throws IOException {
+        if (capmain.getCampainName() == null || "".equalsIgnoreCase(capmain.getCampainName())) {
+            errors.rejectValue("campainName", "error.NotNull");
+        }
+
+        if (capmain.getSubject() == null || "".equalsIgnoreCase(capmain.getSubject())) {
+            errors.rejectValue("subject", "error.NotNull");
+        }
         if (capmain.getDataSourceId() == null) {
             errors.rejectValue("dataSourceId", "error.NotNull");
         } else {
+            int i = 0;
+
             DataSource ds = dataSourceRep.findOne(capmain.getDataSourceId());
+            DocumentFactory documentFactory = new DocumentFactoryImpl();
+            for (CampainAttachment at : capmain.getCampainAttachments()) {
+                errors.setNestedPath("campainAttachments[" + i + "]");
+                DocumentHolder docu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
+                List<String> dataFiledsNames = new ArrayList();
+                for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {
+                    dataFiledsNames.add("###" + f.getName() + "###");
+                }
 
-        DocumentFactory documentFactory = new DocumentFactoryImpl();
-        DocumentHolder docu = documentFactory.getDocument("/tmp/" + capmain.getAttachmentFileSystemName(),new StringPlaceHolderHelper("###"));
-  
+                if (dataFiledsNames.containsAll(docu.getPlaceHolders())) {
+                    System.out.println("OK");
 
-            List<String> dataFiledsNames = new ArrayList();
-            for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {
-                dataFiledsNames.add("###" + f.getName() + "###");
-            }
-            
-
-            if (dataFiledsNames.containsAll(docu.getPlaceHolders())) {
-                System.out.println("OK");
-
-            } else {
-                errors.rejectValue("customizeAttachments", "error.NotAllWars");
-            }
-
-            if (capmain.getCampainName() == null || "".equalsIgnoreCase(capmain.getCampainName())) {
-                errors.rejectValue("campainName", "error.NotNull");
+                } else {
+                    errors.rejectValue("customizeAttachments", "error.NotAllWars");
+                }
+                i++;
             }
 
-            if (capmain.getCustomizeAttachments() && capmain.getAttachmentName() == null) {
-                errors.rejectValue("attachmentName", "error.NotNull");
-            }
-            if (capmain.getSubject() == null || "".equalsIgnoreCase(capmain.getSubject())) {
-                errors.rejectValue("subject", "error.NotNull");
-            }
         }
     }
 

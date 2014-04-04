@@ -14,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -39,13 +41,18 @@ public class Attachment implements Serializable {
     @Column(name = "ATTACHMENT_FILE_TYPE")
     private String attachmentFileType;
 
+    @ManyToOne
+    @JoinColumn(name = "EMAIL_ID")
+    private Email email;
+
     public Attachment() {
     }
 
-    public Attachment(byte[] b, String fileName, String fileType) {
+    public Attachment(byte[] b, String fileName, String fileType,Email email) {
         this.attachment = b;
         this.attachmentName = fileName;
         this.attachmentFileType = fileType;
+        this.email = email;
     }
 
     /**

@@ -215,39 +215,6 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
         });
 
 
-        $scope.customizeAttachment = function customizeAttachment() {
-            if ($scope.Campain.attachmentFileSystemName !== undefined && $scope.Campain.attachmentFileSystemName !== null) {
-                var path = '../template/preview/' + $scope.previewType;
-                if ($scope.Campain.customizeAttachments) {
-                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentFileSystemName});
-                    TemplateFieldsPromise.$promise.then(function(result) {
-                        $scope.templateFields = result.placeHolders;
-                    });
-
-
-                }
-
-
-
-            }
-
-  $scope.previewUrl = ''; 
-
- var query =  '';
- if(undefined!==$scope.Campain.customizeAttachments && $scope.Campain.customizeAttachments === true) {
-     
-  query = query +  '?datasourceId=' + encodeURIComponent($scope.Campain.dataSourceId) + '&fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
-     
- }else {
- query = query +  '?fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
-     
- }
-                  
-                 
-            
-                       $scope.previewUrl = path + query;
-
-        };
 
 
 
@@ -316,7 +283,32 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
         };
 
 
+        $scope.addAttachment = function(attachment) {
+           var attacmentForm ;
+           if(undefined===attachment || null===attachment) {
+               
+               attachment = {};
+           }else {
+               attacmentForm = attachment;
+               
+           }
+            modalInstance = $modal.open({
+                windowClass: 'modal-campain',
+                templateUrl: 'views/campain/attachment.html',
+                resolve: {
+                    attachment: function() {
+                        return attacmentForm;
+                        
+                    }
+                }
+            });
 
+            modalInstance.result.then(function() {
+                $scope.datasources = Entity.DataSource.query();
+            }, function() {
+                ;
+            });
+        };
 
 
 
@@ -395,47 +387,48 @@ dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$lo
 
 // Controller
 // ----------
-dataSource.controller('CampainAttachmentController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
-        var dataSourceId = $routeParams.dataSourceId;
-        if (undefined === dataSourceId) {
-
-        } else {
-            var DataSource = Entity.DataSource.get({dataSourceId: dataSourceId}, function() {
-                $scope.deleteMessage = DataSource.name;
-                $scope.DataSource = DataSource;
-            });
+dataSource.controller('CampainAttachmentController', ['$scope', function($scope, attachment) {
+  $scope.attachment = attachment;
 
 
 
 
 
-        }
-        $scope.delete = function() {
-            var deferred = $q.defer();
-            $scope.DataSource.$delete(
-                    function(DataSource, headers) {
-                        deferred.resolve(DataSource);
-                        handleFormSucces("Smazano", $location, '/datasource');
+        $scope.customizeAttachment = function customizeAttachment() {
+            if ($scope.Campain.attachmentFileSystemName !== undefined && $scope.Campain.attachmentFileSystemName !== null) {
+                var path = '../template/preview/' + $scope.previewType;
+                if ($scope.Campain.customizeAttachments) {
+                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentFileSystemName});
+                    TemplateFieldsPromise.$promise.then(function(result) {
+                        $scope.templateFields = result.placeHolders;
+                    });
 
-                    }, function(error) {
-                return   handleFormError($scope, error.data);
 
-            });
-            return deferred.promise;
+                }
+
+
+
+            }
+
+  $scope.previewUrl = ''; 
+
+ var query =  '';
+ if(undefined!==$scope.Campain.customizeAttachments && $scope.Campain.customizeAttachments === true) {
+     
+  query = query +  '?datasourceId=' + encodeURIComponent($scope.Campain.dataSourceId) + '&fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
+     
+ }else {
+ query = query +  '?fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
+     
+ }
+                  
+                 
+            
+                       $scope.previewUrl = path + query;
+
         };
 
-
-
-        $scope.okDelete = function() {
-            var myDataPromise = $scope.delete();
-            var contrr = this;
-            myDataPromise.then(function(DataSource) {  // this is only run after $http completes
-                $scope.datasources = Entity.DataSource.query();
-                contrr.$close();
-            });
-
-
-        };
+       
 
 
 

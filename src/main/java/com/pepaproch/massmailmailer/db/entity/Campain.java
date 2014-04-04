@@ -7,14 +7,16 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -45,38 +47,20 @@ public class Campain implements Serializable {
     private String emailText;
     @Column(name = "DATASOURCE_ID")
     private String dataSourceId;
-    @Basic(fetch=FetchType.LAZY)
-    @Lob
-    @Column(name = "ATTACHMENT" )
-    private byte[] attachment;
-    
-    
-    @Column(name = "ATTACHMENT_NAME")
-    private String attachmentName;
-    
-    
-    @Column(name = "ATTACHMENT_FS_NAME")
-    private String attachmentFileSystemName;
-    
-    @Column(name = "ATTACHMENT_FILE_TYPE")
-    private String attachmentFileType;
-    @Column(name = "ATTACHMENT_OUTPUT_NAME")
-    private String attachmentOutputName;
-    @Column(name = "ATTACHMENT_OUTPUT_TYPE")
-    private String attachmentOutputType;
+   
 
     @Column(name = "CUSTOMIZE_EMAIL")
     private Boolean customizeEmail;
-    @Column(name = "CUSTOMIZE_ATTACHMENT")
-    private Boolean customizeAttachments;
-    @Column(name = "SENT_ATTACHMENT_AS")
-    private String sentAttachemntAs;
+
 
     @Column(name = "RECORDS_COUNT")
     private BigDecimal recordsCount;
 
     @Column(name = "STATUS")
     private String status;
+    
+    @OneToMany(mappedBy = "campain",cascade = CascadeType.PERSIST)
+    private Collection<CampainAttachment> campainAttachments; 
 
     /**
      * @return the emailText
@@ -106,19 +90,6 @@ public class Campain implements Serializable {
         this.dataSourceId = dataSourceId;
     }
 
-    /**
-     * @return the attachmentName
-     */
-    public String getAttachmentName() {
-        return attachmentName;
-    }
-
-    /**
-     * @param attachmentName the attachmentName to set
-     */
-    public void setAttachmentName(String attachmentName) {
-        this.attachmentName = attachmentName;
-    }
 
     /**
      * @return the customizeEmail
@@ -134,33 +105,7 @@ public class Campain implements Serializable {
         this.customizeEmail = customizeEmail;
     }
 
-    /**
-     * @return the customizeAttachments
-     */
-    public Boolean getCustomizeAttachments() {
-        return (customizeAttachments == null) ? java.lang.Boolean.FALSE : customizeAttachments;
-    }
 
-    /**
-     * @param customizeAttachments the customizeAttachments to set
-     */
-    public void setCustomizeAttachments(Boolean customizeAttachments) {
-        this.customizeAttachments = customizeAttachments;
-    }
-
-    /**
-     * @return the sentAttachemntAs
-     */
-    public String getSentAttachemntAs() {
-        return sentAttachemntAs;
-    }
-
-    /**
-     * @param sentAttachemntAs the sentAttachemntAs to set
-     */
-    public void setSentAttachemntAs(String sentAttachemntAs) {
-        this.sentAttachemntAs = sentAttachemntAs;
-    }
 
     /**
      * @return the campainName
@@ -275,74 +220,22 @@ public class Campain implements Serializable {
     }
 
     /**
-     * @return the attachment
+     * @return the campainAttachments
      */
-    public byte[] getAttachment() {
-        return attachment;
+    public Collection<CampainAttachment> getCampainAttachments() {
+        return campainAttachments;
     }
 
     /**
-     * @param attachment the attachment to set
+     * @param campainAttachments the campainAttachments to set
      */
-    public void setAttachment(byte[] attachment) {
-        this.attachment = attachment;
+    public void setCampainAttachments(Collection campainAttachments) {
+        this.campainAttachments = campainAttachments;
     }
 
 
-    /**
-     * @return the attachmentFileType
-     */
-    public String getAttachmentFileType() {
-        return attachmentFileType;
-    }
+    
 
-    /**
-     * @param attachmentFileType the attachmentFileType to set
-     */
-    public void setAttachmentFileType(String attachmentFileType) {
-        this.attachmentFileType = attachmentFileType;
-    }
 
-    /**
-     * @return the attachmentOutputName
-     */
-    public String getAttachmentOutputName() {
-        return attachmentOutputName;
-    }
-
-    /**
-     * @param attachmentOutputName the attachmentOutputName to set
-     */
-    public void setAttachmentOutputName(String attachmentOutputName) {
-        this.attachmentOutputName = attachmentOutputName;
-    }
-
-    /**
-     * @return the attachmentOutputType
-     */
-    public String getAttachmentOutputType() {
-        return attachmentOutputType;
-    }
-
-    /**
-     * @param attachmentOutputType the attachmentOutputType to set
-     */
-    public void setAttachmentOutputType(String attachmentOutputType) {
-        this.attachmentOutputType = attachmentOutputType;
-    }
-
-    /**
-     * @return the attachmentFileSystemName
-     */
-    public String getAttachmentFileSystemName() {
-        return attachmentFileSystemName;
-    }
-
-    /**
-     * @param attachmentFileSystemName the attachmentFileSystemName to set
-     */
-    public void setAttachmentFileSystemName(String attachmentFileSystemName) {
-        this.attachmentFileSystemName = attachmentFileSystemName;
-    }
 
 }
