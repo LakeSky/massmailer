@@ -139,7 +139,7 @@ campain.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$route
 
 // Controller
 // ----------
-campain.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q) {
+campain.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', '$modal', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q, $modal) {
 
 
         $scope.previewType = 'pdf';
