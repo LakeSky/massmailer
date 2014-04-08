@@ -72,6 +72,8 @@ public class TemplateController {
         String filedTemplate = "/tmp/";
         if (datasourceId != null) {
             filedTemplate += templateService.createPreview("/tmp/" + fileName, datasourceId);
+        }else {
+        filedTemplate = previeFile;
         }
 
         convertService.convert(filedTemplate, previeFile + ".pdf", Boolean.FALSE);

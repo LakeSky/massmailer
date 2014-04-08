@@ -10,11 +10,11 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 
 // Controller
 // ----------
-campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams','services.breadcrumbs', function($scope, Entity, $modal, $routeParams,menu) {
+campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, menu) {
 
         menu.resetSubmenu();
-        menu.addToSubmenu('Hromadné emaily','#/campains', 'glyphicon-th-list');
-        menu.addToSubmenu('Nový email','#/campain/new', 'glyphicon-plus');
+        menu.addToSubmenu('Hromadné emaily', '#/campains', 'glyphicon-th-list');
+        menu.addToSubmenu('Nový email', '#/campain/new', 'glyphicon-plus');
 
 
         var campains = Entity.Campain.query(function() {
@@ -142,7 +142,7 @@ campain.controller('CampainRowsListCtrl', ['$scope', 'Entity', '$modal', '$route
 campain.controller('CampainEditController', ['$rootScope', '$scope', '$routeParams', '$location', 'Entity', 'uploadService', '$q', '$modal', function($rootScope, $scope, $routeParams, $location, Entity, uploadService, $q, $modal) {
 
 
-        $scope.previewType = 'pdf';
+
 
         $scope.toglePreviewType = function(val) {
             $scope.previewType = val;
@@ -171,7 +171,6 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
                     });
                     dataSourcePromise.$promise.then(function(dataSource) {
                         $scope.datasourceSelected = dataSource;
-                        $scope.customizeAttachment();
                     });
                 }
             });
@@ -185,34 +184,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             }
         }, true);
 
-        // 'files' is an array of JavaScript 'File' objects.
-        $scope.files = [];
-        $scope.$watch('UploadFile', function(newValue, oldValue) {
-            if (newValue !== undefined) {
-                console.log('Controller: $scope.files changed. Start upload.');
-                uploadService.send($scope.UploadFile);
-            }
 
-
-        }, true);
-
-
-        $rootScope.$on('upload:loadstart', function() {
-            $scope.loadingfile = true;
-
-        });
-        $rootScope.$on('upload:succes', function(event, xhr) {
-            $scope.$apply(function() {
-                $scope.loadingfile = false;
-                $scope.Campain.attachmentFileSystemName = xhr.currentTarget.responseText;
-                $scope.Campain.attachmentName = $scope.UploadFile.name;
-                $scope.Campain.attachmentFileType = $scope.UploadFile.type;
-                $scope.customizeAttachment();
-            });
-        });
-        $rootScope.$on('upload:error', function() {
-            console.log('Controller: on `error`');
-        });
 
 
 
@@ -278,33 +250,55 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.onDatasourceSelected = function(datasource) {
             $scope.Campain.dataSourceId = datasource.id;
-            $scope.customizeAttachment();
+
 
         };
 
 
-        $scope.addAttachment = function(attachment) {
-           var attacmentForm ;
-           if(undefined===attachment || null===attachment) {
-               
-               attachment = {};
-           }else {
-               attacmentForm = attachment;
-               
-           }
+        $scope.addAttachment = function(att) {
+
+            if (undefined === att || null === att) {
+                attachment = {};
+                if (undefined === $scope.Campain.campainAttachments) {
+                    $scope.Campain.campainAttachments = [];
+                 
+                }
+                   $scope.Campain.campainAttachments.push(attachment);
+
+            } else {
+                attachment = att;
+
+            }
+            var dataStructureFields;
+            if (undefined === $scope.datasourceSelected) {
+                dataStructureFields = {};
+
+            } else {
+                dataStructureFields = $scope.datasourceSelected.dataStructure.dataStructureFields;
+
+            }
+
+            var attachmentForm = {
+                attachment: attachment,
+                datasourceId: $scope.Campain.dataSourceId,
+                dataStructureFields: dataStructureFields
+            };
+
             modalInstance = $modal.open({
                 windowClass: 'modal-campain',
                 templateUrl: 'views/campain/attachment.html',
+                controller: 'CampainAttachmentController',
+                
                 resolve: {
-                    attachment: function() {
-                        return attacmentForm;
-                        
+                    attachments: function() {
+                        return attachmentForm;
+
                     }
                 }
             });
 
-            modalInstance.result.then(function() {
-                $scope.datasources = Entity.DataSource.query();
+            modalInstance.result.then(function() {  
+         
             }, function() {
                 ;
             });
@@ -328,6 +322,93 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
 
 
+
+
+
+
+// Controller
+// ----------
+dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'Entity', 'uploadService', '$modalInstance', 'attachments', function($rootScope, $scope, Entity, uploadService, $modalInstance, attachments) {
+        $scope.attachment = attachments.attachment;
+        $scope.dataSourceId = attachments.datasourceId;
+        $scope.dataStructureFields = attachments.dataStructureFields;
+        $scope.previewType = 'pdf';
+
+        // 'files' is an array of JavaScript 'File' objects.
+        $scope.files = [];
+        $scope.$watch('UploadFile', function(newValue, oldValue) {
+            if (newValue !== undefined) {
+                console.log('Controller: $scope.files changed. Start upload.');
+                uploadService.send($scope.UploadFile);
+            }
+
+
+        }, true);
+
+
+        $rootScope.$on('upload:loadstart', function() {
+            $scope.loadingfile = true;
+
+        });
+        $rootScope.$on('upload:succes', function(event, xhr) {
+            $scope.$apply(function() {
+                $scope.loadingfile = false;
+                $scope.attachment.attachmentFileSystemName = xhr.currentTarget.responseText;
+                $scope.attachment.attachmentName = $scope.UploadFile.name;
+                $scope.attachment.attachmentFileType = $scope.UploadFile.type;
+                $scope.customizeAttachment();
+            });
+        });
+        $rootScope.$on('upload:error', function() {
+            console.log('Controller: on `error`');
+        });
+
+
+        $scope.customizeAttachment = function customizeAttachment() {
+            if ($scope.attachment.attachmentFileSystemName !== undefined && $scope.attachment.attachmentFileSystemName !== null) {
+                var path = '../template/preview/' + $scope.previewType;
+                if ($scope.attachment.customizeAttachments) {
+                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.attachment.attachmentFileSystemName});
+                    TemplateFieldsPromise.$promise.then(function(result) {
+                        $scope.templateFields = result.placeHolders;
+                    });
+
+
+                }
+
+
+
+            }
+
+            $scope.previewUrl = '';
+
+            var query = '';
+            if (undefined !== $scope.attachment.customizeAttachments && $scope.attachment.customizeAttachments === true) {
+                query = query + '?datasourceId=' + encodeURIComponent($scope.dataSourceId) + '&fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
+
+            } else {
+                query = query + '?fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
+
+            }
+
+
+
+            $scope.previewUrl = path + query;
+
+        };
+
+
+
+
+
+
+
+
+        $scope.cancel = function() {
+            this.$dismiss('cancel');
+        };
+
+    }]);
 // Controller
 // ----------
 dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
@@ -371,64 +452,6 @@ dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$lo
 
 
         };
-
-
-
-
-
-
-        $scope.cancel = function() {
-            this.$dismiss('cancel');
-        };
-
-    }]);
-
-
-
-// Controller
-// ----------
-dataSource.controller('CampainAttachmentController', ['$scope', function($scope, attachment) {
-  $scope.attachment = attachment;
-
-
-
-
-
-        $scope.customizeAttachment = function customizeAttachment() {
-            if ($scope.Campain.attachmentFileSystemName !== undefined && $scope.Campain.attachmentFileSystemName !== null) {
-                var path = '../template/preview/' + $scope.previewType;
-                if ($scope.Campain.customizeAttachments) {
-                    var TemplateFieldsPromise = Entity.TemplateFields.get({fileId: $scope.Campain.attachmentFileSystemName});
-                    TemplateFieldsPromise.$promise.then(function(result) {
-                        $scope.templateFields = result.placeHolders;
-                    });
-
-
-                }
-
-
-
-            }
-
-  $scope.previewUrl = ''; 
-
- var query =  '';
- if(undefined!==$scope.Campain.customizeAttachments && $scope.Campain.customizeAttachments === true) {
-     
-  query = query +  '?datasourceId=' + encodeURIComponent($scope.Campain.dataSourceId) + '&fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
-     
- }else {
- query = query +  '?fileId=' + encodeURIComponent($scope.Campain.attachmentFileSystemName);
-     
- }
-                  
-                 
-            
-                       $scope.previewUrl = path + query;
-
-        };
-
-       
 
 
 

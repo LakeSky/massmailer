@@ -59,7 +59,7 @@ public class Campain implements Serializable {
     @Column(name = "STATUS")
     private String status;
     
-    @OneToMany(mappedBy = "campain",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "campain",cascade = CascadeType.PERSIST,fetch = javax.persistence.FetchType.EAGER)
     private Collection<CampainAttachment> campainAttachments; 
 
     /**

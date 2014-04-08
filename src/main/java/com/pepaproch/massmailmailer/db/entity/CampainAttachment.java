@@ -32,6 +32,9 @@ public class CampainAttachment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private BigDecimal id;
+    @Basic(optional = false)
+    private BigDecimal index;
+    
     @JoinColumn(name = "CAMPAIN_ID")
     @ManyToOne
     private Campain campain;
@@ -200,6 +203,20 @@ public class CampainAttachment implements Serializable {
      */
     public void setCampain(Campain campain) {
         this.campain = campain;
+    }
+
+    /**
+     * @return the index
+     */
+    public BigDecimal getIndex() {
+        return index;
+    }
+
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(BigDecimal index) {
+        this.index = index;
     }
 
 }
