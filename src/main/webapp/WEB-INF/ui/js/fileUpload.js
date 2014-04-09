@@ -11,7 +11,7 @@ dataSource.directive('fileChange', function() {
         // onChange, push the files to $scope.files.
         element.bind('change', function(event) {
             var selectedFile = event.target.files[0];
-            $scope.$parent.$apply(function() {
+             $scope.$parent.$apply(function() {
              $scope.$parent.UploadFile = selectedFile;
             });
         });
@@ -48,7 +48,7 @@ upload.factory('uploadService', ['$rootScope', function($rootScope) {
 
                     if (xhr.readyState === 4 && xhr.status === 201)
                     {
-                        $rootScope.$emit('upload:succes',e, xhr);
+                        $rootScope.$emit('upload:succes',e, xhr, file.name ,file.type);
 
 
                     }

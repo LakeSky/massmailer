@@ -256,17 +256,23 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
 
         $scope.addAttachment = function(att) {
+            var index = 0;
+            var atObject = null;
+            if (undefined === $scope.Campain.campainAttachments) {
+                $scope.Campain.campainAttachments = [];
+                index = 0;
+            } else {
+                index = $scope.Campain.campainAttachments.length;
 
+            }
             if (undefined === att || null === att) {
-                attachment = {};
-                if (undefined === $scope.Campain.campainAttachments) {
-                    $scope.Campain.campainAttachments = [];
-                 
-                }
-                   $scope.Campain.campainAttachments.push(attachment);
+                atObject = {
+                    index: index
+                };
+
 
             } else {
-                attachment = att;
+                atObject = att;
 
             }
             var dataStructureFields;
@@ -279,7 +285,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             }
 
             var attachmentForm = {
-                attachment: attachment,
+                attachment: atObject,
                 datasourceId: $scope.Campain.dataSourceId,
                 dataStructureFields: dataStructureFields
             };
@@ -288,7 +294,6 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
                 windowClass: 'modal-campain',
                 templateUrl: 'views/campain/attachment.html',
                 controller: 'CampainAttachmentController',
-                
                 resolve: {
                     attachments: function() {
                         return attachmentForm;
@@ -297,8 +302,13 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
                 }
             });
 
-            modalInstance.result.then(function() {  
-         
+            modalInstance.result.then(function(atta) {
+
+                $scope.Campain.campainAttachments[atta.attachment.index] = atta.attachment;
+
+
+
+
             }, function() {
                 ;
             });
@@ -329,7 +339,11 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 // Controller
 // ----------
 dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'Entity', 'uploadService', '$modalInstance', 'attachments', function($rootScope, $scope, Entity, uploadService, $modalInstance, attachments) {
+
         $scope.attachment = attachments.attachment;
+        $scope.attachmentFileSystemName = attachments.attachment.attachmentFileSystemName;
+        $scope.attachmentName = attachments.attachment.attachmentName;
+        $scope.attachmentFileType = attachments.attachment.attachmentFileType;
         $scope.dataSourceId = attachments.datasourceId;
         $scope.dataStructureFields = attachments.dataStructureFields;
         $scope.previewType = 'pdf';
@@ -346,19 +360,25 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
         }, true);
 
 
+
+
+
         $rootScope.$on('upload:loadstart', function() {
             $scope.loadingfile = true;
 
         });
-        $rootScope.$on('upload:succes', function(event, xhr) {
+        $rootScope.$on('upload:succes', function(event, xhr, req, name, type) {
             $scope.$apply(function() {
                 $scope.loadingfile = false;
-                $scope.attachment.attachmentFileSystemName = xhr.currentTarget.responseText;
-                $scope.attachment.attachmentName = $scope.UploadFile.name;
-                $scope.attachment.attachmentFileType = $scope.UploadFile.type;
-                $scope.customizeAttachment();
+                $scope.attachmentFileSystemName = xhr.currentTarget.responseText;
+                $scope.attachmentName = name + $scope.attachment.index;
+                $scope.attachmentFileType = type;
+                $scope.UploadFile = undefined;
+                $scope.files = [];
             });
         });
+
+
         $rootScope.$on('upload:error', function() {
             console.log('Controller: on `error`');
         });
@@ -400,7 +420,19 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
 
 
 
+        $scope.ok = function() {
 
+            attachments.attachment.attachmentFileSystemName = $scope.attachmentFileSystemName;
+            attachments.attachment.attachmentName = $scope.attachmentName;
+            attachments.attachment.attachmentFileType = $scope.attachmentFileType;
+
+
+
+            $modalInstance.close({
+                attachment: attachments.attachment
+
+            });
+        };
 
 
 

@@ -32,9 +32,11 @@ public class CampainAttachment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private BigDecimal id;
+
     @Basic(optional = false)
+    @Column(name = "INDEX")
     private BigDecimal index;
-    
+
     @JoinColumn(name = "CAMPAIN_ID")
     @ManyToOne
     private Campain campain;
@@ -61,7 +63,6 @@ public class CampainAttachment implements Serializable {
     private Boolean customizeAttachments;
     @Column(name = "SENT_ATTACHMENT_AS")
     private String sentAttachemntAs;
-
 
     /**
      * @return the attachmentName
@@ -118,8 +119,6 @@ public class CampainAttachment implements Serializable {
     public void setId(BigDecimal id) {
         this.id = id;
     }
-
-
 
     /**
      * @return the attachment

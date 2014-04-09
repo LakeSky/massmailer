@@ -45,6 +45,9 @@ public class CampainService {
         c.setRecordsCount(countRows);
         c.setStatus("READY");
         for (CampainAttachment at : c.getCampainAttachments()) {
+            if(at.getCampain()==null) {
+            at.setCampain(c);
+            }
             File file = new File("/tmp/" + at.getAttachmentFileSystemName());
             byte[] fileBytes = new byte[(int) file.length()];
             try (

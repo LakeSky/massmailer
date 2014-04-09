@@ -146,13 +146,14 @@
 
                 </div>
 
-                <p ng-repeat="a in Campain.campainAttachments">
+                <div ng-repeat="a in Campain.campainAttachments track by a.index ">
+                <div show-inter="campainAttachments[{{a.index}}].index"  class="alert alert-danger" ><error-message error="campainAttachments[{{a.index}}].index" ></error-message>  </div> 
+                <input ng-model="a.index" interpol-model  server-error = "campainAttachments[{{a.index}}].index"  class="form-control input-sm" type="text" id = "campainAttachments[{{a.index}}].index" name="campainAttachments[{{a.index}}].index"  />
+                
+           
 
-                    {{a.attachmentFileSystemName}}&nbsp;{{a.customizeAttachments}} &nbsp; <button class="btn btn-success" ng-click="addAttachment(a)">Upravit přílohu</button>
-                </p>
-
-
-
+{{a.attachmentOutputName}}&nbsp; {{a.attachmentFileSystemName}}&nbsp;{{a.index}} &nbsp; <button class="btn btn-success" ng-click="addAttachment(a)">Upravit přílohu</button>
+     </div>
                 <button class="btn btn-success" ng-click="addAttachment()">Přidat přílohu</button>
 
             </div>

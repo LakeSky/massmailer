@@ -281,17 +281,20 @@ appMassMailer.directive('errorMessage', function($interpolate) {
                 if (fna === undefined) {
 
                     $scope.$watch('errors', function(value) {
+                        if(undefined!==value) {
                         fna = $scope.errors[$interpolate($attrs.error)($scope)];
                        if(fna!==undefined) {
                            
                               $scope.errorCode = fna;   
                        }
+                        }
                     });
 
                 } else {
                     $scope.$watch('errors', function(value) {
-                             fna = $scope.errors[$interpolate($attrs.error)($scope)];
+                         
                                     if(value!==undefined) {
+                                            fna = $scope.errors[$interpolate($attrs.error)($scope)];
                     $scope.errorCode = fna;       
                            
                        }

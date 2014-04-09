@@ -78,7 +78,6 @@ public class CampainController {
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-
             Campain campainSaved = getCampainService().save(campain);
             if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
                 campainSendService.processCampain(campainSaved);
