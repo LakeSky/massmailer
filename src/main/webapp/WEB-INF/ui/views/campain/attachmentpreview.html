@@ -4,13 +4,46 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+
+    <div class="row">
+
+
+        <div  class="col-lg-12">
+
+            <embed class="col-lg-7" embed-src="{{previewUrl}}"  src="{{previewUrl}}"  type="application/pdf"   height="400px" /> 
+            <div class="col-lg-5">
+
+
+
+                <div class="col-lg-6">
+                    <h4 style="
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: #bbb;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;">Použadované proměné</h4>
+                    <p ng-repeat="f in templateFields">
+                        {{f}}
+                    </p>
+                </div>
+                <div class="col-lg-6">
+
+                    <h4 style="
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: #bbb;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;">Dostupné proměné</h4>
+                    <p ng-repeat="f in dataStructureFields">
+
+                        ###{{f.name}}###
+                    </p>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>

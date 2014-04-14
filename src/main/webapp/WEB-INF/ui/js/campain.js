@@ -254,7 +254,10 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         };
 
-
+  $scope.removeAttachment = function(att) { 
+     $scope.Campain.campainAttachments.splice(att.index,1);
+  
+  };
         $scope.addAttachment = function(att) {
             var index = 0;
             var atObject = null;
@@ -272,6 +275,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
 
             } else {
+                $scope.form['campainAttachments['+att.index+'].index'].$setValidity('server', true);
                 atObject = att;
 
             }

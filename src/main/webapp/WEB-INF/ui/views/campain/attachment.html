@@ -3,7 +3,6 @@
     <h3 style="">Příloha</h3>
 </div>
 <div class="modal-body " >
-    {{attachment || json}}
     <form name="atForm"  >
         <div class="row">
             <div class="row" collapse="isCollapsed" style="padding-top: 1em">
@@ -11,7 +10,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <div class="form-group">
-                            <label class="control-label col-lg-4"  for="customizeAttachments">Nahrát soubor</label>
+                            <label class="control-label col-lg-4"  for="file">Nahrát soubor</label>
                             <div class="col-lg-8">
                                 <input type="file" ng-model="files" file-change id="file" >
                             </div>
@@ -36,7 +35,6 @@
 
 
                 <div class="form-group">
-                    {{attachmentFileSystemName}}
                     <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
                     <div class="col-lg-8">
                         <input  class="input-sm" ng-disabled="attachment.attachmentFileSystemName === undefined || attachment.attachmentFileSystemName === null" type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="attachment.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
@@ -46,60 +44,15 @@
             </div>  
 
         </div>
-                <div class="form-group">
+        <div class="form-group">
             <input   type="hidden" id = "attachmentFileSystemName" name="attachmentFileSystemName" ng-model="attachment.attachmentFileSystemName" />
             <input   type="hidden" id = "attachmentName" name="attachmentName" ng-model="attachment.attachmentName" />
             <input   type="hidden" id = "attachmentType" name="attachmentType" ng-model="attachment.attachmentFileType" />
         </div> 
-
+  
     </form>
-
-    <div class="row">
-
-
-        <div  class="col-lg-12">
-
-            <embed class="col-lg-7" embed-src="{{previewUrl}}"  src="{{previewUrl}}"  type="application/pdf"   height="400px" /> 
-            <div class="col-lg-5">
-
-
-
-                <div class="col-lg-6">
-                    <h4 style="
-                        font-size: 12px;
-                        font-weight: 700;
-                        color: #bbb;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;">Použadované proměné</h4>
-                    <p ng-repeat="f in templateFields">
-                        {{f}}
-                    </p>
-                </div>
-                <div class="col-lg-6">
-
-                    <h4 style="
-                        font-size: 12px;
-                        font-weight: 700;
-                        color: #bbb;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;">Dostupné proměné</h4>
-                    <p ng-repeat="f in dataStructureFields">
-
-                        ###{{f.name}}###
-                    </p>
-
-                </div>
-
-
-
-            </div>
-        </div>
-
-    </div>
+ 
 </div>
-
-
-
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">OK</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>

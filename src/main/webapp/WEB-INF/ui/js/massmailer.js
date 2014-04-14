@@ -35,12 +35,12 @@ angular.module('appMassMailer').config(
                             controller: 'DataSourceCreateController'
 
                         }).
-                                when('/datasource/edit/:dataSourceId', {
+                        when('/datasource/edit/:dataSourceId', {
                             templateUrl: 'views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
 
                         }).
-                         when('/datasource/data/:dataSourceId', {
+                        when('/datasource/data/:dataSourceId', {
                             templateUrl: 'views/datasource/browse.html',
                             controller: 'DataSourceRowsListCtrl'
 
@@ -265,7 +265,7 @@ appMassMailer.directive('errorMessage', function($interpolate) {
                     // Only act when our property has changed.
                     if (undefined !== newValue) {
                         procces();
-                      
+
                     }
 
                 });
@@ -281,28 +281,27 @@ appMassMailer.directive('errorMessage', function($interpolate) {
                 if (fna === undefined) {
 
                     $scope.$watch('errors', function(value) {
-                        if(undefined!==value) {
-                        fna = $scope.errors[$interpolate($attrs.error)($scope)];
-                       if(fna!==undefined) {
-                           
-                              $scope.errorCode = fna;   
-                       }
+                        if (undefined !== value) {
+                            fna = $scope.errors[$interpolate($attrs.error)($scope)];
+                            if (fna !== undefined) {
+
+                                $scope.errorCode = fna;
+                            }
                         }
                     });
 
                 } else {
                     $scope.$watch('errors', function(value) {
-                         
-                                    if(value!==undefined) {
-                                            fna = $scope.errors[$interpolate($attrs.error)($scope)];
-                    $scope.errorCode = fna;       
-                           
-                       }
-                        
+                        if (value !== undefined) {
+                            fna = $scope.errors[$interpolate($attrs.error)($scope)];
+                            $scope.errorCode = fna;
+
+                        }
+
                     });
-        
-           
-            
+
+
+
                 }
 
 
@@ -363,18 +362,20 @@ appMassMailer.filter('format', function() {
     };
 });
 
-appMassMailer.directive('embedSrc', function () {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var current = element;
-      scope.$watch(function() { return attrs.embedSrc; }, function () {
-        var clone = element
-                      .clone()
-                      .attr('src', attrs.embedSrc);
-        current.replaceWith(clone);
-        current = clone;
-      });
-    }
-  };
+appMassMailer.directive('embedSrc', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var current = element;
+            scope.$watch(function() {
+                return attrs.embedSrc;
+            }, function() {
+                var clone = element
+                        .clone()
+                        .attr('src', attrs.embedSrc);
+                current.replaceWith(clone);
+                current = clone;
+            });
+        }
+    };
 });
