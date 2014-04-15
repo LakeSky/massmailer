@@ -7,22 +7,20 @@
         <div class="row">
             <div class="row" collapse="isCollapsed" style="padding-top: 1em">
 
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label class="control-label col-lg-4"  for="file">Nahrát soubor</label>
-                            <div class="col-lg-8">
-                                <input type="file" ng-model="files" file-change id="file" >
-                            </div>
-                        </div>  
-
+                <div class="col-md-8">
+                    <div class="form-group col-md-8">
+                        <label class="control-label col-sm-4" >Nahrát soubor</label>
+                        <div class="col-sm-4">
+                            <input type="file" ng-model="files" file-change id="file" >
+                        </div>
+                        <div ng-show="loadingfile" >
+                            <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
+                        </div>
+                    </div>  
+                    <div class="col-md-4 well" >
+                        Název souboru:  {{attachmentName}}<br/>Typ souboru: {{ attachmentFileType}} 
                     </div>
-                    <div ng-show="loadingfile">
-                        <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
-                    </div>
-                    <pre>Název souboru: {{attachmentName}}<br/>Typ souboru: {{ attachmentFileType}} 
-                    </pre>
-                    <div class="form-group">
+                                   <div class="form-group">
                         <label class="control-label col-lg-3"   for="attachmentOutputName">Název přílohy</label>
                         <div class="col-lg-9">
                             <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="attachment.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
@@ -30,9 +28,20 @@
                         </div>
 
                     </div>
-                </div> 
-
-
+                    
+                      <div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Formát<span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="#">pdf</a></li>
+          <li><a href="#">docx</a></li>
+          <li><a href="#">doc</a></li>
+        </ul>
+      </div><!-- /btn-group -->
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
 
                 <div class="form-group">
                     <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
@@ -41,6 +50,11 @@
 
                     </div>
                 </div>
+                </div>
+
+
+
+
             </div>  
 
         </div>
@@ -49,9 +63,9 @@
             <input   type="hidden" id = "attachmentName" name="attachmentName" ng-model="attachment.attachmentName" />
             <input   type="hidden" id = "attachmentType" name="attachmentType" ng-model="attachment.attachmentFileType" />
         </div> 
-  
+
     </form>
- 
+
 </div>
 <div class="modal-footer">
     <button class="btn btn-warning" ng-click="ok()">OK</button>

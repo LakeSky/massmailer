@@ -344,6 +344,12 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 // ----------
 dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'Entity', 'uploadService', '$modalInstance', 'attachments', function($rootScope, $scope, Entity, uploadService, $modalInstance, attachments) {
 
+  $scope.outputFormats = [
+    {name:'Word 97 (doc)', value:'doc'},
+    {name:'Word 2007 (docx)', value:'docx'},
+    {name:'PDF', value:'pdf'}
+  ];
+
         $scope.attachment = attachments.attachment;
         $scope.attachmentFileSystemName = attachments.attachment.attachmentFileSystemName;
         $scope.attachmentName = attachments.attachment.attachmentName;
