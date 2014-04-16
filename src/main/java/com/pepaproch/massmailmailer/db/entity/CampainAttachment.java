@@ -54,6 +54,7 @@ public class CampainAttachment implements Serializable {
 
     @Column(name = "ATTACHMENT_FILE_TYPE")
     private String attachmentFileType;
+    
     @Column(name = "ATTACHMENT_OUTPUT_NAME")
     private String attachmentOutputName;
     @Column(name = "ATTACHMENT_OUTPUT_TYPE")

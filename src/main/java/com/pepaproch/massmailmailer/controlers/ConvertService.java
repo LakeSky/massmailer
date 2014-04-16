@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -25,13 +28,19 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class ConvertService {
 
+    private final Map<String,HashSet<String> > suportMap  = new HashMap<>() ;
+
+    
     OfficeManager officeManager;
 
     @PersistenceContext
     private EntityManager entityManager;
 
     public ConvertService() {
+        
 
+ 
+ 
     }
 
     public void convert(String inFileName, String outFileName, Boolean removeInput) {

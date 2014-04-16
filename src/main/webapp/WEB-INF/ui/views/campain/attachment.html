@@ -3,61 +3,57 @@
     <h3 style="">Příloha</h3>
 </div>
 <div class="modal-body " >
-    <form name="atForm"  >
-        <div class="row">
-            <div class="row" collapse="isCollapsed" style="padding-top: 1em">
+    <form class="form-horizontal"  name="atForm"  >
 
-                <div class="col-md-8">
-                    <div class="form-group col-md-8">
-                        <label class="control-label col-sm-4" >Nahrát soubor</label>
-                        <div class="col-sm-4">
-                            <input type="file" ng-model="files" file-change id="file" >
-                        </div>
-                        <div ng-show="loadingfile" >
-                            <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
-                        </div>
-                    </div>  
-                    <div class="col-md-4 well" >
-                        Název souboru:  {{attachmentName}}<br/>Typ souboru: {{ attachmentFileType}} 
-                    </div>
-                                   <div class="form-group">
-                        <label class="control-label col-lg-3"   for="attachmentOutputName">Název přílohy</label>
-                        <div class="col-lg-9">
-                            <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="attachment.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
+        <div class="row"  style="padding-top: 1em">
 
-                        </div>
-
-                    </div>
-                    
-                      <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Formát<span class="caret"></span></button>
-        <ul class="dropdown-menu pull-right">
-          <li><a href="#">pdf</a></li>
-          <li><a href="#">docx</a></li>
-          <li><a href="#">doc</a></li>
-        </ul>
-      </div><!-- /btn-group -->
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-
-                <div class="form-group">
-                    <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
-                    <div class="col-lg-8">
-                        <input  class="input-sm" ng-disabled="attachment.attachmentFileSystemName === undefined || attachment.attachmentFileSystemName === null" type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="attachment.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
-
-                    </div>
+            <div class="form-group col-md-8">
+                <label class="control-label col-sm-6" >Nahrát soubor</label>
+                <div class="col-sm-4">
+                    <input type="file" ng-model="files" file-change id="file" >
                 </div>
+                <div ng-show="loadingfile" >
+                    <img src="img/ajax-loader.gif" width="220" height="19" alt="ajax-loader"/>
                 </div>
-
-
-
-
             </div>  
-
+            <div class="col-md-4 well" >
+                Název souboru:  {{attachmentName}}<br/>Typ souboru: {{ attachmentFileType}} 
+            </div>
         </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label col-lg-4"   for="attachmentOutputName">Název přílohy</label>
+                <div class="col-lg-8">
+                    <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="attachment.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-lg-4"   for="attachmentOutputType">Převést do</label>
+                <div class="col-lg-4">
+                    <select class="form-control input-sm" id="attachmentOutputType"  ng-model="attachment.attachmentOutputType" ng-options="f.value as f.name for f in outputFormats">
+                    </select>
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
+                <div class="col-lg-8">
+                    <input  class="input-sm"  type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="attachment.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
+
+                </div>
+            </div>
+
+
+
+
+        </div>  
+
         <div class="form-group">
             <input   type="hidden" id = "attachmentFileSystemName" name="attachmentFileSystemName" ng-model="attachment.attachmentFileSystemName" />
             <input   type="hidden" id = "attachmentName" name="attachmentName" ng-model="attachment.attachmentName" />

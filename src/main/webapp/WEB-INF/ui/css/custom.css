@@ -18,6 +18,13 @@ and open the template in the editor.
     width: 80%;
 }
 
+.modal-attachment > .modal-dialog  {
+    
+    width: 50%;
+}
+
+
+
 .modal-header {
     padding: 0 15px 0 15px;
     

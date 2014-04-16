@@ -12,6 +12,7 @@ import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.poi.DocumentFactory;
 import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
+import com.pepaproch.massmailmailer.poi.PoiTypes;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -72,22 +74,50 @@ public class CampainValidator implements Validator {
             DataSource ds = dataSourceRep.findOne(capmain.getDataSourceId());
             DocumentFactory documentFactory = new DocumentFactoryImpl();
             for (CampainAttachment at : capmain.getCampainAttachments()) {
-
+                Boolean validateTemplate = Boolean.TRUE;
                 errors.setNestedPath("campainAttachments[" + i + "]");
 
-                if (null == at.getAttachmentOutputName() || "".equalsIgnoreCase(at.getAttachmentOutputName())) {
-                    errors.rejectValue("index", "error.NotAllWars");
-                }
-                DocumentHolder docu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
-                List<String> dataFiledsNames = new ArrayList();
-                for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {
-                    dataFiledsNames.add("###" + f.getName() + "###");
+                if (null != at.getAttachmentFileSystemName() && !"".equalsIgnoreCase(at.getAttachmentFileSystemName())) {
+
+                    if (null == at.getAttachmentOutputName() || "".equalsIgnoreCase(at.getAttachmentOutputName())) {
+                        errors.rejectValue("index", "error.attachmentOutputNameNotNull");
+                        validateTemplate = Boolean.FALSE;
+                    }
+                    String extension = FilenameUtils.getExtension(at.getAttachmentName());
+                    PoiTypes type = null;
+                    try {
+                        type = PoiTypes.valueOf(extension.toUpperCase());
+                        if (!type.isTemplate()) {
+                            validateTemplate = Boolean.FALSE;
+                            errors.rejectValue("index", "error.cannotCustomizeNotSupportedType");
+                        }
+                    } catch (IllegalArgumentException ex) {
+
+                    }
+
+                    if (validateTemplate && at.getCustomizeAttachments()) {
+                        if (null != type) {
+                            DocumentHolder docu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
+                            List<String> dataFiledsNames = new ArrayList();
+                            for (DataStructureMetaField f : ds.getDataStructure().getDataStructureFields()) {
+                                dataFiledsNames.add("###" + f.getName() + "###");
+                            }
+
+                            if (at.getCustomizeAttachments() && !dataFiledsNames.containsAll(docu.getPlaceHolders())) {
+                                errors.rejectValue("index", "error.NotAllWars");
+
+                            }
+
+                        } else {
+
+                            errors.rejectValue("index", "error.cannotCustomizeUknownType");
+                        }
+                    }
+                } else {
+                    errors.rejectValue("index", "error.noFile");
+
                 }
 
-                if (at.getCustomizeAttachments() && !dataFiledsNames.containsAll(docu.getPlaceHolders())) {
-                           errors.rejectValue("index", "error.NotAllWars");
-
-                } 
                 i++;
             }
 

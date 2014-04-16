@@ -295,7 +295,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             };
 
             modalInstance = $modal.open({
-                windowClass: 'modal-campain',
+                windowClass: 'modal-attachment',
                 templateUrl: 'views/campain/attachment.html',
                 controller: 'CampainAttachmentController',
                 resolve: {
@@ -353,7 +353,8 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
         $scope.attachment = attachments.attachment;
         $scope.attachmentFileSystemName = attachments.attachment.attachmentFileSystemName;
         $scope.attachmentName = attachments.attachment.attachmentName;
-        $scope.attachmentFileType = attachments.attachment.attachmentFileType;
+        
+        $scope.attachmentFileType = (undefined === attachments.attachment.attachmentName) ? '' : attachments.attachment.attachmentName.substring(0,attachments.attachment.attachmentName.lastIndexOf("."));
         $scope.dataSourceId = attachments.datasourceId;
         $scope.dataStructureFields = attachments.dataStructureFields;
         $scope.previewType = 'pdf';
@@ -381,7 +382,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
             $scope.$apply(function() {
                 $scope.loadingfile = false;
                 $scope.attachmentFileSystemName = xhr.currentTarget.responseText;
-                $scope.attachmentName = name + $scope.attachment.index;
+                $scope.attachmentName = name ;
                 $scope.attachmentFileType = type;
                 $scope.UploadFile = undefined;
                 $scope.files = [];
