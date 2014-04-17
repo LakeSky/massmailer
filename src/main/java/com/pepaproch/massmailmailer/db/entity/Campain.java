@@ -230,6 +230,7 @@ public class Campain implements Serializable {
      * @param campainAttachments the campainAttachments to set
      */
     public void setCampainAttachments(Collection<CampainAttachment> campainAttachments) {
+  
         this.campainAttachments = campainAttachments;
     }
 

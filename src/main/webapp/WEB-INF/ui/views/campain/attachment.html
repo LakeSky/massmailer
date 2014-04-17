@@ -17,14 +17,14 @@
                 </div>
             </div>  
             <div class="col-md-4 well" >
-                Název souboru:  {{attachmentName}}<br/>Typ souboru: {{ attachmentFileType}} 
+                Název souboru:  {{form.attachmentName}}<br/>Typ souboru: {{ form.attachmentFileType}} 
             </div>
         </div>
         <div class="row">
             <div class="form-group">
                 <label class="control-label col-lg-4"   for="attachmentOutputName">Název přílohy</label>
                 <div class="col-lg-8">
-                    <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="attachment.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
+                    <input  class="form-control input-sm" type="text" id = "attachmentOutputName" name="attachmentOutputName" ng-model="form.attachmentOutputName"  interpol-model="attachmentOutputName" server-error="attachmentOutputName"/>
 
                 </div>
 
@@ -33,7 +33,8 @@
             <div class="form-group">
                 <label class="control-label col-lg-4"   for="attachmentOutputType">Převést do</label>
                 <div class="col-lg-4">
-                    <select class="form-control input-sm" id="attachmentOutputType"  ng-model="attachment.attachmentOutputType" ng-options="f.value as f.name for f in outputFormats">
+                    <select  class="form-control input-sm" id="attachmentOutputType"  ng-model="form.attachmentOutputType" ng-options="f.value as f.name for f in outputFormats"  ng-change="convert()" >
+                        <option value="">Zachovat</option>
                     </select>
                 </div>
 
@@ -44,7 +45,7 @@
             <div class="form-group">
                 <label class="control-label col-lg-4"  for="customizeAttachments">Přizpůsobit přílohu</label>
                 <div class="col-lg-8">
-                    <input  class="input-sm"  type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="attachment.customizeAttachments"  interpol-model="customizeAttachments" server-error="customizeAttachments"/>
+                    <input  class="input-sm"  type="checkbox" ng-change="customizeAttachment()" id = "customizeAttachments" name="customizeAttachments" ng-model="form.customizeAttachments"  />
 
                 </div>
             </div>

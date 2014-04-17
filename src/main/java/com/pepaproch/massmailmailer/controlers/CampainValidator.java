@@ -89,7 +89,9 @@ public class CampainValidator implements Validator {
                         type = PoiTypes.valueOf(extension.toUpperCase());
                         if (!type.isTemplate()) {
                             validateTemplate = Boolean.FALSE;
-                            errors.rejectValue("index", "error.cannotCustomizeNotSupportedType");
+                            if (at.getCustomizeAttachments()) {
+                                errors.rejectValue("index", "error.cannotCustomizeNotSupportedType");
+                            }
                         }
                     } catch (IllegalArgumentException ex) {
 

@@ -118,49 +118,31 @@
                 </div>
             </div>
             <div>
-                <div class="row" style="padding-top: 1em">
-
-                    <div class="col-lg-6">
-                        <a class="btn btn-default dropdown-toggle btn-sm              font-size: 12px;
-                           font-weight: 700;
-                           color: #bbb;
-                           text-transform: uppercase;
-                           letter-spacing: 1px;" ng-click="isCollapsed = !isCollapsed">
-                            <i class="glyphicon glyphicon-arrow-down glyphicon-sm" style="float: left; margin-right: 1em;padding: 2px 0;"></i> 
-                            <span style="letter-spacing: 1px;">Příloha</span></a>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-bottom: 1em;">
-                    <div class=" col-lg-10 col-lg-offset-1">
 
 
-                    </div>
 
-                </div>
-                <div class="row" style="margin-bottom: 1em;">
-                    <div class=" col-lg-10 col-lg-offset-1">
+                <table class="table table-condensed"> 
+                    <thead>
+                        <tr>
+                            <th class="col-lg-4 text-info" >Název zdrojového souboru</th>
+                            <th class="col-lg-4 text-info">Název přilohy</th>
+                            <th class="col-lg-1 text-info">Přizpůsobit přílohu</th>
+                            <th class="text-right"><button class="btn btn-success" ng-click="addAttachment()">Přidat přílohu</button></th>
+                        </tr>
 
-
-                    </div>
-
-                </div>
-
-                <div ng-repeat="a in Campain.campainAttachments track by a.index">
-                    <table> 
+                    </thead>
+                    <tbody  ng-repeat="a in Campain.campainAttachments track by a.index">
                         <tr>
                             <td>
                                 <div show-inter="campainAttachments[{{a.index}}].index"  class="alert alert-danger" ><error-message error="campainAttachments[{{a.index}}].index" ></error-message>  </div> 
                                 <input type="hidden" ng-model="a.index" interpol-model  server-error = "campainAttachments[{{a.index}}].index"  class="form-control input-sm" type="text" id = "campainAttachments[{{a.index}}].index" name="campainAttachments[{{a.index}}].index"  />
                             </td>
                         </tr>
-                    </table>
-
-                    <table class="table table-condensed"> 
                         <tr>
                             <td>
                                 {{a.attachmentName}}
                             </td>
+
                             <td>
                                 {{a.attachmentOutputName}}
                             </td>
@@ -170,18 +152,19 @@
 
                             <td>
                                 <button class="btn btn-primary btn-xs" ng-click="addAttachment(a)">Upravit přílohu</button>
-                         
+
                                 <button class="btn btn-primary btn-xs" ng-click="removeAttachment(a)">Odebrat přílohu</button>
-                          
+
                                 <button class="btn btn-warning btn-xs" ng-click="showAttachment(a)">Náhled</button>
                             </td>
                         </tr>
-                    </table>
+                    </tbody>
+                </table>
 
 
-                </div>
 
-                <button class="btn btn-success" ng-click="addAttachment()">Přidat přílohu</button>
+
+
 
             </div>
     </div>

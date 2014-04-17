@@ -254,10 +254,10 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         };
 
-  $scope.removeAttachment = function(att) { 
-     $scope.Campain.campainAttachments.splice(att.index,1);
-  
-  };
+        $scope.removeAttachment = function(att) {
+            $scope.Campain.campainAttachments.splice(att.index, 1);
+
+        };
         $scope.addAttachment = function(att) {
             var index = 0;
             var atObject = null;
@@ -271,11 +271,12 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             if (undefined === att || null === att) {
                 atObject = {
                     index: index
+                    
                 };
 
 
             } else {
-                $scope.form['campainAttachments['+att.index+'].index'].$setValidity('server', true);
+                $scope.form['campainAttachments[' + att.index + '].index'].$setValidity('server', true);
                 atObject = att;
 
             }
@@ -344,17 +345,19 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 // ----------
 dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'Entity', 'uploadService', '$modalInstance', 'attachments', function($rootScope, $scope, Entity, uploadService, $modalInstance, attachments) {
 
-  $scope.outputFormats = [
-    {name:'Word 97 (doc)', value:'doc'},
-    {name:'Word 2007 (docx)', value:'docx'},
-    {name:'PDF', value:'pdf'}
-  ];
+        $scope.outputFormats = [
+            {name: 'Word 97 (doc)', value: 'doc'},
+            {name: 'Word 2007 (docx)', value: 'docx'},
+            {name: 'PDF', value: 'pdf'}
+        ];
 
         $scope.attachment = attachments.attachment;
-        $scope.attachmentFileSystemName = attachments.attachment.attachmentFileSystemName;
-        $scope.attachmentName = attachments.attachment.attachmentName;
-        
-        $scope.attachmentFileType = (undefined === attachments.attachment.attachmentName) ? '' : attachments.attachment.attachmentName.substring(0,attachments.attachment.attachmentName.lastIndexOf("."));
+        $scope.form= {};
+        $scope.form.attachmentFileSystemName = attachments.attachment.attachmentFileSystemName;
+        $scope.form.attachmentName = attachments.attachment.attachmentName;
+        $scope.form.attachmentOutputName = attachments.attachment.attachmentOutputName;
+        $scope.form.attachmentFileType = (undefined === attachments.attachment.attachmentName) ? '' : attachments.attachment.attachmentName.substring(attachments.attachment.attachmentName.lastIndexOf("."));
+        $scope.form.attachmentOutputType = (attachments.attachment.attachmentOutputType === undefined) ? '' : attachments.attachment.attachmentOutputType;
         $scope.dataSourceId = attachments.datasourceId;
         $scope.dataStructureFields = attachments.dataStructureFields;
         $scope.previewType = 'pdf';
@@ -379,13 +382,20 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
 
         });
         $rootScope.$on('upload:succes', function(event, xhr, req, name, type) {
-            $scope.$apply(function() {
+              $rootScope.$apply(function() {
                 $scope.loadingfile = false;
-                $scope.attachmentFileSystemName = xhr.currentTarget.responseText;
-                $scope.attachmentName = name ;
-                $scope.attachmentFileType = type;
-                $scope.UploadFile = undefined;
+                $scope.form.attachmentFileSystemName = xhr.currentTarget.responseText;
+                $scope.form.attachmentName = name;
+                $scope.form.attachmentFileType = type;
+                $scope.form.UploadFile = undefined;
                 $scope.files = [];
+                $scope.form.attachmentOutputName = name;
+
+                if (undefined === $scope.attachmentOutputType || '' === $scope.attachmentOutputType) {
+                    $scope.form.attachmentOutputType = name.substring(name.lastIndexOf(".") + 1);
+
+                }
+
             });
         });
 
@@ -403,42 +413,53 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
                     TemplateFieldsPromise.$promise.then(function(result) {
                         $scope.templateFields = result.placeHolders;
                     });
+                }
+
+            }
+        };
 
 
+        $scope.convert = function() {
+            var value = $scope.form.attachmentOutputType;
+            if (undefined !== $scope.form.attachmentOutputName) {
+                var originaExt = $scope.form.attachmentOutputName.substring($scope.form.attachmentOutputName.lastIndexOf(".") + 1);
+                if (originaExt !== value) {
+                    var outputName = $scope.form.attachmentOutputName.substring(0, $scope.form.attachmentOutputName.lastIndexOf("."));
+
+                    $scope.form.attachmentOutputName = outputName + "." + value;
                 }
 
 
-
             }
-
-            $scope.previewUrl = '';
-
-            var query = '';
-            if (undefined !== $scope.attachment.customizeAttachments && $scope.attachment.customizeAttachments === true) {
-                query = query + '?datasourceId=' + encodeURIComponent($scope.dataSourceId) + '&fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
-
-            } else {
-                query = query + '?fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
-
-            }
-
-
-
-            $scope.previewUrl = path + query;
 
         };
+
+//        $scope.previewUrl = '';
+//
+//        var query = '';
+//        if (undefined !== $scope.attachment.customizeAttachments && $scope.attachment.customizeAttachments === true) {
+//            query = query + '?datasourceId=' + encodeURIComponent($scope.dataSourceId) + '&fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
+//
+//        } else {
+//            query = query + '?fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
+//
+//        }
+//
+//
+//
+//        $scope.previewUrl = path + query;
+
 
 
 
 
         $scope.ok = function() {
-
-            attachments.attachment.attachmentFileSystemName = $scope.attachmentFileSystemName;
-            attachments.attachment.attachmentName = $scope.attachmentName;
-            attachments.attachment.attachmentFileType = $scope.attachmentFileType;
-
-
-
+            attachments.attachment = $scope.attachment;
+            attachments.attachment.attachmentFileSystemName = $scope.form.attachmentFileSystemName;
+            attachments.attachment.attachmentName = $scope.form.attachmentName;
+            attachments.attachment.attachmentFileType = $scope.form.attachmentFileType;
+            attachments.attachment.attachmentOutputName = $scope.form.attachmentOutputName;
+            attachments.attachment.attachmentOutputType = $scope.form.attachmentOutputType;
             $modalInstance.close({
                 attachment: attachments.attachment
 
