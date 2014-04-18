@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="col-lg-8">
 
 
 
@@ -126,15 +126,15 @@
                         <tr>
                             <th class="col-lg-4 text-info" >Název zdrojového souboru</th>
                             <th class="col-lg-4 text-info">Název přilohy</th>
-                            <th class="col-lg-1 text-info">Přizpůsobit přílohu</th>
-                            <th class="text-right"><button class="btn btn-success" ng-click="addAttachment()">Přidat přílohu</button></th>
+                            <th class="col-lg-1 text-info">Přizpůsobit</th>
+                            <th class="text-right"><button class="btn btn-success btn-xs" ng-click="addAttachment()">Přidat přílohu</button></th>
                         </tr>
 
                     </thead>
                     <tbody  ng-repeat="a in Campain.campainAttachments track by a.index">
-                        <tr>
+                        <tr show-inter="campainAttachments[{{a.index}}].index" >
                             <td>
-                                <div show-inter="campainAttachments[{{a.index}}].index"  class="alert alert-danger" ><error-message error="campainAttachments[{{a.index}}].index" ></error-message>  </div> 
+                                <div  class="alert alert-danger" ><error-message error="campainAttachments[{{a.index}}].index" ></error-message>  </div> 
                                 <input type="hidden" ng-model="a.index" interpol-model  server-error = "campainAttachments[{{a.index}}].index"  class="form-control input-sm" type="text" id = "campainAttachments[{{a.index}}].index" name="campainAttachments[{{a.index}}].index"  />
                             </td>
                         </tr>
@@ -151,9 +151,9 @@
                             </td>
 
                             <td>
-                                <button class="btn btn-primary btn-xs" ng-click="addAttachment(a)">Upravit přílohu</button>
+                                <button class="btn btn-primary btn-xs" ng-click="addAttachment(a)">Upravit</button>
 
-                                <button class="btn btn-primary btn-xs" ng-click="removeAttachment(a)">Odebrat přílohu</button>
+                                <button class="btn btn-primary btn-xs" ng-click="removeAttachment(a)">Odebrat</button>
 
                                 <button class="btn btn-warning btn-xs" ng-click="showAttachment(a)">Náhled</button>
                             </td>

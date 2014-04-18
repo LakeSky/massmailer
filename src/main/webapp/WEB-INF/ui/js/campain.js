@@ -161,6 +161,8 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             $scope.Campain = null;
             $scope.errors = {};
             $scope.Campain = new Entity.Campain();
+            $scope.Campain.id = -1; 
+            
         } else {
             $scope.Campain = Entity.Campain.get({campainId: campainId}
             , function() {
@@ -358,6 +360,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
         $scope.form.attachmentOutputName = attachments.attachment.attachmentOutputName;
         $scope.form.attachmentFileType = (undefined === attachments.attachment.attachmentName) ? '' : attachments.attachment.attachmentName.substring(attachments.attachment.attachmentName.lastIndexOf("."));
         $scope.form.attachmentOutputType = (attachments.attachment.attachmentOutputType === undefined) ? '' : attachments.attachment.attachmentOutputType;
+                $scope.form.customizeAttachments = (attachments.attachment.customizeAttachments === undefined) ? false : attachments.attachment.customizeAttachments;
         $scope.dataSourceId = attachments.datasourceId;
         $scope.dataStructureFields = attachments.dataStructureFields;
         $scope.previewType = 'pdf';
@@ -460,6 +463,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
             attachments.attachment.attachmentFileType = $scope.form.attachmentFileType;
             attachments.attachment.attachmentOutputName = $scope.form.attachmentOutputName;
             attachments.attachment.attachmentOutputType = $scope.form.attachmentOutputType;
+            attachments.attachment.customizeAttachments = $scope.form.customizeAttachments;
             $modalInstance.close({
                 attachment: attachments.attachment
 
