@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 public class CampainSendServiceTest {
 
     @Autowired
-    private CampainSendService sendService;
+    private CampainCreateService sendService;
     @Autowired
     private CampainRepo campainRepo;
     @Autowired
@@ -144,14 +144,14 @@ public class CampainSendServiceTest {
     /**
      * @return the sendService
      */
-    public CampainSendService getSendService() {
+    public CampainCreateService getSendService() {
         return sendService;
     }
 
     /**
      * @param sendService the sendService to set
      */
-    public void setSendService(CampainSendService sendService) {
+    public void setSendService(CampainCreateService sendService) {
         this.sendService = sendService;
     }
 

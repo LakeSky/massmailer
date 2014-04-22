@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -20,4 +21,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface EmailRepo extends CrudRepository<Email,BigDecimal>{
      @Query("SELECT e FROM Email e WHERE campain.id = ?0")
     public Collection<Email> findByCampainId(BigDecimal id);
+    
+    @Query("SELECT e FROM Email e WHERE e.status = :status")
+    public Collection<Email> findByStaus(@Param("status") String status);
 }

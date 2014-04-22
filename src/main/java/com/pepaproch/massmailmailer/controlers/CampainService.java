@@ -31,45 +31,48 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class CampainService {
-
+    
     @Autowired
     private CampainRepo campainRepo;
     @Autowired
     private DataSourceRowsRep rowsRepository;
-
+    
     @PersistenceContext
     private EntityManager entityManager;
-
+    
     public Campain save(Campain c) throws FileNotFoundException {
         BigDecimal countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
+        if (c.getId().compareTo(BigDecimal.ONE.negate()) == 0) {
+            c.setId(null);
+        }
         c.setRecordsCount(countRows);
         c.setStatus("READY");
         for (CampainAttachment at : c.getCampainAttachments()) {
-            if(at.getCampain()==null) {
-            at.setCampain(c);
+            if (at.getCampain() == null) {
+                at.setCampain(c);
             }
             File file = new File("/tmp/" + at.getAttachmentFileSystemName());
             byte[] fileBytes = new byte[(int) file.length()];
             try (
                     InputStream inputStream = new FileInputStream(file);) {
                 inputStream.read(fileBytes);
-
+                
             } catch (IOException ex) {
-
+                
             }
-
+            
             at.setAttachment(fileBytes);
         }
-
+        
         return campainRepo.save(c);
-
+        
     }
 
     /**
      * @return the campainRepo
      */
     public CampainRepo getCampainRepo() {
-
+        
         return campainRepo;
     }
 
@@ -93,7 +96,7 @@ public class CampainService {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
+    
     public Campain findOne(BigDecimal campainId) {
         Campain findOne = campainRepo.findOne(campainId);
         for (CampainAttachment at : findOne.getCampainAttachments()) {
@@ -103,21 +106,21 @@ public class CampainService {
                         OutputStream outFile = new FileOutputStream("/tmp/" + at.getAttachmentFileSystemName());) {
                     int read;
                     outFile.write(docBytes);
-
+                    
                 } catch (IOException e) {
-
+                    
                 }
-
+                
             }
         }
-
+        
         return findOne;
     }
-
+    
     public List<Campain> findAll() {
         return (List<Campain>) campainRepo.findAll();
     }
-
+    
     void delete(BigDecimal campainId) {
         campainRepo.delete(campainId);
     }
@@ -135,5 +138,5 @@ public class CampainService {
     public void setRowsRepository(DataSourceRowsRep rowsRepository) {
         this.rowsRepository = rowsRepository;
     }
-
+    
 }

@@ -50,6 +50,8 @@ public class EmailRepoTest {
         
     }
     
+ 
+    
     private Email  createRecord() {
      Campain c = new Campain();
      c.setEmailText("test");

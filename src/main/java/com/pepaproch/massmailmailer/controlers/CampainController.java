@@ -48,7 +48,7 @@ public class CampainController {
     private CampainValidator campainValidator;
 
     @Autowired
-    private CampainSendService campainSendService;
+    private CampainCreateService campainSendService;
 
     /**
      *
@@ -69,7 +69,7 @@ public class CampainController {
         return getCampainService().findOne(campainId);
     }
 
-    @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(value = "edit/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
     @ResponseBody
     public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException, IOException {
 
@@ -88,6 +88,8 @@ public class CampainController {
         }
 
     }
+    
+    
 
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -165,14 +167,14 @@ public class CampainController {
     /**
      * @return the campainSendService
      */
-    public CampainSendService getCampainSendService() {
+    public CampainCreateService getCampainSendService() {
         return campainSendService;
     }
 
     /**
      * @param campainSendService the campainSendService to set
      */
-    public void setCampainSendService(CampainSendService campainSendService) {
+    public void setCampainSendService(CampainCreateService campainSendService) {
         this.campainSendService = campainSendService;
     }
 }

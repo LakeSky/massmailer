@@ -55,6 +55,8 @@ public class CampainRepoTest {
         assertNotNull(findAll);
 
     }
+    
+
 
     @Test
     public void insert() {
