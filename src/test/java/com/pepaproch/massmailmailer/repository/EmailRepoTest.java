@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
+import org.springframework.data.domain.PageRequest;
+
 /**
  *
  * @author pepa
@@ -24,13 +26,13 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 
 public class EmailRepoTest {
-    
+
     @Autowired
     private EmailRepo emailRepo;
-    
+
     @Autowired
     private CampainRepo campainRepo;
-    
+
     public EmailRepoTest() {
     }
 
@@ -40,27 +42,42 @@ public class EmailRepoTest {
     @Test
     public void testFindByCampainId() {
     }
-    
+
     @Test
     public void insertAndFidByCId() {
-     Email e =    emailRepo.save(createRecord());
+        Email e = emailRepo.save(createRecord());
         Collection<Email> findByCampainId = emailRepo.findByCampainId(e.getCampain().getId());
-        assertTrue(findByCampainId.size()==1);
-        
-        
+        assertTrue(findByCampainId.size() == 1);
+
+    }
+
+    @Test
+    public void testFindUnsent() {
+        List<Email> findUnsentPaginated = emailRepo.findUnsentPaginated(BigDecimal.ONE, BigDecimal.ONE, new PageRequest(0, 10));
+        assertNotNull(findUnsentPaginated);
     }
     
- 
-    
-    private Email  createRecord() {
-     Campain c = new Campain();
-     c.setEmailText("test");
-     c.setCampainName("dders");
-   
-     Email e = new Email();
-     e.setFromEmail("ss@kkl.cz");
-     e.setCampain(campainRepo.save(c));
-     return e;
+        @Test
+    public void testFindAll() {
+        Collection<Email> findUnsentPaginated = (Collection<Email>) emailRepo.findAll();
+        assertNotNull(findUnsentPaginated);
+    }
+
+    @Test
+    public void testCountUnsent() {
+        Long count = emailRepo.countUnsentPaginated(BigDecimal.ZERO, BigDecimal.ZERO);
+        assertTrue(count==0);
+    }
+
+    private Email createRecord() {
+        Campain c = new Campain();
+        c.setEmailText("test");
+        c.setCampainName("dders");
+
+        Email e = new Email();
+        e.setFromEmail("ss@kkl.cz");
+        e.setCampain(campainRepo.save(c));
+        return e;
 
     }
 
@@ -92,6 +109,4 @@ public class EmailRepoTest {
         this.campainRepo = campainRepo;
     }
 
- 
-    
 }

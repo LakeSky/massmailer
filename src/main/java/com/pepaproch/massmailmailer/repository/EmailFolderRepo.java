@@ -6,10 +6,10 @@
 
 package com.pepaproch.massmailmailer.repository;
 
-import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.Email;
+import com.pepaproch.massmailmailer.db.entity.EmailFolder;
 import java.math.BigDecimal;
-import java.util.Collection;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -17,10 +17,12 @@ import org.springframework.data.repository.CrudRepository;
  * @author pepa
  */
 
-public interface CampainRepo extends CrudRepository<Campain,BigDecimal>{
+public interface EmailFolderRepo extends CrudRepository<Email,BigDecimal> {
     
+     @Query("SELECT f FROM EmailFolder f WHERE f.id = ?0")
+    public EmailFolder findByEmailFolderId(BigDecimal id);
     
-    @Query("Select c from Campain c where c.status = ?0")
-    public Collection<Campain> findByStatus(String status);
+
     
+
 }

@@ -36,8 +36,7 @@ public class MailGunRestClient {
 
     private final RestTemplate template;
 
-    @Autowired
-    private EmailRepo emailrepo;
+
 
     @Autowired
     public MailGunRestClient(RestTemplate template) {
@@ -51,7 +50,7 @@ public class MailGunRestClient {
 
     }
 
-    public void sendEmail(Email e) {
+    public String sendEmail(Email e) {
         MultiValueMap formData = new MultipartMessageFactory("utf-8").getMessage(e);
         HttpHeaders headers = new HttpHeaders();
 
@@ -61,11 +60,8 @@ public class MailGunRestClient {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
 
         ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
-        System.out.println(postForEntity);
-        e.setSentDate(new Date());
-        e.setStatusDate(e.getSentDate());
-        e.setEmailStatus(postForEntity.getBody().getMessage());
-        emailrepo.save(e);
+        return postForEntity.getBody().getMessage();
+
 
     }
 
@@ -94,19 +90,7 @@ public class MailGunRestClient {
 
     }
 
-    /**
-     * @return the emailrepo
-     */
-    public EmailRepo getEmailrepo() {
-        return emailrepo;
-    }
 
-    /**
-     * @param emailrepo the emailrepo to set
-     */
-    public void setEmailrepo(EmailRepo emailrepo) {
-        this.emailrepo = emailrepo;
-    }
 
     void sendEmail(MultipartEmailMessage message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -9,6 +9,7 @@ package com.pepaproch.massmailmailer.db;
 import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
+import com.pepaproch.massmailmailer.db.entity.EmailFolder;
 import java.util.HashSet;
 
 /**
@@ -20,8 +21,9 @@ public class DefaultMailRecordBulder implements MailRecordBulder {
     private final Email email;
  
     
-    public DefaultMailRecordBulder() {
+    public DefaultMailRecordBulder(EmailFolder folder) {
         this.email = new Email();
+        this.email.setEmailFolder(folder);
     }
     
     @Override

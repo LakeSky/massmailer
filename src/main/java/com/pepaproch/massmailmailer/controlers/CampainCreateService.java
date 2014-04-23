@@ -14,6 +14,7 @@ import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
+import com.pepaproch.massmailmailer.db.entity.EmailFolder;
 import com.pepaproch.massmailmailer.mail.mailgun.MailGunRestClient;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
@@ -21,6 +22,7 @@ import com.pepaproch.massmailmailer.poi.DocumentFactory;
 import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
+import com.pepaproch.massmailmailer.repository.EmailFolderRepo;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -51,6 +53,9 @@ public class CampainCreateService {
     private ConvertService convertService;
     @Autowired
     private EmailRepo emailrepo;
+
+    @Autowired
+    private EmailFolderRepo emailFoldeRepo;
     @Autowired
     private MailGunRestClient mailgunClient;
 
@@ -74,15 +79,13 @@ public class CampainCreateService {
                 attachments.put(at.getId(), emailAttachmentdocu);
             }
         }
-
+        EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
         for (DataSourceRow r : findByDataSourceId) {
-
-            MailRecordBulder mlBulder = new DefaultMailRecordBulder();
+            MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
             mlBulder.setFrom("pepaproch@gmail.com");
             mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
             mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
             mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
-
             for (CampainAttachment at : c.getCampainAttachments()) {
                 if (at.getCustomizeAttachments()) {
 
@@ -209,5 +212,19 @@ public class CampainCreateService {
      */
     public void setMailgunClient(MailGunRestClient mailgunClient) {
         this.mailgunClient = mailgunClient;
+    }
+
+    /**
+     * @return the emailFoldeRepo
+     */
+    public EmailFolderRepo getEmailFoldeRepo() {
+        return emailFoldeRepo;
+    }
+
+    /**
+     * @param emailFoldeRepo the emailFoldeRepo to set
+     */
+    public void setEmailFoldeRepo(EmailFolderRepo emailFoldeRepo) {
+        this.emailFoldeRepo = emailFoldeRepo;
     }
 }
