@@ -28,19 +28,15 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class ConvertService {
 
-    private final Map<String,HashSet<String> > suportMap  = new HashMap<>() ;
+    private final Map<String, HashSet<String>> suportMap = new HashMap<>();
 
-    
     OfficeManager officeManager;
 
     @PersistenceContext
     private EntityManager entityManager;
 
     public ConvertService() {
-        
 
- 
- 
     }
 
     public void convert(String inFileName, String outFileName, Boolean removeInput) {
@@ -63,6 +59,7 @@ public class ConvertService {
     public byte[] convert(byte[] file, String inFileType, String outFileType, Boolean removeInput) throws IOException {
         FileOutputStream fos = new FileOutputStream("/tmp/tmpname." + inFileType);
         fos.write(file);
+        
         File inputFile = new File("/tmp/tmpname." + inFileType);
         File output = new File("/tmp/file.pdf");
         try {

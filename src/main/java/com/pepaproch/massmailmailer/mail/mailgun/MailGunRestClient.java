@@ -50,7 +50,7 @@ public class MailGunRestClient {
 
     }
 
-    public String sendEmail(Email e) {
+    public ResponseEntity<SentEmailResponse> sendEmail(Email e) {
         MultiValueMap formData = new MultipartMessageFactory("utf-8").getMessage(e);
         HttpHeaders headers = new HttpHeaders();
 
@@ -60,7 +60,7 @@ public class MailGunRestClient {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
 
         ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
-        return postForEntity.getBody().getMessage();
+        return postForEntity;
 
 
     }

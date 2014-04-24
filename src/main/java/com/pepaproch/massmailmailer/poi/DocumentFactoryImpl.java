@@ -8,7 +8,6 @@ package com.pepaproch.massmailmailer.poi;
 
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
-import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.WordDocument;
 import com.pepaproch.massmailmailer.poi.convert.WordXDocument;
 import java.io.FileNotFoundException;

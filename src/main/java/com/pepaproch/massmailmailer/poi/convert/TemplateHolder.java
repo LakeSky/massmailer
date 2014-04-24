@@ -18,4 +18,6 @@ public interface TemplateHolder {
     public Collection<String> getPlaceHolders();
 
     public String getDocumentText();
+    
+    
 }

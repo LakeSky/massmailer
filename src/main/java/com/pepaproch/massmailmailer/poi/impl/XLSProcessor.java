@@ -68,8 +68,14 @@ public class XLSProcessor implements PoiFlatFileHandler {
         }
         int recCount = 0;
         List<DataSourceRow> previewRows = new ArrayList();
+        it = rows.iterator();
         while(it.hasNext() && recCount<6) {
-              previewRows.add(new DataSourceRow("preview" + recCount  ,it.next()));
+            RowRecords next = it.next();
+            //skip header
+            if(recCount>0) {
+             previewRows.add(new DataSourceRow("preview" + recCount  ,next));
+            }
+        
         recCount++;
         }
         

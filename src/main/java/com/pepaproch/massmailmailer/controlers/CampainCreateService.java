@@ -24,11 +24,13 @@ import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.repository.EmailFolderRepo;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.WeakHashMap;
 import javax.transaction.Transactional;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -70,13 +72,15 @@ public class CampainCreateService {
         TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
         TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
         DocumentHolder emailAttachmentdocu = null;
-        WeakHashMap<BigDecimal, DocumentHolder> attachments = new WeakHashMap<>();
+        WeakHashMap<BigDecimal, Object> attachments = new WeakHashMap<>();
 
         for (CampainAttachment at : c.getCampainAttachments()) {
             if (at.getCustomizeAttachments()) {
                 DocumentFactory documentFactory = new DocumentFactoryImpl();
                 emailAttachmentdocu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
                 attachments.put(at.getId(), emailAttachmentdocu);
+            } else {
+                attachments.put(at.getId(), new File("/tmp/" + at.getAttachmentFileSystemName()));
             }
         }
         EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
@@ -84,21 +88,31 @@ public class CampainCreateService {
             MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
             mlBulder.setFrom("pepaproch@gmail.com");
             mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
-            mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
+//            mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
+            mlBulder.setReccipients("pepaproch@gmail.com", null, null);
             mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
             for (CampainAttachment at : c.getCampainAttachments()) {
-                if (at.getCustomizeAttachments()) {
+                byte[] finalAttachment = null;
+                byte[] proccesAttachment = null;
 
-                    byte[] proccesAttachment = proccesAttachment(attachments.get(at.getId()), ds, r);
-                    byte[] convert = getConvertService().convert(proccesAttachment, "doc", "pdf", Boolean.TRUE);
-                    mlBulder.setAttachment(convert, at.getAttachmentOutputName(), at.getAttachmentOutputType());
+                if (at.getCustomizeAttachments() && attachments.get(at.getId()) instanceof DocumentHolder) {
+                    proccesAttachment = proccesAttachment((DocumentHolder) attachments.get(at.getId()), ds, r);
+
+                } else if (attachments.get(at.getId()) instanceof File) {
+                    proccesAttachment = FileUtils.readFileToByteArray((File) attachments.get(at.getId()));
                 }
+                if (!at.getAttachmentFileType().equalsIgnoreCase(at.getAttachmentOutputType())) {
+                    finalAttachment = getConvertService().convert(proccesAttachment, at.getAttachmentFileType(), at.getAttachmentOutputType(), Boolean.TRUE);
+                } else {
+                    finalAttachment = proccesAttachment;
+                }
+
+                mlBulder.setAttachment(finalAttachment, at.getAttachmentOutputName(), at.getAttachmentOutputType());
 
             }
 
             mlBulder.setCampain(c);
-            Email save = emailrepo.save(mlBulder.getEmail());
-            mailgunClient.sendEmail(save);
+            Email save = emailrepo.saveAndFlush(mlBulder.getEmail());
 
         }
         c.setStatus("SENDING");

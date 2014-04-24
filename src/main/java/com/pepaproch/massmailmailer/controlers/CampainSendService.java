@@ -9,14 +9,17 @@ import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.db.entity.EmailFolder;
 import com.pepaproch.massmailmailer.mail.mailgun.MailGunRestClient;
+import com.pepaproch.massmailmailer.mail.mailgun.SentEmailResponse;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
 import com.pepaproch.massmailmailer.repository.EmailFolderRepo;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,25 +35,28 @@ public class CampainSendService {
 
     @Autowired
     private EmailRepo emailrepo;
-        @Autowired
+    @Autowired
     private EmailFolderRepo emailFolderrepo;
     @Autowired
     private CampainRepo campainRepo;
     @Autowired
     private MailGunRestClient mailgunClient;
 
+    
+    
     private void findNotsentCampains() {
         Collection<Campain> findByStatus = campainRepo.findByStatus("SENDING");
         EmailFolder folder = emailFolderrepo.findByEmailFolderId(EmailFolder.FOLDER_OUTBOX);
         for (Campain c : findByStatus) {
             Collection<Email> findUnsentPaginated = emailrepo.findUnsentPaginated(c.getId(), folder.getId(), new PageRequest(page, size));
             for (Email e : findUnsentPaginated) {
-                String status = mailgunClient.sendEmail(e);
+                ResponseEntity<SentEmailResponse> status = mailgunClient.sendEmail(e);
                 System.out.println(status);
                 e.setSentDate(new Date());
                 e.setEmailFolder(folder);
                 e.setStatusDate(e.getSentDate());
-                e.setEmailStatus(status);
+                e.setEmailStatus(status.getBody().getMessage());
+                e.setMessageId(status.getBody().getId());
                 emailrepo.save(e);
             }
             updateCampainStatus(c);
@@ -59,7 +65,8 @@ public class CampainSendService {
     }
 
     private void updateCampainStatus(Campain c) {
-    
+        c.setRecordsSent(c.getRecordsCount().subtract(new BigDecimal(emailrepo.countUnsentPaginated(c.getId(), EmailFolder.FOLDER_OUTGOING))));
+        campainRepo.save(c);
     }
 
     /**

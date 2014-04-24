@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -37,6 +38,7 @@ public class CampainAttachment implements Serializable {
     @Column(name = "INDEX")
     private BigDecimal index;
 
+    @JsonIgnore
     @JoinColumn(name = "CAMPAIN_ID")
     @ManyToOne
     private Campain campain;

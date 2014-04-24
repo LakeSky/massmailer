@@ -34,7 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
 
-    private int currentPoss = 0;
+
     private int rowCount;
     private Sheet sheet;
 
@@ -47,7 +47,7 @@ public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
     @Override
     public Iterator<RowRecords> iterator() {
         return new Iterator<RowRecords>() {
-
+    private int currentPoss = 0;
             @Override
             public boolean hasNext() {
                 return (currentPoss <= rowCount);
@@ -116,7 +116,7 @@ public class XSSRowToSrcRowMapper implements RowMapper<RowRecords> {
     }
 
     private void setUp(File f) {
-        currentPoss = 0;
+       
 
         try (InputStream inp = new BufferedInputStream(new FileInputStream(f));) {
 

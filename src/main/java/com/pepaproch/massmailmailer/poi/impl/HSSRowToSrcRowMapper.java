@@ -34,7 +34,7 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
 
-    private int currentPoss = 0;
+ 
     private int rowCount;
     private Sheet sheet;
    
@@ -48,7 +48,7 @@ public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
     @Override
     public Iterator<RowRecords> iterator() {
         return new Iterator<RowRecords>() {
-
+   private int currentPoss = 0;
             @Override
             public boolean hasNext() {
                 return (currentPoss <= rowCount);
@@ -113,7 +113,7 @@ public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
     }
 
     private void setUp(File f) {
-        currentPoss = 0;
+
         InputStream inp;
 
         try {

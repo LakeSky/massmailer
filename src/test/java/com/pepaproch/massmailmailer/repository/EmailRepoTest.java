@@ -59,8 +59,8 @@ public class EmailRepoTest {
     
         @Test
     public void testFindAll() {
-        Collection<Email> findUnsentPaginated = (Collection<Email>) emailRepo.findAll();
-        assertNotNull(findUnsentPaginated);
+        Collection<Email> findALl= (Collection<Email>) emailRepo.findAll();
+        assertNotNull(findALl);
     }
 
     @Test

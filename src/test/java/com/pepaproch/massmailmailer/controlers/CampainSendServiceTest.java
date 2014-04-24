@@ -7,10 +7,7 @@ package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
-import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
-import com.pepaproch.massmailmailer.repository.EmailRepo;
-import java.util.Collection;
 import java.util.HashSet;
 import javax.transaction.Transactional;
 import org.junit.Test;
@@ -19,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -32,11 +28,10 @@ import static org.junit.Assert.*;
 public class CampainSendServiceTest {
 
     @Autowired
-    private CampainCreateService sendService;
+    private CampainCreateService createService;
     @Autowired
     private CampainRepo campainRepo;
-    @Autowired
-    private EmailRepo emailrepo;
+
 
     public CampainSendServiceTest() {
     }
@@ -63,13 +58,13 @@ public class CampainSendServiceTest {
         at.setCampain(c);
         ats.add(at);
         CampainAttachment ata = new CampainAttachment();
-        ata.setAttachmentName("testsave.doc");
-        ata.setAttachmentFileType("doc");
-        ata.setAttachmentFileSystemName("test.doc");
-        ata.setAttachmentFileType("pdf");
-        ata.setAttachmentOutputName("output.pdf");
-        ata.setAttachmentOutputType("pdf");
-        ata.setCustomizeAttachments(Boolean.TRUE);
+        ata.setAttachmentName("testsave.odt");
+        ata.setAttachmentFileType("odt");
+        ata.setAttachmentFileSystemName("test.odt");
+        ata.setAttachmentFileType("odt");
+        ata.setAttachmentOutputName("output.odt");
+        ata.setAttachmentOutputType("odt");
+        ata.setCustomizeAttachments(Boolean.FALSE);
         ata.setCampain(c);
         ats.add(ata);
 
@@ -78,10 +73,8 @@ public class CampainSendServiceTest {
         c.setEmailText("<p>nasleduje test STRING: ###STRING### </p>");
         c.setSubject("###STRING### : STRING");
         c.setDataSourceId("52fcd88844aef19a6f3c74db");
-        Campain save = campainRepo.save(c);
-        sendService.processCampain(c);
-        Collection<Email> findByCampainId = emailrepo.findByCampainId(save.getId());
-        assertTrue(findByCampainId.size() > 0);
+        createService.processCampain(c);
+
 
     }
 
@@ -145,28 +138,16 @@ public class CampainSendServiceTest {
      * @return the sendService
      */
     public CampainCreateService getSendService() {
-        return sendService;
+        return createService;
     }
 
     /**
      * @param sendService the sendService to set
      */
     public void setSendService(CampainCreateService sendService) {
-        this.sendService = sendService;
+        this.createService = sendService;
     }
 
-    /**
-     * @return the emailrepo
-     */
-    public EmailRepo getEmailrepo() {
-        return emailrepo;
-    }
 
-    /**
-     * @param emailrepo the emailrepo to set
-     */
-    public void setEmailrepo(EmailRepo emailrepo) {
-        this.emailrepo = emailrepo;
-    }
 
 }

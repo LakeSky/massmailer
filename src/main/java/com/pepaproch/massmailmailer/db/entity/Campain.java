@@ -55,11 +55,14 @@ public class Campain implements Serializable {
 
     @Column(name = "RECORDS_COUNT")
     private BigDecimal recordsCount;
+    
+        @Column(name = "RECORDS_SENT")
+    private BigDecimal recordsSent;
 
     @Column(name = "STATUS")
     private String status;
     
-    @OneToMany(mappedBy = "campain",cascade = CascadeType.PERSIST,fetch = javax.persistence.FetchType.EAGER)
+    @OneToMany(mappedBy = "campain",cascade = CascadeType.ALL,fetch = javax.persistence.FetchType.EAGER)
     private Collection<CampainAttachment> campainAttachments; 
 
     /**
@@ -232,6 +235,20 @@ public class Campain implements Serializable {
     public void setCampainAttachments(Collection<CampainAttachment> campainAttachments) {
   
         this.campainAttachments = campainAttachments;
+    }
+
+    /**
+     * @return the recordsSent
+     */
+    public BigDecimal getRecordsSent() {
+        return recordsSent;
+    }
+
+    /**
+     * @param recordsSent the recordsSent to set
+     */
+    public void setRecordsSent(BigDecimal recordsSent) {
+        this.recordsSent = recordsSent;
     }
 
 

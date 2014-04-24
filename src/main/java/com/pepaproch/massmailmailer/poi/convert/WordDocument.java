@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Paragraph;
 import org.apache.poi.hwpf.usermodel.ParagraphProperties;
-import org.apache.poi.hwpf.usermodel.Range;
 
 /**
  *

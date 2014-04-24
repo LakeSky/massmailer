@@ -54,7 +54,7 @@ public class CampainService {
             File file = new File("/tmp/" + at.getAttachmentFileSystemName());
             byte[] fileBytes = new byte[(int) file.length()];
             try (
-                    InputStream inputStream = new FileInputStream(file);) {
+                InputStream inputStream = new FileInputStream(file);) {
                 inputStream.read(fileBytes);
                 
             } catch (IOException ex) {

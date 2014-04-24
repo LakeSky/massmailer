@@ -360,7 +360,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
         $scope.form.attachmentOutputName = attachments.attachment.attachmentOutputName;
         $scope.form.attachmentFileType = (undefined === attachments.attachment.attachmentName) ? '' : attachments.attachment.attachmentName.substring(attachments.attachment.attachmentName.lastIndexOf("."));
         $scope.form.attachmentOutputType = (attachments.attachment.attachmentOutputType === undefined) ? '' : attachments.attachment.attachmentOutputType;
-                $scope.form.customizeAttachments = (attachments.attachment.customizeAttachments === undefined) ? false : attachments.attachment.customizeAttachments;
+        $scope.form.customizeAttachments = (attachments.attachment.customizeAttachments === undefined) ? false : attachments.attachment.customizeAttachments;
         $scope.dataSourceId = attachments.datasourceId;
         $scope.dataStructureFields = attachments.dataStructureFields;
         $scope.previewType = 'pdf';
@@ -389,7 +389,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
                 $scope.loadingfile = false;
                 $scope.form.attachmentFileSystemName = xhr.currentTarget.responseText;
                 $scope.form.attachmentName = name;
-                $scope.form.attachmentFileType = type;
+                $scope.form.attachmentFileType = name.substring(name.lastIndexOf(".") + 1);
                 $scope.form.UploadFile = undefined;
                 $scope.files = [];
                 $scope.form.attachmentOutputName = name;

@@ -64,6 +64,7 @@ CREATE TABLE "CAMPAIN"  (
 	"CUSTOMIZE_EMAIL"            	SMALLINT,
 	"STATUS"            	VARCHAR(255) ,
 	"RECORDS_COUNT"          DECIMAL(10,5) ,
+	"RECORDS_SENT"          DECIMAL(10,5) ,
 	CONSTRAINT "campain_px" PRIMARY KEY("ID")
 );
 
