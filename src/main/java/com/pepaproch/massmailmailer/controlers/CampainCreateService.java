@@ -21,6 +21,7 @@ import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.poi.DocumentFactory;
 import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
+import com.pepaproch.massmailmailer.poi.convert.SimpleDocument;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.repository.EmailFolderRepo;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
@@ -80,10 +81,12 @@ public class CampainCreateService {
                 emailAttachmentdocu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
                 attachments.put(at.getId(), emailAttachmentdocu);
             } else {
-                attachments.put(at.getId(), new File("/tmp/" + at.getAttachmentFileSystemName()));
+                attachments.put(at.getId(), new  SimpleDocument(new File("/tmp/" + at.getAttachmentFileSystemName())));
             }
         }
+        
         EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
+        int i = 1;
         for (DataSourceRow r : findByDataSourceId) {
             MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
             mlBulder.setFrom("pepaproch@gmail.com");
@@ -98,8 +101,8 @@ public class CampainCreateService {
                 if (at.getCustomizeAttachments() && attachments.get(at.getId()) instanceof DocumentHolder) {
                     proccesAttachment = proccesAttachment((DocumentHolder) attachments.get(at.getId()), ds, r);
 
-                } else if (attachments.get(at.getId()) instanceof File) {
-                    proccesAttachment = FileUtils.readFileToByteArray((File) attachments.get(at.getId()));
+                } else if (attachments.get(at.getId()) instanceof SimpleDocument) {
+                    proccesAttachment = ((SimpleDocument)attachments.get(at.getId())).getOutputStream();
                 }
                 if (!at.getAttachmentFileType().equalsIgnoreCase(at.getAttachmentOutputType())) {
                     finalAttachment = getConvertService().convert(proccesAttachment, at.getAttachmentFileType(), at.getAttachmentOutputType(), Boolean.TRUE);
@@ -110,14 +113,19 @@ public class CampainCreateService {
                 mlBulder.setAttachment(finalAttachment, at.getAttachmentOutputName(), at.getAttachmentOutputType());
 
             }
-
+           
             mlBulder.setCampain(c);
+            System.out.println("EMAIL CREATED: " + i);
+            i++;
             Email save = emailrepo.saveAndFlush(mlBulder.getEmail());
 
         }
         c.setStatus("SENDING");
         campainService.getCampainRepo().save(c);
     }
+    
+    
+    private Email buildEmail()
 
     public String proccesEmailBody(TextDocumentHolder emailText, DataStructure ds, DataSourceRow r) {
 
@@ -240,5 +248,9 @@ public class CampainCreateService {
      */
     public void setEmailFoldeRepo(EmailFolderRepo emailFoldeRepo) {
         this.emailFoldeRepo = emailFoldeRepo;
+    }
+
+    Email geCreatePreview(BigDecimal campainId, BigDecimal emailIdx) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -40,8 +40,13 @@ public class Email implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false)
+    
+    @Column(name = "C_INDEX")
     private BigDecimal id;
+    
+     @Column(name = "ID", nullable = false)
+    private BigDecimal campainBatchIndex;
+    
     @Column(name = "MESSAGE_ID")
     private String messageId;
     
@@ -318,6 +323,20 @@ public class Email implements Serializable {
      */
     public void setAttachments(Collection<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    /**
+     * @return the campainBatchIndex
+     */
+    public BigDecimal getCampainBatchIndex() {
+        return campainBatchIndex;
+    }
+
+    /**
+     * @param campainBatchIndex the campainBatchIndex to set
+     */
+    public void setCampainBatchIndex(BigDecimal campainBatchIndex) {
+        this.campainBatchIndex = campainBatchIndex;
     }
 
 }

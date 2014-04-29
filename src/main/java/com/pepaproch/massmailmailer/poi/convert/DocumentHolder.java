@@ -12,9 +12,9 @@ import java.io.IOException;
  *
  * @author pepa
  */
-public interface DocumentHolder extends TemplateHolder,SimpleFileHolder{
+public interface DocumentHolder extends TemplateHolder{
 
-
+       public byte[] getOutputStream();
     public void procces(TemplateDataItem item, String outputFileName) throws FileNotFoundException, IOException;
     public void write(String outputFileName) throws FileNotFoundException, IOException;
     public TemplateMeta getTemplateMeta();

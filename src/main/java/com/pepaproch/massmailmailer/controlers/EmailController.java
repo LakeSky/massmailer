@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.controlers;
 import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
 import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.Email;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,13 +40,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author pepa
  */
 @Controller
-@RequestMapping("/campain")
-public class CampainController {
+@RequestMapping("/email")
+public class EmailController {
 
     @Autowired
     private CampainService campainService;
-    @Autowired
-    private CampainValidator campainValidator;
+
 
     @Autowired
     private CampainCreateService campainSendService;
@@ -54,50 +54,22 @@ public class CampainController {
      *
      * @return
      */
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value="/emails/{campainId}",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-
-    public List<Campain> listCampain() {
-
-        return getCampainService().findAll();
+    public List<Email> listEmails() {
+        return null;
     }
 
-    @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{campainId}/{emailidx}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public Campain getCampain(@PathVariable("campainId") BigDecimal campainId) {
-        return getCampainService().findOne(campainId);
+    public Email getEmailPreview(@PathVariable("campainId") BigDecimal campainId, BigDecimal emailIdx ) {
+    Email email =  campainSendService.geCreatePreview(campainId,emailIdx);
+    return email;
     }
 
-    @RequestMapping(value = "/{campainId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.PUT, RequestMethod.POST})
-    @ResponseBody
-    public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException, IOException {
-        if (result.hasErrors()) {
-            List<FieldError> fieldErrors = result.getFieldErrors();
-            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
-            return errorResponse;
-        } else {
-              Campain campainSaved = getCampainService().save(campain);
-//            if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
-//                campainSendService.processCampain(campainSaved);
-//            }
 
-            ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
-            return responseEntity;
-        }
 
-    }
-    
-    
-
-    @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity deleteDataSource(@PathVariable("campainId") BigDecimal campainId) {
-        getCampainService().delete(campainId);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-
-    }
-
-    public CampainController() {
+    public EmailController() {
     }
 
     /**

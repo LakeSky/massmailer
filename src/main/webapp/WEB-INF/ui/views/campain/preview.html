@@ -1,0 +1,200 @@
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="glyphicon glyphicon-send glyphicon-sm" style="float: left; margin-right: 1em;padding: 2px 0;"></div>
+        <h3 class="panel-title">Email: {{Campain.campainName}}</h3>
+    </div>
+    <div class="panel-body">
+
+        <form  class="form-horizontal" ng-submit="save()" name="form"   >
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <span style="
+                          font-size: 12px;
+                          font-weight: 700;
+                          color: #bbb;
+                          text-transform: uppercase;
+                          letter-spacing: 1px;">Kampaň</span>
+                    <input type="hidden" ng-model="Campain.id" interpol-model="id" server-error="id" name="id"/>
+                    <div class="form-group">
+                        <label  class="control-label col-lg-3" for="campainName">Název</label>
+                        <div class="col-lg-9" >
+                            <div show-inter="campainName"  class="alert alert-danger " ><error-message error="campainName" ></error-message>  </div> 
+
+                            <input  class="form-control input-sm" type="text" id = "campainName" name="campainName" ng-model="Campain.campainName"  interpol-model="campainName" server-error="campainName"/>
+
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        <input class="form-control"  type="hidden" id = "dataSourceId" name="dataSourceId" ng-model="Campain.dataSourceId"  interpol-model="dataSourceId" server-error="dataSourceId"/>
+                        <label  class="control-label col-lg-3" for="datasourceSelected">Datový zdroj</label>
+                        <div class="col-lg-9">
+                            <input type="text" ng-model="datasourceSelected" placeholder="Vyhledat datový zdroj" typeahead-loading="loadingLocations"  typeahead="datasource as datasource.name for datasource in searchDataSources($viewValue) | filter:{name: $viewValue}"  typeahead-on-select="onDatasourceSelected($item)" class="form-control input-xs">
+                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                            <div class="errors"  show-inter="dataSourceId" >
+                                <error-message error="dataSourceId" ></error-message>   
+                            </div>
+                        </div>
+
+                    </div>  
+                </div>
+            </div>    
+            </tab>
+            <div>
+                <div class="row" style="padding-top: 1em">
+                    <div class="col-lg-6">
+                        <span style="
+                              font-size: 12px;
+                              font-weight: 700;
+                              color: #bbb;
+                              text-transform: uppercase;
+                              letter-spacing: 1px;">Email</span>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-3"  for="recipients">Adresát</label>
+                            <div class="col-lg-9">
+                                <input typeahead-editable="false" ng-disabled="datasourceSelected === undefined || datasourceSelected === null || datasourceSelected === ''"  typeahead="field for field in getEmailFields($viewValue) | filter:$viewValue" class="form-control input-sm" type="text" id = "recipients" name="recipients" ng-model="Campain.recipients"  interpol-model="recipients" server-error="recipients"/>
+
+                                <div class="errors"  show-inter="recipients" >
+                                    <error-message error="recipients" ></error-message>   
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="form-group">
+                            <label class="control-label col-lg-3"  for="bccRecipients">Adresát kopie</label>
+                            <div class="col-lg-9">
+                                <input typeahead-editable="false" ng-disabled="datasourceSelected === undefined || datasourceSelected === null || datasourceSelected === ''"  typeahead="field for field in getEmailFields($viewValue) | filter:$viewValue" c  class="form-control input-sm" type="text" id = "bccRecipients" name="bccRecipients" ng-model="Campain.bccRecipients"  interpol-model="bccRecipients" server-error="bccRecipients"/>
+                                <div class="errors"  show-inter="bccRecipients" >
+                                    <error-message error="bccRecipients" ></error-message>   
+                                </div>
+                            </div>
+                        </div>  
+
+
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row" style="padding-top: 1em">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+
+                            <label class="control-label col-lg-3"   for="recipients">Předmět</label>
+                            <div class="col-lg-9">
+                                <input  class="form-control inpsmut-sm" type="text" id = "subject" name="subject" ng-model="Campain.subject"  interpol-model="subject" server-error="subject"/>
+                                <div class="errors"  show-inter="subject" >
+                                    <error-message error="subject" ></error-message>   
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <textarea cols="60" id="rr" rows="30"  class="ckeditor" style="width: 800px;height: 300px; z-index: 100;" ng-model="Campain.emailText" >
+               
+                        </textarea>
+                    </div>
+                    <div class="col-lg-4">
+
+                        <h4 style="
+                            font-size: 12px;
+                            font-weight: 700;
+                            color: #bbb;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;">Dostupné proměné</h4>
+                        <p ng-repeat="f in datasourceSelected.dataStructure.dataStructureFields">
+
+                            ###{{f.name}}###
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+
+
+
+                <table class="table table-condensed"> 
+                    <thead>
+                        <tr>
+                            <th class="col-lg-4 text-info" >Název zdrojového souboru</th>
+                            <th class="col-lg-4 text-info">Název přilohy</th>
+                            <th class="col-lg-1 text-info">Přizpůsobit</th>
+                            <th class="text-right"><button class="btn btn-success btn-xs" ng-click="addAttachment()">Přidat přílohu</button></th>
+                        </tr>
+
+                    </thead>
+                    <tbody  ng-repeat="a in Campain.campainAttachments track by a.index">
+                        <tr show-inter="campainAttachments[{{a.index}}].index" >
+                            <td>
+                                <div  class="alert alert-danger" ><error-message error="campainAttachments[{{a.index}}].index" ></error-message>  </div> 
+                                <input type="hidden" ng-model="a.index" interpol-model  server-error = "campainAttachments[{{a.index}}].index"  class="form-control input-sm" type="text" id = "campainAttachments[{{a.index}}].index" name="campainAttachments[{{a.index}}].index"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{a.attachmentName}}
+                            </td>
+
+                            <td>
+                                {{a.attachmentOutputName}}
+                            </td>
+                            <td>
+                                {{a.customizeAttachments}}
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-xs" ng-click="addAttachment(a)">Upravit</button>
+
+                                <button class="btn btn-primary btn-xs" ng-click="removeAttachment(a)">Odebrat</button>
+
+                                <button class="btn btn-warning btn-xs" ng-click="showAttachment(a)">Náhled</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+
+
+
+            </div>
+    </div>
+
+
+</form>
+
+
+<div class="row " >
+    <div class="col-lg-12 text-right">
+        <button class="btn btn-success" ng-click="sent()">Odeslat</button>
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="js/ckeditor/ckeditor.js"></script>
+
+
