@@ -8,7 +8,7 @@ package com.pepaproch.massmailmailer.controlers;
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
+
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.transaction.Transactional;
@@ -44,10 +44,10 @@ public class CampainServiceTest {
         Files.copy(f.toPath(), oF.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    public BigDecimal testSave() throws Exception {
+    public Long testSave() throws Exception {
 
         Campain c = new Campain();
-        c.setId(new BigDecimal("333333"));
+        c.setId(new Long("333333"));
         c.setCampainName("CampainName");
 //        c.setAttachmentName("testsave.doc");
         return service.save(c).getId();
@@ -61,7 +61,7 @@ public class CampainServiceTest {
      */
     @Test
     public void testFindOne() throws Exception {
-        BigDecimal testSave = testSave();
+        Long testSave = testSave();
 
         File oF = new File("/tmp/testsave.doc");
         if (oF.exists()) {

@@ -64,7 +64,7 @@ public class CampainController {
 
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public Campain getCampain(@PathVariable("campainId") BigDecimal campainId) {
+    public Campain getCampain(@PathVariable("campainId") Long campainId) {
         return getCampainService().findOne(campainId);
     }
 
@@ -77,9 +77,9 @@ public class CampainController {
             return errorResponse;
         } else {
               Campain campainSaved = getCampainService().save(campain);
-//            if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
-//                campainSendService.processCampain(campainSaved);
-//            }
+            if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
+                campainSendService.processCampain(campainSaved);
+            }
 
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;
@@ -91,7 +91,7 @@ public class CampainController {
 
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity deleteDataSource(@PathVariable("campainId") BigDecimal campainId) {
+    public ResponseEntity deleteDataSource(@PathVariable("campainId") Long campainId) {
         getCampainService().delete(campainId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
 

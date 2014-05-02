@@ -5,7 +5,6 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.Files;
 import com.pepaproch.massmailmailer.service.UserService;
 import java.io.File;
 import java.io.IOException;
@@ -38,15 +37,7 @@ public class FilesController {
     @Autowired
     private UserService userService;
 
-    /**
-     *
-     * @return
-     */
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    @ResponseBody
-    public List<Files> listFiles() {
-        return (List) userService.listUsers();
-    }
+
 
     @ResponseBody
     @RequestMapping(produces = MediaTypes.MEDIA_TYPEJSONUTF8VALUE, method = {RequestMethod.PUT, RequestMethod.POST})

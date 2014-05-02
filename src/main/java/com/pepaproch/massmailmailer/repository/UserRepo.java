@@ -7,6 +7,7 @@
 package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.Users;
+import java.math.BigDecimal;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -14,6 +15,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author pepa
  */
 
-public interface UserRepo extends CrudRepository<Users,Integer>{
+public interface UserRepo extends CrudRepository<Users,BigDecimal>{
     
 }

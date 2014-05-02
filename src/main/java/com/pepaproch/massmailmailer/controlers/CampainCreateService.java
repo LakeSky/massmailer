@@ -73,7 +73,7 @@ public class CampainCreateService {
         TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
         TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
         DocumentHolder emailAttachmentdocu = null;
-        WeakHashMap<BigDecimal, Object> attachments = new WeakHashMap<>();
+        WeakHashMap<Long, Object> attachments = new WeakHashMap<>();
 
         for (CampainAttachment at : c.getCampainAttachments()) {
             if (at.getCustomizeAttachments()) {
@@ -125,7 +125,9 @@ public class CampainCreateService {
     }
     
     
-    private Email buildEmail()
+    private  Email buildEmail() {
+        return null;
+    }
 
     public String proccesEmailBody(TextDocumentHolder emailText, DataStructure ds, DataSourceRow r) {
 

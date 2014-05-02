@@ -6,7 +6,7 @@
 package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.Email;
-import java.math.BigDecimal;
+
 import java.util.Collection;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -21,17 +21,17 @@ import org.springframework.data.repository.query.Param;
  *
  * @author pepa
  */
-public interface EmailRepo extends CrudRepository<Email, BigDecimal>, PagingAndSortingRepository<Email, BigDecimal>,JpaRepository<Email, BigDecimal> {
+public interface EmailRepo extends CrudRepository<Email, Long>, PagingAndSortingRepository<Email, Long>,JpaRepository<Email, Long> {
 
     @Query("SELECT e FROM Email e WHERE campain.id = :campainId")
-    public Collection<Email> findByCampainId(@Param("campainId") BigDecimal campainId);
+    public Collection<Email> findByCampainId(@Param("campainId") Long campainId);
 
     @Query("SELECT e FROM Email e WHERE e.emailStatus = :status")
     public Collection<Email> getByStatus(@Param("status") String status);
 
     @Query("SELECT e FROM Email e WHERE e.campain.id = :campainId and e.emailFolder.id = :folderId")
-    public List<Email> findUnsentPaginated(@Param("campainId")  BigDecimal campainId,@Param("folderId") BigDecimal folderId, Pageable page);
+    public List<Email> findUnsentPaginated(@Param("campainId")  Long campainId,@Param("folderId") Long folderId, Pageable page);
 
     @Query(value = "SELECT count(e) FROM Email e WHERE e.campain.id = :campainId and e.emailFolder.id = :folderId")
-    public long countUnsentPaginated(@Param("campainId") BigDecimal campainId,@Param("folderId") BigDecimal folderId);
+    public long countUnsentPaginated(@Param("campainId") Long campainId,@Param("folderId") Integer folderId);
 }

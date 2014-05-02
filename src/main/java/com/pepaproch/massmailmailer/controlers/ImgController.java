@@ -6,7 +6,6 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.controlers.forms.ImageFolder;
-import com.pepaproch.massmailmailer.db.Files;
 import com.pepaproch.massmailmailer.service.UserService;
 import java.io.File;
 import java.io.IOException;

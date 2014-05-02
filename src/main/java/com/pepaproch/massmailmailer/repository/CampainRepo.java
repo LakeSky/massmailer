@@ -7,7 +7,7 @@
 package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
-import java.math.BigDecimal;
+
 import java.util.Collection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,7 +17,7 @@ import org.springframework.data.repository.CrudRepository;
  * @author pepa
  */
 
-public interface CampainRepo extends CrudRepository<Campain,BigDecimal>{
+public interface CampainRepo extends CrudRepository<Campain,Long>{
     
     
     @Query("Select c from Campain c where c.status = ?0")

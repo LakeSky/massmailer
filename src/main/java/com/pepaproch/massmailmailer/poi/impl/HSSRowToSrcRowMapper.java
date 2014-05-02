@@ -34,10 +34,8 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
 
- 
     private int rowCount;
     private Sheet sheet;
-   
 
     @Override
     public RowMapper procces(File f) {
@@ -48,7 +46,8 @@ public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
     @Override
     public Iterator<RowRecords> iterator() {
         return new Iterator<RowRecords>() {
-   private int currentPoss = 0;
+            private int currentPoss = 0;
+
             @Override
             public boolean hasNext() {
                 return (currentPoss <= rowCount);
@@ -79,8 +78,12 @@ public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
             Object value = null;
             switch (type) {
                 case HSSFCell.CELL_TYPE_STRING:
-                    value = c.getStringCellValue();
-                    dataType = DataType.TEXT;
+                   
+                    if (c.getStringCellValue().trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+                        dataType = DataType.EMAIL;
+                    } else {
+                        dataType = DataType.TEXT;
+                    }
                     break;
                 case HSSFCell.CELL_TYPE_NUMERIC:
 

@@ -53,7 +53,7 @@ public class EmailRepoTest {
 
     @Test
     public void testFindUnsent() {
-        List<Email> findUnsentPaginated = emailRepo.findUnsentPaginated(BigDecimal.ONE, BigDecimal.ONE, new PageRequest(0, 10));
+        List<Email> findUnsentPaginated = emailRepo.findUnsentPaginated(Long.valueOf(1),Long.valueOf(1), new PageRequest(0, 10));
         assertNotNull(findUnsentPaginated);
     }
     
@@ -65,7 +65,7 @@ public class EmailRepoTest {
 
     @Test
     public void testCountUnsent() {
-        Long count = emailRepo.countUnsentPaginated(BigDecimal.ZERO, BigDecimal.ZERO);
+        Long count = emailRepo.countUnsentPaginated(Long.valueOf(0),0);
         assertTrue(count==0);
     }
 

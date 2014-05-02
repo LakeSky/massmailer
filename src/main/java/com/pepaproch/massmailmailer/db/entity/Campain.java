@@ -31,7 +31,7 @@ public class Campain implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
-    private BigDecimal id;
+    private Long id;
     @Column(name = "CAMPAIN_NAME")
     private String campainName;
     @Column(name = "RECIPIENTS")
@@ -127,14 +127,14 @@ public class Campain implements Serializable {
     /**
      * @return the id
      */
-    public BigDecimal getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

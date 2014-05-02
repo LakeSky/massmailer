@@ -42,10 +42,10 @@ public class Email implements Serializable {
     @Basic(optional = false)
     
     @Column(name = "C_INDEX")
-    private BigDecimal id;
+    private Long id;
     
      @Column(name = "ID", nullable = false)
-    private BigDecimal campainBatchIndex;
+    private Long campainBatchIndex;
     
     @Column(name = "MESSAGE_ID")
     private String messageId;
@@ -90,15 +90,15 @@ public class Email implements Serializable {
     public Email() {
     }
 
-    public Email(BigDecimal id) {
+    public Email(Long id) {
         this.id = id;
     }
 
-    public BigDecimal getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -328,14 +328,14 @@ public class Email implements Serializable {
     /**
      * @return the campainBatchIndex
      */
-    public BigDecimal getCampainBatchIndex() {
+    public Long getCampainBatchIndex() {
         return campainBatchIndex;
     }
 
     /**
      * @param campainBatchIndex the campainBatchIndex to set
      */
-    public void setCampainBatchIndex(BigDecimal campainBatchIndex) {
+    public void setCampainBatchIndex(Long campainBatchIndex) {
         this.campainBatchIndex = campainBatchIndex;
     }
 

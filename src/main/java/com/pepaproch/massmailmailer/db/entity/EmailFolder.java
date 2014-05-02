@@ -6,7 +6,6 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -28,16 +27,17 @@ import javax.persistence.Table;
     @NamedQuery(name = "EmailFolder.findAll", query = "SELECT e FROM EmailFolder e"),
     @NamedQuery(name = "EmailFolder.findById", query = "SELECT e FROM EmailFolder e WHERE e.id = :id")})
 public class EmailFolder implements Serializable {
-    public final static BigDecimal FOLDER_INBOX = BigDecimal.ZERO;
-    public final static BigDecimal FOLDER_OUTBOX = BigDecimal.ONE;
-    public final static BigDecimal FOLDER_DRAFTS = new BigDecimal("2");
-    public final static BigDecimal FOLDER_OUTGOING = new BigDecimal("3");
+     public final static int FOLDER_INBOX = 1;
+    
+    public final static int FOLDER_OUTBOX = 2;
+    public final static int FOLDER_DRAFTS = 3;
+    public final static int FOLDER_OUTGOING = 4;
     
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "ID", nullable = false, precision = 22, scale = 0)
-    private BigDecimal id;
+    private Long id;
     private String name;
     @OneToOne
     private EmailFolder parentFolder;
@@ -48,15 +48,15 @@ public class EmailFolder implements Serializable {
        
     }
 
-    public EmailFolder(BigDecimal id) {
+    public EmailFolder(Long id) {
         this.id = id;
     }
 
-    public BigDecimal getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

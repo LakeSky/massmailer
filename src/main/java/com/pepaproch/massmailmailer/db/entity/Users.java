@@ -7,6 +7,7 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +41,7 @@ public class Users implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -65,11 +66,11 @@ public class Users implements Serializable {
     public Users() {
     }
 
-    public Users(Integer id) {
+    public Users(Long id) {
         this.id = id;
     }
 
-    public Users(Integer id, String username, String password, String firstName, String lastName) {
+    public Users(Long id, String username, String password, String firstName, String lastName) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -77,11 +78,11 @@ public class Users implements Serializable {
         this.lastName = lastName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

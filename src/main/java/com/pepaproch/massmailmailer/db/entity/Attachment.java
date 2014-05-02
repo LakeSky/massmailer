@@ -6,7 +6,6 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +30,7 @@ public class Attachment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
-    private BigDecimal id;
+    private Long id;
     @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "ATTACHMENT")
@@ -72,14 +71,14 @@ public class Attachment implements Serializable {
     /**
      * @return the id
      */
-    public BigDecimal getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

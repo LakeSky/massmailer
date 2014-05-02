@@ -7,6 +7,7 @@ package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.entity.Users;
 import com.pepaproch.massmailmailer.service.UserService;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class UsersController {
 
     @RequestMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public Users showUser(@PathVariable("userId") Integer userId) {
+    public Users showUser(@PathVariable("userId") BigDecimal userId) {
         Users user = userService.getUserR().findOne(userId);
         return user;
     }

@@ -8,7 +8,6 @@ package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.db.entity.EmailFolder;
-import java.math.BigDecimal;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -17,10 +16,10 @@ import org.springframework.data.repository.CrudRepository;
  * @author pepa
  */
 
-public interface EmailFolderRepo extends CrudRepository<Email,BigDecimal> {
+public interface EmailFolderRepo extends CrudRepository<Email,Integer> {
     
      @Query("SELECT f FROM EmailFolder f WHERE f.id = ?0")
-    public EmailFolder findByEmailFolderId(BigDecimal id);
+    public EmailFolder findByEmailFolderId(Integer id);
     
 
     

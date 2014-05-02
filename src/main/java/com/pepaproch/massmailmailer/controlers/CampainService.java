@@ -42,7 +42,8 @@ public class CampainService {
     
     public Campain save(Campain c) throws FileNotFoundException {
         BigDecimal countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
-        if (c.getId().compareTo(BigDecimal.ONE.negate()) == 0) {
+        if (c.getId().compareTo(Long.valueOf(-1)) != 0) {
+        } else {
             c.setId(null);
         }
         c.setRecordsCount(countRows);
@@ -97,7 +98,7 @@ public class CampainService {
         this.entityManager = entityManager;
     }
     
-    public Campain findOne(BigDecimal campainId) {
+    public Campain findOne(Long campainId) {
         Campain findOne = campainRepo.findOne(campainId);
         for (CampainAttachment at : findOne.getCampainAttachments()) {
             if (at.getAttachment() != null) {
@@ -121,7 +122,7 @@ public class CampainService {
         return (List<Campain>) campainRepo.findAll();
     }
     
-    void delete(BigDecimal campainId) {
+    void delete(Long campainId) {
         campainRepo.delete(campainId);
     }
 

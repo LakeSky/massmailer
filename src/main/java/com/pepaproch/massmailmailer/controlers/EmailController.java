@@ -5,32 +5,22 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.documents.DataSource;
 import com.pepaproch.massmailmailer.db.documents.DataSourceRow;
-import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import java.math.BigDecimal;
 import java.util.List;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -102,23 +92,10 @@ public class EmailController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setValidator(getCampainValidator());
+    //    binder.setValidator(getCampainValidator());
 
     }
 
-    /**
-     * @return the campainValidator
-     */
-    public CampainValidator getCampainValidator() {
-        return campainValidator;
-    }
-
-    /**
-     * @param campainValidator the campainValidator to set
-     */
-    public void setCampainValidator(CampainValidator campainValidator) {
-        this.campainValidator = campainValidator;
-    }
 
     /**
      * @return the campainService
