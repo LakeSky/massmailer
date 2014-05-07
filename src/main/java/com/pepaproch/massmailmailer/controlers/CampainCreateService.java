@@ -32,9 +32,9 @@ import java.util.Collection;
 import java.util.WeakHashMap;
 import java.util.concurrent.Future;
 import javax.transaction.Transactional;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 /**
@@ -70,7 +70,7 @@ public class CampainCreateService {
      * @throws IOException
      */
     @Async
-    public Future<Void> processCampain(Campain c) throws IOException {
+    public Future<Campain> processCampain(Campain c) throws IOException {
         c.setStatus("CREATING");
         campainService.getCampainRepo().save(c);
         DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
@@ -130,6 +130,7 @@ public class CampainCreateService {
         }
         c.setStatus("SENDING");
         campainService.getCampainRepo().save(c);
+        return new AsyncResult<>(c);
     }
     
     
