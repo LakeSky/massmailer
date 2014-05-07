@@ -27,11 +27,11 @@ import javax.persistence.Table;
     @NamedQuery(name = "EmailFolder.findAll", query = "SELECT e FROM EmailFolder e"),
     @NamedQuery(name = "EmailFolder.findById", query = "SELECT e FROM EmailFolder e WHERE e.id = :id")})
 public class EmailFolder implements Serializable {
-     public final static int FOLDER_INBOX = 1;
+     public final static Long FOLDER_INBOX = 1L;
     
-    public final static int FOLDER_OUTBOX = 2;
-    public final static int FOLDER_DRAFTS = 3;
-    public final static int FOLDER_OUTGOING = 4;
+    public final static Long FOLDER_OUTBOX = 2L;
+    public final static Long FOLDER_DRAFTS = 3L;
+    public final static Long FOLDER_OUTGOING = 4L;
     
     private static final long serialVersionUID = 1L;
     @Id

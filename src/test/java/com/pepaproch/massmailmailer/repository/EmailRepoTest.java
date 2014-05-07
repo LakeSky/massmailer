@@ -65,7 +65,7 @@ public class EmailRepoTest {
 
     @Test
     public void testCountUnsent() {
-        Long count = emailRepo.countUnsentPaginated(Long.valueOf(0),0);
+        Long count = emailRepo.countUnsentPaginated(Long.valueOf(0),0L);
         assertTrue(count==0);
     }
 

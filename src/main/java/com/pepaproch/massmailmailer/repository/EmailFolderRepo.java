@@ -19,7 +19,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface EmailFolderRepo extends CrudRepository<Email,Integer> {
     
      @Query("SELECT f FROM EmailFolder f WHERE f.id = ?0")
-    public EmailFolder findByEmailFolderId(Integer id);
+    public EmailFolder findByEmailFolderId(Long id);
     
 
     

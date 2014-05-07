@@ -33,5 +33,5 @@ public interface EmailRepo extends CrudRepository<Email, Long>, PagingAndSorting
     public List<Email> findUnsentPaginated(@Param("campainId")  Long campainId,@Param("folderId") Long folderId, Pageable page);
 
     @Query(value = "SELECT count(e) FROM Email e WHERE e.campain.id = :campainId and e.emailFolder.id = :folderId")
-    public long countUnsentPaginated(@Param("campainId") Long campainId,@Param("folderId") Integer folderId);
+    public long countUnsentPaginated(@Param("campainId") Long campainId,@Param("folderId") Long folderId);
 }

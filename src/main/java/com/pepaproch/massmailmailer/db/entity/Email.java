@@ -5,10 +5,10 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -39,17 +39,14 @@ public class Email implements Serializable {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    
-    @Column(name = "C_INDEX")
+    @Column(name = "ID")
     private Long id;
-    
-     @Column(name = "ID", nullable = false)
+    @Column(name = "C_INDEX")
     private Long campainBatchIndex;
-    
+
     @Column(name = "MESSAGE_ID")
     private String messageId;
-    
+
     @Column(name = "FROM_EMAIL")
     private String fromEmail;
     @Column(name = "RECIPIENTS")
@@ -75,13 +72,14 @@ public class Email implements Serializable {
     private Boolean readyToSent;
     @Column(name = "EMAIL_STATUS")
     private String emailStatus;
-    
+
     @JoinColumn(name = "CAMPAIN_ID")
     @ManyToOne
     private Campain campain;
 
     @Lob
     @Column(name = "EMAIL_CONTENT")
+    @Type(type="org.hibernate.type.StringClobType")
     private String emailText;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "email")
@@ -280,8 +278,6 @@ public class Email implements Serializable {
     public void setEmailText(String emailText) {
         this.emailText = emailText;
     }
-
-
 
     /**
      * @return the campain

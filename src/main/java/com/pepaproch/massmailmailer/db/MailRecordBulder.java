@@ -24,6 +24,7 @@ public interface MailRecordBulder {
     public Email getEmail();
     public void setCampain(Campain c);
     public void setSubject(String proccesEmailBody);
+    public void setCampainIndex(Long l);
 
 
     

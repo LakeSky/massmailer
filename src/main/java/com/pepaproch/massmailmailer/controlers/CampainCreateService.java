@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.WeakHashMap;
+import java.util.concurrent.Future;
 import javax.transaction.Transactional;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,14 @@ public class CampainCreateService {
     @Autowired
     private MailGunRestClient mailgunClient;
 
+    /**
+     *
+     * @param c
+     * @return
+     * @throws IOException
+     */
     @Async
-    public void processCampain(Campain c) throws IOException {
+    public Future<Void> processCampain(Campain c) throws IOException {
         c.setStatus("CREATING");
         campainService.getCampainRepo().save(c);
         DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
@@ -115,6 +122,7 @@ public class CampainCreateService {
             }
            
             mlBulder.setCampain(c);
+            mlBulder.setCampainIndex(Long.valueOf(i));
             System.out.println("EMAIL CREATED: " + i);
             i++;
             Email save = emailrepo.saveAndFlush(mlBulder.getEmail());

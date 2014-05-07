@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -42,8 +43,10 @@ public class Campain implements Serializable {
     private String bccRecipients;
     @Column(name = "SUBJECT")
     private String subject;
+    
     @Lob
     @Column(name = "EMAIL_TEXT")
+    @Type(type="org.hibernate.type.StringClobType")
     private String emailText;
     @Column(name = "DATASOURCE_ID")
     private String dataSourceId;

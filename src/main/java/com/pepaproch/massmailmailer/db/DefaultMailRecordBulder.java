@@ -72,6 +72,11 @@ public class DefaultMailRecordBulder implements MailRecordBulder {
 email.setSubject(proccesEmailBody);
     }
 
+    @Override
+    public void setCampainIndex(Long l) {
+       email.setCampainBatchIndex(l);
+    }
+
 
     
 }
