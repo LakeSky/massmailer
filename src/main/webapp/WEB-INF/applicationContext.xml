@@ -90,7 +90,7 @@
 
     <mongo:db-factory id="mongDbFactory"
                       host="localhost"
-                      port="27017"
+                      port="27018"
                       dbname="massmailler"
                       username="massmailler"
                       password="massmailler"/>
