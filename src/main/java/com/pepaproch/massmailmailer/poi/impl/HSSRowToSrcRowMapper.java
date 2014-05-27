@@ -78,7 +78,7 @@ public class HSSRowToSrcRowMapper implements RowMapper<RowRecords> {
             Object value = null;
             switch (type) {
                 case HSSFCell.CELL_TYPE_STRING:
-                   
+                                 value = c.getStringCellValue();
                     if (c.getStringCellValue().trim().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
                         dataType = DataType.EMAIL;
                     } else {

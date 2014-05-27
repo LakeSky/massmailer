@@ -76,7 +76,7 @@ public class DataSourceController {
      * @param searchString
      * @return
      */
-    @RequestMapping(value = "/{dataSourceId}/rows/", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{dataSourceId}/rows", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public List<DataSourceRow> showDataSourceData(@PathVariable("dataSourceId") String dataSourceId,
             @RequestParam(value = "page", required = false) Integer page,

@@ -9,7 +9,6 @@ import com.pepaproch.massmailmailer.db.documents.DataStructure;
 import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,29 +23,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/datasource/structure")
 public class DataSourceStructureController {
+
     @Autowired
     private DataSourceRowService dataSourceRowService;
 
-    @RequestMapping(value = "/{fileId}/", produces = MediaTypes.MEDIA_TYPEJSONUTF8VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{fileId}/{timeStamp}", produces = MediaTypes.MEDIA_TYPEJSONUTF8VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getStructure(@PathVariable("fileId") String fileId) {
+    public ResponseEntity getStructure(@PathVariable("fileId") String fileId, @PathVariable("timeStamp") String timeStamp) {
 
-
-        
-        
-        
         DataStructure ds = null;
         try {
             ds = getDataSourceRowService().getDataStructureFrimFile(new File("/tmp/" + fileId));
         } catch (IllegalArgumentException e) {
             ResponseEntity<String> error = new ResponseEntity<>("Soubor nelze použít", HttpStatus.BAD_REQUEST);
-        return error;
+            return error;
         }
 
-
-
-
-        ResponseEntity< DataStructure> resp = new ResponseEntity<DataStructure>(ds, HttpStatus.ACCEPTED);
+        ResponseEntity< DataStructure> resp = new ResponseEntity<>(ds, HttpStatus.ACCEPTED);
         return resp;
     }
 
@@ -63,7 +56,5 @@ public class DataSourceStructureController {
     public void setDataSourceRowService(DataSourceRowService dataSourceRowService) {
         this.dataSourceRowService = dataSourceRowService;
     }
-
-
 
 }

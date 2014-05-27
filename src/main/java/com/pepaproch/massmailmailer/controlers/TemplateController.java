@@ -94,9 +94,9 @@ public class TemplateController {
 
     }
 
-    @RequestMapping(value = "/{fileId}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
+    @RequestMapping(value = "/{fileId}/{timeStamp}", consumes = MediaType.APPLICATION_JSON_VALUE, method = {RequestMethod.DELETE})
     @ResponseBody
-    public ResponseEntity deleteFile(@PathVariable("fileId") Integer id, BindingResult result) {
+    public ResponseEntity deleteFile(@PathVariable("fileId") Integer id, @PathVariable("timsStamp") String timeStamp, BindingResult result) {
 
         return null;
     }

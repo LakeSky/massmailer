@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author pepa
  */
 @Document
-public class DataStructure {
+public class DataStructure implements CommonVisitable<DataStructure>{
     
     private String fileName;
 
@@ -74,5 +74,17 @@ public class DataStructure {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
+    @Override
+    public void visit(CommonVisitor<DataStructure> t) {
+       
+        t.visit(this);
+    }
+
+
+    
+
+
+  
     
 }

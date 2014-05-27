@@ -183,7 +183,11 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
                 $scope.fileU.type = $scope.UploadFile.type;
                 $scope.DataSource.dataStructure = DataStructure;
 
-                toastr.success(xhr.currentTarget.responseText);
+                toastr.success(xhr.responseText);
+                
+        
+
+ 
                 $rootScope.$emit('upload:datasourcefileuploaded', DataStructure);
             }, function(error) {
                 $scope.DataSource.fileUploaded = false;

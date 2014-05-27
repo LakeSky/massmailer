@@ -14,10 +14,10 @@ var entityService = angular.module('entityService', ['ngResource']).
                         , isArray: true
                     }}),
                 Campain: $resource('../campain/:campainType/:campainId', {campainId: '@id',campainType:'all'}),
-                DataStructure: $resource('../datasource/structure/:fileId\\/', {fileId: '@id'}),
-                TemplateFields: $resource('../template/templatefields/:fileId\\/', {fileId: '@id'}),
+                DataStructure: $resource('../datasource/structure/:fileId/:timeStamp', {fileId: '@id',timeStamp:'1'}),
+                TemplateFields: $resource('../template/templatefields/:fileId/:timeStamp', {fileId: '@id',timeStamp:'1'}),
                 ImagesFolder: $resource('../images/templatefields/:fileId\\/', {fileId: '@id'}),
-                DataSourceRow: $resource('../datasource/:dataSourceId/rows\\/', {dataSourceId: '@id'}, {browse: {
+                DataSourceRow: $resource('../datasource/:dataSourceId/rows', {dataSourceId: '@id'}, {browse: {
                         method:'GET',
                         params:{page: '1' ,
                         limit:null,

@@ -6,7 +6,9 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.documents.DataSource;
+import com.pepaproch.massmailmailer.db.documents.DataStructureTypeVisitor;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
+import com.pepaproch.massmailmailer.poi.DataType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -44,10 +46,20 @@ public class DataSourceValidator implements Validator {
                 
                  errors.rejectValue("name", "error.Unique");
             }
+            
+            
 
+        }
+        DataStructureTypeVisitor v = new DataStructureTypeVisitor(DataType.EMAIL);
+        dataSource.getDataStructure().visit(v);
+        if(!v.hasType()) {
+        errors.rejectValue("dataStructure","error.MustHaveEmail");
         }
 
     }
+    
+    
+  
 
     /**
      * @return the validator
