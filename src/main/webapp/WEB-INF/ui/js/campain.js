@@ -14,6 +14,8 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
 
         menu.resetSubmenu();
         menu.addToSubmenu('Hromadné emaily', '#/campains', 'glyphicon-th-list');
+        menu.addToSubmenu('Rozpracované', '#/campains/drafts', 'glyphicon-th-list');
+        menu.addToSubmenu('Odeslané', '#/campains/sent', 'glyphicon-th-list');
         menu.addToSubmenu('Nový email', '#/campain/new', 'glyphicon-plus');
 
 
@@ -22,6 +24,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
             $scope.campains = campains;
         });
         var modalInstance;
+        
         $scope.openDeleteDialog = function(campainsId, name) {
             $routeParams.dataSourceId = dataSourceId;
             modalInstance = $modal.open({
@@ -35,21 +38,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
             });
         };
 
-        $scope.openForm = function(campainId) {
-            $routeParams.campainId = campainId;
-            modalInstance = $modal.open({
-                windowClass: 'modal-campain',
-                templateUrl: 'views/campain/edit.html',
-                resolve: {
-                }
-            });
 
-            modalInstance.result.then(function() {
-                $scope.datasources = Entity.DataSource.query();
-            }, function() {
-                ;
-            });
-        };
         $scope.openBrowse = function(dataSourceId) {
             $routeParams.dataSourceId = dataSourceId;
             modalInstance = $modal.open({

@@ -8,10 +8,10 @@ var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'uplo
 
 // Controller
 // ----------
-dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location' ,'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, $location, menu) {
+dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location', 'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, $location, menu) {
         menu.resetSubmenu();
-        menu.addToSubmenu('Datové zdroje','#/datasource', 'glyphicon-th-list');
-        menu.addToSubmenu('Nový datový zdroj','#/datasource/new', 'glyphicon-plus');
+        menu.addToSubmenu('Datové zdroje', '#/datasource', 'glyphicon-th-list');
+        menu.addToSubmenu('Nový datový zdroj', '#/datasource/new', 'glyphicon-plus');
 
         $scope.datasources = Entity.DataSource.query();
 
@@ -41,7 +41,7 @@ dataSource.controller('DataSourceRowsListCtrl', ['$rootScope', '$scope', 'Entity
         var dataSourceId = $routeParams.dataSourceId;
         $scope.filterParams = {
             page: 0,
-            limit:10
+            limit: 10
 
 
         };
@@ -175,14 +175,14 @@ dataSource.controller('DataSourceCreateController', ['$rootScope', '$scope', '$r
         };
 
         $rootScope.$on('upload:succes', function(event, xhr) {
-           $scope.loadingfile = false;
+            $scope.loadingfile = false;
             var dataStructurePromise = Entity.DataStructure.get({fileId: xhr.currentTarget.responseText});
             dataStructurePromise.$promise.then(function(DataStructure) {
                 $scope.DataSource.fileUploaded = true;
                 $scope.fileU.name = $scope.UploadFile.name;
                 $scope.fileU.type = $scope.UploadFile.type;
                 $scope.DataSource.dataStructure = DataStructure;
-     
+
                 toastr.success(xhr.currentTarget.responseText);
                 $rootScope.$emit('upload:datasourcefileuploaded', DataStructure);
             }, function(error) {

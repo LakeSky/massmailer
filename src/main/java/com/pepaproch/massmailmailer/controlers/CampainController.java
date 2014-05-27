@@ -12,7 +12,6 @@ import com.pepaproch.massmailmailer.db.entity.Campain;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.math.BigDecimal;
 import java.util.List;
 import javax.validation.Valid;
 
@@ -52,12 +51,26 @@ public class CampainController {
 
     /**
      *
+     * @param campainType
+     * @param page
+     * @param limit
+     * @param sort
+     * @param sortDirection
+     * @param search
+     * @param searchString
      * @return
      */
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{campainType}/rows/{page}/{limit}/{sort}/{sortDir}/{search}/{searchString}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-
-    public List<Campain> listCampain() {
+    public List<Campain> listCampain(@PathVariable("campainType") String campainType,
+            @PathVariable("page") String page,
+            @PathVariable("limit") String limit,
+            @PathVariable("sort") String sort,
+            @PathVariable("sortDir") String sortDirection,
+            @PathVariable("search") String search,
+            @PathVariable("searchString") String searchString) {
+        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields." + sort + ".value");
+        Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
 
         return getCampainService().findAll();
     }
@@ -76,7 +89,7 @@ public class CampainController {
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-              Campain campainSaved = getCampainService().save(campain);
+            Campain campainSaved = getCampainService().save(campain);
             if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
                 campainSendService.processCampain(campainSaved);
             }
@@ -86,8 +99,6 @@ public class CampainController {
         }
 
     }
-    
-    
 
     @RequestMapping(value = "/{dataSourceId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -121,8 +132,8 @@ public class CampainController {
             @PathVariable("sortDir") String sortDirection,
             @PathVariable("search") String search,
             @PathVariable("searchString") String searchString) {
-            Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields." + sort + ".value");
-            Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
+        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields." + sort + ".value");
+        Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
 //        List<DataSourceRow> findByDataSourceIdPaginated = dataSourceRowsRep.findByDataSourceIdPaginated(dataSourceId,new Integer(search),searchString, pageSpecification);
 //        return findByDataSourceIdPaginated;\
         return null;
