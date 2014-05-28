@@ -53,7 +53,7 @@ public class DataSourceValidator implements Validator {
         DataStructureTypeVisitor v = new DataStructureTypeVisitor(DataType.EMAIL);
         dataSource.getDataStructure().visit(v);
         if(!v.hasType()) {
-        errors.rejectValue("dataStructure","error.MustHaveEmail");
+        errors.rejectValue("id","error.MustHaveEmail");
         }
 
     }

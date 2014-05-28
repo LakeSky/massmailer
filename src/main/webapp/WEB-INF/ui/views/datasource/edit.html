@@ -6,14 +6,14 @@
     <div class="panel-body">
 
         <div class="row" >
-                      
+
             <div class="col-md-12">
-                             <span style="
-                              font-size: 12px;
-                              font-weight: 700;
-                              color: #bbb;
-                              text-transform: uppercase;
-                              letter-spacing: 1px;">Datový zdroj</span> 
+                <span style="
+                      font-size: 12px;
+                      font-weight: 700;
+                      color: #bbb;
+                      text-transform: uppercase;
+                      letter-spacing: 1px;">Datový zdroj</span> 
                 <form novalidate class="form-horizontal" ng-submit="save()" name="form"  >
                     <div class="col-md-4">
 
@@ -22,7 +22,7 @@
                             <label class="control-label col-sm-3"  for="name">Název</label>
                             <div class="col-sm-9">
                                 <div show-inter="name"  class="alert alert-danger " ><error-message error="name" ></error-message>  </div> 
-                                <input type="hidden" ng-model="DataSource.id" interpol-model="id" server-error="id" name="id"/>
+                           
                                 <input class="input-sm form-control" type="text" id = "name" name="name" ng-model="DataSource.name"  interpol-model="name" server-error="name"/>
 
                             </div>
@@ -76,8 +76,13 @@
                             <thead>
                                 <tr>
                                     <th class="col-lg-6">Název</th>
-                                    <th class="col-lg-6">Typ</th>
-                                </tr>
+                                    <th class="col-lg-6">
+                            <div show-inter="id"  class="alert alert-danger " ><error-message error="id" ></error-message>  </div> 
+
+                               <input class="form-control" type="hidden" id = "id" name="id" ng-model="DataSource.id"  interpol-model="id" server-error="id"/>
+
+                            Typ</th>
+                            </tr>
                             </thead>
                             <tbody ng-repeat="f in DataSource.dataStructure.dataStructureFields" >
                                 <tr >
