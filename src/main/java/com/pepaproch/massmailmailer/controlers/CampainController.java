@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -60,16 +61,16 @@ public class CampainController {
      * @param searchString
      * @return
      */
-    @RequestMapping(value = "/{campainType}/rows/{page}/{limit}/{sort}/{sortDir}/{search}/{searchString}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{campainType}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public List<Campain> listCampain(@PathVariable("campainType") String campainType,
-            @PathVariable("page") String page,
-            @PathVariable("limit") String limit,
-            @PathVariable("sort") String sort,
-            @PathVariable("sortDir") String sortDirection,
-            @PathVariable("search") String search,
-            @PathVariable("searchString") String searchString) {
-        Sort sortable = new Sort(Sort.Direction.DESC, "dataSourceFields." + sort + ".value");
+            @RequestParam(value = "page", required = true) String page,
+            @RequestParam(value = "limit", required = false) String limit,
+            @RequestParam(value = "sort", required = false) String sort,
+            @RequestParam(value = "sortDir", required = false) String sortDirection,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "searchString", required = false) String searchString) {
+        Sort sortable = new Sort(Sort.Direction.DESC, sort);
         Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
 
         return getCampainService().findAll();

@@ -19,8 +19,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         menu.addToSubmenu('Nový email', '#/campain/new', 'glyphicon-plus');
 
 
-        var campains = Entity.Campain.query(function() {
-
+        var campains = Entity.Campain.browse(function() {
             $scope.campains = campains;
         });
         var modalInstance;

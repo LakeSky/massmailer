@@ -13,7 +13,17 @@ var entityService = angular.module('entityService', ['ngResource']).
                         params: {search: 'f', searchString: 's'}
                         , isArray: true
                     }}),
-                Campain: $resource('../campain/:campainType/:campainId', {campainId: '@id',campainType:'all'}),
+                Campain: $resource('../campain/:campainType/:campainId', {campainId: '@id',campainType:'all'}, {browse: {
+                        method:'GET',
+                        params:{page: '1' ,
+                        limit:10,
+                        sort:'id',
+                        sortDir:1,
+                        search:null,
+                        searchString:null
+                        }   , isArray: true
+                        
+                }}),
                 DataStructure: $resource('../datasource/structure/:fileId/:timeStamp', {fileId: '@id',timeStamp:'1'}),
                 TemplateFields: $resource('../template/templatefields/:fileId/:timeStamp', {fileId: '@id',timeStamp:'1'}),
                 ImagesFolder: $resource('../images/templatefields/:fileId\\/', {fileId: '@id'}),
