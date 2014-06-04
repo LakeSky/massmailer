@@ -22,6 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -119,6 +120,11 @@ public class CampainService {
     }
     
     public List<Campain> findAll() {
+        return (List<Campain>) campainRepo.findAll();
+    }
+    
+        public List<Campain> findAllByPropertyNameAndvalue(String fieldname, Object value ,Pageable page) {
+   
         return (List<Campain>) campainRepo.findAll();
     }
     

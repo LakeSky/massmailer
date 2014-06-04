@@ -61,9 +61,9 @@ public class CampainController {
      * @param searchString
      * @return
      */
-    @RequestMapping(value = "/{campainType}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping( produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public List<Campain> listCampain(@PathVariable("campainType") String campainType,
+    public List<Campain> listCampain(
             @RequestParam(value = "page", required = true) String page,
             @RequestParam(value = "limit", required = false) String limit,
             @RequestParam(value = "sort", required = false) String sort,

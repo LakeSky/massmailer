@@ -13,7 +13,7 @@ var entityService = angular.module('entityService', ['ngResource']).
                         params: {search: 'f', searchString: 's'}
                         , isArray: true
                     }}),
-                Campain: $resource('../campain/:campainType/:campainId', {campainId: '@id',campainType:'all'}, {browse: {
+                Campain: $resource('../campain/:campainId', {campainId: '@id'}, {browse: {
                         method:'GET',
                         params:{page: '1' ,
                         limit:10,

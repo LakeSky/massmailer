@@ -19,6 +19,46 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         menu.addToSubmenu('Nový email', '#/campain/new', 'glyphicon-plus');
 
 
+        $scope.filterParams = {
+            page: 0,
+            limit: 10,
+            sort: '2',
+            sortDir: 1,
+            search: '0',
+            searchString: '*'
+
+
+        };
+        function getData() {
+            var campains = Entity.Campain.browse({
+                page: $scope.filterParams.page,
+                limit: $scope.filterParams.limit,
+                sort: $scope.filterParams.sort,
+                sortDir: $scope.filterParams.sortDir,
+                search: $scope.filterParams.search,
+                searchString: $scope.filterParams.searchString
+            }, function() {
+
+                $scope.campins = campains;
+            });
+        }
+
+        $scope.search = function(searchString) {
+            $scope.filterParams.sort = 'name';
+            $scope.filterParams.searchString = searchString;
+            $scope.filterParams.page = 0;
+            getData();
+
+        };
+        $scope.paginate = function(value) {
+            // Only act when our property has changed.
+            if (undefined !== value) {
+                $scope.filterParams.page = value;
+                getData();
+
+            }
+        };
+
         var campains = Entity.Campain.browse(function() {
             $scope.campains = campains;
         });
@@ -38,22 +78,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         };
 
 
-        $scope.openBrowse = function(dataSourceId) {
-            $routeParams.dataSourceId = dataSourceId;
-            modalInstance = $modal.open({
-                controller: 'CampainRowsListCtrl',
-                windowClass: 'modal-campain',
-                templateUrl: 'views/campain/browse.html',
-                resolve: {
-                }
-            });
 
-            modalInstance.result.then(function() {
-                $scope.datasources = Entity.DataSource.query();
-            }, function() {
-                ;
-            });
-        };
 
 
     }]);
