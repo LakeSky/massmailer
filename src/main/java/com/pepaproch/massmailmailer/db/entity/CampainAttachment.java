@@ -46,6 +46,7 @@ public class CampainAttachment implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "ATTACHMENT")
+    @JsonIgnore
     private byte[] attachment;
 
     @Column(name = "ATTACHMENT_NAME")

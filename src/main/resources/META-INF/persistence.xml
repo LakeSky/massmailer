@@ -6,6 +6,7 @@
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.hbm2ddl.import_files" value="/WEB-INF/import.sql" />
+            <property name="hibernate.show_sql" value="true" />
         </properties>
     </persistence-unit>
 

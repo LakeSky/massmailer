@@ -52,7 +52,6 @@ public class CampainController {
 
     /**
      *
-     * @param campainType
      * @param page
      * @param limit
      * @param sort
@@ -73,7 +72,7 @@ public class CampainController {
         Sort sortable = new Sort(Sort.Direction.DESC, sort);
         Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
 
-        return getCampainService().findAll();
+        return getCampainService().searchAll(pageSpecification, search, searchString);
     }
 
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)

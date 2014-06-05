@@ -7,6 +7,7 @@ package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
+import com.pepaproch.massmailmailer.db.entity.CampainSpecification;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
 import java.io.File;
@@ -144,6 +145,15 @@ public class CampainService {
      */
     public void setRowsRepository(DataSourceRowsRep rowsRepository) {
         this.rowsRepository = rowsRepository;
+    }
+
+    List<Campain> searchAll(Pageable pageSpecification, String search, String searchString) {
+        if(null!=searchString) {
+        return campainRepo.findAll(CampainSpecification.findByCampainName(searchString, CampainSpecification.LIKE_COMPARE),pageSpecification).getContent();
+        }
+        else {
+        return campainRepo.findAll(pageSpecification).getContent();
+        }
     }
     
 }

@@ -44,7 +44,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         }
 
         $scope.search = function(searchString) {
-            $scope.filterParams.sort = 'name';
+            $scope.filterParams.sort = 'campainName';
             $scope.filterParams.searchString = searchString;
             $scope.filterParams.page = 0;
             getData();
@@ -63,7 +63,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
             $scope.campains = campains;
         });
         var modalInstance;
-        
+
         $scope.openDeleteDialog = function(campainsId, name) {
             $routeParams.dataSourceId = dataSourceId;
             modalInstance = $modal.open({
@@ -174,8 +174,8 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             $scope.Campain = null;
             $scope.errors = {};
             $scope.Campain = new Entity.Campain();
-            $scope.Campain.id = -1; 
-            
+            $scope.Campain.id = -1;
+
         } else {
             $scope.Campain = Entity.Campain.get({campainId: campainId}
             , function() {
@@ -211,6 +211,8 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
         };
         $scope.ok = function() {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
+            
+            
             var campainPromise = $scope.Campain.$save(
                     function(Campain, headers) {
                         return  handleFormSucces("Kampaň uspěšně uložena", $location, '/campain');
@@ -286,13 +288,14 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             if (undefined === att || null === att) {
                 atObject = {
                     index: index
-                    
+
                 };
 
 
             } else {
                 $scope.form['campainAttachments[' + att.index + '].index'].$setValidity('server', true);
                 atObject = att;
+
 
             }
             var dataStructureFields;
@@ -324,6 +327,8 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
             modalInstance.result.then(function(atta) {
 
+
+      
                 $scope.Campain.campainAttachments[atta.attachment.index] = atta.attachment;
 
 
@@ -335,7 +340,16 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
         };
 
 
+        $scope.attachmentPreview = function(atta) {
 
+
+
+                atta.preview = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
+           
+
+
+
+        };
 
 
 
@@ -367,7 +381,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
         ];
 
         $scope.attachment = attachments.attachment;
-        $scope.form= {};
+        $scope.form = {};
         $scope.form.attachmentFileSystemName = attachments.attachment.attachmentFileSystemName;
         $scope.form.attachmentName = attachments.attachment.attachmentName;
         $scope.form.attachmentOutputName = attachments.attachment.attachmentOutputName;
@@ -398,7 +412,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
 
         });
         $rootScope.$on('upload:succes', function(event, xhr, req, name, type) {
-              $rootScope.$apply(function() {
+            $rootScope.$apply(function() {
                 $scope.loadingfile = false;
                 $scope.form.attachmentFileSystemName = xhr.currentTarget.responseText;
                 $scope.form.attachmentName = name;

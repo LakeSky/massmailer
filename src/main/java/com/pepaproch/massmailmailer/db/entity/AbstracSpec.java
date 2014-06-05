@@ -21,7 +21,7 @@ public   class AbstracSpec {
      * @return
      */
     public static String getLikeString(String string) {
-        return new StringBuilder(string.toLowerCase()).append("%").toString();
+        return new StringBuilder("%").append(string.toLowerCase()).append("%").toString();
 
     }
 }

@@ -44,13 +44,26 @@ public class CampainSpecification extends AbstracSpec {
         };
     }
 
-    public static Specification<Campain> findByCampainName(final String value, String compare) {
+    public static Specification<Campain> findByCampainName(final String value, final String compareType) {
         return new Specification<Campain>() {
             @Override
             public Predicate toPredicate(Root<Campain> root, CriteriaQuery<?> query,
                     CriteriaBuilder builder) {
+        
+                       Predicate resultPredicate;
 
-                return builder.equal(root.get(Campain_.campainName), value);
+                switch (compareType) {
+                    case AbstracSpec.LIKE_COMPARE:
+                        resultPredicate =  builder.like(builder.lower(root.get(Campain_.campainName)), getLikeString(value));
+                        break;
+                    default:
+                        resultPredicate =  builder.equal(root.get(Campain_.campainName), value);
+
+                }
+                
+                
+                
+                return resultPredicate;
             }
         };
     }

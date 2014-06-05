@@ -15,7 +15,7 @@ var entityService = angular.module('entityService', ['ngResource']).
                     }}),
                 Campain: $resource('../campain/:campainId', {campainId: '@id'}, {browse: {
                         method:'GET',
-                        params:{page: '1' ,
+                        params:{page: 0 ,
                         limit:10,
                         sort:'id',
                         sortDir:1,
