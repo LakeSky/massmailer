@@ -211,7 +211,10 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
         };
         $scope.ok = function() {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
-            
+          angular.forEach( $scope.Campain.campainAttachments, function(atta) {
+              delete atta.preview;
+              
+          });
             
             var campainPromise = $scope.Campain.$save(
                     function(Campain, headers) {
@@ -342,10 +345,15 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.attachmentPreview = function(atta) {
 
-
+if(atta.customizeAttachments) {
 
                 atta.preview = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
-           
+            }else {
+                
+                 atta.preview = '../template/preview/pdf/' + '?fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
+                
+            }
+            
 
 
 
