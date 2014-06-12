@@ -35,3 +35,8 @@ and open the template in the editor.
     margin-bottom: 0.5em;
     
 }
+
+.navbar-default {
+    background-color: #222222;
+    border-color: #E7E7E7;
+}

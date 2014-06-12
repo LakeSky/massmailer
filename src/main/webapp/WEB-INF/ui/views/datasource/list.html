@@ -1,67 +1,72 @@
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h1 class="panel-title">Datové zdroje</h1>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Datové zdroje</h1>
     </div>
-    <div class="panel-body">
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div  class="row">
 
-        <table  class="table table-striped  table-bordered" >
-            <thead>
-                <tr>
-                    <th class="col-lg-4 text-info">Název </th>
-                    <th class="text-info" >Kategorie</th>
-                    <th class="text-info" >Popis</th>
-                    <th class="text-info" >Vyvořeno</th>
-                    <th class="text-right text-info" >Počet&nbsp;záznamů</th>
-                    <th class="text-center text-info">Akce</th>
-                </tr>
-                <tr>
-                    <th><div class="input-group input-group-sm">
-                <input class="form-control" placeholder="Search"  on-enter-blur on-blur-change="search()"  ng-indexname="f.index"  ng-model="f.searchString" type="text" />
-                <div class="input-group-btn">
-                    <button class="btn btn-default btn-xs"  ng-click="search()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                </div>
-            </div></th>
-            <th colspan="4"></th>
 
-            <th class="text-right">
-                <a class="btn btn-primary btn-xs pull-right" href="#/datasource/new"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a>
-            </th>
+
+    <table  class="table table-striped  table-bordered" >
+        <thead>
+            <tr>
+                <th class="col-lg-4 text-info">Název </th>
+                <th class="text-info" >Kategorie</th>
+                <th class="text-info" >Popis</th>
+                <th class="text-info" >Vyvořeno</th>
+                <th class="text-right text-info" >Počet&nbsp;záznamů</th>
+                <th class="text-center text-info">Akce</th>
             </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="d in datasources" >
-                    <td>{{d.name}}</td>
-                    <td>{{d.category}}</td>
-                    <td>{{d.description}}</td>
-                    <td>{{d.dateUpdated}}</td>
-                    <td class="text-right" >{{d.recordsCount}}</td>
-                    <td class="text-center col-lg-1">
-                        <div class="btn-group" >
-                            <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
-                                Action <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu text-left" >
-                                <li><a href="#">Email</a></li>
+            <tr>
+                <th><div class="input-group input-group-sm">
+            <input class="form-control" placeholder="Search"  on-enter-blur on-blur-change="search()"  ng-indexname="f.index"  ng-model="f.searchString" type="text" />
+            <div class="input-group-btn">
+                <button class="btn btn-default btn-xs"  ng-click="search()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div></th>
+        <th colspan="4"></th>
 
-                                <li><a  ng-href="#/datasource/data/{{d.id}}"  >Zobrazit data</a></li>
-                                <li><a  ng-href="#/datasource/edit/{{d.id}}"  >Upravit</a></li>
+        <th class="text-right">
+            <a class="btn btn-primary btn-xs pull-right" href="#/datasource/new"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a>
+        </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="d in datasources" >
+                <td>{{d.name}}</td>
+                <td>{{d.category}}</td>
+                <td>{{d.description}}</td>
+                <td>{{d.dateUpdated}}</td>
+                <td class="text-right" >{{d.recordsCount}}</td>
+                <td class="text-center col-lg-1">
+                    <div class="btn-group" >
+                        <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">
+                            Action <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu text-left" >
+                            <li><a href="#">Email</a></li>
 
-                                <li class="divider"></li>
-                                <li><a ng-click="openDeleteDialog(d.id, d.name)" >Smazat</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
+                            <li><a  ng-href="#/datasource/data/{{d.id}}"  >Zobrazit data</a></li>
+                            <li><a  ng-href="#/datasource/edit/{{d.id}}"  >Upravit</a></li>
 
-        </table>
-        <pagination total-items="DataSource.recordsCount" page="currentPage" on-select-page="paginate(page-1)" ></pagination>
-        <div>
-        </div>
+                            <li class="divider"></li>
+                            <li><a ng-click="openDeleteDialog(d.id, d.name)" >Smazat</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
 
-
+    </table>
+    <pagination total-items="DataSource.recordsCount" page="currentPage" on-select-page="paginate(page-1)" ></pagination>
+    <div>
     </div>
+
+
 </div>
 
 

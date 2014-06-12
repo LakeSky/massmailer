@@ -1,76 +1,124 @@
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html ng-app="appMassMailer">
+
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-        <link rel="stylesheet" href="css/bootstrap.css"/>
-        <link rel="stylesheet" href="css/custom.css"/>
-        <link rel="stylesheet" href="css/toastr.css"/>
 
-        <style>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        </style>
-        <title>MassMailer</title>
+        <title>Massmaller</title>
+
+        <!-- Core CSS - Include with every page -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+        <!-- Page-Level Plugin CSS - Dashboard -->
+        <link href="css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+        <link href="css/plugins/timeline/timeline.css" rel="stylesheet">
+
+        <!-- SB Admin CSS - Include with every page -->
+        <link href="css/sb-admin.css" rel="stylesheet">
+
     </head>
-    <body style="background-color: #3d464f;"  >
 
+    <body>
 
+        <div id="wrapper">
 
-
-        <div class="container-fluid" ng-controller="MenuCtrl" style="background-color: #3d464f ;padding: 1em;" >
-            <div class="row">
-                <div class=" col-lg-11 col-lg-offset-1 clearfix">
-                    <ul class="nav nav-pills">
-                        <li   ng-class="getClass('/datasource')"><a href="#datasource">Datové zdroje</a></li>
-                        <li ng-class="getClass('/campain/new')"  ><a href="#campains">Hromadné emaily</a></li>
-                        <li ng-class="getClass('/campains')"  ><a href="#campains">Statistiky</a></li>
-
-                    </ul>
+            <nav ng-controller="MenuCtrl" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">Massmaller</a>
                 </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading clearfix" style="margin-bottom: 0px; padding: 0">
-                <ul class="breadcrumb col-lg-10 col-lg-offset-1" style="margin-bottom: 0px;" ng-controller="MenuCtrl">
-                    <li ng-repeat="breadcrumb in getAllB()">
-                        <span class="divider">/</span>
-                    <ng-switch on="$last">
-                        <span ng-switch-when="true">{{breadcrumb.name}}</span>
-                        <span ng-switch-default><a href="{{breadcrumb.path}}">{{breadcrumb.name}}</a></span>
-                    </ng-switch>
+                <!-- /.navbar-header -->
+
+                <ul class="nav navbar-top-links navbar-right">
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
                     </li>
+                    <!-- /.dropdown -->
                 </ul>
+                <!-- /.navbar-top-links -->
 
+                <div class="navbar-inverse navbar-static-side" role="navigation">
+                    <div class="sidebar-collapse">
+                        <ul class="nav " id="side-menu">
 
-            </div>
-            <div class="panel-body">
-                <div class="panel panel-primary panel-in col-lg-2" style="padding: 0;background-color: #3d464f; min-height: 500px;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Navigace</h3>
+                            <li>
+                                <a href="#datasource"><i class="fa fa-table fa-fw"></i>Datové zdroje<span class="fa"></span></a>
+
+                            </li>
+
+                            <li>
+                                <a href="#campains/dashboard"><i class="fa fa-wrench fa-fw"></i>Kampaně<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                   
+                                    <li>
+                                        <a href="#campains/type/dashboard">Rozpracované</a>
+                                    </li>
+                                    <li>
+                                        <a href="buttons.html">Odesílané</a>
+                                    </li>
+                                    <li>
+                                        <a href="notifications.html">Odeslané</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+
+                        </ul>
+                        <!-- /#side-menu -->
                     </div>
-                    <ul class="nav" style="background-color: #3d464f;" ng-controller="MenuCtrl">
-                        <li ng-class="getClass('/datasource')"  ng-repeat="item in getSubmenu()" ><a ng-href="{{item.link}}"> <span class="glyphicon {{item.glyph}}" > {{item.name}}</span></a></li>
-
-                    </ul>      
+                    <!-- /.sidebar-collapse -->
                 </div>
+                <!-- /.navbar-static-side -->
+            </nav>
 
+            <div ng-view  id="page-wrapper">
 
-
-                <div  ng-view class="col-lg-10">
-
-
-
-                </div>
+                <!-- /.row -->
             </div>
+            <!-- /#page-wrapper -->
 
         </div>
+        <!-- /#wrapper -->
 
-        <script src="https://code.jquery.com/jquery.js"></script>
-        <script src="js/bootstrap.js"></script>
+        <!-- Core Scripts - Include with every page -->
+        <script src="js/jquery-1.10.2.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+        <!-- Page-Level Plugin Scripts - Dashboard -->
+        <script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
+        <script src="js/plugins/morris/morris.js"></script>
+
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="js/sb-admin.js"></script>
+
+
+
+
+
+
         <script src="js/angular.min.js"></script>
         <script src="js/angular-route.min.js"></script>
         <script src="js/angular-resource.min.js"></script>
@@ -90,4 +138,5 @@ and open the template in the editor.
         <script src="js/massmailer.js"></script>
 
     </body>
+
 </html>
