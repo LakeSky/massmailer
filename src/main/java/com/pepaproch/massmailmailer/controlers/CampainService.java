@@ -22,8 +22,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 /**
@@ -147,12 +150,12 @@ public class CampainService {
         this.rowsRepository = rowsRepository;
     }
 
-    List<Campain> searchAll(Pageable pageSpecification, String search, String searchString) {
+    List<Campain> searchAll(Pageable pageSpecification, String search, String searchString ,String ctype) {
         if(null!=searchString) {
-        return campainRepo.findAll(CampainSpecification.findByCampainName(searchString, CampainSpecification.LIKE_COMPARE),pageSpecification).getContent();
+        return campainRepo.findAll(Specifications.where(CampainSpecification.findByCampainName(searchString, CampainSpecification.LIKE_COMPARE)).and(CampainSpecification.findByCampainType(ctype)),pageSpecification).getContent();
         }
         else {
-        return campainRepo.findAll(pageSpecification).getContent();
+        return campainRepo.findAll(CampainSpecification.findByCampainType(ctype),pageSpecification).getContent();
         }
     }
     

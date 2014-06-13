@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Hromadné emaily</h1>
+        <h1 class="page-header">Hromadné emaily : {{ctype}}</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -12,17 +12,17 @@
     <table  class="table table-striped table-condensed"  >
         <thead>
             <tr>
-                <th><div class="input-group input-group-sm">
+                <th><div class="input-group input-group">
             <input class="form-control" placeholder="Search"  on-enter-blur on-blur-change="search(f.searchString)"  ng-indexname="f.index"  ng-model="f.searchString" type="text" />
             <div class="input-group-btn">
-                <button class="btn btn-default btn-xs"  ng-click="search(f.searchString)" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                <button class="btn btn-default btn"  ng-click="search(f.searchString)" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </div>
         </th>
         <th>
         </th>
         <th></th>
-        <th class="text-right"><a class="btn btn-primary btn-xs pull-right"ng-href="#/campain/new"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a></th>
+        <th class="text-right"><a class="btn btn-primary  pull-right"ng-href="#/campain/new"><i class="icon-plus-sign icon-white"></i> Nový zdroj</a></th>
         </tr>
         <tr>
             <th class="col-lg-4 text-info">Název</th>
@@ -44,10 +44,10 @@
                 <td class="text-right col-lg-2" ><span class="badge">{{c.recordsCount}}</span></td>
                 <td class="text-center" >{{c.status}}</td>
                 <td class="text-right col-lg-1">
-                    <div class="btn-group-xs">
-                        <button type="button" class="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning dropdown-toggle dr" data-toggle="dropdown">Action <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" >
+                        <ul class="dropdown-menu dropdown-menu-left" >
                             <li><a ng-href="#/campain/{{c.id}}"  >Upravit</a></li>
 
                             <li class="divider"></li>

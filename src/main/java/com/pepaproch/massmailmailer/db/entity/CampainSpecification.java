@@ -19,7 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
  */
 public class CampainSpecification extends AbstracSpec {
 
-    public static Specification<Campain> findInStringFields(final String value, final String compareType) {
+    public static Specification<Campain> findInStringFields(final String ctype, final String value, final String compareType) {
         return new Specification<Campain>() {
 
             @Override
@@ -39,30 +39,56 @@ public class CampainSpecification extends AbstracSpec {
                                 builder.equal(root.get(Campain_.subject), value));
 
                 }
+
                 return resultPredicate;
             }
         };
     }
+    
+    
+    
+    
 
     public static Specification<Campain> findByCampainName(final String value, final String compareType) {
         return new Specification<Campain>() {
             @Override
             public Predicate toPredicate(Root<Campain> root, CriteriaQuery<?> query,
                     CriteriaBuilder builder) {
-        
-                       Predicate resultPredicate;
+
+                Predicate resultPredicate;
 
                 switch (compareType) {
                     case AbstracSpec.LIKE_COMPARE:
-                        resultPredicate =  builder.like(builder.lower(root.get(Campain_.campainName)), getLikeString(value));
+                        resultPredicate = builder.like(builder.lower(root.get(Campain_.campainName)), getLikeString(value));
                         break;
                     default:
-                        resultPredicate =  builder.equal(root.get(Campain_.campainName), value);
+                        resultPredicate = builder.equal(root.get(Campain_.campainName), value);
 
                 }
-                
-                
-                
+
+                return resultPredicate;
+            }
+        };
+    }
+    
+    
+        public static Specification<Campain> findByCampainType(final String value) {
+        return new Specification<Campain>() {
+            @Override
+            public Predicate toPredicate(Root<Campain> root, CriteriaQuery<?> query,
+                    CriteriaBuilder builder) {
+
+                Predicate resultPredicate;
+
+                switch (value) {
+                    case AbstracSpec.ALL:
+                        resultPredicate = builder.isNotNull(root.get(Campain_.campainName));
+                        break;
+                    default:
+                        resultPredicate = builder.equal(root.get(Campain_.status), value);
+
+                }
+
                 return resultPredicate;
             }
         };

@@ -11,7 +11,7 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 // Controller
 // ----------
 campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, menu) {
-
+        $scope.ctype = $routeParams.type;
         menu.resetSubmenu();
         menu.addToSubmenu('Hromadné emaily', '#/campains', 'glyphicon-th-list');
         menu.addToSubmenu('Rozpracované', '#/campains/drafts', 'glyphicon-th-list');
@@ -19,16 +19,8 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         menu.addToSubmenu('Nový email', '#/campain/new', 'glyphicon-plus');
 
 
-        $scope.filterParams = {
-            page: 0,
-            limit: 10,
-            sort: '2',
-            sortDir: 1,
-            search: '0',
-            searchString: '*'
 
 
-        };
         function getData() {
             var campains = Entity.Campain.browse({
                 page: $scope.filterParams.page,
@@ -36,7 +28,8 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
                 sort: $scope.filterParams.sort,
                 sortDir: $scope.filterParams.sortDir,
                 search: $scope.filterParams.search,
-                searchString: $scope.filterParams.searchString
+                searchString: $scope.filterParams.searchString,
+                ctype: $scope.ctype
             }, function() {
 
                 $scope.campins = campains;
@@ -59,7 +52,11 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
             }
         };
 
-        var campains = Entity.Campain.browse(function() {
+        var campains = Entity.Campain.browse({
+            ctype: $scope.ctype
+        }, function(
+
+                ) {
             $scope.campains = campains;
         });
         var modalInstance;
@@ -207,26 +204,28 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.sent = function() {
             $scope.Campain.status = 'READY';
-            $scope.ok();
+            $scope.ok('/campains/type/EDIT');
         };
-        $scope.ok = function() {
+        $scope.ok = function(redirect) {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
-          angular.forEach( $scope.Campain.campainAttachments, function(atta) {
-              delete atta.preview;
-              
-          });
-            
+            angular.forEach($scope.Campain.campainAttachments, function(atta) {
+                delete atta.preview;
+
+            });
+
             var campainPromise = $scope.Campain.$save(
                     function(Campain, headers) {
-                        return  handleFormSucces("Kampaň uspěšně uložena", $location, '/campain');
+                        if (redirect == undefined) {
+                            return  handleFormSucces("Kampaň uspěšně uložena", $location, '/campains/type/EDIT');
+                        } else {
+
+                            return  handleFormSucces("Kampaň uspěšně uložena", $location, redirect);
+                        }
                     }, function(error) {
                 return   handleFormError($scope, error.data);
 
             });
-            var contrr = this;
-            campainPromise.then(function(campain) {
-                contrr.$close();
-            });
+
         };
 
 
@@ -331,7 +330,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             modalInstance.result.then(function(atta) {
 
 
-      
+
                 $scope.Campain.campainAttachments[atta.attachment.index] = atta.attachment;
 
 
@@ -345,15 +344,15 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.attachmentPreview = function(atta) {
 
-if(atta.customizeAttachments) {
+            if (atta.customizeAttachments) {
 
                 atta.preview = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
-            }else {
-                
-                 atta.preview = '../template/preview/pdf/' + '?fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
-                
+            } else {
+
+                atta.preview = '../template/preview/pdf/' + '?fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
+
             }
-            
+
 
 
 
@@ -472,21 +471,6 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
 
         };
 
-//        $scope.previewUrl = '';
-//
-//        var query = '';
-//        if (undefined !== $scope.attachment.customizeAttachments && $scope.attachment.customizeAttachments === true) {
-//            query = query + '?datasourceId=' + encodeURIComponent($scope.dataSourceId) + '&fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
-//
-//        } else {
-//            query = query + '?fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
-//
-//        }
-//
-//
-//
-//        $scope.previewUrl = path + query;
-
 
 
 
@@ -555,6 +539,47 @@ dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$lo
 
 
         };
+
+
+
+
+
+
+        $scope.cancel = function() {
+            this.$dismiss('cancel');
+        };
+
+    }]);
+
+
+// Controller
+// ----------
+dataSource.controller('CampainPreviewController', ['$scope', '$routeParams', '$location', 'Entity', '$http', function($scope, $routeParams, $location, Entity, $http) {
+        var campainId = $routeParams.campainId;
+
+        var Campain = Entity.Campain.get({campainId: campainId}, function() {
+            $scope.Campain = Campain;
+        });
+
+
+
+
+
+
+        $scope.send = function() {
+            var deferred = $q.defer();
+            $scope.DataSource.$delete(
+                    function(DataSource, headers) {
+                        deferred.resolve(DataSource);
+                        handleFormSucces("Smazano", $location, '/datasource');
+
+                    }, function(error) {
+                return   handleFormError($scope, error.data);
+
+            });
+            return deferred.promise;
+        };
+
 
 
 

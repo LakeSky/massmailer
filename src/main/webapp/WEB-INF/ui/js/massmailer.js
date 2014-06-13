@@ -67,6 +67,10 @@ angular.module('appMassMailer').config(
                             templateUrl: 'views/campain/edit.html',
                             controller: 'CampainEditController'
                         }).
+                        when('/campain/preview/:campainId', {
+                            templateUrl: 'views/campain/preview.html',
+                            controller: 'CampainPreviewController'
+                        }).
                         otherwise({
                             redirectTo: 'views/dashboard/main.html'
                         });

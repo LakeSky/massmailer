@@ -14,6 +14,7 @@ public   class AbstracSpec {
     public static final String EQUAL_COMPARE = "eq";
     public static final String LIKE_COMPARE = "like";
     public static final String LT_COMPARE = "lt";
+        public static final String ALL = "all";
     
     /**
      *

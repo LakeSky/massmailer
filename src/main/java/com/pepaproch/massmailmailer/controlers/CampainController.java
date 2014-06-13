@@ -58,9 +58,10 @@ public class CampainController {
      * @param sortDirection
      * @param search
      * @param searchString
+     * @param ctype
      * @return
      */
-    @RequestMapping( produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public List<Campain> listCampain(
             @RequestParam(value = "page", required = true) String page,
@@ -68,11 +69,12 @@ public class CampainController {
             @RequestParam(value = "sort", required = false) String sort,
             @RequestParam(value = "sortDir", required = false) String sortDirection,
             @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "searchString", required = false) String searchString) {
+            @RequestParam(value = "searchString", required = false) String searchString,
+            @RequestParam(value = "ctype", required = false) String ctype) {
         Sort sortable = new Sort(Sort.Direction.DESC, sort);
         Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
 
-        return getCampainService().searchAll(pageSpecification, search, searchString);
+        return getCampainService().searchAll(pageSpecification, search, searchString, ctype);
     }
 
     @RequestMapping(value = "/{campainId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
@@ -86,7 +88,7 @@ public class CampainController {
     public ResponseEntity updateCampain(@Valid @RequestBody Campain campain, BindingResult result) throws FileNotFoundException, IOException {
         if (result.hasErrors()) {
             List<FieldError> fieldErrors = result.getFieldErrors();
-            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
+            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
             Campain campainSaved = getCampainService().save(campain);

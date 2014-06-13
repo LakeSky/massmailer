@@ -9,17 +9,17 @@ and open the template in the editor.
 */
 
 .modal-datasource > .modal-dialog  {
-    
+
     width: 80%;
 }
 
 .modal-campain > .modal-dialog  {
-    
+
     width: 80%;
 }
 
 .modal-attachment > .modal-dialog  {
-    
+
     width: 50%;
 }
 
@@ -27,16 +27,72 @@ and open the template in the editor.
 
 .modal-header {
     padding: 0 15px 0 15px;
-    
+
 }
 
 .alert {
     padding: 0.5em ;
     margin-bottom: 0.5em;
-    
+
+}
+.navbar-inverse, .navbar-inverse > ul{
+    background-color: #222222;
+    border-color: #080808;
+}
+body {
+
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+}
+#wrapper {
+       background-color: #222222; 
+     
+} 
+
+.navbar-inverse nav > .active > a, .navbar-inverse nav > .active > a:hover, .navbar-inverse .nav > .active > a:focus {
+    background-color: #FFFFFF;
+    color: #FFFFFF;
 }
 
-.navbar-default {
-    background-color: #222222;
-    border-color: #E7E7E7;
+.navbar-inverse .nav > li > a {
+    color: #999999;
+}
+
+
+
+
+
+.nav > li > a {
+    line-height: 2.5em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+}
+.nav > li > a {
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.navbar-static-side {
+    
+        background-color: #222222;
+    color: #FFFFFF;
+  font-size: 1.5em;
+
+}
+
+.nav > .active > a, .navbar-static-side nav > .active > a:hover, .navbar-static-side .nav > .active > a:focus {
+    background-color: #000;
+    color: #FFFFFF;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+    background-color: #FFFFFF;
+}
+
+.nav-second-level  > a {
+    padding-left: : 2em;
+
 }

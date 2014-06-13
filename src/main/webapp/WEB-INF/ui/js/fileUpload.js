@@ -32,8 +32,6 @@ upload.factory('uploadService', ['$rootScope', function($rootScope) {
             send: function(file) {
                 var data = new FormData(),
              xhr = new XMLHttpRequest();
-
-
                 xhr.onloadstart = function() {
                     console.log('Factory: upload started: ', file.name);
                     $rootScope.$emit('upload:loadstart', xhr);
@@ -45,7 +43,6 @@ upload.factory('uploadService', ['$rootScope', function($rootScope) {
                 };
                 xhr.onreadystatechange = function(e)
                 {
-
                     if (xhr.readyState === 4 && xhr.status === 201)
                     {
                         $rootScope.$emit('upload:succes',e, xhr, file.name ,file.type);
@@ -56,9 +53,7 @@ upload.factory('uploadService', ['$rootScope', function($rootScope) {
 
                 // Send to server, where we can then access it with $_FILES['file].
                 data.append('file', file, file.name);
-       
                 xhr.open('POST', '../files');
-        
                 xhr.send(data);
                 
 
