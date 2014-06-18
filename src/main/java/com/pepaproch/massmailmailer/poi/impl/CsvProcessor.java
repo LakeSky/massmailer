@@ -52,10 +52,10 @@ public class CsvProcessor implements PoiFlatFileHandler {
             }
         }
 
-        int recCount = 0;
+        Long recCount = 1L;
         List<DataSourceRow> previewRows = new ArrayList();
         while (it.hasNext() && recCount < 6) {
-            previewRows.add(new DataSourceRow("preview" + recCount, it.next()));
+            previewRows.add(new DataSourceRow("preview" + recCount, it.next(),recCount));
             recCount++;
         }
 

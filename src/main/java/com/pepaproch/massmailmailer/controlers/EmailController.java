@@ -52,7 +52,7 @@ public class EmailController {
 
     @RequestMapping(value = "/{campainId}/{emailidx}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public Email getEmailPreview(@PathVariable("campainId") BigDecimal campainId, BigDecimal emailIdx ) {
+    public Email getEmailPreview(@PathVariable("campainId") Long campainId, Long emailIdx ) {
     Email email =  campainSendService.geCreatePreview(campainId,emailIdx);
     return email;
     }

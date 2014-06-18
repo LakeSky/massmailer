@@ -42,7 +42,7 @@ public class DataSourceRowService {
 
     }
 
-    public int updateDataFromFile(String dataSourceId, File f) throws IllegalArgumentException {
+    public Long updateDataFromFile(String dataSourceId, File f) throws IllegalArgumentException {
         PoiFlatFileHandler processor = getPoiHandlerFactory().getHandler(f.getName());
         if (processor == null) {
             throw new IllegalArgumentException("Canoy read this file into datasource rows");
@@ -52,10 +52,10 @@ public class DataSourceRowService {
             RowMapper<RowRecords> rowMapper = processor.process(f);
             Collection<DataSourceRow> previewRows = new ArrayList();
             int i = 0;
-            int realCount = 0;
+            Long realCount = 1L;
             for (RowRecords row : rowMapper) {
                 if (i > 0 && !row.isEmpty()) {
-                    previewRows.add(new DataSourceRow(dataSourceId, row));
+                    previewRows.add(new DataSourceRow(dataSourceId, row,realCount));
                     realCount++;
                 }
                i++;

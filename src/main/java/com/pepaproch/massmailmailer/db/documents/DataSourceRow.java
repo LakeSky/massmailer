@@ -21,7 +21,7 @@ public class DataSourceRow implements SourceRow {
 
     @Id
     private String id;
-    private BigDecimal order;
+    private Long order;
     private String dataSourceId;
     private Collection<DataSourceField> dataSourceFields;
     
@@ -37,9 +37,10 @@ public class DataSourceRow implements SourceRow {
     public DataSourceRow() {
     }
 
-    public DataSourceRow(String dataSourceId, RowRecords<DataSourceField> row) {
+    public DataSourceRow(String dataSourceId, RowRecords<DataSourceField> row,Long order) {
         this.dataSourceId = dataSourceId;
         this.dataSourceFields = row.getFields();
+        this.order = order;
     }
 
 
@@ -89,14 +90,14 @@ public class DataSourceRow implements SourceRow {
     /**
      * @return the order
      */
-    public BigDecimal getOrder() {
+    public Long getOrder() {
         return order;
     }
 
     /**
      * @param order the order to set
      */
-    public void setOrder(BigDecimal order) {
+    public void setOrder(Long order) {
         this.order = order;
     }
 

@@ -27,10 +27,11 @@ import com.pepaproch.massmailmailer.repository.EmailFolderRepo;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.WeakHashMap;
 import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -63,89 +64,108 @@ public class CampainCreateService {
     @Autowired
     private MailGunRestClient mailgunClient;
 
-    /**
-     *
-     * @param c
-     * @return
-     * @throws IOException
-     */
     @Async
     public Future<Campain> processCampain(Campain c) throws IOException {
         c.setStatus("CREATING");
         campainService.getCampainRepo().save(c);
-        DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
-        Collection<DataSourceRow> findByDataSourceId = getRowsrepository().findByDataSourceId(c.getDataSourceId());
+        createEmails(c);
+        c.setStatus("SENDING"); 
+        return new AsyncResult<>(campainService.getCampainRepo().save(c));
+    }
 
-        TextDocumentHolder emailText = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getEmailText());
-        TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
-        TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
+    /**
+     *
+     * @param c
+     * @throws IOException
+     */
+    public void createEmails(Campain c) throws IOException {
+        DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
+        Collection<DataSourceRow> dataSources = getRowsrepository().findByDataSourceId(c.getDataSourceId());
         DocumentHolder emailAttachmentdocu = null;
         WeakHashMap<Long, Object> attachments = new WeakHashMap<>();
-
         for (CampainAttachment at : c.getCampainAttachments()) {
             if (at.getCustomizeAttachments()) {
                 DocumentFactory documentFactory = new DocumentFactoryImpl();
                 emailAttachmentdocu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
                 attachments.put(at.getId(), emailAttachmentdocu);
             } else {
-                attachments.put(at.getId(), new  SimpleDocument(new File("/tmp/" + at.getAttachmentFileSystemName())));
+                attachments.put(at.getId(), new SimpleDocument(new File("/tmp/" + at.getAttachmentFileSystemName())));
             }
         }
-        
         EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
-        int i = 1;
-        for (DataSourceRow r : findByDataSourceId) {
-            MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
-            mlBulder.setFrom("pepaproch@gmail.com");
-            mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
-//            mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
-            mlBulder.setReccipients("pepaproch@gmail.com", null, null);
-            mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
-            for (CampainAttachment at : c.getCampainAttachments()) {
-                byte[] finalAttachment = null;
-                byte[] proccesAttachment = null;
-
-                if (at.getCustomizeAttachments() && attachments.get(at.getId()) instanceof DocumentHolder) {
-                    proccesAttachment = proccesAttachment((DocumentHolder) attachments.get(at.getId()), ds, r);
-
-                } else if (attachments.get(at.getId()) instanceof SimpleDocument) {
-                    proccesAttachment = ((SimpleDocument)attachments.get(at.getId())).getOutputStream();
-                }
-                if (!at.getAttachmentFileType().equalsIgnoreCase(at.getAttachmentOutputType())) {
-                    finalAttachment = getConvertService().convert(proccesAttachment, at.getAttachmentFileType(), at.getAttachmentOutputType(), Boolean.TRUE);
-                } else {
-                    finalAttachment = proccesAttachment;
-                }
-
-                mlBulder.setAttachment(finalAttachment, at.getAttachmentOutputName(), at.getAttachmentOutputType());
-
-            }
-           
-            mlBulder.setCampain(c);
-            mlBulder.setCampainIndex(Long.valueOf(i));
+        int i = 0;
+        for (DataSourceRow r : dataSources) {
+            Email save = emailrepo.saveAndFlush(buildEmail(c, ds, r, attachments, emailFolder, i));
             System.out.println("EMAIL CREATED: " + i);
             i++;
-            Email save = emailrepo.saveAndFlush(mlBulder.getEmail());
+        }
+
+    }
+
+    public Email createEmail(Campain c, DataSourceRow r) throws IOException {
+        DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
+        DocumentHolder emailAttachmentdocu = null;
+        WeakHashMap<Long, Object> attachments = new WeakHashMap<>();
+        for (CampainAttachment at : c.getCampainAttachments()) {
+            if (at.getCustomizeAttachments()) {
+                DocumentFactory documentFactory = new DocumentFactoryImpl();
+                emailAttachmentdocu = documentFactory.getDocument("/tmp/" + at.getAttachmentFileSystemName(), new StringPlaceHolderHelper("###"));
+                attachments.put(at.getId(), emailAttachmentdocu);
+            } else {
+                attachments.put(at.getId(), new SimpleDocument(new File("/tmp/" + at.getAttachmentFileSystemName())));
+            }
+        }
+
+        EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
+        int i = 0;
+        return buildEmail(c, ds, r, attachments, emailFolder, 0);
+    }
+
+    private Email buildEmail(Campain c, DataStructure ds, DataSourceRow r, WeakHashMap<Long, Object> attachments, EmailFolder emailFolder, int i) {
+        TextDocumentHolder emailText = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getEmailText());
+        TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
+        TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
+        MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
+        mlBulder.setFrom("pepaproch@gmail.com");
+        mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
+//            mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
+        mlBulder.setReccipients("pepaproch@gmail.com", null, null);
+        mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
+        for (CampainAttachment at : c.getCampainAttachments()) {
+            byte[] finalAttachment = null;
+            byte[] proccesAttachment = null;
+
+            if (at.getCustomizeAttachments() && attachments.get(at.getId()) instanceof DocumentHolder) {
+                proccesAttachment = proccesAttachment((DocumentHolder) attachments.get(at.getId()), ds, r);
+
+            } else if (attachments.get(at.getId()) instanceof SimpleDocument) {
+                proccesAttachment = ((SimpleDocument) attachments.get(at.getId())).getOutputStream();
+            }
+            if (!at.getAttachmentFileType().equalsIgnoreCase(at.getAttachmentOutputType())) {
+                try {
+                    finalAttachment = getConvertService().convert(proccesAttachment, at.getAttachmentFileType(), at.getAttachmentOutputType(), Boolean.TRUE);
+                } catch (IOException ex) {
+                    Logger.getLogger(CampainCreateService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                finalAttachment = proccesAttachment;
+            }
+
+            mlBulder.setAttachment(finalAttachment, at.getAttachmentOutputName(), at.getAttachmentOutputType());
 
         }
-        c.setStatus("SENDING");
-        campainService.getCampainRepo().save(c);
-        return new AsyncResult<>(c);
-    }
-    
-    
-    private  Email buildEmail() {
-        return null;
+
+        mlBulder.setCampain(c);
+        mlBulder.setCampainIndex(Long.valueOf(i));
+
+        return mlBulder.getEmail();
     }
 
     public String proccesEmailBody(TextDocumentHolder emailText, DataStructure ds, DataSourceRow r) {
-
         return getTemplateService().populateTextTemplate(emailText, ds, r);
-
     }
 
     public byte[] proccesAttachment(DocumentHolder document, DataStructure ds, DataSourceRow r) {
-
         return getTemplateService().populateTemplateOutputStream(document, ds, r);
     }
 
@@ -261,7 +281,16 @@ public class CampainCreateService {
         this.emailFoldeRepo = emailFoldeRepo;
     }
 
-    Email geCreatePreview(BigDecimal campainId, BigDecimal emailIdx) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   public  Email geCreatePreview(Long campainId, Long emailIdx) {
+        Campain c = campainService.findOne(campainId);
+        DataSourceRow findByDataSourceIdOrder = rowsrepository.findByDataSourceIdOrder(c.getDataSourceId(), emailIdx);
+        Email result = null;
+        try {
+          result =  createEmail(c, findByDataSourceIdOrder);
+        } catch (IOException ex) {
+            Logger.getLogger(CampainCreateService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
     }
 }

@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -31,6 +32,7 @@ public class Attachment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
     private Long id;
+    @JsonIgnore
     @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "ATTACHMENT")

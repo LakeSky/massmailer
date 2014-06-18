@@ -129,7 +129,7 @@ public class DataSourceController {
             DataSource savedDataSource = dataRepository.save(dataSource);
 
             if (dataSource.getFileUploaded()) {
-                int i = dataSourceRowService.updateDataFromFile(savedDataSource.getId(), new File("/tmp/" + dataSource.getDataStructure().getFileName()));
+                Long i = dataSourceRowService.updateDataFromFile(savedDataSource.getId(), new File("/tmp/" + dataSource.getDataStructure().getFileName()));
                 savedDataSource.setRecordsCount(i);
                 dataRepository.save(savedDataSource);
             }

@@ -32,7 +32,7 @@ public class DataSource {
     @Valid
     private DataStructure dataStructure;
 
-    private Integer recordsCount;
+    private Long recordsCount;
 
     private String category;
     
@@ -88,14 +88,14 @@ public class DataSource {
     /**
      * @return the recordsCount
      */
-    public Integer getRecordsCount() {
+    public Long getRecordsCount() {
         return (recordsCount == null) ? 0 : recordsCount;
     }
 
     /**
      * @param recordsCount the recordsCount to set
      */
-    public void setRecordsCount(Integer recordsCount) {
+    public void setRecordsCount(Long recordsCount) {
         this.recordsCount = recordsCount;
     }
 
