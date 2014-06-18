@@ -204,7 +204,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.sent = function() {
             $scope.Campain.status = 'READY';
-            $scope.ok('/campains/type/EDIT');
+            $scope.ok('/campain/preview/'+ $scope.Campain.id);
         };
         $scope.ok = function(redirect) {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();

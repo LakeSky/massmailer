@@ -7,9 +7,9 @@ package com.pepaproch.massmailmailer.db.documents;
 
 import com.pepaproch.massmailmailer.poi.RowRecords;
 import com.pepaproch.massmailmailer.poi.SourceRow;
+import java.math.BigDecimal;
 import java.util.Collection;
 import javax.persistence.Id;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -21,6 +21,7 @@ public class DataSourceRow implements SourceRow {
 
     @Id
     private String id;
+    private BigDecimal order;
     private String dataSourceId;
     private Collection<DataSourceField> dataSourceFields;
     
@@ -83,6 +84,20 @@ public class DataSourceRow implements SourceRow {
      */
     public void setDataSourceFields(Collection<DataSourceField> dataSourceFields) {
         this.dataSourceFields = dataSourceFields;
+    }
+
+    /**
+     * @return the order
+     */
+    public BigDecimal getOrder() {
+        return order;
+    }
+
+    /**
+     * @param order the order to set
+     */
+    public void setOrder(BigDecimal order) {
+        this.order = order;
     }
 
 }

@@ -70,7 +70,7 @@
 
       <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://172.16.66.28:5432/massmailler" />
+        <property name="url" value="jdbc:postgresql://reportserver:5432/massmailler" />
         <property name="username" value="massmailler" />
         <property name="password" value="massmailler" />
     </bean>
@@ -91,7 +91,7 @@
 
 
     <mongo:db-factory id="mongDbFactory"
-                      host="172.16.66.28"
+                      host="reportserver"
                       port="27017"
                       dbname="massmailler"
                       username="massmailler"

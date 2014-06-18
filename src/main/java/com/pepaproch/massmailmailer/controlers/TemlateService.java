@@ -15,15 +15,16 @@ import com.pepaproch.massmailmailer.mongo.repository.DataSourceInfoRep;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
 import com.pepaproch.massmailmailer.poi.DocumentFactory;
 import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
-import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
-import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.DocumentTemplate;
+import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
+import com.pepaproch.massmailmailer.poi.convert.TemplateDataItem;
 import com.pepaproch.massmailmailer.poi.convert.TemplateImpl;
 import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
 import com.pepaproch.massmailmailer.poi.convert.TextTemplate;
 import com.pepaproch.massmailmailer.poi.convert.TextTemplateImpl;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -46,6 +47,20 @@ public class TemlateService {
     private DataSourceInfoRep dataSourceInfoRep;
 
     public String createPreview(String templateFile, String dataSourceId) throws IOException {
+        DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
+        Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
+        Pageable pageSpecification = new PageRequest(1, 1, sortable);
+        Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) dataSourceRowsRep.findByDataSourceIdPage(dataSourceId, pageSpecification);
+        if (findByDataSourceIdPage == null || findByDataSourceIdPage.size() == 0) {
+            throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
+        }
+        DocumentFactory documentFactory = new DocumentFactoryImpl();
+        DocumentHolder docu = documentFactory.getDocument(templateFile,new StringPlaceHolderHelper("###"));
+      
+        return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
+    }
+    
+        public String createPreview(String templateFile, String dataSourceId, BigDecimal rowId) throws IOException {
         DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
         Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
         Pageable pageSpecification = new PageRequest(1, 1, sortable);
