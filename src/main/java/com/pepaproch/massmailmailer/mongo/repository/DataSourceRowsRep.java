@@ -29,14 +29,14 @@ public interface DataSourceRowsRep extends CrudRepository<DataSourceRow, String>
     @Query("  { dataSourceId: ?0} ")
     public Collection<DataSourceRow> findByDataSourceId(String dataSourceId);
 
-    @Query(" $and [ { dataSourceId: ?0 } , {order: ?1} ")
+    @Query("{ $and: [ { dataSourceId: ?0 } , {order: ?1}] }")
     public DataSourceRow findByDataSourceIdOrder(String dataSourceId, Long order);
 
     @Query("  { dataSourceId: ?0} ")
     public List<DataSourceRow> findByDataSourceIdPage(String dataSourceId, Pageable pageable);
 
     @Query(value = "  { dataSourceId: ?0} ", count = true)
-    public BigDecimal countByDataSourceId(String dataSourceId);
+    public Long countByDataSourceId(String dataSourceId);
 
     /**
      *

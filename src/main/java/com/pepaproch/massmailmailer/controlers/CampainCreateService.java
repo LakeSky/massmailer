@@ -66,10 +66,9 @@ public class CampainCreateService {
 
     @Async
     public Future<Campain> processCampain(Campain c) throws IOException {
-        c.setStatus("CREATING");
+        c.setStatus(Campain.STATUS_INPROGRES);
         campainService.getCampainRepo().save(c);
         createEmails(c);
-        c.setStatus("SENDING"); 
         return new AsyncResult<>(campainService.getCampainRepo().save(c));
     }
 

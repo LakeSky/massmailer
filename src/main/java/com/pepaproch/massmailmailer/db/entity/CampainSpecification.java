@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ */ 
 package com.pepaproch.massmailmailer.db.entity;
 
 import static com.pepaproch.massmailmailer.db.entity.AbstracSpec.getLikeString;
@@ -100,7 +100,7 @@ public class CampainSpecification extends AbstracSpec {
      * @param compare
      * @return
      */
-    public static Specification<Campain> findByRecordCount(final BigDecimal value, final String compare) {
+    public static Specification<Campain> findByRecordCount(final Long value, final String compare) {
         return new Specification<Campain>() {
             @Override
             public Predicate toPredicate(Root<Campain> root, CriteriaQuery<?> query,

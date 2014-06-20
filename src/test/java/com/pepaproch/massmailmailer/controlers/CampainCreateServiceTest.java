@@ -6,16 +6,29 @@
 
 package com.pepaproch.massmailmailer.controlers;
 
+import com.pepaproch.massmailmailer.db.entity.Email;
+import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import static org.junit.Assert.*;
-
 /**
  *
  * @author pepa
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
+@TransactionConfiguration(transactionManager = "txManager")
+@Transactional
 public class CampainCreateServiceTest {
+    
+    @Autowired
+    private CampainCreateService campainCreateService;
     
     public CampainCreateServiceTest() {
     }
@@ -180,6 +193,27 @@ public class CampainCreateServiceTest {
      */
     @Test
     public void testGeCreatePreview() {
+        Long campainId = 3L;
+        for(int i = 1; i<4 ;i++) {
+            Email geCreatePreview = campainCreateService.geCreatePreview(campainId, new Long(i));
+            assertNotNull(geCreatePreview);
+        }
+        
+        
+    }
+
+    /**
+     * @return the campainCreateService
+     */
+    public CampainCreateService getCampainCreateService() {
+        return campainCreateService;
+    }
+
+    /**
+     * @param campainCreateService the campainCreateService to set
+     */
+    public void setCampainCreateService(CampainCreateService campainCreateService) {
+        this.campainCreateService = campainCreateService;
     }
     
 }

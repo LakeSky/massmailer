@@ -271,6 +271,12 @@
       <version>3.2.5.RELEASE</version>
     </dependency>
     <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.3-1101-jdbc41</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>

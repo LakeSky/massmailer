@@ -65,7 +65,7 @@ public class CampainSendService {
     }
 
     private void updateCampainStatus(Campain c) {
-        c.setRecordsSent(c.getRecordsCount().subtract(new BigDecimal(emailrepo.countUnsentPaginated(c.getId(), EmailFolder.FOLDER_OUTGOING))));
+        c.setRecordsSent(c.getRecordsCount() - (emailrepo.countUnsentPaginated(c.getId(), EmailFolder.FOLDER_OUTGOING)));
         campainRepo.save(c);
     }
 

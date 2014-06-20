@@ -92,9 +92,6 @@ public class CampainController {
             return errorResponse;
         } else {
             Campain campainSaved = getCampainService().save(campain);
-            if (campainSaved.getStatus().equalsIgnoreCase("READY")) {
-                campainSendService.processCampain(campainSaved);
-            }
 
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;

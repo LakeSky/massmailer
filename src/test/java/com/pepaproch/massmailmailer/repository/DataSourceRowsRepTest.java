@@ -75,7 +75,7 @@ public class DataSourceRowsRepTest {
 
         @Test
     public void count() {
-BigDecimal count = dataSourceRowRep.countByDataSourceId("52fcd88844aef19a6f3c74db");
+Long count = dataSourceRowRep.countByDataSourceId("52fcd88844aef19a6f3c74db");
             assertNotNull(count);
     }
     

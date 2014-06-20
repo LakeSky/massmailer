@@ -46,13 +46,12 @@ public class CampainService {
     private EntityManager entityManager;
     
     public Campain save(Campain c) throws FileNotFoundException {
-        BigDecimal countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
+        Long countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
         if (c.getId().compareTo(Long.valueOf(-1)) != 0) {
         } else {
             c.setId(null);
         }
         c.setRecordsCount(countRows);
-        c.setStatus("READY");
         for (CampainAttachment at : c.getCampainAttachments()) {
             if (at.getCampain() == null) {
                 at.setCampain(c);
