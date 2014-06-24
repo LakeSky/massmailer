@@ -39,7 +39,8 @@ var entityService = angular.module('entityService', ['ngResource']).
                             searchString: null
                         }, isArray: true
 
-                    }})
+                    }}),
+                Email: $resource ('../email/:campainId/:emailId')
 
 
             };

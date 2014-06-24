@@ -50,9 +50,9 @@ public class EmailController {
         return null;
     }
 
-    @RequestMapping(value = "/{campainId}/{emailidx}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/{campainId}/{emailIdx}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
-    public Email getEmailPreview(@PathVariable("campainId") Long campainId, Long emailIdx ) {
+    public Email getEmailPreview(@PathVariable("campainId") Long campainId,@PathVariable("emailIdx")  Long emailIdx ) {
     Email email =  campainSendService.geCreatePreview(campainId,emailIdx);
     return email;
     }

@@ -12,11 +12,7 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 // ----------
 campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, menu) {
         $scope.ctype = $routeParams.type;
-        menu.resetSubmenu();
-        menu.addToSubmenu('Hromadné emaily', '#/campains', 'glyphicon-th-list');
-        menu.addToSubmenu('Rozpracované', '#/campains/drafts', 'glyphicon-th-list');
-        menu.addToSubmenu('Odeslané', '#/campains/sent', 'glyphicon-th-list');
-        menu.addToSubmenu('Nový email', '#/campain/new', 'glyphicon-plus');
+
 
 
 
@@ -379,7 +375,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
 // Controller
 // ----------
-dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'Entity', 'uploadService', '$modalInstance', 'attachments', function($rootScope, $scope, Entity, uploadService, $modalInstance, attachments) {
+campain.controller('CampainAttachmentController', ['$rootScope', '$scope', 'Entity', 'uploadService', '$modalInstance', 'attachments', function($rootScope, $scope, Entity, uploadService, $modalInstance, attachments) {
 
         $scope.outputFormats = [
             {name: 'Word 97 (doc)', value: 'doc'},
@@ -498,7 +494,7 @@ dataSource.controller('CampainAttachmentController', ['$rootScope', '$scope', 'E
     }]);
 // Controller
 // ----------
-dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
+campain.controller('CampainDeleteController', ['$scope', '$routeParams', '$location', 'Entity', '$q', function($scope, $routeParams, $location, Entity, $q) {
         var dataSourceId = $routeParams.dataSourceId;
         if (undefined === dataSourceId) {
 
@@ -554,9 +550,9 @@ dataSource.controller('CampainDeleteController', ['$scope', '$routeParams', '$lo
 
 // Controller
 // ----------
-dataSource.controller('CampainPreviewController', ['$scope', '$routeParams', '$location', 'Entity', '$http', function($scope, $routeParams, $location, Entity, $http) {
+campain.controller('CampainPreviewController', ['$scope', '$routeParams', '$location', 'Entity', '$http', function($scope, $routeParams, $location, Entity, $http) {
         var campainId = $routeParams.campainId;
-
+$scope.test = "ssss";
         var Campain = Entity.Campain.get({campainId: campainId}, function() {
             $scope.Campain = Campain;
         });
@@ -567,17 +563,7 @@ dataSource.controller('CampainPreviewController', ['$scope', '$routeParams', '$l
 
 
         $scope.send = function() {
-            var deferred = $q.defer();
-            $scope.DataSource.$delete(
-                    function(DataSource, headers) {
-                        deferred.resolve(DataSource);
-                        handleFormSucces("Smazano", $location, '/datasource');
 
-                    }, function(error) {
-                return   handleFormError($scope, error.data);
-
-            });
-            return deferred.promise;
         };
 
 
