@@ -85,14 +85,14 @@ public class TemlateService {
 
         }
 
-        List<TemplateDataItem> items = new ArrayList();
+
         Collection<DataSourceField> dataSourceFields = row.getDataSourceFields();
         DataSourceField[] array = new DataSourceField[dataSourceFields.size()];
         dataSourceFields.toArray(array);
         TemplateDataItem dat = new TemplateDataItem();
         for (DataStructureMetaField mf : usedFields) {
             dat.add("###" + mf.getName() + "###", array[mf.getIndex()].stringValue());
-            items.add(dat);
+     
         }
         return new TemplateImpl(docu, dat);
     }

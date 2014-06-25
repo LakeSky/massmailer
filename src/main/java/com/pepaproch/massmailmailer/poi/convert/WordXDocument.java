@@ -97,12 +97,14 @@ public class WordXDocument implements DocumentHolder {
 
     }
 
+    //TODO handle variables holders spread around several runs
     @Override
     public void setVariable(String varName, String varValue) {
 
         for (Iterator<XWPFParagraph> it = doc.getParagraphsIterator(); it.hasNext();) {
 
             XWPFParagraph next = it.next();
+            
             List<XWPFRun> runs = next.getRuns();
             for (XWPFRun run : runs) {
                 

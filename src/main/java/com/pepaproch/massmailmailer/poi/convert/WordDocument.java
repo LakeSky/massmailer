@@ -95,7 +95,6 @@ public class WordDocument implements DocumentHolder {
        int paraCount = doc.getRange().numParagraphs();
        int currPara = 0;
        while(paraCount>currPara) {
-           
            Paragraph paragraph = doc.getRange().getParagraph(currPara);
            ParagraphProperties cloneProperties = paragraph.cloneProperties();
            paragraph.replaceText(varName, varValue);

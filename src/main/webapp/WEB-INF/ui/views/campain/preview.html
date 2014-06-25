@@ -7,13 +7,21 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Email: {{Campain.campainName}}</h1>
+        <h1 class="page-header">Kampaň: {{Campain.campainName}}</h1>
     </div>
     <!-- /.col-lg-12 -->
 
 </div>
 <!-- /.row -->
 <div class="row" ng-controller="EmailPreviewCtrl">
+
+    <pagination ng-change="paginate()" items-per-page="1" total-items="emailPreview.recordsCount" ng-model="emailPreview.currentPosition"  ></pagination>
+           <h4 style="
+                        font-size: 12px;
+                        font-weight: 700;
+                        color: #bbb;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;">Text emailu</h4>
     <div class="well" ng-bind-html="to_trusted(email.emailText)"></div>
   
 </div>

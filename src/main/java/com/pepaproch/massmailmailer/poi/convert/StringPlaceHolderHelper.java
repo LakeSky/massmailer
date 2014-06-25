@@ -22,14 +22,12 @@ public class StringPlaceHolderHelper implements PlaceHolderHelper {
     @Override
     public Collection<String> getPlaceHolders(TemplateHolder docHolder) {
         List<String> tr = new ArrayList();
-    
         Matcher m = pattern.matcher(docHolder.getDocumentText());
         while (m.find()) {
             if (!tr.contains(m.group())) {
                 tr.add(m.group());
             }
         }
-
         return tr ;
 
     }
