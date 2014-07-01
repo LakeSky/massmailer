@@ -60,12 +60,12 @@ public class TemlateService {
         return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
     }
     
-        public String createPreview(String templateFile, String dataSourceId, BigDecimal rowId) throws IOException {
+        public String createPreview(String templateFile, String dataSourceId, Long rowId) throws IOException {
         DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
         Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
         Pageable pageSpecification = new PageRequest(1, 1, sortable);
         Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) dataSourceRowsRep.findByDataSourceIdPage(dataSourceId, pageSpecification);
-        if (findByDataSourceIdPage == null || findByDataSourceIdPage.size() == 0) {
+        if (findByDataSourceIdPage == null || findByDataSourceIdPage.isEmpty()) {
             throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
         }
         DocumentFactory documentFactory = new DocumentFactoryImpl();

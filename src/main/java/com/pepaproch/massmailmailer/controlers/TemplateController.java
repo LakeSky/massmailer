@@ -67,13 +67,13 @@ public class TemplateController {
 
     @ResponseBody
     @RequestMapping(value = "preview/pdf*", method = {RequestMethod.GET}, produces = "application/pdf")
-    public FileSystemResource getTemplatePreviewPdf(@RequestParam(value = "datasourceId", required = false) String datasourceId, @RequestParam(value = "fileId", required = true) String fileName, HttpServletResponse response) throws IOException {
+    public FileSystemResource getTemplatePreviewPdf(@RequestParam(value = "datasourceId", required = false) String datasourceId, @RequestParam(value = "fileId", required = true) String fileName, @RequestParam(value = "emailId") Long emailId, HttpServletResponse response) throws IOException {
         String previeFile = "/tmp/" + fileName;
         String filedTemplate = "/tmp/";
         if (datasourceId != null) {
             filedTemplate += templateService.createPreview("/tmp/" + fileName, datasourceId);
-        }else {
-        filedTemplate = previeFile;
+        } else {
+            filedTemplate = previeFile;
         }
 
         convertService.convert(filedTemplate, previeFile + ".pdf", Boolean.FALSE);

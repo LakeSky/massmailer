@@ -6,33 +6,41 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Kampaň: {{Campain.campainName}}</h1>
-    </div>
-    <!-- /.col-lg-12 -->
+
+    <h1 class="page-header">Kampaň: {{Campain.campainName}}</h1>
+    <p>Ppopis: {{Campain.description}}</p>
+    <p>Počet emailů: {{Campain.recordsCount}}</p>
 
 </div>
 <!-- /.row -->
 <div class="row" ng-controller="EmailPreviewCtrl">
 
+
+    <h2 style="
+        font-size: 14px;
+        font-weight: 700;
+        color: #bbb;
+        text-transform: uppercase;
+        letter-spacing: 1px;">Náhled emailu</h2>
+    <hr/>
     <pagination ng-change="paginate()" items-per-page="1" total-items="emailPreview.recordsCount" ng-model="emailPreview.currentPosition"  ></pagination>
-           <h4 style="
-                        font-size: 12px;
-                        font-weight: 700;
-                        color: #bbb;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;">Text emailu</h4>
+    <p style="font-weight: bold">Odesílatel: {{email.fromEmail}}<p>
+    <p style="font-weight: bold">Adresát: {{email.recipients}}<p>
+    <p style="font-weight: bold" >Předmět: {{email.subject}}<p>
+    <p style="font-weight: bold" >Text emailu<p>
     <div class="well" ng-bind-html="to_trusted(email.emailText)"></div>
-  
+    <email-attachment ng-repeat="attachment in Campain.campainAttachments" attachment="attachment"  campain="Campain" current="emailPreview.currentPosition" ></email-attachment>  
 </div>
 
 
-    <div class="row" >
-        <div class="col-lg-12 text-right">
-            <button class="btn btn-success" ng-click="sent()">Odeslat</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
+
+
+<div class="row" >
+    <div class="col-lg-12 text-right">
+        <button class="btn btn-success" ng-click="sent()">Odeslat</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
+</div>
 
 
 

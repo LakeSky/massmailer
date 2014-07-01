@@ -10,7 +10,7 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 
 // Controller
 // ----------
-campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, menu) {
+campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs','$location', function($scope, Entity, $modal, $routeParams, menu,$location) {
         $scope.ctype = $routeParams.type;
 
 
@@ -58,7 +58,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         var modalInstance;
 
         $scope.openDeleteDialog = function(campainsId, name) {
-            $routeParams.dataSourceId = dataSourceId;
+ 
             modalInstance = $modal.open({
                 templateUrl: 'views/deleteDialog.html',
                 controller: 'CampainDeleteController'
@@ -68,6 +68,11 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
             }, function() {
                 $log.info('Modal dismissed at: ' + new Date());
             });
+        };
+        
+        $scope.send = function (campain) {
+                $location.path('/campain/preview/' + campain.id);
+            
         };
 
 
@@ -199,8 +204,8 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
 
         $scope.sent = function() {
-            $scope.Campain.status = 'READY';
-            $scope.ok('/campain/preview/'+ $scope.Campain.id);
+
+            $scope.ok('/campain/preview/' + $scope.Campain.id);
         };
         $scope.ok = function(redirect) {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
@@ -552,7 +557,7 @@ campain.controller('CampainDeleteController', ['$scope', '$routeParams', '$locat
 // ----------
 campain.controller('CampainPreviewController', ['$scope', '$routeParams', '$location', 'Entity', '$http', function($scope, $routeParams, $location, Entity, $http) {
         var campainId = $routeParams.campainId;
-$scope.test = "ssss";
+        $scope.test = "ssss";
         var Campain = Entity.Campain.get({campainId: campainId}, function() {
             $scope.Campain = Campain;
         });

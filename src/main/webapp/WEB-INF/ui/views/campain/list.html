@@ -27,7 +27,7 @@
         <tr>
             <th class="col-lg-4 text-info">Název</th>
             <th class="text-right col-lg-2 text-info">Počet záznamů</th>
-            <th class="text-center text-info">Stav</th>
+
             <th class="text-right text-info">Akce</th>
         </tr>
 
@@ -42,14 +42,13 @@
             <tr ng-repeat="c in campains" >
                 <td  class="col-lg-4" ><b>{{c.campainName}}</b></td>
                 <td class="text-right col-lg-2" ><span class="badge">{{c.recordsCount}}</span></td>
-                <td class="text-center" >{{c.status}}</td>
                 <td class="text-right col-lg-1">
                     <div class="btn-group">
                         <button type="button" class="btn btn-warning dropdown-toggle dr" data-toggle="dropdown">Action <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" >
                             <li><a ng-href="#/campain/{{c.id}}"  >Upravit</a></li>
-
+                            <li><a ng-click="send(c)"  >Odeslat</a></li>
                             <li class="divider"></li>
                             <li><a ng-click="openDeleteDialog(c.id, c.campainName)" >Smazat</a></li>
                         </ul>
