@@ -71,7 +71,7 @@ public class TemplateController {
         String previeFile = "/tmp/" + fileName;
         String filedTemplate = "/tmp/";
         if (datasourceId != null) {
-            filedTemplate += templateService.createPreview("/tmp/" + fileName, datasourceId);
+            filedTemplate += templateService.createPreview("/tmp/" + fileName, datasourceId,emailId);
         } else {
             filedTemplate = previeFile;
         }

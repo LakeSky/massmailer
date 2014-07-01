@@ -61,17 +61,15 @@ public class TemlateService {
     }
     
         public String createPreview(String templateFile, String dataSourceId, Long rowId) throws IOException {
-        DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
-        Sort sortable = new Sort(Sort.Direction.ASC, "dataSourceFields." + 0 + ".value");
-        Pageable pageSpecification = new PageRequest(1, 1, sortable);
-        Collection<DataSourceRow> findByDataSourceIdPage = (List<DataSourceRow>) dataSourceRowsRep.findByDataSourceIdPage(dataSourceId, pageSpecification);
-        if (findByDataSourceIdPage == null || findByDataSourceIdPage.isEmpty()) {
-            throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
-        }
+              DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
+              DataSourceRow dataSourceRow = dataSourceRowsRep.findByDataSourceIdOrder(dataSourceId, rowId);
+
+
+ 
         DocumentFactory documentFactory = new DocumentFactoryImpl();
         DocumentHolder docu = documentFactory.getDocument(templateFile,new StringPlaceHolderHelper("###"));
       
-        return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
+        return populateTemplate(docu, ds.getDataStructure(), dataSourceRow);
     }
 
     private DocumentTemplate buildtemplate(DocumentHolder docu, DataStructure ds, DataSourceRow row) {
