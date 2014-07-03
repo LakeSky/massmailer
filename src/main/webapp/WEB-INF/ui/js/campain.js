@@ -10,7 +10,7 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 
 // Controller
 // ----------
-campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs','$location', function($scope, Entity, $modal, $routeParams, menu,$location) {
+campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs', '$location', function($scope, Entity, $modal, $routeParams, menu, $location) {
         $scope.ctype = $routeParams.type;
 
 
@@ -58,7 +58,7 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
         var modalInstance;
 
         $scope.openDeleteDialog = function(campainsId, name) {
- 
+
             modalInstance = $modal.open({
                 templateUrl: 'views/deleteDialog.html',
                 controller: 'CampainDeleteController'
@@ -69,10 +69,10 @@ campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routePara
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-        
-        $scope.send = function (campain) {
-                $location.path('/campain/preview/' + campain.id);
-            
+
+        $scope.send = function(campain) {
+            $location.path('/campain/preview/' + campain.id);
+
         };
 
 
@@ -347,7 +347,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
             if (atta.customizeAttachments) {
 
-                atta.preview = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
+                atta.preview = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName) + '&emailId=1';
             } else {
 
                 atta.preview = '../template/preview/pdf/' + '?fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
@@ -557,9 +557,12 @@ campain.controller('CampainDeleteController', ['$scope', '$routeParams', '$locat
 // ----------
 campain.controller('CampainPreviewController', ['$scope', '$routeParams', '$location', 'Entity', '$http', function($scope, $routeParams, $location, Entity, $http) {
         var campainId = $routeParams.campainId;
-        $scope.test = "ssss";
+
         var Campain = Entity.Campain.get({campainId: campainId}, function() {
             $scope.Campain = Campain;
+            var DataSource = Entity.DataSource.get({dataSourceId: Campain.dataSourceId}, function() {
+                $scope.dataSource = DataSource;
+            });
         });
 
 
@@ -568,6 +571,10 @@ campain.controller('CampainPreviewController', ['$scope', '$routeParams', '$loca
 
 
         $scope.send = function() {
+              $http.post('../campain/send', { id: Campain.id }).success(function(response) {
+ 
+  });
+            
 
         };
 

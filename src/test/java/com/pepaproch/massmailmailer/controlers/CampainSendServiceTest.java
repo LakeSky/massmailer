@@ -73,7 +73,8 @@ public class CampainSendServiceTest {
         c.setEmailText("<p>nasleduje test STRING: ###STRING### </p>");
         c.setSubject("###STRING### : STRING");
         c.setDataSourceId("52fcd88844aef19a6f3c74db");
-        createService.processCampain(c);
+       Campain cs =  campainRepo.save(c);
+        createService.processCampain(cs.getId());
 
 
     }

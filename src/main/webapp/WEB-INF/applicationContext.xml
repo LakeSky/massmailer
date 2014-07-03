@@ -20,16 +20,18 @@
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.3.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-       http://www.springframework.org/schema/task http://www.springframework.org/schema/util/spring-task-3.0.xsd">
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
     
 <mvc:annotation-driven/>
     
+ 
 
     <context:component-scan base-package="com.pepaproch.massmailmailer.service"/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.controlers"/>
     <context:component-scan base-package="com.pepaproch.massmailmailer.mail"/>
     
-    <jpa:repositories base-package="com.pepaproch.massmailmailer.repository" transaction-manager-ref="txManager" />
+    <jpa:repositories base-package="com.pepaproch.massmailmailer.repository"  transaction-manager-ref="txManager" />
+    
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
         <property name="defaultLocale" value="en_Us" />
@@ -68,7 +70,7 @@
     </bean>
     
 
-      <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://reportserver:5432/massmailler" />
         <property name="username" value="massmailler" />
@@ -84,10 +86,16 @@
 
     </bean>
  
+ 
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+    
+
+
+    
+    
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
 
 
     <mongo:db-factory id="mongDbFactory"
@@ -157,6 +165,12 @@
 
     
     
-        <bean id="poiHandlerFactory" class="com.pepaproch.massmailmailer.poi.PoiHandlerFactoryImpl" />
+    <bean id="poiHandlerFactory" class="com.pepaproch.massmailmailer.poi.PoiHandlerFactoryImpl" />
+    
+    <task:annotation-driven executor="anotattionExecutor" scheduler="anottationScheduler"/>
+
+    <task:executor id="anotattionExecutor" pool-size="5"/>
+
+    <task:scheduler id="anottationScheduler" pool-size="10"/>
     
 </beans>

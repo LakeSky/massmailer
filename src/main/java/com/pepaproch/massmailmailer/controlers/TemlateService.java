@@ -55,20 +55,17 @@ public class TemlateService {
             throw new IllegalArgumentException("DataSource not found: " + dataSourceId);
         }
         DocumentFactory documentFactory = new DocumentFactoryImpl();
-        DocumentHolder docu = documentFactory.getDocument(templateFile,new StringPlaceHolderHelper("###"));
-      
+        DocumentHolder docu = documentFactory.getDocument(templateFile, new StringPlaceHolderHelper("###"));
+
         return populateTemplate(docu, ds.getDataStructure(), findByDataSourceIdPage.iterator().next());
     }
-    
-        public String createPreview(String templateFile, String dataSourceId, Long rowId) throws IOException {
-              DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
-              DataSourceRow dataSourceRow = dataSourceRowsRep.findByDataSourceIdOrder(dataSourceId, rowId);
 
-
- 
+    public String createPreview(String templateFile, String dataSourceId, Long rowId) throws IOException {
+        DataSource ds = dataSourceInfoRep.findOne(dataSourceId);
+        DataSourceRow dataSourceRow = dataSourceRowsRep.findByDataSourceIdOrder(dataSourceId, rowId);
         DocumentFactory documentFactory = new DocumentFactoryImpl();
-        DocumentHolder docu = documentFactory.getDocument(templateFile,new StringPlaceHolderHelper("###"));
-      
+        DocumentHolder docu = documentFactory.getDocument(templateFile, new StringPlaceHolderHelper("###"));
+
         return populateTemplate(docu, ds.getDataStructure(), dataSourceRow);
     }
 
@@ -83,14 +80,13 @@ public class TemlateService {
 
         }
 
-
         Collection<DataSourceField> dataSourceFields = row.getDataSourceFields();
         DataSourceField[] array = new DataSourceField[dataSourceFields.size()];
         dataSourceFields.toArray(array);
         TemplateDataItem dat = new TemplateDataItem();
         for (DataStructureMetaField mf : usedFields) {
             dat.add("###" + mf.getName() + "###", array[mf.getIndex()].stringValue());
-     
+
         }
         return new TemplateImpl(docu, dat);
     }

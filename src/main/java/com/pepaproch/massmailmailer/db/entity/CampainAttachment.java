@@ -6,11 +6,9 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,14 +34,13 @@ public class CampainAttachment implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "INDEX")
-    private BigDecimal index;
+    private Long index;
 
     @JsonIgnore
     @JoinColumn(name = "CAMPAIN_ID")
     @ManyToOne
     private Campain campain;
 
-    @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "ATTACHMENT")
     @JsonIgnore
@@ -211,14 +208,14 @@ public class CampainAttachment implements Serializable {
     /**
      * @return the index
      */
-    public BigDecimal getIndex() {
+    public Long getIndex() {
         return index;
     }
 
     /**
      * @param index the index to set
      */
-    public void setIndex(BigDecimal index) {
+    public void setIndex(Long index) {
         this.index = index;
     }
 

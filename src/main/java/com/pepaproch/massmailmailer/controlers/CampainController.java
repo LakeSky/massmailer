@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.List;
+import java.util.concurrent.Future;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,9 @@ public class CampainController {
             @RequestParam(value = "ctype", required = false) String ctype) {
         Sort sortable = new Sort(Sort.Direction.DESC, sort);
         Pageable pageSpecification = new PageRequest(new Integer(page), new Integer(limit), sortable);
-
+        if (ctype == null) {
+            ctype = "ALL";
+        }
         return getCampainService().searchAll(pageSpecification, search, searchString, ctype);
     }
 
@@ -96,6 +99,16 @@ public class CampainController {
             ResponseEntity<DataSource> responseEntity = new ResponseEntity(campainSaved, HttpStatus.CREATED);
             return responseEntity;
         }
+
+    }
+
+    @RequestMapping(value = "/send", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseEntity sendCampain(@RequestBody Campain campain) throws FileNotFoundException, IOException {
+
+        Future<Campain> campainSaved = getCampainSendService().processCampain(campain.getId());
+        ResponseEntity responseEntity = new ResponseEntity(HttpStatus.CREATED);
+        return responseEntity;
 
     }
 

@@ -55,6 +55,8 @@ public class Campain implements Serializable {
     @Column(name = "DATASOURCE_ID")
     private String dataSourceId;
 
+
+    
     @Column(name = "CUSTOMIZE_EMAIL")
     private Boolean customizeEmail;
 

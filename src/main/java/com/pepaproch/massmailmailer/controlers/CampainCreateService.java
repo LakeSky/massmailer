@@ -65,7 +65,8 @@ public class CampainCreateService {
     private MailGunRestClient mailgunClient;
 
     @Async
-    public Future<Campain> processCampain(Campain c) throws IOException {
+    public Future<Campain> processCampain(Long campainId) throws IOException {
+        Campain c = campainService.findOne(campainId);
         c.setStatus(Campain.STATUS_INPROGRES);
         campainService.getCampainRepo().save(c);
         createEmails(c);
@@ -77,6 +78,7 @@ public class CampainCreateService {
      * @param c
      * @throws IOException
      */
+    @Async
     public void createEmails(Campain c) throws IOException {
         DataStructure ds = getDataSourceRep().findOne(c.getDataSourceId()).getDataStructure();
         Collection<DataSourceRow> dataSources = getRowsrepository().findByDataSourceId(c.getDataSourceId());

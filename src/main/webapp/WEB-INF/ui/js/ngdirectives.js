@@ -22,14 +22,15 @@ directives.directive('emailAttachment', function($compile) {
     var getTemplate = function(type) {
         if (type === 'pdf') {
 
-            return  '{{current}}<embed class="col-lg-7" embed-src="{{previewUrl}}&emailId={{current}}"  src="{{previewUrl}}"  type="application/pdf"   height="400px" />';
+            return  '<div class="panel"><h3>Název: {{attachment.attachmentOutputName}}</h3><p>Personalizovat: {{attachment.customizeAttachments}}</p></div><embed  embed-src="{{previewUrl}}&emailId={{current}}"  src="{{previewUrl}}"  type="application/pdf" width="100%";    height="400px" /></div>';
 
         } else {
-            return  '{{current}}<embed class="col-lg-7" embed-src="{{previewUrl}}&emailId={{current}}"  src="{{previewUrl}}"  type="application/pdf"   height="400px" />';
+            return  '<div class="panel"><h3>Název: {{attachment.attachmentOutputName}}</h3><p>Personalizovat: {{attachment.customizeAttachments}}</p></div><div class="well">Upozornění níže zobrazená příloha byla pevedena do formátu pdf. Příloha bude odeslána ve formátu {{attachment.attachmentOutputType}}</div>\n\
+<embed embed-src="{{previewUrl}}&emailId={{current}}"  src="{{previewUrl}}"  type="application/pdf" width="100%";  height="400px" />';
         }
     };
     var linkFunction = function(scope, element, attrs) {
-        element.html(getTemplate(scope.attachment.attachmentFileType)).show();
+        element.html(getTemplate(scope.attachment.attachmentOutputType)).show();
         $compile(element.contents())(scope);
     };
     return {
@@ -38,14 +39,18 @@ directives.directive('emailAttachment', function($compile) {
         scope: {
             attachment: '=',
             campain: '=',
-            current:'='
+            current: '='
         },
         link: linkFunction,
         controller: function($scope) {
-           
-            $scope.previewUrl = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.campain.dataSourceId) + '&fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName) ;
+
+            $scope.previewUrl = '../template/preview/pdf/' + '?fileId=' + encodeURIComponent($scope.attachment.attachmentFileSystemName);
+            if ($scope.attachment.customizeAttachments === true) {
+                $scope.previewUrl =+ '&datasourceId=' + encodeURIComponent($scope.campain.dataSourceId);
+
+            }
             ;
-            
+
         }
     };
 });

@@ -9,6 +9,7 @@ import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import com.pepaproch.massmailmailer.db.entity.CampainSpecification;
 import com.pepaproch.massmailmailer.mongo.repository.DataSourceRowsRep;
+import com.pepaproch.massmailmailer.repository.CampainAttaRepo;
 import com.pepaproch.massmailmailer.repository.CampainRepo;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,17 +18,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -36,48 +33,57 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 public class CampainService {
-    
+
     @Autowired
     private CampainRepo campainRepo;
     @Autowired
+    private CampainAttaRepo campainAttarepo;
+    @Autowired
     private DataSourceRowsRep rowsRepository;
-    
-    @PersistenceContext
-    private EntityManager entityManager;
-    
+
     public Campain save(Campain c) throws FileNotFoundException {
+
+        Collection<CampainAttachment> findByCampainId = campainAttarepo.findByCampainId(c.getId());
+        if (findByCampainId != null && !findByCampainId.isEmpty()) {
+            campainAttarepo.delete(findByCampainId);
+        }
+
         Long countRows = rowsRepository.countByDataSourceId(c.getDataSourceId());
         if (c.getId().compareTo(Long.valueOf(-1)) != 0) {
         } else {
             c.setId(null);
         }
         c.setRecordsCount(countRows);
+        Long i = 0L;
         for (CampainAttachment at : c.getCampainAttachments()) {
             if (at.getCampain() == null) {
                 at.setCampain(c);
             }
+
+            at.setIndex(i);
+            i++;
             File file = new File("/tmp/" + at.getAttachmentFileSystemName());
             byte[] fileBytes = new byte[(int) file.length()];
             try (
-                InputStream inputStream = new FileInputStream(file);) {
+                    InputStream inputStream = new FileInputStream(file);) {
                 inputStream.read(fileBytes);
-                
+
             } catch (IOException ex) {
-                
+
             }
-            
+
             at.setAttachment(fileBytes);
         }
-        
+
         return campainRepo.save(c);
-        
+
     }
 
     /**
      * @return the campainRepo
      */
     public CampainRepo getCampainRepo() {
-        
+
         return campainRepo;
     }
 
@@ -88,20 +94,6 @@ public class CampainService {
         this.campainRepo = campainRepo;
     }
 
-    /**
-     * @return the entityManager
-     */
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    /**
-     * @param entityManager the entityManager to set
-     */
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-    
     public Campain findOne(Long campainId) {
         Campain findOne = campainRepo.findOne(campainId);
         for (CampainAttachment at : findOne.getCampainAttachments()) {
@@ -111,26 +103,26 @@ public class CampainService {
                         OutputStream outFile = new FileOutputStream("/tmp/" + at.getAttachmentFileSystemName());) {
                     int read;
                     outFile.write(docBytes);
-                    
+
                 } catch (IOException e) {
-                    
+
                 }
-                
+
             }
         }
-        
+
         return findOne;
     }
-    
+
     public List<Campain> findAll() {
         return (List<Campain>) campainRepo.findAll();
     }
-    
-        public List<Campain> findAllByPropertyNameAndvalue(String fieldname, Object value ,Pageable page) {
-   
+
+    public List<Campain> findAllByPropertyNameAndvalue(String fieldname, Object value, Pageable page) {
+
         return (List<Campain>) campainRepo.findAll();
     }
-    
+
     void delete(Long campainId) {
         campainRepo.delete(campainId);
     }
@@ -149,13 +141,26 @@ public class CampainService {
         this.rowsRepository = rowsRepository;
     }
 
-    List<Campain> searchAll(Pageable pageSpecification, String search, String searchString ,String ctype) {
-        if(null!=searchString) {
-        return campainRepo.findAll(Specifications.where(CampainSpecification.findByCampainName(searchString, CampainSpecification.LIKE_COMPARE)).and(CampainSpecification.findByCampainType(ctype)),pageSpecification).getContent();
-        }
-        else {
-        return campainRepo.findAll(CampainSpecification.findByCampainType(ctype),pageSpecification).getContent();
+    List<Campain> searchAll(Pageable pageSpecification, String search, String searchString, String ctype) {
+        if (null != searchString) {
+            return campainRepo.findAll(Specifications.where(CampainSpecification.findByCampainName(searchString, CampainSpecification.LIKE_COMPARE)).and(CampainSpecification.findByCampainType(ctype)), pageSpecification).getContent();
+        } else {
+            return campainRepo.findAll(CampainSpecification.findByCampainType(ctype), pageSpecification).getContent();
         }
     }
-    
+
+    /**
+     * @return the campainAttarepo
+     */
+    public CampainAttaRepo getCampainAttarepo() {
+        return campainAttarepo;
+    }
+
+    /**
+     * @param campainAttarepo the campainAttarepo to set
+     */
+    public void setCampainAttarepo(CampainAttaRepo campainAttarepo) {
+        this.campainAttarepo = campainAttarepo;
+    }
+
 }

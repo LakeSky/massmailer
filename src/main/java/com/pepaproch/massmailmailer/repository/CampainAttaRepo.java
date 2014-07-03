@@ -6,7 +6,7 @@
 
 package com.pepaproch.massmailmailer.repository;
 
-import com.pepaproch.massmailmailer.db.entity.Campain;
+import com.pepaproch.massmailmailer.db.entity.CampainAttachment;
 import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -15,16 +15,18 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+
 /**
  *
  * @author pepa
  */
 
-public interface CampainRepo extends CrudRepository<Campain,Long>,  PagingAndSortingRepository<Campain, Long>,JpaRepository<Campain, Long> ,JpaSpecificationExecutor<Campain>{
+public interface CampainAttaRepo extends CrudRepository<CampainAttachment,Long>,  PagingAndSortingRepository<CampainAttachment, Long>,JpaRepository<CampainAttachment, Long> ,JpaSpecificationExecutor<CampainAttachment>{
     
     
-    @Query("Select c from Campain c where c.status = :status")
-    public Collection<Campain> findByStatus(@Param("status") String status);
+
+    @Query("Select a from CampainAttachment a where a.campain.id = :campainId")
+    public Collection<CampainAttachment> findByCampainId(@Param("campainId") Long  campainId);
     
     
 
