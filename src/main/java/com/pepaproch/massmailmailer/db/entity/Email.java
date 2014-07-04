@@ -65,9 +65,12 @@ public class Email implements Serializable {
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date statusDate;
+    
+    
     @JoinColumn(name = "EMAIL_FOLDER")
     @ManyToOne
     private EmailFolder emailFolder;
+    
     @Column(name = "READY_TO_SENT")
     private Boolean readyToSent;
     @Column(name = "EMAIL_STATUS")

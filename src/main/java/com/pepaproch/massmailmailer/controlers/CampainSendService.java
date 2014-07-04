@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class CampainSendService {
+public class CampainSendService{
 
     private final int page = 0;
     private final int size = 10;
@@ -45,21 +45,20 @@ public class CampainSendService {
     @Autowired
     private MailGunRestClient mailgunClient;
 
-    @Scheduled(fixedDelay = 100000)
-    private void findNotsentCampains() {
+
+    public void send() {
         
-        
-        Collection<Campain> findByStatus = getCampainRepo().findByStatus(Campain.STATUS_INPROGRES);
-        
-        EmailFolder folder = emailFolderrepo.findByEmailFolderId(EmailFolder.FOLDER_OUTBOX);
-        
+
+        Collection<Campain> findByStatus = getCampainRepo().findByStatus(Campain.STATUS_INPROGRES);        
+
+       EmailFolder folderOutbox = emailFolderrepo.getByEmailFolderId(EmailFolder.FOLDER_OUTBOX);
         for (Campain c : findByStatus) {
-            Collection<Email> findUnsentPaginated = emailrepo.findUnsentPaginated(c.getId(), folder.getId(), new PageRequest(page, size));
+            Collection<Email> findUnsentPaginated = emailrepo.findUnsentPaginated(c.getId(),EmailFolder.FOLDER_OUTGOING, new PageRequest(page, size));
             for (Email e : findUnsentPaginated) {
                 ResponseEntity<SentEmailResponse> status = mailgunClient.sendEmail(e);
                 System.out.println(status);
                 e.setSentDate(new Date());
-                e.setEmailFolder(folder);
+                e.setEmailFolder(folderOutbox);
                 e.setStatusDate(e.getSentDate());
                 e.setEmailStatus(status.getBody().getMessage());
                 e.setMessageId(status.getBody().getId());
@@ -72,6 +71,9 @@ public class CampainSendService {
 
     private void updateCampainStatus(Campain c) {
         c.setRecordsSent(c.getRecordsCount() - (emailrepo.countUnsentPaginated(c.getId(), EmailFolder.FOLDER_OUTGOING)));
+        if(c.getRecordsSent().equals(c.getRecordsCount())) {
+        c.setStatus(Campain.STATUS_FINISHED);
+        }
         campainRepo.save(c);
     }
 

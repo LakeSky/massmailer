@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,12 +37,19 @@ public class EmailFolder implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "ID", nullable = false, precision = 22, scale = 0)
+    @Column(name = "ID", nullable = false)
     private Long id;
+    
+    
     private String name;
+    
+    
     @OneToOne
     private EmailFolder parentFolder;
-    @OneToMany(mappedBy = "emailFolder")
+    
+
+
+    @OneToMany
     private List<Email> emails;
 
     public EmailFolder() {
@@ -111,6 +119,20 @@ public class EmailFolder implements Serializable {
      */
     public void setParentFolder(EmailFolder parentFolder) {
         this.parentFolder = parentFolder;
+    }
+
+    /**
+     * @return the email
+     */
+    public List<Email> getEmails() {
+        return emails;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmails(List<Email> email) {
+        this.emails = email;
     }
 
 }

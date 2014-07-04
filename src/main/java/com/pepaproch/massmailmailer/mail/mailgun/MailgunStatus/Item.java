@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class Item {
 
     private List<Object> tags = new ArrayList<Object>();
-    private Double timestamp;
+    private String timestamp;
     private Envelope envelope;
     private String event;
     @JsonProperty(value = "delivery-status")
@@ -38,11 +38,11 @@ public class Item {
         this.tags = tags;
     }
 
-    public Double getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Double timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

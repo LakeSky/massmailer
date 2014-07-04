@@ -6,7 +6,6 @@
 package com.pepaproch.massmailmailer.db.entity;
 
 import static com.pepaproch.massmailmailer.db.entity.AbstracSpec.getLikeString;
-import java.math.BigDecimal;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;

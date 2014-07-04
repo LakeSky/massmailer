@@ -93,7 +93,7 @@ public class CampainCreateService {
                 attachments.put(at.getId(), new SimpleDocument(new File("/tmp/" + at.getAttachmentFileSystemName())));
             }
         }
-        EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
+        EmailFolder emailFolder = emailFoldeRepo.getByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
         int i = 0;
         for (DataSourceRow r : dataSources) {
             Email save = emailrepo.saveAndFlush(buildEmail(c, ds, r, attachments, emailFolder, i));
@@ -117,7 +117,7 @@ public class CampainCreateService {
             }
         }
 
-        EmailFolder emailFolder = emailFoldeRepo.findByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
+        EmailFolder emailFolder = emailFoldeRepo.getByEmailFolderId(EmailFolder.FOLDER_OUTGOING);
         int i = 0;
         return buildEmail(c, ds, r, attachments, emailFolder, 0);
     }

@@ -34,7 +34,6 @@ public class MultipartMessageFactory implements MessageFactory<MultipartEmailMes
         setEnvelope(email, form);
         setContent(email, form);
         addAttaChment(email, form);
-
         return (MultipartEmailMessage) form;
 
     }

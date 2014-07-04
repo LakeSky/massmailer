@@ -7,6 +7,7 @@ package com.pepaproch.massmailmailer.mail.mailgun;
 
 import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
+import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.Item;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.MailgunStatus;
 import com.pepaproch.massmailmailer.repository.EmailRepo;
 import java.io.File;
@@ -14,7 +15,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -36,18 +42,9 @@ public class MailGunRestClient {
 
     private final RestTemplate template;
 
-
-
     @Autowired
     public MailGunRestClient(RestTemplate template) {
         this.template = template;
-    }
-
-    public void sendEmail() {
-
-//        ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
-//        System.out.println(postForEntity);
-
     }
 
     public ResponseEntity<SentEmailResponse> sendEmail(Email e) {
@@ -61,7 +58,6 @@ public class MailGunRestClient {
 
         ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
         return postForEntity;
-
 
     }
 
@@ -79,18 +75,47 @@ public class MailGunRestClient {
 
     }
 
-    public MailgunStatus getEvents() {
-        MultiValueMap queryParams = new LinkedMultiValueMap();
-        queryParams.add("begin", "Thu, 06 Mar 2014 09:02:00 GMT");
-        queryParams.add("ascending", "yes");
-        queryParams.add("limit", 1);
-        queryParams.add("pretty", "no");
-        ResponseEntity<MailgunStatus> mailStatus = template.getForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/events", MailgunStatus.class, queryParams);
-        return mailStatus.getBody();
+    public List<Item> getEvents(Date beginDate) {
 
+        StringBuilder queryParamsHolder = new StringBuilder("?");
+        Map<String, String> queryParams = new HashMap(4);
+        queryParams.put("begin", new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss Z", Locale.ENGLISH).format(beginDate));
+        queryParams.put("ascending", "yes");
+        queryParams.put("limit", "1");
+        queryParams.put("pretty", "no");
+        Boolean first = Boolean.TRUE;
+        for (String queryParam : queryParams.keySet()) {
+            if (!first) {
+                queryParamsHolder.append("&");
+            } else {
+                first = Boolean.FALSE;
+            }
+
+            queryParamsHolder.append(queryParam).append("={").append(queryParam).append("}");
+        }
+        ResponseEntity<MailgunStatus> mailStatus;
+
+        mailStatus = template.getForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/events" + queryParamsHolder.toString(), MailgunStatus.class, queryParams);
+        if (mailStatus.getBody().getPaging().getNext() != null) {
+            return getAllPages(mailStatus.getBody().getItems(), mailStatus.getBody().getPaging().getNext());
+
+        } else {
+            return mailStatus.getBody().getItems();
+        }
     }
 
+    private List<Item> getAllPages(List<Item> items, String nextPage) {
+        ResponseEntity<MailgunStatus> mailStatus;
+        mailStatus = template.getForEntity(nextPage, MailgunStatus.class);
+        if (mailStatus.getBody().getItems().isEmpty()) {
+            return items;
+        } else {
+            items.addAll(mailStatus.getBody().getItems());
+            getAllPages(items, mailStatus.getBody().getPaging().getNext());
+        }
 
+        return items;
+    }
 
     void sendEmail(MultipartEmailMessage message) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -3,17 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.mail.mailgun;
 
-import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.MailgunStatus;
-import java.io.IOException;
+import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.Item;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import static org.junit.Assert.*;
+
 /**
  *
  * @author pepa
@@ -21,25 +25,29 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
 public class MailGunRestClientTest {
-    
+
     @Autowired
     private MailGunRestClient client;
-    
+
     public MailGunRestClientTest() {
     }
 
-    /**
-     * Test of sendEmail method, of class MailGunRestClient.
-     */
+
+
     @Test
-    public void testSendEmail() throws IOException {
-        client.sendEmail();
-    }
-    
-        @Test
     public void getStatus() {
-        MailgunStatus events = client.getEvents();
-            assertNotNull(events);
+
+        List<Item> events = null;
+        try {
+            events = client.getEvents(new SimpleDateFormat("yyyy.MM.dd hh:mm").parse("2014.07.04 13:00"));
+        } catch (ParseException ex) {
+            Logger.getLogger(MailGunRestClientTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        assertNotNull(events);
+        for(Item i: events) {
+            System.out.println(i.getTimestamp());
+         //   System.out.println((new Date(i.getTimestamp())) + " " +  i.getMessage().getHeaders().getMessage_id() + " " + i.getEvent());
+        }
     }
 
     /**
@@ -55,5 +63,5 @@ public class MailGunRestClientTest {
     public void setClient(MailGunRestClient client) {
         this.client = client;
     }
-    
+
 }
