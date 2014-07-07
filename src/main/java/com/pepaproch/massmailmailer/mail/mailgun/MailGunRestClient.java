@@ -9,7 +9,6 @@ import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.Item;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.MailgunStatus;
-import com.pepaproch.massmailmailer.repository.EmailRepo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,7 +28,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,13 +73,14 @@ public class MailGunRestClient {
 
     }
 
-    public List<Item> getEvents(Date beginDate) {
+    public List<Item> getEvents(Date beginDate, Date endDate) {
 
         StringBuilder queryParamsHolder = new StringBuilder("?");
         Map<String, String> queryParams = new HashMap(4);
-        queryParams.put("begin", new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss Z", Locale.ENGLISH).format(beginDate));
-        queryParams.put("ascending", "yes");
-        queryParams.put("limit", "1");
+        queryParams.put("begin", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH).format(beginDate));
+        queryParams.put("end", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH).format(endDate));
+//        queryParams.put("ascending", "no");
+        queryParams.put("limit", "100");
         queryParams.put("pretty", "no");
         Boolean first = Boolean.TRUE;
         for (String queryParam : queryParams.keySet()) {

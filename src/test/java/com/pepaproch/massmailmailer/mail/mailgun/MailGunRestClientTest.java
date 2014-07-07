@@ -8,6 +8,7 @@ package com.pepaproch.massmailmailer.mail.mailgun;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.Item;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,13 +40,14 @@ public class MailGunRestClientTest {
 
         List<Item> events = null;
         try {
-            events = client.getEvents(new SimpleDateFormat("yyyy.MM.dd hh:mm").parse("2014.07.04 13:00"));
+            events = client.getEvents(new SimpleDateFormat("yyyy.MM.dd hh:mm").parse("2014.07.05 13:00"),new Date());
         } catch (ParseException ex) {
             Logger.getLogger(MailGunRestClientTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         assertNotNull(events);
         for(Item i: events) {
-            System.out.println(i.getTimestamp());
+            System.out.println(i.getTimestampAsDate());
+            
          //   System.out.println((new Date(i.getTimestamp())) + " " +  i.getMessage().getHeaders().getMessage_id() + " " + i.getEvent());
         }
     }

@@ -7,6 +7,7 @@ package com.pepaproch.massmailmailer.db.entity;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -65,6 +66,8 @@ public class Email implements Serializable {
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date statusDate;
+    @OneToMany(mappedBy = "email")
+    private List<EmailStatus> messageStatuses;
     
     
     @JoinColumn(name = "EMAIL_FOLDER")
@@ -75,6 +78,7 @@ public class Email implements Serializable {
     private Boolean readyToSent;
     @Column(name = "EMAIL_STATUS")
     private String emailStatus;
+    
 
     @JoinColumn(name = "CAMPAIN_ID")
     @ManyToOne
@@ -336,6 +340,20 @@ public class Email implements Serializable {
      */
     public void setCampainBatchIndex(Long campainBatchIndex) {
         this.campainBatchIndex = campainBatchIndex;
+    }
+
+    /**
+     * @return the messageStatuses
+     */
+    public List<EmailStatus> getMessageStatuses() {
+        return messageStatuses;
+    }
+
+    /**
+     * @param messageStatuses the messageStatuses to set
+     */
+    public void setMessageStatuses(List<EmailStatus> messageStatuses) {
+        this.messageStatuses = messageStatuses;
     }
 
 }

@@ -18,7 +18,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,7 +60,8 @@ public class CampainSendService{
                 e.setEmailFolder(folderOutbox);
                 e.setStatusDate(e.getSentDate());
                 e.setEmailStatus(status.getBody().getMessage());
-                e.setMessageId(status.getBody().getId());
+                
+                e.setMessageId(status.getBody().getId().substring(1, status.getBody().getId().length()-1));
                 emailrepo.save(e);
             }
             updateCampainStatus(c);

@@ -6,7 +6,7 @@
 
 package com.pepaproch.massmailmailer.repository;
 
-import com.pepaproch.massmailmailer.db.entity.Campain;
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,12 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
-public class CampainRepoTest {
+public class StatusHistoryRepoTest {
     
     @Autowired
-    private CampainRepo reporistory ;
+    private StatusHistoryRepo reporistory ;
     
-    public CampainRepoTest() {
+    public StatusHistoryRepoTest() {
     }
     
     @BeforeClass
@@ -49,9 +49,9 @@ public class CampainRepoTest {
     }
 
     @Test
-    public void findAll() {
-        Iterable<Campain> findAll = getReporistory().findAll();
-        assertNotNull(findAll);
+    public void getLastStatusDate() {
+    Date  d = getReporistory().getLastStatusDate();
+        assertNotNull(d);
 
     }
     
@@ -66,16 +66,18 @@ public class CampainRepoTest {
     /**
      * @return the reporistory
      */
-    public CampainRepo getReporistory() {
+    public StatusHistoryRepo getReporistory() {
         return reporistory;
     }
 
     /**
      * @param reporistory the reporistory to set
      */
-    public void setReporistory(CampainRepo reporistory) {
+    public void setReporistory(StatusHistoryRepo reporistory) {
         this.reporistory = reporistory;
     }
+
+  
     
 
     

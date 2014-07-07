@@ -205,7 +205,24 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.sent = function() {
 
-            $scope.ok('/campain/preview/' + $scope.Campain.id);
+            $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
+            angular.forEach($scope.Campain.campainAttachments, function(atta) {
+                delete atta.preview;
+
+            });
+
+            var campainPromise = $scope.Campain.$save(
+                    function(Campain, headers) {
+
+                        return  handleFormSucces("Kampaň uspěšně uložena", $location,'/campain/preview/' + Campain.id);
+
+                    }, function(error) {
+                return   handleFormError($scope, error.data);
+
+            });
+
+
+       
         };
         $scope.ok = function(redirect) {
             $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
@@ -571,10 +588,10 @@ campain.controller('CampainPreviewController', ['$scope', '$routeParams', '$loca
 
 
         $scope.send = function() {
-              $http.post('../campain/send', { id: Campain.id }).success(function(response) {
- 
-  });
-            
+            $http.post('../campain/send', {id: Campain.id}).success(function(response) {
+
+            });
+
 
         };
 

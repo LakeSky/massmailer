@@ -74,7 +74,7 @@ public class CampainService {
 
             at.setAttachment(fileBytes);
         }
-
+        c.setStatus(Campain.STATUS_EDIT);
         return campainRepo.save(c);
 
     }
@@ -96,18 +96,20 @@ public class CampainService {
 
     public Campain findOne(Long campainId) {
         Campain findOne = campainRepo.findOne(campainId);
-        for (CampainAttachment at : findOne.getCampainAttachments()) {
-            if (at.getAttachment() != null) {
-                byte[] docBytes = at.getAttachment();
-                try (
-                        OutputStream outFile = new FileOutputStream("/tmp/" + at.getAttachmentFileSystemName());) {
-                    int read;
-                    outFile.write(docBytes);
+        if (findOne != null) {
+            for (CampainAttachment at : findOne.getCampainAttachments()) {
+                if (at.getAttachment() != null) {
+                    byte[] docBytes = at.getAttachment();
+                    try (
+                            OutputStream outFile = new FileOutputStream("/tmp/" + at.getAttachmentFileSystemName());) {
+                        int read;
+                        outFile.write(docBytes);
 
-                } catch (IOException e) {
+                    } catch (IOException e) {
+
+                    }
 
                 }
-
             }
         }
 

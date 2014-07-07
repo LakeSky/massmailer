@@ -1,7 +1,8 @@
-
 package com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +15,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class Item {
 
     private List<Object> tags = new ArrayList<Object>();
-    private String timestamp;
+    private Double timestamp;
     private Envelope envelope;
     private String event;
     @JsonProperty(value = "delivery-status")
     private DeliveryStatus deliveryStastus;
     private List<Object> campaigns = new ArrayList<Object>();
-    
-    
-@JsonProperty("user-variables")
+
+    @JsonProperty("user-variables")
     private User_variables user_variables;
     private Flags flags;
     private Message message;
@@ -38,11 +38,11 @@ public class Item {
         this.tags = tags;
     }
 
-    public String getTimestamp() {
+    public Double getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Double timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -132,5 +132,14 @@ public class Item {
         this.deliveryStastus = deliveryStastus;
     }
 
+    public Date getTimestampAsDate() {
+        if (getTimestamp() != null) {
+            Double d = getTimestamp() * 1000;
+            return (new Date(d.longValue()));
+        } else {
+            return null;
+        }
+
+    }
 
 }

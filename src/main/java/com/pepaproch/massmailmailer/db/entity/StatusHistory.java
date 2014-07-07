@@ -20,16 +20,22 @@ import javax.persistence.Temporal;
  * @author pepa
  */
 @Entity
-@Table(name = "MAILGUN_STATUS")
-public class MailGunStatus implements Serializable {
+@Table(name = "STATUS_HISTORY")
+public class StatusHistory implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date statusDate;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date lastDate;
+    
     private Long recordsCount;
+
+    public StatusHistory(int persistStatus, Date endDate) {
+        this.recordsCount = new Long(persistStatus);
+       this.lastDate = endDate;
+    }
 
     public Long getId() {
         return id;
@@ -49,10 +55,10 @@ public class MailGunStatus implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MailGunStatus)) {
+        if (!(object instanceof StatusHistory)) {
             return false;
         }
-        MailGunStatus other = (MailGunStatus) object;
+        StatusHistory other = (StatusHistory) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -61,21 +67,21 @@ public class MailGunStatus implements Serializable {
 
     @Override
     public String toString() {
-        return "com.pepaproch.massmailmailer.db.entity.MailGunStatus[ id=" + id + " ]";
+        return "com.pepaproch.massmailmailer.db.entity.StatusHistory[ id=" + id + " ]";
     }
 
     /**
-     * @return the statusDate
+     * @return the lastDate
      */
-    public Date getStatusDate() {
-        return statusDate;
+    public Date getLastDate() {
+        return lastDate;
     }
 
     /**
-     * @param statusDate the statusDate to set
+     * @param lastDate the lastDate to set
      */
-    public void setStatusDate(Date statusDate) {
-        this.statusDate = statusDate;
+    public void setLastDate(Date lastDate) {
+        this.lastDate = lastDate;
     }
 
     /**

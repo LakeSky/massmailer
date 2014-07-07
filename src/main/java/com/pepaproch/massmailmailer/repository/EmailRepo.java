@@ -34,4 +34,7 @@ public interface EmailRepo extends CrudRepository<Email, Long>, PagingAndSorting
 
     @Query(value = "SELECT count(e) FROM Email e WHERE e.campain.id = :campainId and e.emailFolder.id = :folderId")
     public long countUnsentPaginated(@Param("campainId") Long campainId,@Param("folderId") Long folderId);
+    
+    @Query("SELECT e FROM Email e WHERE e.messageId = :messageId" )
+    public Email findByMessageId(@Param("messageId") String messageId);
 }
