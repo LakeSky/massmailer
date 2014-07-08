@@ -1,0 +1,226 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 style="
+            font-size: 16px;
+            font-weight: 700;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1px;">Datové zdroje</h2>
+            {{data || json}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-folder-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <p class="h2">Nový datový zdroj</p>
+                        <p>&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+            <a href="#campain/new">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Vytvořit datový zdroj
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-arrow-circle-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 style="
+            font-size: 16px;
+            font-weight: 700;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1px;">Kampaně</h2>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div  class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <i class="fa fa-envelope fa-4x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                        <h3 ></i> Vytvořit kampaň</h3>
+
+                    </div>
+                </div>
+            </div>
+            <a href="#campain/new">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Vytvořit kampaň
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-plus fa-1x"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <i class="fa fa-envelope fa-4x"></i> 
+                    </div>
+                    <div class="col-xs-10 text-right">
+                        <h3>Rozpracované kampaně</h3>
+                    </div>
+                </div>
+            </div>
+            <a href="#campains/type/EDIT">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Zobrazit další
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-list"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <i class="fa fa-envelope fa-4x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                        <p class="h3">Odesílané kampaně</p>
+
+                    </div>
+                </div>
+            </div>
+            <a href="#campains/type/INPROGRES">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Zobrazit další
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-list"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <i class="fa fa-envelope fa-3x"></i>
+                    </div>
+                    <div class="col-xs-10 text-right">
+                        <p class="h3">Odeslané kampaně</p>
+
+                    </div>
+                </div>
+            </div>
+            <a href="#campains/type/FINISHED">
+                <div class="panel-footer announcement-bottom">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Zobrazit další
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <i class="fa fa-list"></i>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 style="
+            font-size: 16px;
+            font-weight: 700;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1px;">Statistiky</h2>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <i class="fa fa-bar-chart-o fa-4x"></i>
+                        </div>
+                        <div class="col-xs-10">
+                            <table class="dashboard-table" style="width: 100%">
+                                <tr>
+                                    <td><p  class="text-right" style="font-size: 16px; font-weight: 700;">Počet kampaní:</p></td>
+                                    <td><p  class="text-left">{{data.recordsCapains}}</p></td>
+                                    <td><p  class="text-right" style="font-size: 16px; font-weight: 700;">Počet odeslaných kampaní:</p></td>
+                                    <td><p  class="text-left">100</p></td>
+
+                                </tr>
+                                <tr>
+                                    <td><p  class="text-right" style="font-size: 16px; font-weight: 700;">Počet odeslaných emailů:</p></td>
+                                    <td><p  class="text-left"> {{data.recordsSent}}</p></td>
+                                    <td><p  class="text-right" style="font-size: 16px; font-weight: 700;">Počet doruručených emailů:</p></td>
+                                    <td><p  class="text-left">{{data.recordsDelivered}}</p></td>
+                                </tr>
+                                              <tr>
+                                    <td><p  class="text-right" style="font-size: 16px; font-weight: 700;">Počet přečtených:</p></td>
+                                    <td><p  class="text-left"> {{data.recordsOpened}}</p></td>
+                                    <td><p  class="text-right" style="font-size: 16px; font-weight: 700;">Počet kliknutí:</p></td>
+                                    <td><p  class="text-left">{{data.recordsClicked}}</p></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <a href="#campain/new">
+                    <div class="panel-footer announcement-bottom">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                Vytvořit datový zdroj
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
@@ -24,6 +23,10 @@ import javax.persistence.Temporal;
 @Table(name = "EMAIL_STATUS")
 public class EmailStatus implements Serializable {
 
+    public static final String DELIVERED = "delivered";
+    public static final String OPENED = "opened";
+    public static final String CLICKED = "clicked";
+
     public EmailStatus() {
     }
 
@@ -32,18 +35,17 @@ public class EmailStatus implements Serializable {
         this.status = status;
         this.email = email;
     }
-    
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date statusDate;
-    
+
     private String status;
-    
+
     @ManyToOne
     private Email email;
 
@@ -121,5 +123,5 @@ public class EmailStatus implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
 }

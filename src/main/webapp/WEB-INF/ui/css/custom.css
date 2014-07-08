@@ -96,3 +96,24 @@ body {
     padding-left: : 2em;
 
 }
+
+.dashboard-table td {
+    padding: 0.5em;
+    vertical-align: middle;
+    
+}
+
+.navbar {
+
+    min-height: 75px;
+
+}
+
+.navbar-static-side {
+    margin-top: 76px;
+    
+}
+#page-wrapper {
+    padding-top: 35px;
+    
+}

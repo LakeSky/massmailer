@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'menu', 'dataSource', 'campain','email']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'directives', 'entityService', 'menu', 'dataSource', 'campain','email','dashboard']);
 
 
 angular.module('appMassMailer').config(
@@ -51,7 +51,7 @@ angular.module('appMassMailer').config(
                         }).
                         when('/campains/dashboard', {
                             templateUrl: 'views/campain/dashboard.html',
-                            controller: 'CampainListCtrl'
+                            controller: 'DashBoardCtrl'
 
                         }).when('/campains/type/:type', {
                             templateUrl: 'views/campain/list.html',
@@ -72,7 +72,8 @@ angular.module('appMassMailer').config(
                             controller: 'CampainPreviewController'
                         }).
                         otherwise({
-                            redirectTo: 'views/dashboard/main.html'
+                            templateUrl: 'views/dashboard/dashboard.html' ,
+                            controller: 'DashBoardCtrl'
                         });
             }]);
 

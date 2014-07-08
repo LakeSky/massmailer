@@ -7,7 +7,6 @@ package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.Campain;
 import com.pepaproch.massmailmailer.db.entity.Email;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import org.junit.Test;
