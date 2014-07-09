@@ -11,6 +11,9 @@ package com.pepaproch.massmailmailer.controlers;
  * @author pepa
  */
 public class CampainStatus {
+    private String campainName;
+    private Long campainId;
+    
     private Long recordsCount;
     private Long recordsSent;
     private Long recordsDelivered;
@@ -100,6 +103,34 @@ public class CampainStatus {
      */
     public void setRecordsCapains(Long recordsCapains) {
         this.recordsCapains = recordsCapains;
+    }
+
+    /**
+     * @return the campainName
+     */
+    public String getCampainName() {
+        return campainName;
+    }
+
+    /**
+     * @param campainName the campainName to set
+     */
+    public void setCampainName(String campainName) {
+        this.campainName = campainName;
+    }
+
+    /**
+     * @return the campainId
+     */
+    public Long getCampainId() {
+        return campainId;
+    }
+
+    /**
+     * @param campainId the campainId to set
+     */
+    public void setCampainId(Long campainId) {
+        this.campainId = campainId;
     }
     
 }

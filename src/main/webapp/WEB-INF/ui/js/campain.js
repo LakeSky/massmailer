@@ -214,7 +214,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             var campainPromise = $scope.Campain.$save(
                     function(Campain, headers) {
 
-                        return  handleFormSucces("Kampaň uspěšně uložena", $location,'/campain/preview/' + Campain.id);
+                        return  handleFormSucces("Kampaň uspěšně uložena", $location, '/campain/preview/' + Campain.id);
 
                     }, function(error) {
                 return   handleFormError($scope, error.data);
@@ -222,10 +222,10 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
             });
 
 
-       
+
         };
         $scope.ok = function(redirect) {
-            $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
+
             angular.forEach($scope.Campain.campainAttachments, function(atta) {
                 delete atta.preview;
 

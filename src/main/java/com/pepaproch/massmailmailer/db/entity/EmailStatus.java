@@ -26,6 +26,7 @@ public class EmailStatus implements Serializable {
     public static final String DELIVERED = "delivered";
     public static final String OPENED = "opened";
     public static final String CLICKED = "clicked";
+    public static String ACCEPTED =  "accepted";
 
     public EmailStatus() {
     }
