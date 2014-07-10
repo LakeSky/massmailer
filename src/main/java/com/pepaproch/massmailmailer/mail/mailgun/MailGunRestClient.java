@@ -5,14 +5,9 @@
  */
 package com.pepaproch.massmailmailer.mail.mailgun;
 
-import com.pepaproch.massmailmailer.db.entity.Attachment;
 import com.pepaproch.massmailmailer.db.entity.Email;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.Item;
 import com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus.MailgunStatus;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,8 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -54,24 +47,14 @@ public class MailGunRestClient {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(formData, headers);
 
-        ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/messages", request, SentEmailResponse.class);
+        ResponseEntity<SentEmailResponse> postForEntity = template.postForEntity("https://api.mailgun.net/v2/livetelecom.eu/messages", request, SentEmailResponse.class);
         return postForEntity;
 
     }
 
-    private Resource addAttachment(Attachment at) throws FileNotFoundException {
-        File f = new File("/tmp/" + at.getId() + at.getAttachmentName() + ".pdf");
-        try (
-                FileOutputStream fos = new FileOutputStream(f);) {
+   
 
-            fos.write(at.getAttachment());
-        } catch (IOException ex) {
 
-        }
-
-        return new FileSystemResource(f);
-
-    }
 
     public List<Item> getEvents(Date beginDate, Date endDate) {
 

@@ -205,7 +205,7 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
         $scope.sent = function() {
 
-            $scope.Campain.emailText = CKEDITOR.instances.rr.getData();
+      
             angular.forEach($scope.Campain.campainAttachments, function(atta) {
                 delete atta.preview;
 

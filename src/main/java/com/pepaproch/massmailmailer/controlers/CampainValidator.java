@@ -15,6 +15,7 @@ import com.pepaproch.massmailmailer.poi.DocumentFactoryImpl;
 import com.pepaproch.massmailmailer.poi.PoiTypes;
 import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
+import com.pepaproch.massmailmailer.repository.CampainRepo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,9 @@ public class CampainValidator implements Validator {
 
     @Autowired
     private DataSourceInfoRep dataSourceRep;
+    
+    @Autowired
+    private CampainRepo campainRepo;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -59,6 +63,15 @@ public class CampainValidator implements Validator {
     }
 
     private void validate(Campain capmain, Errors errors) throws IOException {
+        
+        Campain savedCampain = campainRepo.findOne(capmain.getId());
+        if(null!=savedCampain && !savedCampain.getStatus().equalsIgnoreCase(Campain.STATUS_EDIT)) {
+          errors.rejectValue("campainName", "error.AllredySent");
+          return;
+        }
+        
+
+        
         if (capmain.getCampainName() == null || "".equalsIgnoreCase(capmain.getCampainName())) {
             errors.rejectValue("campainName", "error.NotNull");
         }
@@ -73,6 +86,9 @@ public class CampainValidator implements Validator {
 
             DataSource ds = dataSourceRep.findOne(capmain.getDataSourceId());
             DocumentFactory documentFactory = new DocumentFactoryImpl();
+            if(null==capmain.getCampainAttachments()) {
+            return;
+            }
             for (CampainAttachment at : capmain.getCampainAttachments()) {
                 Boolean validateTemplate = Boolean.TRUE;
                 errors.setNestedPath("campainAttachments[" + i + "]");
@@ -152,6 +168,20 @@ public class CampainValidator implements Validator {
      */
     public void setDataSourceRep(DataSourceInfoRep dataSourceRep) {
         this.dataSourceRep = dataSourceRep;
+    }
+
+    /**
+     * @return the campainRepo
+     */
+    public CampainRepo getCampainRepo() {
+        return campainRepo;
+    }
+
+    /**
+     * @param campainRepo the campainRepo to set
+     */
+    public void setCampainRepo(CampainRepo campainRepo) {
+        this.campainRepo = campainRepo;
     }
 
 }

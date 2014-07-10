@@ -55,6 +55,7 @@ public class CampainService {
         }
         c.setRecordsCount(countRows);
         Long i = 0L;
+        if(null!= c.getCampainAttachments()) {
         for (CampainAttachment at : c.getCampainAttachments()) {
             if (at.getCampain() == null) {
                 at.setCampain(c);
@@ -73,6 +74,7 @@ public class CampainService {
             }
 
             at.setAttachment(fileBytes);
+        }
         }
         c.setStatus(Campain.STATUS_EDIT);
         return campainRepo.save(c);

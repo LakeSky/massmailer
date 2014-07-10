@@ -4,6 +4,7 @@
  */
 package com.pepaproch.massmailmailer.db.entity;
 
+import com.pepaproch.massmailmailer.db.EmailBase;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -21,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NamedQueries({
     @NamedQuery(name = "Email.findAll", query = "SELECT e FROM Email e"),
     @NamedQuery(name = "Email.findById", query = "SELECT e FROM Email e WHERE e.id = :id")})
-public class Email implements Serializable {
+public class Email implements Serializable, EmailBase {
 
     private static long serialVersionUID = 1L;
 
@@ -135,6 +136,7 @@ public class Email implements Serializable {
     /**
      * @return the recipients
      */
+    @Override
     public String getRecipients() {
         return recipients;
     }
@@ -149,6 +151,7 @@ public class Email implements Serializable {
     /**
      * @return the ccRecipients
      */
+
     public String getCcRecipients() {
         return ccRecipients;
     }
@@ -163,6 +166,7 @@ public class Email implements Serializable {
     /**
      * @return the bccRecipients
      */
+
     public String getBccRecipients() {
         return bccRecipients;
     }
@@ -233,6 +237,7 @@ public class Email implements Serializable {
     /**
      * @return the fromEmail
      */
+
     public String getFromEmail() {
         return fromEmail;
     }
@@ -275,6 +280,7 @@ public class Email implements Serializable {
     /**
      * @return the emailText
      */
+    @Override
     public String getEmailText() {
         return emailText;
     }
@@ -317,6 +323,7 @@ public class Email implements Serializable {
     /**
      * @return the attachments
      */
+    @Override
     public Collection<Attachment> getAttachments() {
         return attachments;
     }
