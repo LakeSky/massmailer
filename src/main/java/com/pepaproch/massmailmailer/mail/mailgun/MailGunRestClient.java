@@ -77,7 +77,7 @@ public class MailGunRestClient {
         }
         ResponseEntity<MailgunStatus> mailStatus;
 
-        mailStatus = template.getForEntity("https://api.mailgun.net/v2/sandbox12540.mailgun.org/events" + queryParamsHolder.toString(), MailgunStatus.class, queryParams);
+        mailStatus = template.getForEntity("https://api.mailgun.net/v2/livetelecom.eu/events" + queryParamsHolder.toString(), MailgunStatus.class, queryParams);
         if (mailStatus.getBody().getPaging().getNext() != null) {
             return getAllPages(mailStatus.getBody().getItems(), mailStatus.getBody().getPaging().getNext());
 

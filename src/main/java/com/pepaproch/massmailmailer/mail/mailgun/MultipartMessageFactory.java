@@ -64,18 +64,18 @@ public class MultipartMessageFactory implements MessageFactory<MultipartEmailMes
         
     }
     
+    
+    //TODO consider to using some html/xml library
     private void setContentInlined(Email e, MultiValueMap<String, Object> form) {
         Pattern pimg = Pattern.compile("<\\s?img.*src=\"([^\\\"]*)\\\"[^/]*/>");
         Pattern psrc = Pattern.compile("src=\"([^\\\"]*),([^\\\"]*)");
         Matcher m = pimg.matcher(e.getEmailText());
         StringBuffer sb = new StringBuffer();
         int i = 1;
-        while (m.find()) {
-            
+        while (m.find()) { 
             Matcher msrc = psrc.matcher(m.group());
             StringBuffer sbsrc = new StringBuffer();
             while (msrc.find()) {
-
                 //skip global match
                 msrc.appendReplacement(sbsrc, "src=\"cid:" + i + "_file." + m.group(1).substring(m.group(1).indexOf("/") + 1, m.group(1).indexOf(";")) + "\"");
                 form.add("inline", new AttachmenrResource(Base64.decode(msrc.group(2)), +i + "_file." + m.group(1).substring(m.group(1).indexOf("/") + 1, m.group(1).indexOf(";"))));

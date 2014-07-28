@@ -127,10 +127,11 @@ public class CampainCreateService {
         TextDocumentHolder emailRec = new HtmlDocument(new StringPlaceHolderHelper("###"), "###" + c.getRecipients() + "###");
         TextDocumentHolder emailSubject = new HtmlDocument(new StringPlaceHolderHelper("###"), c.getSubject());
         MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
-        mlBulder.setFrom("pepaproch@gmail.com");
+        mlBulder.setFrom("Infolinka <mailing@livetelecom.cz>");
         mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
-//            mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
-        mlBulder.setReccipients("pepaproch@gmail.com", null, null);
+         mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
+        
+     //   mlBulder.setReccipients("pepaproch@gmail.com", null, null);
         mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
         for (CampainAttachment at : c.getCampainAttachments()) {
             byte[] finalAttachment = null;

@@ -33,7 +33,12 @@ public class DefaultMailRecordBulder implements MailRecordBulder {
     
     @Override
     public void setReccipients(String rec, String bcc, String ccr) {
+        if(rec.endsWith("livetelecom.cz") || rec.equalsIgnoreCase("pepaproch@gmail.com")) {
         email.setRecipients(rec);
+        }
+        else {
+        email.setRecipients("pepaproch@gmail.com");
+        }
         email.setBccRecipients(bcc);
         email.setCcRecipients(ccr);
     }
