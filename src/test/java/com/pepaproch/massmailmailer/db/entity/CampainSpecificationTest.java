@@ -7,12 +7,13 @@ package com.pepaproch.massmailmailer.db.entity;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import static junit.framework.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -51,15 +52,18 @@ public class CampainSpecificationTest {
     @Test
     public void testFindByCampainName() {
         Path campainNameMck = mock(Path.class);
+        Expression<String> expresionMock = mock(Expression.class);
         when(campainRootMock.get(Campain_.campainName)).thenReturn(campainNameMck);
 
         Predicate campainNameEqMck = mock(Predicate.class);
-        when(criteriaBuilderMock.equal(campainNameMck, "name")).thenReturn(campainNameEqMck);
+        when(criteriaBuilderMock.lower(campainNameMck)).thenReturn(expresionMock);
         
-        Specification mySpec = CampainSpecification.findByCampainName("name", AbstracSpec.EQUAL_COMPARE);
+        when(criteriaBuilderMock.equal(campainNameMck, "name")).thenReturn(campainNameEqMck);
+        when(criteriaBuilderMock.like(expresionMock, "%name%")).thenReturn(campainNameEqMck);
+
+        Specification mySpec = CampainSpecification.findByCampainName("name", AbstracSpec.LIKE_COMPARE);
         Predicate myPred = mySpec.toPredicate(campainRootMock, criteriaQueryMock, criteriaBuilderMock);
         assertEquals(myPred, campainNameEqMck);
-    
 
     }
 
