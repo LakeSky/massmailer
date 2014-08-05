@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 
-package com.pepaproch.massmailmailer.security;
+package com.pepaproch.massmailmailer.db.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -21,6 +20,5 @@ public class UserInfo implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne
-    private User user;
+
 }

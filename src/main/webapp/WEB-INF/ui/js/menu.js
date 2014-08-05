@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-var menu = angular.module('menu',  ['ngRoute', 'ui.bootstrap','services.breadcrumbs']);
+var menu = angular.module('menu',  ['ngRoute', 'ui.bootstrap']);
 
 
 // Controller
 // ----------
-menu.controller('MenuCtrl', ['$scope', '$location','services.breadcrumbs', function($scope,$location, br) {
+menu.controller('MenuCtrl', ['$scope', '$location', function($scope,$location) {
 
    
   $scope.getClass = function(path) {

@@ -5,10 +5,10 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.service.UserService;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/files")
 public class FilesController {
 
-    @Autowired
-    private UserService userService;
+
 
 
 
@@ -84,18 +83,6 @@ public class FilesController {
     public FilesController() {
     }
 
-    /**
-     * @return the userService
-     */
-    public UserService getUserService() {
-        return userService;
-    }
 
-    /**
-     * @param userService the userService to set
-     */
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
 }

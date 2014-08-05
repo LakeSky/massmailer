@@ -8,7 +8,7 @@ var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'uplo
 
 // Controller
 // ----------
-dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location', 'services.breadcrumbs', function($scope, Entity, $modal, $routeParams, $location, menu) {
+dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location', function($scope, Entity, $modal, $routeParams, $location) {
         menu.resetSubmenu();
         menu.addToSubmenu('Datové zdroje', '#/datasource', 'glyphicon-th-list');
         menu.addToSubmenu('Nový datový zdroj', '#/datasource/new', 'glyphicon-plus');

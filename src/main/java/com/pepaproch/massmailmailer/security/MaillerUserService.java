@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.security;
 
+import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,7 +36,7 @@ public class MaillerUserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        UserDetails ud = userDao.findByName(string);
+        UserDetails ud = userDao.findByUserName(string);
         if (ud == null) {
             throw new UsernameNotFoundException("User not found"); //To change body of generated methods, choose Tools | Templates.
         } else {

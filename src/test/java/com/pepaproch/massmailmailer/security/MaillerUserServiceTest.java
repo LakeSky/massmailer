@@ -24,12 +24,13 @@ public class MaillerUserServiceTest {
     MaillerUserService userService = new MaillerUserService();
     UserDao userDao = null;
     User existingUser = null;
-    PasswordEncoder encoder = new StandardPasswordEncoder("test");
+    PasswordEncoder encoderRaw = new StandardPasswordEncoder("ThisIsASecretSoChangeMe");
+    PasswordEncoder encoder;
     private String expectedPassword;
 
     @Before
     public void setUp() {
-        expectedPassword = encoder.encode("test");
+        expectedPassword = encoderRaw.encode("test");
         encoder = mock(PasswordEncoder.class);
         userDao = mock(UserDao.class);
         userService.setPasswordEncoder(encoder);
@@ -50,7 +51,7 @@ public class MaillerUserServiceTest {
     @Test
     public void testLoadUserByUsername() {
         when(userDao.findOne(1L)).thenReturn(existingUser);
-        when(userDao.findByName("test")).thenReturn(existingUser);
+        when(userDao.findByUserName("test")).thenReturn(existingUser);
         when(encoder.encode("test")).thenReturn("encodedtest");
         User result = (User) userService.loadUserByUsername("test");
         assertEquals(existingUser, result);
@@ -60,9 +61,9 @@ public class MaillerUserServiceTest {
     @Test(expected = UsernameNotFoundException.class)
     public void testLoadUserByUsernameNotFound() {
         when(userDao.findOne(1L)).thenReturn(existingUser);
-        when(userDao.findByName("test")).thenReturn(existingUser);
+        when(userDao.findByUserName("test")).thenReturn(existingUser);
         when(encoder.encode("test")).thenReturn("encodedtest");
-
+        System.out.println(expectedPassword);
         User result = (User) userService.loadUserByUsername("tester");
         assertEquals(null, result);
 

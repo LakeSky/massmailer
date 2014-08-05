@@ -26,7 +26,7 @@
 
         <div id="wrapper" >
 
-            <nav ng-controller="MenuCtrl" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <nav  class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -59,7 +59,7 @@
                 </ul>
                 <!-- /.navbar-top-links -->
 
-                <div class="navbar-static-side" role="navigation">
+                <div class="navbar-static-side" role="navigation" ng-show="isLogedIn">
                     <div class="sidebar-collapse ">
                         <ul class="nav" id="side-menu">
 
@@ -71,78 +71,79 @@
                             <li>
                                 <a href="#campains/type/EDIT" > <i class="fa fa-wrench fa-fw"></i>Kampaně</a>
 
-                                        </li>
+                            </li>
 
-                                        <li>
-                                            <a href="#campains/type/EDIT" style="padding-left: 3em; font-size: 0.9em">Rozpracované</a>
-                                        </li>
-                                        <li>
-                                            <a href="#campains/type/INPROGRES" style="padding-left: 3em; font-size: 0.9em">Odesílané</a>
-                                        </li>
-                                        <li>
-                                            <a href="#campains/type/FINISHED" style="padding-left: 3em; font-size: 0.9em" >Odeslané</a>
-                                        </li>
+                            <li>
+                                <a href="#campains/type/EDIT" style="padding-left: 3em; font-size: 0.9em">Rozpracované</a>
+                            </li>
+                            <li>
+                                <a href="#campains/type/INPROGRES" style="padding-left: 3em; font-size: 0.9em">Odesílané</a>
+                            </li>
+                            <li>
+                                <a href="#campains/type/FINISHED" style="padding-left: 3em; font-size: 0.9em" >Odeslané</a>
+                            </li>
 
-             <li>
-                                            <a href="#stats" style="padding-left: 3em; font-size: 0.9em" >Statistiky</a>
-                                        </li>
+                            <li>
+                                <a href="#stats" style="padding-left: 3em; font-size: 0.9em" >Statistiky</a>
+                            </li>
 
-                                        </ul>
-                                        <!-- /#side-menu -->
-                                        </div>
-                                        <!-- /.sidebar-collapse -->
-                                        </div>
-                                        <!-- /.navbar-static-side -->
-                                        </nav>
+                        </ul>
+                        <!-- /#side-menu -->
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+                <!-- /.navbar-static-side -->
+            </nav>
 
-                                        <div ng-view  id="page-wrapper">
+            <div ng-view  id="page-wrapper">
 
-                                            <!-- /.row -->
-                                        </div>
-                                        <!-- /#page-wrapper -->
+                <!-- /.row -->
+            </div>
+            <!-- /#page-wrapper -->
 
-                                        </div>
-                                        <!-- /#wrapper -->
+        </div>
+        <!-- /#wrapper -->
 
-                                        <!-- Core Scripts - Include with every page -->
-                                        <script src="js/jquery-1.10.2.js"></script>
-                                        <script src="js/bootstrap.min.js"></script>
-                                        <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <!-- Core Scripts - Include with every page -->
+        <script src="js/jquery-1.10.2.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
 
-                                        <!-- Page-Level Plugin Scripts - Dashboard -->
-                                        <script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
-                                        <script src="js/plugins/morris/morris.js"></script>
+        <!-- Page-Level Plugin Scripts - Dashboard -->
+        <script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
+        <script src="js/plugins/morris/morris.js"></script>
 
-                                        <!-- SB Admin Scripts - Include with every page -->
-                                        <script src="js/sb-admin.js"></script>
-
-
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="js/sb-admin.js"></script>
 
 
 
 
-                                        <script src="js/angular.min.js"></script>
-                                        <script src="js/angular-route.min.js"></script>
-                                        <script src="js/angular-resource.min.js"></script>
-                                        <script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
-
-                                        <script src="js/massmailer.js"></script>
-                                        <script src="js/menu.js"></script>
-                                        <script src="js/datasource.js"></script>
-                                        <script src="js/campain.js"></script>
-                                        <script src="js/email.js"></script>
-                                        <script src="js/dashboard.js"></script>
-                                                         <script src="js/stats.js"></script>
-                                        <script src="js/fileUpload.js"></script>
-                                        <script src="js/entityService.js"></script>
-                                        <script src="js/users.js"></script>
-                                        <script src="js/breadcrumb.js"></script>
-                                        <script src="js/ngdirectives.js"></script>
-                                        <script src="js/toastr.js"></script>
-                                        <script src="js/massmailer.js"></script>
 
 
-                                        <script src="js/ckeditor/ckeditor.js"></script>
-                                        </body>
+        <script src="js/angular.min.js"></script>
+        <script src="js/angular-route.min.js"></script>
+        <script src="js/angular-resource.min.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="js/angular-cookies.min.js"></script>
+        <script src = "js/massmailer.js" ></script>
+        <script src="js/menu.js"></script>
+        <script src="js/datasource.js"></script>
+        <script src="js/campain.js"></script>
+        <script src="js/email.js"></script>
+        <script src="js/dashboard.js"></script>
+        <script src="js/stats.js"></script>
+        <script src="js/fileUpload.js"></script>
+        <script src="js/entityService.js"></script>
+        <script src="js/users.js"></script>
+        <script src="js/security/loginservice.js"></script>
+        <script src="js/breadcrumb.js"></script>
+        <script src="js/ngdirectives.js"></script>
+        <script src="js/toastr.js"></script>
 
-                                        </html>
+
+
+        <script src="js/ckeditor/ckeditor.js"></script>
+    </body>
+
+</html>

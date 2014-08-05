@@ -10,7 +10,7 @@ var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', '
 
 // Controller
 // ----------
-campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', 'services.breadcrumbs', '$location', function($scope, Entity, $modal, $routeParams, menu, $location) {
+campain.controller('CampainListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location', function($scope, Entity, $modal, $routeParams, $location) {
         $scope.ctype = $routeParams.type;
 
 

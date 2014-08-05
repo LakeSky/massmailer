@@ -5,9 +5,11 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-import com.pepaproch.massmailmailer.db.entity.Users;
-import com.pepaproch.massmailmailer.service.UserService;
-import java.math.BigDecimal;
+
+
+
+import com.pepaproch.massmailmailer.db.entity.UserInfo;
+import com.pepaproch.massmailmailer.repository.UserInfoDao;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,27 +32,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/users")
-public class UsersController {
+public class UserInfoController {
 
     @Autowired
-    private UserService userService;
+    private UserInfoDao userDao;
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public List<Users> listUsers() {
-        return (List) userService.listUsers();
+    public List<UserInfo> listUserInfo() {
+        return (List) getUserDao().findAll();
     }
 
     @RequestMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.GET)
     @ResponseBody
-    public Users showUser(@PathVariable("userId") BigDecimal userId) {
-        Users user = userService.getUserR().findOne(userId);
+    public UserInfo showUser(@PathVariable("userId") Long userId) {
+        UserInfo user = getUserDao().findOne(userId);
         return user;
     }
 
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity saveUsers(@Valid @RequestBody Users user, BindingResult result) {
+    public ResponseEntity saveUserInfo(@Valid @RequestBody UserInfo user, BindingResult result) {
 
         return saveUser(user,result);
 
@@ -58,40 +60,42 @@ public class UsersController {
 
     @RequestMapping(value = "/{userId}",consumes = MediaType.APPLICATION_JSON_VALUE,method = { RequestMethod.PUT,RequestMethod.POST} )
     @ResponseBody
-    public ResponseEntity updateeUsers(@Valid @RequestBody Users user, BindingResult result) {
+    public ResponseEntity updateeUserInfo(@Valid @RequestBody UserInfo user, BindingResult result) {
 
         return saveUser(user,result);
 
     }
     
-    private ResponseEntity saveUser(Users user,BindingResult result) {
+    private ResponseEntity saveUser(UserInfo user,BindingResult result) {
         if (result.hasErrors()) {
             List<ObjectError> allErrors = result.getAllErrors();
             List<FieldError> fieldErrors = result.getFieldErrors();
             ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<List<FieldError>>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
             return errorResponse;
         } else {
-            Users savedUser = userService.getUserR().save(user);
-            ResponseEntity<Users> responseEntity = new ResponseEntity(savedUser, HttpStatus.CREATED);
+            UserInfo savedUser = getUserDao().save(user);
+            ResponseEntity<UserInfo> responseEntity = new ResponseEntity(savedUser, HttpStatus.CREATED);
             return responseEntity;
         }
     }
 
-    public UsersController() {
+    public UserInfoController() {
     }
 
     /**
-     * @return the userService
+     * @return the userDao
      */
-    public UserService getUserService() {
-        return userService;
+    public UserInfoDao getUserDao() {
+        return userDao;
     }
 
     /**
-     * @param userService the userService to set
+     * @param userDao the userDao to set
      */
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserDao(UserInfoDao userDao) {
+        this.userDao = userDao;
     }
+
+ 
 
 }

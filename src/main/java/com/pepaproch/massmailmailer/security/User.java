@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.security;
 
+import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;

@@ -6,15 +6,16 @@
 
 package com.pepaproch.massmailmailer.repository;
 
-import com.pepaproch.massmailmailer.db.entity.Users;
-import java.math.BigDecimal;
-import org.springframework.data.repository.CrudRepository;
+
+import com.pepaproch.massmailmailer.db.entity.UserInfo;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author pepa
  */
 
-public interface UserRepo extends CrudRepository<Users,BigDecimal>{
+public interface UserInfoDao extends JpaRepository<UserInfo, Long>{
+
     
 }

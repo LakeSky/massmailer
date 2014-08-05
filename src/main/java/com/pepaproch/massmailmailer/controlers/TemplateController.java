@@ -11,8 +11,6 @@ import com.pepaproch.massmailmailer.poi.convert.DocumentHolder;
 import com.pepaproch.massmailmailer.poi.convert.PlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.StringPlaceHolderHelper;
 import com.pepaproch.massmailmailer.poi.convert.TemplateMeta;
-import com.pepaproch.massmailmailer.poi.convert.WordDocument;
-import com.pepaproch.massmailmailer.service.UserService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,8 +36,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/template")
 public class TemplateController {
 
-    @Autowired
-    private UserService userService;
     @Autowired
     private ConvertService convertService;
     @Autowired
@@ -104,19 +100,6 @@ public class TemplateController {
     public TemplateController() {
     }
 
-    /**
-     * @return the userService
-     */
-    public UserService getUserService() {
-        return userService;
-    }
-
-    /**
-     * @param userService the userService to set
-     */
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     /**
      * @return the convertService

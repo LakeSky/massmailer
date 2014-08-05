@@ -6,7 +6,6 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.controlers.forms.ImageFolder;
-import com.pepaproch.massmailmailer.service.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -37,8 +36,7 @@ public class ImgController {
 
     private final String imageDirectory = "/home/pepa/NetBeansProjects/MassMailMailer/resources/";
     private final String serverPath = "resources";
-    @Autowired
-    private UserService userService;
+
 
     /**
      *
@@ -47,7 +45,7 @@ public class ImgController {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public List<ImageFolder> listFolders() {
-        return (List) userService.listUsers();
+        return null;
     }
     
     @ResponseBody
@@ -81,18 +79,6 @@ public class ImgController {
     public ImgController() {
     }
 
-    /**
-     * @return the userService
-     */
-    public UserService getUserService() {
-        return userService;
-    }
 
-    /**
-     * @param userService the userService to set
-     */
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
 }
