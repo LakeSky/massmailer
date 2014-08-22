@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var stats = angular.module('stats', ['ngRoute', 'entityService', 'ui.bootstrap']);
+var stats = angular.module('stats', ['ngRoute', 'massmaller.service', 'ui.bootstrap']);
 
 // Controller
 // ----------

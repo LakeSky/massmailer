@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var dashboard = angular.module('dashboard', ['ngRoute', 'entityService', 'ui.bootstrap']);
+var dashboard = angular.module('dashboard', ['ngRoute', 'massmaller.service', 'ui.bootstrap']);
 
 // Controller
 // ----------

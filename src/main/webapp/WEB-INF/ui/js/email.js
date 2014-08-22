@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var email = angular.module('email', ['ngRoute', 'entityService', 'ui.bootstrap']);
+var email = angular.module('email', ['ngRoute', 'massmaller.service', 'ui.bootstrap']);
 
 // Controller
 // ----------

@@ -202,7 +202,7 @@
         <security:intercept-url  pattern="/index.html" access="permitAll" />
         <security:intercept-url  pattern="/app/login" access="permitAll" />
         <security:intercept-url  pattern="/ui/**" access="permitAll" />
-        <security:intercept-url  pattern="/**" access="hasRole('user')" />
+        <security:intercept-url  pattern="/**" access="hasRole('USER')" />
     </security:http>
 
     <bean id="unauthorizedEntryPoint" class="com.pepaproch.massmailmailer.security.UnauthorizedEntryPoint" />
@@ -211,5 +211,15 @@
         <constructor-arg ref="userService" />
     </bean>
     
-    
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+    <constructor-arg ref="roleHierarchy" />
+</bean>
+<bean id="roleHierarchy"
+        class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+    <property name="hierarchy">
+        <value>
+            ROLE_ADMIN > ROLE_USER
+        </value>
+    </property>
+</bean>
 </beans>

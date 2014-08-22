@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'ngCookies', 'directives', 'entityService',  'dataSource', 'campain','email','dashboard','stats','users','loginService']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'ngCookies', 'directives', 'massmaller.service',  'dataSource', 'campain','email','dashboard','stats','users','loginService']);
 
 
 angular.module('appMassMailer').config(

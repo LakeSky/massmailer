@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var campain = angular.module('campain', ['ngRoute', 'entityService', 'upload', 'ui.bootstrap']);
+var campain = angular.module('campain', ['ngRoute', 'massmaller.service', 'upload', 'ui.bootstrap']);
 
 
 

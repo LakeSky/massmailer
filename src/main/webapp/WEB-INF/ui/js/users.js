@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var users = angular.module('users', ['entityService']);
+var users = angular.module('users', ['massmaller.service']);
 
 
 // Controller
@@ -16,18 +16,24 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
             loginService.authenticate($.param({username: $scope.username, password: $scope.password}), function(authenticationResult) {
                 var authToken = authenticationResult.token;
                 $rootScope.authToken = authToken;
-                if(authToken!==undefined) {
-                     $rootScope.isLogedIn = true;
-                    
-                }else {
-                 $rootScope.isLogedIn = false;
-                    
+                if (authToken !== undefined) {
+                    $rootScope.isLogedIn = true;
+
+                } else {
+                    $rootScope.isLogedIn = false;
+
                 }
 
                 $cookieStore.put('authToken', authToken);
 
 
             });
+        };
+        $scope.logout = function() {
+  $rootScope.authToken = null;
+       $rootScope.isLogedIn = false;
+            $cookieStore.remove('authToken');
+
         };
 
     }]);

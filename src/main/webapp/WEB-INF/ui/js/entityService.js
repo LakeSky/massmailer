@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var entityService = angular.module('entityService', ['ngResource']).
+var entityService = angular.module('massmaller.service', ['ngResource']).
         factory('Entity', function($resource) {
-
             return {
                 User: $resource('../users/:userId', {userId: '@id'}),
                 DataSource: $resource('../datasource/:dataSourceId', {dataSourceId: '@id'}, {search: {

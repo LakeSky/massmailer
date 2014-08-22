@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var dataSource = angular.module('dataSource', ['ngRoute', 'entityService', 'upload', 'ui.bootstrap']);
+var dataSource = angular.module('dataSource', ['ngRoute', 'massmaller.service', 'upload', 'ui.bootstrap']);
 
 // Controller
 // ----------
