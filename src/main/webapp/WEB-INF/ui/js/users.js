@@ -10,7 +10,19 @@ var users = angular.module('users', ['massmaller.service']);
 // Controller
 // ----------
 
-users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'loginService', function($scope, $rootScope, $location, $cookieStore, loginService) {
+users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'loginService', 'authNotifier', 'requestBuffer', '$http', function($scope, $rootScope, $location, $cookieStore, loginService, authNotifier, requestBuffer, $http) {
+
+        resendAll = function() {
+
+            angular.forEach(requestBuffer.getAll(), function(req) {
+                this.$http(req.config).then(function(response) {
+                    req.deferred.resolve(response);
+                });
+            });
+
+            requestBuffer.clear();
+
+        };
 
         $scope.login = function() {
             loginService.authenticate($.param({username: $scope.username, password: $scope.password}), function(authenticationResult) {
@@ -18,7 +30,7 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
                 $rootScope.authToken = authToken;
                 if (authToken !== undefined) {
                     $rootScope.isLogedIn = true;
-
+                    resendAll();
                 } else {
                     $rootScope.isLogedIn = false;
 
@@ -30,10 +42,10 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
             });
         };
         $scope.logout = function() {
-  $rootScope.authToken = null;
-       $rootScope.isLogedIn = false;
+            $rootScope.authToken = null;
+            $rootScope.isLogedIn = false;
             $cookieStore.remove('authToken');
-
+            $location.path("/login");
         };
 
     }]);

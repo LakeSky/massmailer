@@ -1,4 +1,5 @@
-angular.module('zdrojak.service').factory('authNotifier', ['$rootScope', function($rootScope){
+var authNotifier = angular.module('massmaller.service').
+        factory('authNotifier', ['$rootScope', function($rootScope){
 function AuthNotifier() {}
 AuthNotifier.prototype.onRequired = function(scope, cb) {
 scope.$on('auth:loginRequired', cb);
@@ -13,4 +14,4 @@ AuthNotifier.prototype.notifyConfirmed = function() {
 $rootScope.$broadcast('auth:loginConfirmed');
 };
 return new AuthNotifier();
-}])
+}]);

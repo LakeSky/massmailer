@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var loginService = angular.module('loginService', ['ngResource']).
+var loginService = angular.module('massmaller.service', ['ngResource']).
         factory('loginService', function($resource) {
 
             return $resource('../app/:action', {},

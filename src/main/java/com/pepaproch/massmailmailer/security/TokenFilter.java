@@ -35,19 +35,21 @@ public class TokenFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = this.getAsHttpRequest(request);
 
         String authToken = this.extractAuthTokenFromRequest(httpRequest);
-        String userName = TokenUtils.getUserNameFromToken(authToken);
+        if (authToken !=  null) {
+            String userName = TokenUtils.getUserNameFromToken(authToken);
 
-        if (userName != null) {
+            if (userName != null) {
 
-            UserDetails userDetails = this.userService.loadUserByUsername(userName);
+                UserDetails userDetails = this.userService.loadUserByUsername(userName);
 
-            if (TokenUtils.validateToken(authToken, userDetails)) {
+                if (TokenUtils.validateToken(authToken, userDetails)) {
 
-                UsernamePasswordAuthenticationToken authentication
-                        = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
- 
+                    UsernamePasswordAuthenticationToken authentication
+                            = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                }
             }
         }
 
