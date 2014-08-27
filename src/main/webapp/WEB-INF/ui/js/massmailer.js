@@ -2,7 +2,7 @@
 
 'use strict';
 
-var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'ngCookies', 'directives', 'massmaller.service', 'dataSource', 'campain', 'email', 'dashboard', 'stats']);
+var appMassMailer = angular.module('appMassMailer', ['ngRoute', 'ngResource', 'ngCookies', 'directives', 'massmaller.service', 'dataSource', 'campain', 'email', 'dashboard', 'stats', 'users']);
 
 
 angular.module('appMassMailer').config(
@@ -88,18 +88,21 @@ angular.module('appMassMailer').config(
                 $httpProvider.interceptors.push(function($q, $rootScope, $location, authNotifier, requestBuffer) {
                     return {
                         'responseError': function(rejection) {
+
                             var status = rejection.status;
                             var config = rejection.config;
                             var method = config.method;
                             var url = config.url;
                             var deferred = $q.defer();
-                            if (status === 401) {
+
+                            if (status === 401 && method === "GET") {
                                 var req = {
                                     config: config,
                                     deferred: deferred
                                 };
                                 requestBuffer.add(req);
                                 authNotifier.notifyRequired();
+                                return deferred.promise;
                             } else {
                                 $rootScope.error = method + " on " + url + " failed with status " + status;
                             }
@@ -129,32 +132,19 @@ angular.module('appMassMailer').config(
                 );
 
             }]).run(function($rootScope, $location, $cookieStore, loginService) {
-
+$rootScope.mode = true;
     /* Reset error when a new view is loaded */
     $rootScope.$on('$viewContentLoaded', function() {
+
         delete $rootScope.error;
     });
 
 
 
-    $rootScope.logout = function() {
-        delete $rootScope.user;
-        delete $rootScope.authToken;
-        $cookieStore.remove('authToken');
-        $location.path("/login");
-    };
 
-    /* Try getting valid user from cookie or go to login page */
-    var originalPath = $location.path();
-    $location.path("/login");
+
     var authToken = $cookieStore.get('authToken');
-    if (authToken !== undefined) {
-        $rootScope.authToken = authToken;
 
-
-        $location.path(originalPath);
-
-    }
 
     $rootScope.initialized = true;
 });
@@ -470,3 +460,22 @@ appMassMailer.directive('embedSrc', function() {
         }
     };
 });
+
+appMassMailer.directive('login', ['authNotifier', function(authNotifier) {
+        var config = {
+            restrict: 'E',
+            templateUrl: 'views/user/login.html',
+            replace: true,
+            scope: false,
+            controller: 'LoginCtrl',
+            link: function(scope, element) {
+                authNotifier.onRequired(scope, function() {
+                    scope.mode = true;
+                });
+                authNotifier.onConfirmed(scope, function() {
+                    scope.mode = false;
+                });
+            }
+        };
+        return config;
+    }]);

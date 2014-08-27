@@ -9,9 +9,9 @@ var dataSource = angular.module('dataSource', ['ngRoute', 'massmaller.service', 
 // Controller
 // ----------
 dataSource.controller('DataSourceListCtrl', ['$scope', 'Entity', '$modal', '$routeParams', '$location', function($scope, Entity, $modal, $routeParams, $location) {
-        menu.resetSubmenu();
-        menu.addToSubmenu('Datové zdroje', '#/datasource', 'glyphicon-th-list');
-        menu.addToSubmenu('Nový datový zdroj', '#/datasource/new', 'glyphicon-plus');
+//        menu.resetSubmenu();
+//        menu.addToSubmenu('Datové zdroje', '#/datasource', 'glyphicon-th-list');
+//        menu.addToSubmenu('Nový datový zdroj', '#/datasource/new', 'glyphicon-plus');
 
         $scope.datasources = Entity.DataSource.query();
 

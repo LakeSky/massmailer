@@ -8,7 +8,7 @@ var dashboard = angular.module('dashboard', ['ngRoute', 'massmaller.service', 'u
 
 // Controller
 // ----------
-dashboard.controller('DashBoardCtrl', ['$scope', 'Entity', '$routeParams', '$http', function($scope, Entity, $routeParams, $http) {
+dashboard.controller('DashBoardCtrl', ['$scope',  '$routeParams', '$http', function($scope, $routeParams, $http) {
 
         $scope.urlStats = '../stats';
 
