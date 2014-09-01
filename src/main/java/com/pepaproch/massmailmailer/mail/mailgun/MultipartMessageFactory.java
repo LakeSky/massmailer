@@ -42,7 +42,7 @@ public class MultipartMessageFactory implements MessageFactory<MultipartEmailMes
     }
     
     private void setEnvelope(Email e, MultiValueMap<String, Object> form) {
-        HttpEntity<String> from = new HttpEntity("Mailgun Sandbox <postmaster@livetelecom.eu>", plainTextPartHeaders);
+        HttpEntity<String> from = new HttpEntity("infoline <postmaster@livetelecom.eu>", plainTextPartHeaders);
         form.add("from", from);
         HttpEntity<String> to = new HttpEntity(e.getRecipients(), plainTextPartHeaders);
         form.add("to", to);

@@ -129,7 +129,7 @@ public class CampainCreateService {
         MailRecordBulder mlBulder = new DefaultMailRecordBulder(emailFolder);
         mlBulder.setFrom("Infolinka <mailing@livetelecom.cz>");
         mlBulder.setEmailContent(proccesEmailBody(emailText, ds, r));
-         mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
+       mlBulder.setReccipients(proccesEmailBody(emailRec, ds, r), null, null);
         
      //   mlBulder.setReccipients("pepaproch@gmail.com", null, null);
         mlBulder.setSubject(proccesEmailBody(emailSubject, ds, r));
