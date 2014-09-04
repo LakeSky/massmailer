@@ -10,7 +10,7 @@ var users = angular.module('users', ['massmaller.service']);
 // Controller
 // ----------
 
-users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'loginService', 'authNotifier', 'requestBuffer', '$http', function($scope, $rootScope, $location, $cookieStore, loginService, authNotifier, requestBuffer, $http) {
+users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStore', 'Entity', 'loginService', 'authNotifier', 'requestBuffer', '$http', function($scope, $rootScope, $location, $cookieStore, Entity, loginService, authNotifier, requestBuffer, $http) {
 
 
         var resendAll = function() {
@@ -31,10 +31,14 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
                 $rootScope.authToken = authToken;
                 if (authToken !== undefined) {
                     $rootScope.isLogedIn = true;
-
+                    Entity.User.get({userId: authenticationResult.userId})
+                            .$promise.then(function(user) {
+                                $scope.user = user;
+                            });
                     authNotifier.notifyConfirmed();
                     resendAll();
                 } else {
+
                     $rootScope.isLogedIn = false;
 
                 }
@@ -42,10 +46,13 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
                 $cookieStore.put('authToken', authToken);
 
 
+            }, function(error) {
+                $scope.loginerror = "Přihlášení selhalo, zkontrolujte vaše přihlašovací údaje";
+
             });
         };
         $scope.logout = function() {
-           delete  $rootScope.authToken ;
+            delete  $rootScope.authToken;
             $rootScope.isLogedIn = false;
 
             $cookieStore.remove('authToken');
@@ -60,7 +67,43 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
 
 users.controller('UserListCtrl', ['$scope', 'Entity', function($scope, Entity) {
 
-        $scope.users = Entity.User.query();
+        $scope.currentPage = 0;
+        $scope.filterParams = {
+            page: 0,
+            limit: 10,
+            sort: 'id',
+            sortDir: 1,
+            search: '0',
+            searchString: '*'
+
+
+        };
+        function getData() {
+            var users = Entity.User.browse({
+                page: $scope.filterParams.page,
+                limit: $scope.filterParams.limit,
+                sort: $scope.filterParams.sort,
+                sortDir: $scope.filterParams.sortDir,
+                searchString: $scope.filterParams.searchString
+            }, function() {
+                $scope.users = users;
+            });
+        }
+
+        $scope.search = function(searchField) {
+            $scope.filterParams.searchString = searchField;
+            $scope.filterParams.page = 0;
+            getData();
+
+        };
+        $scope.paginate = function(value) {
+            // Only act when our property has changed.
+            if (undefined !== value) {
+                $scope.filterParams.page = value;
+                getData();
+
+            }
+        };
 
     }]);
 
@@ -69,11 +112,65 @@ users.controller('UserListCtrl', ['$scope', 'Entity', function($scope, Entity) {
 // Controller
 // ----------
 users.controller('UserEditCtrl', ['$scope', '$routeParams', '$location', 'Entity', function($scope, $routeParams, $location, Entity) {
-
         var userId = $routeParams.userId;
-        $scope.User = Entity.User.get({userId: userId});
-        $scope.save = function() {
-            $scope.form = $scope.$eval(User.prototype.formName());
+        if (userId === "new") {
+            $scope.User = new Entity.User();
+
+        } else
+        {
+            Entity.User.get({userId: userId})
+                    .$promise.then(function(user) {
+                        $scope.user = user;
+                    });
+        }
+        var availableRoles = Entity.Role.query()
+                .$promise.then(function(availableRoles) {
+                    $scope.availableRoles = availableRoles;
+                });
+
+
+        var login = Entity.Login.get({userId: userId})
+                .$promise.then(function(login) {
+                    $scope.login = login;
+                });
+
+        $scope.userRoles = "";
+
+        $scope.addRole = function(role) {
+            role.isDisabled = true;
+            $scope.login.roles.push(role.authority);
+
+        };
+
+
+        $scope.removeRole = function(roleName) {
+
+
+
+            angular.forEach($scope.login.roles, function(item, index) {
+                if (roleName === item) {
+                    $scope.login.roles.splice(index, 1);
+
+                }
+
+            });
+
+            angular.forEach($scope.availableRoles, function(item, index) {
+                if (roleName === item.authority) {
+                    item.isDisabled = false;
+
+
+                }
+
+            });
+
+
+
+
+
+        };
+
+        $scope.saveUser = function() {
 
             $scope.User.$save(
                     function(Entity, headers) {
@@ -84,28 +181,23 @@ users.controller('UserEditCtrl', ['$scope', '$routeParams', '$location', 'Entity
             });
         };
 
-    }]);
+        $scope.saveLogin = function() {
 
-
-
-// Controller
-// ----------
-users.controller('UserCreateController', ['$scope', '$routeParams', '$location', 'Entity', function($scope, $routeParams, $location, Entity) {
-
-        $scope.User = new Entity.User();
-        $scope.save = function() {
-            $scope.form = $scope.$eval("saveUser");
-
-            $scope.User.$save(
-                    function(User, headers) {
-                        handleFormSucces("Nový uživatel vytvořen", $location, '/users');
+            $scope.login.$save(
+                    function(Entity, headers) {
+                        handleFormSucces("Login vytvořen", $location, '/users');
                     }, function(error) {
-
                 handleFormError($scope, error.data);
 
             });
         };
 
+
+
     }]);
+
+
+
+
 
 

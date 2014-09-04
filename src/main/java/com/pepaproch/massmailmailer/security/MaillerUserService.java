@@ -5,7 +5,7 @@
  */
 package com.pepaproch.massmailmailer.security;
 
-import com.pepaproch.massmailmailer.db.entity.UserInfo;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class MaillerUserService implements UserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    private UserLoginDao userDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,8 +35,8 @@ public class MaillerUserService implements UserDetailsService {
      */
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        UserDetails ud = userDao.findByUserName(string);
+    public UserLogin loadUserByUsername(String string) throws UsernameNotFoundException {
+       UserLogin ud = userDao.findByUserName(string);
         if (ud == null) {
             throw new UsernameNotFoundException("User not found"); //To change body of generated methods, choose Tools | Templates.
         } else {
@@ -45,11 +45,11 @@ public class MaillerUserService implements UserDetailsService {
     }
 
     public UserDetails saveLoginForm(UserForm userForm) {
-        User u = null;
-        UserInfo userInfo = null;
+        UserLogin u = null;
+
         if (userForm.getId() == null) {
 
-            u = new User(userForm);
+            u = new UserLogin(userForm);
             u.setPassword(passwordEncoder.encode(userForm.getPlainPassword()));
           
         } else {
@@ -62,14 +62,14 @@ public class MaillerUserService implements UserDetailsService {
     /**
      * @return the userDao
      */
-    public UserDao getUserDao() {
+    public UserLoginDao getUserDao() {
         return userDao;
     }
 
     /**
      * @param userDao the userDao to set
      */
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(UserLoginDao userDao) {
         this.userDao = userDao;
     }
 

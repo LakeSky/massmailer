@@ -10,10 +10,10 @@ var dashboard = angular.module('dashboard', ['ngRoute', 'massmaller.service', 'u
 // ----------
 dashboard.controller('DashBoardCtrl', ['$scope',  '$routeParams', '$http', function($scope, $routeParams, $http) {
 
-        $scope.urlStats = '../stats';
+        $scope.urlStats = 'stats';
 
 
-        var getPromise = $http({method: 'GET', url: '../stats'}).success(function(data, status, headers, config) {
+        var getPromise = $http({method: 'GET', url: 'stats'}).success(function(data, status, headers, config) {
             $scope.data = data;
         }).error(function(data, status, headers, config) {
 

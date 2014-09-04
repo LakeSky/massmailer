@@ -96,7 +96,7 @@
                             </tr>
                             </thead>
                             <tbody ng-repeat="f in DataSource.dataStructure.dataStructureFields" >
-                                <tr >
+                                <tr>
                                     <td class="form-group  has-warning has-feedback">
                                         <div show-inter="dataStructure.dataStructureFields[{{f.index}}].name"  class="alert alert-danger " ><error-message error="dataStructure.dataStructureFields[{{f.index}}].name" ></error-message>  </div> 
                                         <input interpol-model  server-error = "dataStructure.dataStructureFields[{{f.index}}].name"  class="form-control input-sm" type="text" id = "dataStructure.dataStructureFields[{{f.index}}].name" name="dataStructure.dataStructureFields[{{f.index}}].name" ng-model="f.name" />

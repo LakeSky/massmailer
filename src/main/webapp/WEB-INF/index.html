@@ -10,7 +10,7 @@
 
         <!-- Core CSS - Include with every page -->
         <link href="ui/css/bootstrap.min.css" rel="stylesheet">
-        <link href="ui/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="font-awesome/ui/css/font-awesome.css" rel="stylesheet">
 
         <!-- Page-Level Plugin CSS - Dashboard -->
         <link href="ui/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
@@ -41,13 +41,11 @@
                 <ul class="nav navbar-top-links navbar-right" ng-controller="LoginCtrl">
 
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{user.firstName}} {{user.lastName}}
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                            </li>
-                            <li><a href="#/users"><i class="fa fa-user fa-fw"></i> Users</a>
+                            <li><a href="#">{{user.firstName}} {{user.lastName}}<i class="fa fa-user fa-fw"></i> User Profile</a>
                             </li>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                             </li>

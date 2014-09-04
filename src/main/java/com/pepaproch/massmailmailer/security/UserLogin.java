@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.security;
 
+
 import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Entity
 @Table(name = "USER_LOGIN")
-public class User implements UserDetails {
+public class UserLogin implements UserDetails {
 
     @Id
     private Long id;
@@ -36,17 +38,19 @@ public class User implements UserDetails {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
+    
+    @OneToOne
+    private UserInfo userInfo;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
-    @OneToOne
-    private UserInfo userInfo;
 
-    public User() {
+
+    public UserLogin() {
     }
 
-    User(UserForm userForm) {
+    UserLogin(UserForm userForm) {
         this.userName = userForm.getName();
 
     }
@@ -154,19 +158,7 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
-    /**
-     * @return the userInfo
-     */
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
 
-    /**
-     * @param userInfo the userInfo to set
-     */
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
 
     /**
      * @return the roles
@@ -180,6 +172,20 @@ public class User implements UserDetails {
      */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    /**
+     * @return the userInfo
+     */
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    /**
+     * @param userInfo the userInfo to set
+     */
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
 }

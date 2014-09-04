@@ -9,13 +9,14 @@ package com.pepaproch.massmailmailer.repository;
 
 import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author pepa
  */
 
-public interface UserInfoDao extends JpaRepository<UserInfo, Long>{
+public interface UserInfoDao extends PagingAndSortingRepository<UserInfo, Long>,JpaRepository<UserInfo, Long> ,JpaSpecificationExecutor<UserInfo>{
 
-    
 }

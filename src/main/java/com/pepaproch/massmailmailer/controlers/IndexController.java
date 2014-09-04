@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller(value = "IndexController")
 
-@RequestMapping({"/index.html","/"})
+@RequestMapping({"/"})
 public class IndexController {
     @Autowired
     private MailGunRestClient client;
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex() {
         //  MailgunStatus events = client.getEvents();
-    return "redirect:ui/index.html";
+    return "redirect:index.html";
     }
 
     /**

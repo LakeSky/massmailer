@@ -98,7 +98,7 @@ stats.controller('StatsCtrl', ['$scope', 'Entity', '$routeParams', '$http', func
             });
             if (selectedIds.campainIds.length !== 0) {
                 var getPromise = $http({method: 'GET',
-                    url: '../stats/campains/combined',
+                    url: 'stats/campains/combined',
                     params: selectedIds
                 }).success(function(data, status, headers, config) {
                     $scope.campainStats = data;

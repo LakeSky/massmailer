@@ -5,10 +5,10 @@
  */
 package com.pepaproch.massmailmailer.controlers;
 
-
 import com.pepaproch.massmailmailer.security.MaillerUserService;
 import com.pepaproch.massmailmailer.security.SecurityToken;
 import com.pepaproch.massmailmailer.security.TokenUtils;
+import com.pepaproch.massmailmailer.security.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -16,8 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,23 +45,22 @@ public class LoginController {
 
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(username, password);
+        try{
         Authentication authentication = this.getAuthManager().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        /*
-         * Reload user as password of authentication principal will be null after authorization and
-         * password is needed for token generation
-         */
-        UserDetails userDetails = this.userService.loadUserByUsername(username);
-
-        return new ResponseEntity(new SecurityToken(TokenUtils.createToken(userDetails)),HttpStatus.ACCEPTED);
+           SecurityContextHolder.getContext().setAuthentication(authentication);
+           UserLogin userDetails = this.userService.loadUserByUsername(username);
+           AppContext.isUserInRole("USER");
+            return new ResponseEntity(new SecurityToken(TokenUtils.createToken(userDetails),userDetails.getUserInfo().getId()), HttpStatus.ACCEPTED);
+        } catch(AuthenticationException ex ) {
+        
+            return new ResponseEntity("login failed", HttpStatus.UNAUTHORIZED);
+        }
+       
 
     }
 
     public LoginController() {
     }
-
-
 
     /**
      * @return the authManager

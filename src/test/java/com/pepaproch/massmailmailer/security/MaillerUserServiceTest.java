@@ -22,8 +22,8 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 public class MaillerUserServiceTest {
 
     MaillerUserService userService = new MaillerUserService();
-    UserDao userDao = null;
-    User existingUser = null;
+    UserLoginDao userDao = null;
+    UserLogin existingUser = null;
     PasswordEncoder encoderRaw = new StandardPasswordEncoder("ThisIsASecretSoChangeMe");
     PasswordEncoder encoder;
     private String expectedPassword;
@@ -32,9 +32,9 @@ public class MaillerUserServiceTest {
     public void setUp() {
         expectedPassword = encoderRaw.encode("test");
         encoder = mock(PasswordEncoder.class);
-        userDao = mock(UserDao.class);
+        userDao = mock(UserLoginDao.class);
         userService.setPasswordEncoder(encoder);
-        existingUser = new User();
+        existingUser = new UserLogin();
         existingUser.setId(1L);
         existingUser.setUserName("test");
         existingUser.setPassword(expectedPassword);
@@ -53,7 +53,7 @@ public class MaillerUserServiceTest {
         when(userDao.findOne(1L)).thenReturn(existingUser);
         when(userDao.findByUserName("test")).thenReturn(existingUser);
         when(encoder.encode("test")).thenReturn("encodedtest");
-        User result = (User) userService.loadUserByUsername("test");
+        UserLogin result = (UserLogin) userService.loadUserByUsername("test");
         assertEquals(existingUser, result);
 
     }
@@ -64,7 +64,7 @@ public class MaillerUserServiceTest {
         when(userDao.findByUserName("test")).thenReturn(existingUser);
         when(encoder.encode("test")).thenReturn("encodedtest");
         System.out.println(expectedPassword);
-        User result = (User) userService.loadUserByUsername("tester");
+        UserLogin result = (UserLogin) userService.loadUserByUsername("tester");
         assertEquals(null, result);
 
     }
@@ -74,10 +74,10 @@ public class MaillerUserServiceTest {
      */
     @Test
     public void testSaveLoginForm() {
-        when(userDao.save(any(User.class))).thenAnswer(new Answer<User>() {
+        when(userDao.save(any(UserLogin.class))).thenAnswer(new Answer<UserLogin>() {
             @Override
-            public User answer(InvocationOnMock mc) {
-                User u = (User) mc.getArguments()[0];
+            public UserLogin answer(InvocationOnMock mc) {
+                UserLogin u = (UserLogin) mc.getArguments()[0];
                 u.setId(1L);
                 return u;
             }
@@ -85,7 +85,7 @@ public class MaillerUserServiceTest {
         UserForm uf = new UserForm();
         uf.setName("test");
         uf.setPlainPassword("test");
-        User saveLoginForm = (User) userService.saveLoginForm(uf);
+        UserLogin saveLoginForm = (UserLogin) userService.saveLoginForm(uf);
         assertEquals(saveLoginForm.getPassword(), expectedPassword);
     }
 

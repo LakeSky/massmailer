@@ -12,6 +12,7 @@ package com.pepaproch.massmailmailer.security;
  */
 public class SecurityToken {
     private String token;
+    private final Long userId;
 
     /**
      * @return the token
@@ -20,8 +21,9 @@ public class SecurityToken {
         return token;
     }
 
-    public SecurityToken(String token) {
+    public SecurityToken(String token, Long userId) {
         this.token = token;
+        this.userId = userId;
     }
 
     /**
@@ -29,5 +31,12 @@ public class SecurityToken {
      */
     public void setToken(String token) {
         this.token = token;
+    }
+
+    /**
+     * @return the userId
+     */
+    public Long getUserId() {
+        return userId;
     }
 }

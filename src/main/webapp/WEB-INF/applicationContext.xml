@@ -49,7 +49,8 @@
                 <value>classpath:appconfig/massmailerconfig.properties</value>
             </list>
         </property>
-        <proopperty name="ignoreResourceNotFound" value="true"/>
+        
+        <property name="ignoreResourceNotFound" value="true"/>
     </bean>
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" ref="appMassMailer" />
@@ -222,4 +223,7 @@
         </value>
     </property>
 </bean>
+
+    <bean id="contextApplicationContextProvider" class="com.pepaproch.massmailmailer.controlers.ApplicationContextProvider"/>
+    
 </beans>
