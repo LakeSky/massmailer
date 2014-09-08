@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 
 /**
  *
@@ -35,7 +33,7 @@ public class UserLoginValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         getValidator().validate(target, errors);
-        if (target.getClass().isAssignableFrom(UserLogin.class)) {
+        if (target.getClass().isAssignableFrom(LoginForm.class)) {
             validate((LoginForm) target, errors);
         }
     }

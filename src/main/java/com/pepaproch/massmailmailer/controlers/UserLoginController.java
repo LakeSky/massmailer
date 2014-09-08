@@ -36,6 +36,8 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginDao userLogindao;
+    
+    
 
     @Autowired
     private UserLoginValidator userLoginValidator;

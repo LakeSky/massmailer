@@ -26,6 +26,7 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
         };
 
         $scope.login = function() {
+                        $scope.loginerroroccurred = false;
             loginService.authenticate($.param({username: $scope.username, password: $scope.userpassword}), function(authenticationResult) {
                 var authToken = authenticationResult.token;
                 $rootScope.authToken = authToken;
@@ -47,6 +48,7 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
 
 
             }, function(error) {
+                $scope.loginerroroccurred = true;
                 $scope.loginerror = "Přihlášení selhalo, zkontrolujte vaše přihlašovací údaje";
 
             });
@@ -74,7 +76,7 @@ users.controller('UserListCtrl', ['$scope', 'Entity', function($scope, Entity) {
             sort: 'id',
             sortDir: 1,
             search: '0',
-            searchString: '*'
+            searchString: ''
 
 
         };
@@ -104,6 +106,8 @@ users.controller('UserListCtrl', ['$scope', 'Entity', function($scope, Entity) {
 
             }
         };
+
+ getData();
 
     }]);
 
