@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
 
     @Autowired
+    @Qualifier("maillerUserService")
     private MaillerUserService userService;
 
     @Autowired

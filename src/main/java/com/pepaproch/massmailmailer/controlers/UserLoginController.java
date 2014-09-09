@@ -6,17 +6,21 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.controlers.forms.LoginForm;
+import com.pepaproch.massmailmailer.security.MaillerUserService;
 import com.pepaproch.massmailmailer.security.UserLogin;
 import com.pepaproch.massmailmailer.security.UserLoginDao;
 import java.util.Collection;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +40,10 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginDao userLogindao;
-    
-    
+
+    @Autowired
+    @Qualifier("maillerUserService")
+    private MaillerUserService maiilerserService;
 
     @Autowired
     private UserLoginValidator userLoginValidator;
@@ -46,7 +52,11 @@ public class UserLoginController {
     @ResponseBody
     public LoginForm getLogin(@PathVariable("userId") Long userId) {
         UserLogin login = getUserLogindao().getByUserInfoId(userId);
-        return new LoginForm(login);
+        if (login != null) {
+            return new LoginForm(login);
+        } else {
+            return new LoginForm(userId);
+        }
     }
 
     /**
@@ -55,26 +65,32 @@ public class UserLoginController {
      * @param result
      * @return
      */
-    @RequestMapping( consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    public LoginForm saveLogin(@Valid @RequestBody LoginForm loginForm, BindingResult result) {
-       
-        return new LoginForm();
+    public ResponseEntity saveLogin(@Valid @RequestBody LoginForm loginForm, BindingResult result) {
+        ResponseEntity responseEntity;
+        if (result.hasErrors()) {
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            ResponseEntity<List<FieldError>> errorResponse = new ResponseEntity<>(fieldErrors, HttpStatus.UNPROCESSABLE_ENTITY);
+            return errorResponse;
+            
+        } else {
+            responseEntity = new ResponseEntity(maiilerserService.saveLoginForm(loginForm), HttpStatus.CREATED);
+            return responseEntity;
+        }
+
     }
-    
-    
-    
-    @RequestMapping(value= "changepassword" , consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+
+    @RequestMapping(value = "changepassword", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity changePassword(@RequestParam("userId") Long userId, @RequestParam("password") String password) {
-        UserLogin userLogin = userLogindao.getByUserInfoId(userId);
+        UserLogin userLogin = getUserLogindao().getByUserInfoId(userId);
         //  UserLogin savedLogin = getUserLogindao().save(login);
         ResponseEntity<UserLogin> responseEntity = new ResponseEntity(Boolean.TRUE, HttpStatus.CREATED);
         return responseEntity;
 
     }
-    
-    
+
     @RequestMapping(value = "/roles", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity roles() {
@@ -82,7 +98,6 @@ public class UserLoginController {
         return responseEntity;
 
     }
-    
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -119,6 +134,20 @@ public class UserLoginController {
      */
     public void setUserLoginValidator(UserLoginValidator userLoginValidator) {
         this.userLoginValidator = userLoginValidator;
+    }
+
+    /**
+     * @return the maiilerserService
+     */
+    public MaillerUserService getMaiilerserService() {
+        return maiilerserService;
+    }
+
+    /**
+     * @param maiilerserService the maiilerserService to set
+     */
+    public void setMaiilerserService(MaillerUserService maiilerserService) {
+        this.maiilerserService = maiilerserService;
     }
 
 }

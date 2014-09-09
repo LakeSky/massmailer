@@ -5,7 +5,6 @@
  */
 package com.pepaproch.massmailmailer.security;
 
-
 import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,21 +37,30 @@ public class UserLogin implements UserDetails {
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
     private boolean enabled;
-    
+
     @OneToOne
     private UserInfo userInfo;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
-
-
     public UserLogin() {
+        setDefaults();
+
     }
 
-    UserLogin(UserForm userForm) {
-        this.userName = userForm.getName();
+    private void setDefaults() {
 
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+    }
+
+    public UserLogin(String userName, String encodedPassword, UserInfo userInfo) {
+        setDefaults();
+        this.userName = userName;
+        this.password = encodedPassword;
+        this.userInfo = userInfo;
     }
 
     @Override
@@ -157,8 +165,6 @@ public class UserLogin implements UserDetails {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
-
 
     /**
      * @return the roles

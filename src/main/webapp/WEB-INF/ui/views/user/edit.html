@@ -46,30 +46,34 @@
         <tab-heading>
             <i class="glyphicon glyphicon-pencil"></i> Přihlášení a oprávnění
         </tab-heading>
-        <form novalidate class="form-horizontal"   >
+        <form novalidate class="form-horizontal"  name="loginForm" spring:Valid="loginErrors" >
+            <span ng-init="forms.userLoginForm = loginForm"></span>
             <div class="control-group">
                 <div class="controls">
                     <input type="hidden" ng-model="login.id" id="loginid"  />
                 </div>
             </div>
+  
             <div class="control-group">
                 <label class="control-label" for="username">Uživatelské jméno</label>
                 <div class="controls">
-                    <input type="text" ng-model="login.userName" id="username" name="username" server-error />
-                    <div class="errors" ng-show="form.userName.$invalid">
-                        <span ng-show="form.username.$error.server">{{ errors.username}}</span>
+                    <input type="text" ng-model="login.userName" id="username" name="username" interpol-model="login.userName" server-error="login.userName" />
+                    <div class="errors" ng-show="loginForm.$serverError.userName.$invalid" >
+                        <span>  {{loginForm.$serverError.userName.message}}</span>
                     </div>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="password">Heslo</label>
                 <div class="controls">
-                    <input type="text" ng-model="login.password" id="password" required name="password" server-error/>
-                    <div class="errors" ng-show="form.password.$invalid">
-                        <span ng-show="form.password.$error.server">{{ errors.password}}</span>
+                    <input type="text" ng-model="login.password" interpol-model="login.password"  id="password" required name="password" />
+                    <div class="errors" ng-show="forms.userLoginForm.password.$invalid">
+                        <span ng-show="forms.userLoginForm.password.$error.server">{{ errors.login.userPassword}}AAA</span>
                     </div>
                 </div>
             </div>
+                     
+            
             <div  class="row">
                 <div class="col-lg-3" >
                     <div class="col-lg-6">
@@ -136,7 +140,7 @@
 
         </form>
         <div class="control-group">
-            <a  href="#" id="saveUserLoginTriger" class="btn btn-primary" ng-click="saveLogin()" >Uložit</a>
+            <button id="saveUserLoginTriger" ng-disabled="{{newuser}}" class="btn btn-primary" ng-click="saveLogin()" >Uložit</button>
         </div>
     </tab>
 </tabset>

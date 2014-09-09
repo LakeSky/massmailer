@@ -6,8 +6,10 @@
 
 package com.pepaproch.massmailmailer.controlers.forms;
 
+import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import com.pepaproch.massmailmailer.security.UserLogin;
 import java.util.Set;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -15,10 +17,13 @@ import java.util.Set;
  */
 public class LoginForm {
     private Long  loginId;
+    @NotBlank
     private String userName;
     private String password;
     private String newPassword;
     private Set<String> roles;
+    private Long userId;
+
 
     public LoginForm(UserLogin login) {
        this.loginId = login.getId();
@@ -28,6 +33,10 @@ public class LoginForm {
 
     public LoginForm() {
  
+    }
+
+    public LoginForm(Long userId) {
+       this.userId = userId;
     }
 
     /**
@@ -99,5 +108,21 @@ public class LoginForm {
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
+
+    /**
+     * @return the userId
+     */
+    public Long getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId the userId to set
+     */
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+
     
 }

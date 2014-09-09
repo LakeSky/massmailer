@@ -17,10 +17,6 @@ angular.module('appMassMailer').config(
                             templateUrl: 'ui/views/user/list.html',
                             controller: 'UserListCtrl'
                         }).
-                        when('/users/new', {
-                            templateUrl: 'ui/views/user/edit.html',
-                            controller: 'UserCreateController'
-                        }).
                         when('/users/:userId', {
                             templateUrl: 'ui/views/user/edit.html',
                             controller: 'UserEditCtrl'
@@ -132,6 +128,8 @@ angular.module('appMassMailer').config(
                 );
 
             }]).run(function($rootScope, $location, $cookieStore, loginService) {
+    var authToken = $cookieStore.get('authToken');
+    $rootScope.authToken = authToken;
     $rootScope.mode = true;
     /* Reset error when a new view is loaded */
     $rootScope.$on('$viewContentLoaded', function() {
@@ -143,7 +141,6 @@ angular.module('appMassMailer').config(
 
 
 
-    var authToken = $cookieStore.get('authToken');
 
 
     $rootScope.initialized = true;
@@ -162,6 +159,22 @@ function handleFormError($scope, data) {
         console.log(serverError);
         $scope.form[serverError['field']].$setValidity('server', false);
         $scope.errors[serverError['field']] = serverError['code'];
+
+    });
+
+    return false;
+
+
+
+}
+
+function handleFormErrorNew(errors, $scope, data) {
+
+
+    angular.forEach(data, function(serverError, key) {
+        console.log(serverError);
+        errors.push({key: serverError['field'], value: serverError['code']});
+
 
     });
 

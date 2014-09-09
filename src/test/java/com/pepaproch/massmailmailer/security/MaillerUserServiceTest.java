@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.security;
 
+import com.pepaproch.massmailmailer.controlers.forms.LoginForm;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
@@ -82,10 +83,12 @@ public class MaillerUserServiceTest {
                 return u;
             }
         });
-        UserForm uf = new UserForm();
-        uf.setName("test");
-        uf.setPlainPassword("test");
-        UserLogin saveLoginForm = (UserLogin) userService.saveLoginForm(uf);
+        LoginForm  loginForm;
+        loginForm = new LoginForm();
+        loginForm.setLoginId(1L);
+        loginForm.setPassword(expectedPassword);
+        loginForm.setUserId(1L);
+        UserLogin saveLoginForm = (UserLogin) userService.saveLoginForm(loginForm);
         assertEquals(saveLoginForm.getPassword(), expectedPassword);
     }
 

@@ -26,7 +26,7 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
         };
 
         $scope.login = function() {
-                        $scope.loginerroroccurred = false;
+            $scope.loginerroroccurred = false;
             loginService.authenticate($.param({username: $scope.username, password: $scope.userpassword}), function(authenticationResult) {
                 var authToken = authenticationResult.token;
                 $rootScope.authToken = authToken;
@@ -107,7 +107,7 @@ users.controller('UserListCtrl', ['$scope', 'Entity', function($scope, Entity) {
             }
         };
 
- getData();
+        getData();
 
     }]);
 
@@ -116,16 +116,26 @@ users.controller('UserListCtrl', ['$scope', 'Entity', function($scope, Entity) {
 // Controller
 // ----------
 users.controller('UserEditCtrl', ['$scope', '$routeParams', '$location', 'Entity', function($scope, $routeParams, $location, Entity) {
+
         var userId = $routeParams.userId;
         if (userId === "new") {
-            $scope.User = new Entity.User();
+            $scope.user = new Entity.User();
+            $scope.login = new Entity.Login();
+            $scope.newuser = true;
 
         } else
         {
-            Entity.User.get({userId: userId})
+            var user = Entity.User.get({userId: userId})
                     .$promise.then(function(user) {
                         $scope.user = user;
                     });
+
+            var login = Entity.Login.get({userId: userId})
+                    .$promise.then(function(login) {
+                        $scope.login = login;
+                    });
+
+            $scope.newuser = false;
         }
         var availableRoles = Entity.Role.query()
                 .$promise.then(function(availableRoles) {
@@ -133,10 +143,7 @@ users.controller('UserEditCtrl', ['$scope', '$routeParams', '$location', 'Entity
                 });
 
 
-        var login = Entity.Login.get({userId: userId})
-                .$promise.then(function(login) {
-                    $scope.login = login;
-                });
+
 
         $scope.userRoles = "";
 
@@ -176,24 +183,36 @@ users.controller('UserEditCtrl', ['$scope', '$routeParams', '$location', 'Entity
 
         $scope.saveUser = function() {
 
-            $scope.User.$save(
-                    function(Entity, headers) {
-                        handleFormSucces("Nový uživatel vytvořen", $location, '/users');
+            $scope.user.$save(
+                    function(user, headers) {
+                        $scope.login.userId = user.id;
+                        $scope.newuser = false;
                     }, function(error) {
+
+
                 handleFormError($scope, error.data);
 
             });
         };
 
         $scope.saveLogin = function() {
+            if ($scope.login.userId === undefined) {
 
-            $scope.login.$save(
-                    function(Entity, headers) {
-                        handleFormSucces("Login vytvořen", $location, '/users');
-                    }, function(error) {
-                handleFormError($scope, error.data);
 
-            });
+
+            } else {
+
+                $scope.login.$save(
+                        function(Entity, headers) {
+
+                        }, function(error) {
+              
+              $scope['loginErrors'] = [];
+                    handleFormErrorNew($scope['loginErrors'],$scope, error.data);
+
+                });
+            }
+
         };
 
 

@@ -6,9 +6,10 @@
 package com.pepaproch.massmailmailer.security;
 
 
+import com.pepaproch.massmailmailer.controlers.forms.LoginForm;
+import com.pepaproch.massmailmailer.repository.UserInfoDao;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,9 @@ public class MaillerUserService implements UserDetailsService {
 
     @Autowired
     private UserLoginDao userDao;
+    
+    @Autowired
+    private UserInfoDao userInfoDao;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -44,19 +48,18 @@ public class MaillerUserService implements UserDetailsService {
         }
     }
 
-    public UserDetails saveLoginForm(UserForm userForm) {
+    public UserLogin saveLoginForm(LoginForm loginForm) {
         UserLogin u = null;
 
-        if (userForm.getId() == null) {
-
-            u = new UserLogin(userForm);
-            u.setPassword(passwordEncoder.encode(userForm.getPlainPassword()));
+        if (loginForm.getLoginId() == null) {
+            u = new UserLogin(loginForm.getUserName(),loginForm.getPassword(),userInfoDao.findOne(loginForm.getUserId()));    
           
         } else {
-            u = userDao.findOne(userForm.getId());
-            u.setPassword(passwordEncoder.encode(userForm.getPlainPassword()));
+            u = userDao.findOne(loginForm.getLoginId());
+            u.setUserName(loginForm.getUserName());
+            u.setPassword(passwordEncoder.encode(loginForm.getPassword()));
         }
-        return (UserDetails) userDao.save(u);
+        return userDao.save(u);
     }
 
     /**
@@ -85,6 +88,20 @@ public class MaillerUserService implements UserDetailsService {
      */
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * @return the userInfoDao
+     */
+    public UserInfoDao getUserInfoDao() {
+        return userInfoDao;
+    }
+
+    /**
+     * @param userInfoDao the userInfoDao to set
+     */
+    public void setUserInfoDao(UserInfoDao userInfoDao) {
+        this.userInfoDao = userInfoDao;
     }
 
 }
