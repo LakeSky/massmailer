@@ -111,7 +111,7 @@ angular.module('appMassMailer').config(
 
                 /* Registers auth token interceptor, auth token is either passed by header or by query parameter
                  * as soon as there is an authenticated user */
-                $httpProvider.interceptors.push(function($q, $rootScope, $location) {
+                $httpProvider.interceptors.push(function($q, $rootScope, $location,$cookieStore) {
                     return {
                         'request': function(config) {
 
@@ -120,6 +120,12 @@ angular.module('appMassMailer').config(
 
                                 config.headers['X-Auth-Token'] = authToken;
 
+                            } else {
+
+                                var authToken = $cookieStore.get('authToken');
+                                $rootScope.authToken = authToken;
+                                config.headers['X-Auth-Token'] = authToken;
+                                
                             }
                             return config || $q.when(config);
                         }
@@ -128,8 +134,7 @@ angular.module('appMassMailer').config(
                 );
 
             }]).run(function($rootScope, $location, $cookieStore, loginService) {
-    var authToken = $cookieStore.get('authToken');
-    $rootScope.authToken = authToken;
+
     $rootScope.mode = true;
     /* Reset error when a new view is loaded */
     $rootScope.$on('$viewContentLoaded', function() {

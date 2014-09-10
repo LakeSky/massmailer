@@ -36,6 +36,7 @@ users.controller('LoginCtrl', ['$scope', '$rootScope', '$location', '$cookieStor
                             .$promise.then(function(user) {
                                 $scope.user = user;
                             });
+                     
                     authNotifier.notifyConfirmed();
                     resendAll();
                 } else {
@@ -149,7 +150,11 @@ users.controller('UserEditCtrl', ['$scope', '$routeParams', '$location', 'Entity
 
         $scope.addRole = function(role) {
             role.isDisabled = true;
+            if($scope.login.roles ===null) {
+                  $scope.login.roles = [];
+            }
             $scope.login.roles.push(role.authority);
+            
 
         };
 

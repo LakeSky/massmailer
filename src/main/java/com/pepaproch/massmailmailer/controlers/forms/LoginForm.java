@@ -6,7 +6,6 @@
 
 package com.pepaproch.massmailmailer.controlers.forms;
 
-import com.pepaproch.massmailmailer.db.entity.UserInfo;
 import com.pepaproch.massmailmailer.security.UserLogin;
 import java.util.Set;
 import org.hibernate.validator.constraints.NotBlank;
@@ -15,7 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author pepa
  */
-public class LoginForm {
+public class LoginForm implements ValidatorVisitable{
     private Long  loginId;
     @NotBlank
     private String userName;
@@ -121,6 +120,11 @@ public class LoginForm {
      */
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public void accept(ValidatorVisitor visitor) {
+       visitor.visit(this);
     }
 
 

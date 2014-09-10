@@ -6,6 +6,8 @@
 package com.pepaproch.massmailmailer.controlers;
 
 import com.pepaproch.massmailmailer.controlers.forms.LoginForm;
+import com.pepaproch.massmailmailer.controlers.forms.UserLoginFormRolesValidator;
+import com.pepaproch.massmailmailer.controlers.forms.ValidatorVisitor;
 import com.pepaproch.massmailmailer.security.UserLogin;
 import com.pepaproch.massmailmailer.security.UserLoginDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,10 @@ public class UserLoginValidator implements Validator {
             }
 
         }
+        ValidatorVisitor<LoginForm> rolesValidator = new UserLoginFormRolesValidator(errors);
+        userLogin.accept(rolesValidator);
+        
+        
 
     }
     

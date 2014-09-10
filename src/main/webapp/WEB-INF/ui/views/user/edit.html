@@ -126,7 +126,10 @@
 
                         <tbody>
                             <tr ng-repeat="r in login.roles"   >
-                                <td  class="col-lg-4" ><b>{{r}}</b></td>
+                                <td  class="col-lg-4" >
+                                    {{ loginForm.$serverError['roles[' + $index + ']'] || json}}
+                                    <p ng-show="loginForm.$serverError['roles[' + $index + ']'].$invalid" >sasf\dsf\ads</p>
+                                    <b>{{r}}</b><input interpol-model="login.roles[{{$index}}]" type="hidden" ng-model="r"/></td>
                                 <td class="text-right">
                                     <button  ng-click="removeRole(r)" >Odebrat</button>
                                 </td>
