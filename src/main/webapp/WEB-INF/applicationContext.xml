@@ -200,10 +200,13 @@
         entry-point-ref="unauthorizedEntryPoint"
         authentication-manager-ref="authenticationManager">
         <security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
+   
         <security:intercept-url  pattern="/index.html" access="permitAll" />
         <security:intercept-url  pattern="/app/login" access="permitAll" />
         <security:intercept-url  pattern="/ui/**" access="permitAll" />
-        <security:intercept-url  pattern="/**" access="hasRole('USER')" />
+        <security:intercept-url  pattern="/stats/**/*" access="hasRole('USER')" />
+        <security:intercept-url  pattern="/" access="permitAll" />
+
     </security:http>
 
     <bean id="unauthorizedEntryPoint" class="com.pepaproch.massmailmailer.security.UnauthorizedEntryPoint" />
@@ -213,16 +216,16 @@
     </bean>
     
     <bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
-    <constructor-arg ref="roleHierarchy" />
-</bean>
-<bean id="roleHierarchy"
-        class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
-    <property name="hierarchy">
-        <value>
-            ROLE_ADMIN > ROLE_USER
-        </value>
-    </property>
-</bean>
+        <constructor-arg ref="roleHierarchy" />
+    </bean>
+    <bean id="roleHierarchy"
+          class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <property name="hierarchy">
+            <value>
+                ROLE_ADMIN > ROLE_USER
+            </value>
+        </property>
+    </bean>
 
     <bean id="contextApplicationContextProvider" class="com.pepaproch.massmailmailer.controlers.ApplicationContextProvider"/>
     

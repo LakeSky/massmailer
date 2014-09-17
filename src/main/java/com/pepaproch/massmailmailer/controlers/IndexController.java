@@ -26,7 +26,7 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.GET)
     public String getIndex() {
         //  MailgunStatus events = client.getEvents();
-    return "redirect:index.html";
+    return "index";
     }
 
     /**

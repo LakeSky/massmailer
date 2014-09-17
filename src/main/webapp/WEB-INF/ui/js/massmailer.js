@@ -497,3 +497,7 @@ appMassMailer.directive('login', ['authNotifier', function(authNotifier) {
         };
         return config;
     }]);
+
+module.config(['$locationProvider', function($locationProvider) {
+  $locationProvider.html5Mode(true);
+}]);
