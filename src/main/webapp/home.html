@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html ng-app="appMassMailer">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Massmaller</title>
+
+        <!-- Core CSS - Include with every page -->
+        <link href="app/ui/css/bootstrap.min.css" rel="stylesheet">
+        <link href="app/ui/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+        <!-- Page-Level Plugin CSS - Dashboard -->
+        <link href="app/ui/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+        <link href="app/ui/css/plugins/timeline/timeline.css" rel="stylesheet">
+
+        <!-- SB Admin CSS - Include with every page -->
+        <link href="app/ui/css/sb-admin.css" rel="stylesheet">
+        <link href="app/ui/css/custom.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div id="wrapper" ng-hide="mode" >
+
+            <nav  class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="home.html"><h1>Massmaller</h1></a>
+                </div>
+                <!-- /.navbar-header -->
+
+                <ul class="nav navbar-top-links navbar-right" ng-controller="LoginCtrl">
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a ng-href="#users/{{user.id}}">{{user.firstName}} {{user.lastName}}<i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+
+                            <li class="divider"></li>
+                            <li><a href="#" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                </ul>
+                <!-- /.navbar-top-links -->
+
+                <div class="navbar-static-side" role="navigation" >
+                    <div class="sidebar-collapse ">
+                        <ul class="nav" id="side-menu">
+
+                            <li>
+                                <a ng-href="datasource"><i class="fa fa-table fa-fw"></i>Datové zdroje<span class="fa"></span></a>
+
+                            </li>
+
+                            <li>
+                                <a href="#campains/type/EDIT" > <i class="fa fa-wrench fa-fw"></i>Kampaně</a>
+
+                            </li>
+
+                            <li>
+                                <a href="#campains/type/EDIT" style="padding-left: 3em; font-size: 0.9em">Rozpracované</a>
+                            </li>
+                            <li>
+                                <a href="#campains/type/INPROGRES" style="padding-left: 3em; font-size: 0.9em">Odesílané</a>
+                            </li>
+                            <li>
+                                <a href="#campains/type/FINISHED" style="padding-left: 3em; font-size: 0.9em" >Odeslané</a>
+                            </li>
+
+                            <li>
+                                <a href="#stats" style="padding-left: 3em; font-size: 0.9em" >Statistiky</a>
+                            </li>
+
+                        </ul>
+                        <!-- /#side-menu -->
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+                <!-- /.navbar-static-side -->
+            </nav>
+
+            <div ng-view  id="page-wrapper">
+
+                <!-- /.row -->
+            </div>
+            <!-- /#page-wrapper -->
+          
+        </div>
+          <login  ></login>
+        <!-- /#wrapper -->
+
+        <!-- Core Scripts - Include with every page -->
+        <script src="app/ui/js/jquery-1.10.2.js"></script>
+        <script src="app/ui/js/bootstrap.min.js"></script>
+        <script src="app/ui/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+        <!-- Page-Level Plugin Scripts - Dashboard -->
+        <script src="app/ui/js/plugins/morris/raphael-2.1.0.min.js"></script>
+        <script src="app/ui/js/plugins/morris/morris.js"></script>
+
+        <!-- SB Admin Scripts - Include with every page -->
+        <script src="app/ui/js/sb-admin.js"></script>
+
+
+
+
+
+
+        <script src="app/ui/js/angular.js"></script>
+        <script src="app/ui/js/angular-route.min.js"></script>
+        <script src="app/ui/js/angular-resource.min.js"></script>
+        <script src="app/ui/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="app/ui/js/angular-cookies.min.js"></script>
+        <script src = "app/ui/js/massmailer.js" ></script>
+        <script src="app/ui/js/menu.js"></script>
+        <script src="app/ui/js/entityService.js"></script>
+        <script src="app/ui/js/datasource.js"></script>
+        <script src="app/ui/js/campain.js"></script>
+        <script src="app/ui/js/email.js"></script>
+        <script src="app/ui/js/dashboard.js"></script>
+        <script src="app/ui/js/stats.js"></script>
+        <script src="app/ui/js/fileUpload.js"></script>
+
+        <script src="app/ui/js/users.js"></script>
+        <script src="app/ui/js/security/loginservice.js"></script>
+        <script src="app/ui/js/security/authnotifier.js"></script>
+        <script src="app/ui/js/security/requestBuffer.js"></script>
+        <script src="app/ui/js/breadcrumb.js"></script>
+        <script src="app/ui/js/ngdirectives.js"></script>
+        <script src="app/ui/js/toastr.js"></script>
+
+
+
+        <script src="app/ui/js/ckeditor/ckeditor.js"></script>
+    </body>
+
+</html>

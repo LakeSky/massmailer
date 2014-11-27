@@ -6,7 +6,7 @@
 var entityService = angular.module('massmaller.service', ['ngResource']).
         factory('Entity', function($resource) {
             return {
-                User: $resource('users/:userId', {userId: '@id'}, {browse: {
+                User: $resource('app/users/:userId', {userId: '@id'}, {browse: {
                         method: 'GET',
                         params: {page: 0,
                             limit: 10,
@@ -17,12 +17,12 @@ var entityService = angular.module('massmaller.service', ['ngResource']).
                         }, isArray: true
 
                     }}),
-                DataSource: $resource('datasource/:dataSourceId', {dataSourceId: '@id'}, {search: {
+                DataSource: $resource('app/datasource/:dataSourceId', {dataSourceId: '@id'}, {search: {
                         method: 'GET',
                         params: {search: 'f', searchString: 's'}
                         , isArray: true
                     }}),
-                Campain: $resource('campain/:campainId', {campainId: '@id'}, {browse: {
+                Campain: $resource('app/campain/:campainId', {campainId: '@id'}, {browse: {
                         method: 'GET',
                         params: {page: 0,
                             limit: 10,
@@ -35,16 +35,16 @@ var entityService = angular.module('massmaller.service', ['ngResource']).
                         }, isArray: true
 
                     }}),
-                Role: $resource('login/roles', null, {query: {
+                Role: $resource('app/login/roles', null, {query: {
                         method: 'GET',
                         isArray: true
 
                     }}),
-                Login: $resource('login/:userId', {userId: '@id'}),
-                DataStructure: $resource('datasource/structure/:fileId/:timeStamp', {fileId: '@id', timeStamp: '1'}),
-                TemplateFields: $resource('template/templatefields/:fileId/:timeStamp', {fileId: '@id', timeStamp: '1'}),
-                ImagesFolder: $resource('images/templatefields/:fileId\\/', {fileId: '@id'}),
-                DataSourceRow: $resource('datasource/:dataSourceId/rows', {dataSourceId: '@id'}, {browse: {
+                Login: $resource('app/login/:userId', {userId: '@id'}),
+                DataStructure: $resource('app/datasource/structure/:fileId/:timeStamp', {fileId: '@id', timeStamp: '1'}),
+                TemplateFields: $resource('app/template/templatefields/:fileId/:timeStamp', {fileId: '@id', timeStamp: '1'}),
+                ImagesFolder: $resource('app/images/templatefields/:fileId\\/', {fileId: '@id'}),
+                DataSourceRow: $resource('app/datasource/:dataSourceId/rows', {dataSourceId: '@id'}, {browse: {
                         method: 'GET',
                         params: {page: '1',
                             limit: null,
@@ -55,7 +55,7 @@ var entityService = angular.module('massmaller.service', ['ngResource']).
                         }, isArray: true
 
                     }}),
-                Email: $resource('email/:campainId/:emailId')
+                Email: $resource('app/email/:campainId/:emailId')
 
 
             };

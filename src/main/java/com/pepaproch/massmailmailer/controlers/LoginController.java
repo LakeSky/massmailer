@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author pepa
  */
 @Controller
-@RequestMapping("/app/login")
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
