@@ -16,7 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,14 +64,14 @@ public class UserLogin implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<String> roles = this.getRoles();
+        Set<String> roles_ = this.getRoles();
 
-        if (roles == null) {
+        if (roles_ == null) {
             return Collections.emptyList();
         }
 
         Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        for (String role : roles) {
+        for (String role : roles_) {
             authorities.add(new SimpleGrantedAuthority(role));
         }
 

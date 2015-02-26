@@ -6,7 +6,7 @@
 var loginService = angular.module('massmaller.service').
         factory('loginService', function($resource) {
 
-            return $resource('app/:action', {},
+            return $resource('rest/:action', {},
                     {
                         authenticate: {
                             method: 'POST',

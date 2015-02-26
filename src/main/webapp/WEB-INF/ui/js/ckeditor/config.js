@@ -36,4 +36,5 @@ CKEDITOR.editorConfig = function( config ) {
 	// Make dialogs simpler.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
         config.extraPlugins = 'base64image';
+        config.baseHref = 'http://localhost:8084/MassMailMailer/app/';
 };

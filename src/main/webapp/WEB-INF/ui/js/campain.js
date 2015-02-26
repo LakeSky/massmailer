@@ -364,10 +364,10 @@ campain.controller('CampainEditController', ['$rootScope', '$scope', '$routePara
 
             if (atta.customizeAttachments) {
 
-                atta.preview = '../template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName) + '&emailId=1';
+                atta.preview = '/template/preview/pdf/' + '?datasourceId=' + encodeURIComponent($scope.datasourceSelected.id) + '&fileId=' + encodeURIComponent(atta.attachmentFileSystemName) + '&emailId=1';
             } else {
 
-                atta.preview = '../template/preview/pdf/' + '?fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
+                atta.preview = '/template/preview/pdf/' + '?fileId=' + encodeURIComponent(atta.attachmentFileSystemName);
 
             }
 
