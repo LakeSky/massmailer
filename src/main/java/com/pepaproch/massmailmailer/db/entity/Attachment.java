@@ -5,6 +5,7 @@
  */
 package com.pepaproch.massmailmailer.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JsonIgnore;
+
 
 /**
  *

@@ -75,10 +75,12 @@ public class MaillerUserServiceTest {
      */
     @Test
     public void testSaveLoginForm() {
+      when(userDao.findOne(1L)).thenReturn(existingUser);
         when(userDao.save(any(UserLogin.class))).thenAnswer(new Answer<UserLogin>() {
             @Override
             public UserLogin answer(InvocationOnMock mc) {
                 UserLogin u = (UserLogin) mc.getArguments()[0];
+                u.setPassword(expectedPassword);
                 u.setId(1L);
                 return u;
             }

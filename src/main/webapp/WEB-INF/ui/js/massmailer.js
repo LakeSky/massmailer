@@ -10,73 +10,73 @@ angular.module('appMassMailer').config(
             function($routeProvider, $locationProvider, $httpProvider) {
                 $routeProvider.
                         when('/login', {
-                            templateUrl: 'app/ui/views/user/login.html',
+                            templateUrl: 'ui/static/views/user/login.html',
                             controller: 'LoginCtrl'
                         }).
                         when('/users', {
-                            templateUrl: 'app/ui/views/user/list.html',
+                            templateUrl: 'ui/static/views/user/list.html',
                             controller: 'UserListCtrl'
                         }).
                         when('/users/:userId', {
-                            templateUrl: 'app/ui/views/user/edit.html',
+                            templateUrl: 'ui/static/views/user/edit.html',
                             controller: 'UserEditCtrl'
                         }).
                         when('/file/new', {
-                            templateUrl: 'app/ui/views/file/edit.html'
+                            templateUrl: 'ui/static/views/file/edit.html'
 
                         }).
                         when('/datasource', {
-                            templateUrl: 'app/ui/views/datasource/list.html',
+                            templateUrl: 'ui/static/views/datasource/list.html',
                             controller: 'DataSourceListCtrl'
 
                         }).
                         when('/datasource/new', {
-                            templateUrl: 'app/ui/views/datasource/edit.html',
+                            templateUrl: 'ui/static/views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
 
                         }).
                         when('/datasource/edit/:dataSourceId', {
-                            templateUrl: 'app/ui/views/datasource/edit.html',
+                            templateUrl: 'ui/static/views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
 
                         }).
                         when('/datasource/data/:dataSourceId', {
-                            templateUrl: 'app/ui/views/datasource/browse.html',
+                            templateUrl: 'ui/static/views/datasource/browse.html',
                             controller: 'DataSourceRowsListCtrl'
 
                         }).
                         when('/datasource/:dataSourceId', {
-                            templateUrl: 'app/ui/views/datasource/edit.html',
+                            templateUrl: 'ui/static/views/datasource/edit.html',
                             controller: 'DataSourceCreateController'
                         }).
                         when('/campains/dashboard', {
-                            templateUrl: 'app/ui/views/campain/dashboard.html',
+                            templateUrl: 'ui/static/views/campain/dashboard.html',
                             controller: 'DashBoardCtrl'
 
                         }).when('/campains/type/:type', {
-                    templateUrl: 'app/ui/views/campain/list.html',
+                    templateUrl: 'ui/static/views/campain/list.html',
                     controller: 'CampainListCtrl'
 
                 }).
                         when('/campain/new', {
-                            templateUrl: 'app/ui/views/campain/edit.html',
+                            templateUrl: 'ui/static/views/campain/edit.html',
                             controller: 'CampainEditController'
 
                         }).
                         when('/campain/:campainId', {
-                            templateUrl: 'app/ui/views/campain/edit.html',
+                            templateUrl: 'ui/static/views/campain/edit.html',
                             controller: 'CampainEditController'
                         }).
                         when('/campain/preview/:campainId', {
-                            templateUrl: 'app/ui/views/campain/preview.html',
+                            templateUrl: 'ui/static/views/campain/preview.html',
                             controller: 'CampainPreviewController'
                         }).
                         when('/stats', {
-                            templateUrl: 'app/ui/views/campain/stats.html',
+                            templateUrl: 'ui/static/views/campain/stats.html',
                             controller: 'StatsCtrl'
                         }).
                         otherwise({
-                            templateUrl: 'app/ui/views/dashboard/dashboard.html',
+                            templateUrl: 'ui/static/views/dashboard/dashboard.html',
                             controller: 'DashBoardCtrl'
                         });
                 /* Register error provider that shows message on failed requests or redirects to login page on
@@ -483,7 +483,7 @@ appMassMailer.directive('embedSrc', function() {
 appMassMailer.directive('login', ['authNotifier', function(authNotifier) {
         var config = {
             restrict: 'E',
-            templateUrl: 'app/ui/views/user/login.html',
+            templateUrl: 'ui/static/views/user/login.html',
             replace: true,
             scope: false,
             controller: 'LoginCtrl',

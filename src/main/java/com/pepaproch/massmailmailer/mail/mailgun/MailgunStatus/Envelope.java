@@ -1,9 +1,10 @@
 package com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
-import org.codehaus.jackson.annotate.JsonProperty;
+
 
 @Generated("com.googlecode.jsonschema2pojo")
 public class Envelope {

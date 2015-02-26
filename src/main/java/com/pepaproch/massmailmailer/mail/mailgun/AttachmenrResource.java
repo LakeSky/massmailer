@@ -5,12 +5,13 @@
  */
 package com.pepaproch.massmailmailer.mail.mailgun;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import org.codehaus.jackson.annotate.JsonIgnore;
+
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
 

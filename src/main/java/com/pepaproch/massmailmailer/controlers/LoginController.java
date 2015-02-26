@@ -12,6 +12,7 @@ import com.pepaproch.massmailmailer.security.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author pepa
  */
 @Controller
-@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -40,7 +40,7 @@ public class LoginController {
     @Qualifier("authenticationManager")
     private AuthenticationManager authManager;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value="login", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity login(@RequestParam("username") String username, @RequestParam("password") String password) {
 
@@ -54,7 +54,7 @@ public class LoginController {
             return new ResponseEntity(new SecurityToken(TokenUtils.createToken(userDetails),userDetails.getUserInfo().getId()), HttpStatus.ACCEPTED);
         } catch(AuthenticationException ex ) {
         
-            return new ResponseEntity("login failed", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(null, HttpStatus.UNAUTHORIZED);
         }
        
 

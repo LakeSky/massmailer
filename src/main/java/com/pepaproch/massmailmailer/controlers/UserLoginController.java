@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author pepa
  */
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/user")
 public class UserLoginController {
 
     @Autowired

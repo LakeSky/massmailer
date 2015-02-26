@@ -1,14 +1,14 @@
 package com.pepaproch.massmailmailer.mail.mailgun.MailgunStatus;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+
 
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonIgnoreProperties(ignoreUnknown = true)
